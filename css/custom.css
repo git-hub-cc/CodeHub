@@ -1,5 +1,17 @@
 /* css/custom.css */
 
+/* Full page height layout adjustments to prevent body scrollbar */
+html, body {
+    height: 100%;
+    overflow: hidden; /* Prevent body scrollbar */
+}
+
+.container {
+    height: 100%; /* Make container take full height */
+    display: flex;
+    flex-direction: column;
+}
+
 /* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 8px;

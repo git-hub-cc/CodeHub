@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function activateSearchableMode(modeId) {
         const mode = modes[modeId];
         ui.elements.searchInput.value = '';
-        ui.elements.searchInput.placeholder = `搜索${mode.label}，如 '${mode.label === '命令' ? 'ls' : mode.label === '框架' ? 'webflux': 'if' }'...`;
+        ui.elements.searchInput.placeholder = `搜索${mode.label}，如 '${mode.label === '命令' ? 'ls' : mode.label === '框架' ? 'webflux': '单例模式' }'...`;
         ui.elements.dropdownSelectedText.textContent = mode.state.currentSelectionName;
 
         // Initialize the custom dropdown for the current mode's data source
