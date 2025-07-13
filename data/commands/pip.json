@@ -1,0 +1,506 @@
+[
+  {
+    "name": "conda create",
+    "summary": "创建一个新的 Conda 环境 (Create a new Conda environment)",
+    "examples": [
+      {
+        "description": "创建名为 'my_env' 的新环境，默认使用当前 Conda 安装的 Python 版本",
+        "code": "conda create -n my_env"
+      },
+      {
+        "description": "创建名为 'my_py39_env' 的环境，并指定 Python 版本为 3.9",
+        "code": "conda create -n my_py39_env python=3.9"
+      },
+      {
+        "description": "创建环境并预装常用包 (如 numpy, pandas)",
+        "code": "conda create -n data_science_env python=3.8 numpy pandas matplotlib"
+      },
+      {
+        "description": "创建环境并指定从特定渠道安装 Python 版本 (例如 conda-forge 渠道)",
+        "code": "conda create -n my_forge_env python=3.10 -c conda-forge"
+      },
+      {
+        "description": "创建环境并指定安装路径",
+        "code": "conda create --prefix /path/to/custom/env python=3.9"
+      }
+    ],
+    "notes": "Conda 的核心优势之一是其环境管理能力。创建独立环境可以有效避免不同项目间的依赖冲突，确保每个项目拥有其专属的、干净的运行空间。强烈推荐为每个项目创建独立的 Conda 环境。`-n` 或 `--name` 参数用于指定环境名称。`python=<version>` 参数用于指定环境中的 Python 版本，如果不指定，则默认使用当前 Conda 安装的 Python 版本。在创建环境时预先安装一些常用包可以节省后续安装时间。使用 `--prefix` 可以自定义环境存储路径，适合需要非默认路径的情况。",
+    "shell_type": "External (`/path/to/miniconda3/bin/conda`)"
+  },
+  {
+    "name": "conda activate",
+    "summary": "激活指定的 Conda 环境 (Activate a specified Conda environment)",
+    "examples": [
+      {
+        "description": "激活名为 'my_env' 的环境",
+        "code": "conda activate my_env"
+      },
+      {
+        "description": "激活 'base' 环境 (Conda 的默认环境)",
+        "code": "conda activate base"
+      },
+      {
+        "description": "激活自定义路径的环境",
+        "code": "conda activate /path/to/custom/env"
+      }
+    ],
+    "notes": "这是使用 Conda 环境的**关键一步**。在执行任何 `pip` 或 `conda install` 命令之前，务必激活你想要操作的 Conda 环境。激活环境后，你的命令行提示符通常会显示当前环境的名称（例如 `(my_env) ~$ `），表明你当前正在该环境的上下文内操作。所有在该环境下安装的包都将仅限于该环境，不会影响其他环境或系统全局的 Python 安装。对于自定义路径的环境，使用完整路径激活。",
+    "shell_type": "External (Shell function, usually sourced from Conda init scripts)"
+  },
+  {
+    "name": "conda deactivate",
+    "summary": "停用当前激活的 Conda 环境 (Deactivate the currently active Conda environment)",
+    "examples": [
+      {
+        "description": "停用当前激活的环境，返回到前一个环境（通常是 'base' 环境或系统默认Shell）",
+        "code": "conda deactivate"
+      }
+    ],
+    "notes": "当你完成在一个特定 Conda 环境中的工作后，可以使用此命令退出该环境。执行 `conda deactivate` 后，命令行提示符的环境名称会消失，你的Shell会返回到之前的状态（可能是 Conda 的 `base` 环境，或者如果之前没有激活任何 Conda 环境，则返回到系统默认的Shell环境）。此命令是 `conda activate` 的反操作，用于在不同环境之间切换或退出环境。",
+    "shell_type": "External (Shell function, usually sourced from Conda init scripts)"
+  },
+  {
+    "name": "conda env list",
+    "summary": "列出所有 Conda 环境 (List all Conda environments)",
+    "examples": [
+      {
+        "description": "显示所有已创建的 Conda 环境及其路径",
+        "code": "conda env list"
+      },
+      {
+        "description": "显示所有已创建的 Conda 环境及其路径 (等效命令)",
+        "code": "conda info --envs"
+      }
+    ],
+    "notes": "这个命令对于管理和查看你的 Conda 环境非常有用。输出通常会列出每个环境的名称和其在文件系统中的完整路径。当前激活的环境通常会用一个星号 `*` 标记。通过此命令，你可以快速了解系统中存在哪些环境，并根据需要激活或删除它们。",
+    "shell_type": "External (`/path/to/miniconda3/bin/conda`)"
+  },
+  {
+    "name": "conda remove",
+    "summary": "删除指定的 Conda 环境或包 (Remove a specified Conda environment or package)",
+    "examples": [
+      {
+        "description": "删除名为 'my_env' 的环境及其所有安装的包",
+        "code": "conda remove -n my_env --all"
+      },
+      {
+        "description": "在删除前提示用户确认",
+        "code": "conda remove --name my_old_env --all"
+      },
+      {
+        "description": "从当前环境中删除特定包 (例如：numpy)",
+        "code": "conda remove numpy"
+      }
+    ],
+    "notes": "当你不再需要某个 Conda 环境或特定包时，可以使用此命令将其彻底删除，包括该环境下安装的所有包和相关文件，从而释放磁盘空间。**此操作不可逆，请谨慎使用。** `-n` 或 `--name` 参数指定要删除的环境名称，`--all` 参数是必需的，表示删除该环境及其所有内容。在删除之前，通常会要求用户确认。删除单个包时，Conda 会检查依赖关系以避免破坏环境。",
+    "shell_type": "External (`/path/to/miniconda3/bin/conda`)"
+  },
+  {
+    "name": "conda install",
+    "summary": "在 Conda 环境中安装一个或多个包 (Installs one or more packages into a Conda environment)",
+    "examples": [
+      {
+        "description": "在当前激活的环境中安装指定包 (例如：numpy)",
+        "code": "conda install numpy"
+      },
+      {
+        "description": "安装指定版本的包 (例如：pandas 1.3.5)",
+        "code": "conda install pandas=1.3.5"
+      },
+      {
+        "description": "在指定环境中安装包 (无需先激活环境)",
+        "code": "conda install -n my_env scipy"
+      },
+      {
+        "description": "从特定 Conda 渠道安装包 (例如：从 conda-forge 渠道安装 matplotlib)",
+        "code": "conda install -c conda-forge matplotlib"
+      },
+      {
+        "description": "安装多个包",
+        "code": "conda install numpy pandas matplotlib"
+      },
+      {
+        "description": "尝试更新包并解决依赖冲突",
+        "code": "conda install python"
+      },
+      {
+        "description": "安装特定版本的包并忽略依赖检查 (谨慎使用)",
+        "code": "conda install --no-deps numpy=1.21.0"
+      }
+    ],
+    "notes": "这是 Conda 最常用的命令之一，用于向 Conda 环境添加新的库和工具。\n- **依赖管理：** `conda install` 的核心优势在于它能够解决复杂的跨平台依赖关系，尤其擅长处理包含 C/C++ 等编译语言扩展的科学计算库（如 TensorFlow, PyTorch, NumPy, SciPy）。它会尝试找到所有依赖项的最佳兼容版本。\n- **版本指定：** 可以通过 `=<version>` 精确指定要安装的包版本，有助于环境的稳定性。\n- **渠道 (Channels)：** Conda 从预定义的渠道下载包。`defaults` 是官方默认渠道。`conda-forge` 是一个非常流行且由社区维护的渠道，提供了更多最新和更广泛的包。使用 `-c <channel_name>` 可以从特定渠道安装。建议优先从 `conda-forge` 获取科学计算相关的包，因为它通常提供更优化的构建。\n- **Conda 与 Pip 的区别：** 优先使用 `conda install` 来安装那些在 Conda 渠道中可用的包，特别是那些需要编译或有复杂非 Python 依赖的包。当 Conda 渠道中没有某个包或者版本不符合需求时，才考虑使用 `pip install`。使用 `--no-deps` 可以跳过依赖检查，但可能导致环境不稳定，谨慎使用。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda list",
+    "summary": "列出当前或指定 Conda 环境中所有已安装的包 (Lists all installed packages in the current or specified Conda environment)",
+    "examples": [
+      {
+        "description": "列出当前激活环境中所有已安装的包",
+        "code": "conda list"
+      },
+      {
+        "description": "列出指定环境中所有已安装的包 (例如：my_env)",
+        "code": "conda list -n my_env"
+      },
+      {
+        "description": "列出包含特定字符串的包 (例如：所有包含 'numpy' 的包)",
+        "code": "conda list numpy"
+      },
+      {
+        "description": "以 pip requirements 格式输出当前环境的包 (不包含通过 pip 安装的包)",
+        "code": "conda list --explicit > requirements.txt"
+      },
+      {
+        "description": "以名称和版本号的简洁格式输出",
+        "code": "conda list --name-only"
+      },
+      {
+        "description": "显示包的渠道信息",
+        "code": "conda list --show-channel-urls"
+      }
+    ],
+    "notes": "`conda list` 是检查 Conda 环境内容的重要工具。\n- **环境检查：** 它可以帮助你快速了解当前环境中安装了哪些包以及它们的版本，对于调试依赖问题或验证环境配置非常有用。\n- **输出格式：** 默认输出包含包名、版本、构建字符串和安装渠道。`--explicit` 选项输出可被 `conda create --file` 命令使用的精确包列表，但通常 `conda env export` 更常用且强大。\n- **与 `pip list` 的区别：** `conda list` 会列出所有通过 `conda` 安装的包，以及在 Conda 环境中通过 `pip` 安装的包。而 `pip list` 只列出通过 `pip` 安装的包（包括在 Conda 环境中安装的）。因此， `conda list` 提供了更全面的环境视图。\n- **渠道信息：** 使用 `--show-channel-urls` 可以查看每个包的来源渠道，便于排查渠道相关问题。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda update",
+    "summary": "更新 Conda 包或 Conda 自身 (Updates Conda packages or Conda itself)",
+    "examples": [
+      {
+        "description": "更新 Conda 包管理器自身 (推荐，通常先于其他更新)",
+        "code": "conda update conda"
+      },
+      {
+        "description": "更新当前激活环境中的所有包到最新兼容版本",
+        "code": "conda update --all"
+      },
+      {
+        "description": "更新指定包到最新兼容版本 (例如：requests)",
+        "code": "conda update requests"
+      },
+      {
+        "description": "在指定环境中更新所有包",
+        "code": "conda update -n my_env --all"
+      },
+      {
+        "description": "更新 Python 版本 (注意可能影响其他包兼容性)",
+        "code": "conda update python"
+      },
+      {
+        "description": "更新 Conda 和 Anaconda 发行版",
+        "code": "conda update anaconda"
+      }
+    ],
+    "notes": "保持 Conda 和其管理的包更新是维护环境健康的重要部分。\n- **更新优先级：** 建议总是先更新 `conda` 自身 (`conda update conda`)，然后再更新其他包或所有包。\n- **依赖解决：** `conda update` 在更新包时会尝试解决所有依赖，确保环境的一致性。如果遇到无法解决的冲突，它会提示错误而不是强制更新。\n- **慎用 `update --all`：** 全局更新所有包可能需要较长时间，并可能在大型复杂环境中引入新的兼容性问题。通常更推荐按需更新特定包，或者在确认无误后再进行全量更新。\n- **Anaconda 用户：** 如果使用的是 Anaconda 发行版，`conda update anaconda` 会更新整个 Anaconda 套件，包括默认预装的包。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda clean",
+    "summary": "移除未使用的包缓存和 tarball 文件以释放磁盘空间 (Removes unused package caches and tarball files to free up disk space)",
+    "examples": [
+      {
+        "description": "移除所有未使用的包和 tarball 缓存文件 (最常用)",
+        "code": "conda clean --all"
+      },
+      {
+        "description": "移除所有下载的 tarball 包 (通常占用空间最大的部分)",
+        "code": "conda clean --tarballs"
+      },
+      {
+        "description": "移除所有 Conda 包缓存目录中的索引缓存和锁定文件",
+        "code": "conda clean --packages"
+      },
+      {
+        "description": "只显示将要执行的操作，而不实际删除 (调试用)",
+        "code": "conda clean --dry-run --all"
+      },
+      {
+        "description": "移除 Conda 索引缓存",
+        "code": "conda clean --index-cache"
+      }
+    ],
+    "notes": "随着时间的推移，Conda 会下载并缓存大量的包文件和元数据，这会占用大量磁盘空间。`conda clean` 是一个重要的维护命令，可以帮助你回收这些空间。\n- **缓存机制：** Conda 会缓存已下载的包，以便在未来创建或更新环境时可以快速复用，减少重复下载。\n- **定期清理：** 尤其是在创建或删除大量环境后，定期运行 `conda clean --all` 可以有效管理磁盘使用量。对于磁盘空间有限的用户来说，这是一个非常实用的命令。\n- **索引缓存：** 使用 `--index-cache` 可以清理渠道索引缓存，适用于渠道元数据过旧或损坏的情况。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda env export",
+    "summary": "导出当前 Conda 环境的配置到 YAML 文件，用于环境的复现与共享 (Exports the current Conda environment's configuration to a YAML file for reproducibility and sharing)",
+    "examples": [
+      {
+        "description": "导出当前激活环境的配置到 environment.yml 文件",
+        "code": "conda env export > environment.yml"
+      },
+      {
+        "description": "导出指定环境的配置到文件",
+        "code": "conda env export -n my_env > my_env.yml"
+      },
+      {
+        "description": "导出时忽略构建字符串 (可能会降低精确复现性，但提高兼容性)",
+        "code": "conda env export --no-builds > environment.yml"
+      },
+      {
+        "description": "导出时仅包含 Conda 包，忽略 pip 安装的包",
+        "code": "conda env export --from-history > environment.yml"
+      }
+    ],
+    "notes": "这是 Conda 环境管理中至关重要的一步，确保了项目的可重复性。生成的 `environment.yml` 文件是一个清晰的、人类可读的环境配置清单。\n- **可重复性：** 当你与团队成员协作或在不同机器上部署项目时，`environment.yml` 文件是确保每个人都使用相同依赖环境的基础。它记录了 Python 版本、所有 Conda 包及其精确版本，以及通过 `pip` 安装的包（如果存在）。\n- **最佳实践：** 建议将 `environment.yml` 文件纳入你的项目版本控制系统（如 Git），以便其他人能够轻松地重建你的开发环境。\n- **`--from-history`：** 这个选项只会导出你明确通过 `conda install` 命令安装的包，不包括它们的隐式依赖，这使得 `environment.yml` 文件更简洁，但在创建环境时可能无法完全复现所有隐式依赖。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda env create",
+    "summary": "从 YAML 文件创建新的 Conda 环境 (Creates a new Conda environment from a YAML file)",
+    "examples": [
+      {
+        "description": "从名为 environment.yml 的文件创建环境",
+        "code": "conda env create -f environment.yml"
+      },
+      {
+        "description": "从文件创建并指定环境名称 (会覆盖文件中的名称，如果冲突)",
+        "code": "conda env create -f my_env.yml -n new_project_env"
+      },
+      {
+        "description": "从文件创建并指定自定义路径",
+        "code": "conda env create -f environment.yml --prefix /path/to/custom/env"
+      }
+    ],
+    "notes": "`conda env create -f` 是 `conda env export` 的逆操作，它允许你根据一个预定义的 YAML 文件来自动创建和配置一个全新的 Conda 环境。\n- **快速部署：** 当你获得一个包含 `environment.yml` 文件的项目时，这个命令可以让你快速搭建起与原作者相同的开发环境，无需手动安装每个依赖。\n- **内部机制：** Conda 会解析 YAML 文件，确定所需的 Python 版本和所有 Conda 包，然后下载并安装它们。如果 YAML 文件中包含 `pip` 部分，Conda 会在安装完所有 Conda 包后，自动使用 `pip` 来安装列出的 Python 包。\n- **离线创建：** 如果你之前通过 `conda clean` 删除了缓存，或者网络环境不佳，Conda 会重新下载所有必需的包。如果希望离线创建，需要确保所有包都已在本地缓存中。\n- **自定义路径：** 使用 `--prefix` 可以指定环境存储路径，适合非默认路径的场景。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda search",
+    "summary": "搜索 Conda 渠道中可用的包 (Search for packages available in Conda channels)",
+    "examples": [
+      {
+        "description": "搜索特定包 (例如：numpy)",
+        "code": "conda search numpy"
+      },
+      {
+        "description": "搜索特定渠道中的包 (例如：conda-forge)",
+        "code": "conda search -c conda-forge numpy"
+      },
+      {
+        "description": "搜索特定版本的包",
+        "code": "conda search 'numpy>=1.20'"
+      }
+    ],
+    "notes": "此命令用于查找 Conda 渠道中可用的包及其版本信息。输出包括包名、版本号、构建信息和渠道来源。适合在安装前确认包的可用性或版本兼容性。使用 `-c` 指定渠道以缩小搜索范围。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "conda config",
+    "summary": "配置 Conda 的设置，例如渠道优先级或代理 (Configure Conda settings, such as channel priorities or proxies)",
+    "examples": [
+      {
+        "description": "添加 conda-forge 渠道",
+        "code": "conda config --add channels conda-forge"
+      },
+      {
+        "description": "设置渠道优先级 (conda-forge 优先于 defaults)",
+        "code": "conda config --set channel_priority strict"
+      },
+      {
+        "description": "显示当前 Conda 配置",
+        "code": "conda config --show"
+      },
+      {
+        "description": "配置 HTTP 代理",
+        "code": "conda config --set proxy_servers.http http://proxy.example.com:8080"
+      }
+    ],
+    "notes": "此命令用于修改 Conda 的全局或用户级配置，存储在 `~/.condarc` 文件中。\n- **渠道管理：** 使用 `--add channels` 添加新渠道，常用渠道包括 `conda-forge` 和 `defaults`。`--set channel_priority` 可以控制渠道优先级，`strict` 优先级最高，优先从指定渠道安装包。\n- **代理设置：** 对于网络受限环境，配置代理服务器可以解决下载问题。\n- **查看配置：** 使用 `--show` 查看所有配置项，方便调试和验证设置。",
+    "shell_type": "External (`/path/to/conda/bin/conda`)"
+  },
+  {
+    "name": "pip install",
+    "summary": "安装 Python 包，并支持指定国内镜像源以加速下载 (Install Python packages, supporting domestic mirror sources for accelerated downloads)",
+    "examples": [
+      {
+        "description": "基本安装 (如果已配置镜像，则从镜像下载)",
+        "code": "pip install requests"
+      },
+      {
+        "description": "通过清华镜像源临时安装 (推荐)",
+        "code": "pip install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple"
+      },
+      {
+        "description": "通过阿里云镜像源临时安装",
+        "code": "pip install pandas -i https://mirrors.aliyun.com/pypi/simple/"
+      },
+      {
+        "description": "通过豆瓣镜像源临时安装 (HTTP，需指定 --trusted-host)",
+        "code": "pip install scrapy -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com"
+      },
+      {
+        "description": "安装指定版本的包",
+        "code": "pip install 'flask==2.0.0'"
+      },
+      {
+        "description": "升级已安装的包",
+        "code": "pip install --upgrade scikit-learn"
+      },
+      {
+        "description": "从本地路径安装 `.whl` 或源码包",
+        "code": "pip install ./my_package-1.0.0.whl"
+      },
+      {
+        "description": "从 Git 仓库安装包",
+        "code": "pip install git+https://github.com/user/repo.git"
+      }
+    ],
+    "notes": "`pip install` 是最常用的安装命令。在**激活 Conda 环境后**使用 `pip` 是最佳实践，确保包安装到当前环境中。\n\n**关于 'pip 90%' (国内镜像)：**\n由于网络原因，直接从 PyPI 官方源下载包可能非常缓慢或失败。使用国内的镜像源（如清华、阿里、豆瓣等）可以显著提高下载速度，达到 '90%' 的体验提升。\n\n**选择镜像源的建议：**\n- **清华大学 (TUNA) 和阿里云**：强烈推荐，支持 HTTPS，速度快且稳定。\n- **豆瓣**：常用，但主要为 HTTP，使用时需要额外添加 `--trusted-host` 以避免安全警告。\n\n**Conda 与 Pip 的协同：**\n- **优先 `conda install`：** 对于 NumPy, TensorFlow, PyTorch 等具有复杂二进制依赖的库，优先尝试使用 `conda install`，因为 Conda 能更好地处理系统级依赖和预编译版本。\n- **当 `conda` 无法满足时：** 当包在 Conda 渠道中不存在、版本过旧或为纯 Python 包时，再使用 `pip install`。\n- **Git 安装：** 支持直接从 Git 仓库安装，适合安装开发版本或私有包。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip uninstall",
+    "summary": "卸载已安装的 Python 包 (Uninstall installed Python packages)",
+    "examples": [
+      {
+        "description": "卸载指定包",
+        "code": "pip uninstall requests"
+      },
+      {
+        "description": "无提示卸载 (不推荐，除非在脚本中且确定无误)",
+        "code": "pip uninstall -y numpy"
+      }
+    ],
+    "notes": "用于从当前激活的 Conda 环境中移除通过 `pip` 安装的包。卸载前通常会要求确认。确保在正确的环境中执行，以免误删全局或系统级包。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip list",
+    "summary": "列出当前环境中所有已安装的 Python 包 (List all Python packages installed in the current environment)",
+    "examples": [
+      {
+        "description": "列出所有包及其版本",
+        "code": "pip list"
+      },
+      {
+        "description": "显示过期的包",
+        "code": "pip list --outdated"
+      },
+      {
+        "description": "按可用于 `pip install -r` 的格式列出 (等同于 `pip freeze`)",
+        "code": "pip list --format=freeze"
+      },
+      {
+        "description": "过滤显示特定包 (结合 grep/findstr)",
+        "code": "pip list | grep flask   # Linux/macOS\npip list | findstr flask # Windows"
+      }
+    ],
+    "notes": "此命令非常适用于查看当前 Conda 环境中已安装的所有 Python 包及其版本信息，方便管理和排查依赖问题。它默认只显示通过 `pip` 安装的包，但如果 Conda 包安装时注册了 `pip` 元数据，也会显示。`--outdated` 选项有助于识别需要更新的包。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip show",
+    "summary": "显示已安装 Python 包的详细信息 (Show detailed information about an installed Python package)",
+    "examples": [
+      {
+        "description": "显示指定包的详细信息",
+        "code": "pip show django"
+      }
+    ],
+    "notes": "会输出包的名称、版本、作者、许可证、安装路径、依赖项以及包的主页等信息。对于理解包的来源和解决依赖冲突很有帮助。建议在调试依赖问题时使用。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip freeze",
+    "summary": "以可用于安装的格式输出当前环境中所有已安装的包及其精确版本 (Output installed packages in requirements format)",
+    "examples": [
+      {
+        "description": "将当前环境的依赖导出到 `requirements.txt` 文件",
+        "code": "pip freeze > requirements.txt"
+      },
+      {
+        "description": "仅列出本地安装的包 (排除全局包)",
+        "code": "pip freeze --local"
+      }
+    ],
+    "notes": "这是 Python 项目依赖管理的核心命令之一。它生成一个 `requirements.txt` 文件，其中包含了当前 Conda 环境中所有通过 `pip` 安装的包及其精确版本号。\n\n**重要性：**\n- **环境复现：** 确保在不同开发人员机器、测试服务器或生产环境中能够重建出完全相同的 Python 环境，避免 'Works on my machine' 的问题。\n- **版本锁定：** 避免因包版本更新而导致的兼容性问题。\n- **--local：** 仅列出当前环境中的包，排除系统全局安装的包，适合环境隔离。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip install -r",
+    "summary": "根据 `requirements.txt` 文件安装所有依赖 (Install all dependencies from a `requirements.txt` file)",
+    "examples": [
+      {
+        "description": "从 `requirements.txt` 文件安装依赖 (将自动使用配置的镜像源)",
+        "code": "pip install -r requirements.txt"
+      },
+      {
+        "description": "从 `requirements.txt` 文件并临时指定镜像源安装",
+        "code": "pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple"
+      }
+    ],
+    "notes": "此命令通常与 `pip freeze` 配合使用。在一个新的 Conda 环境中，通过 `pip install -r requirements.txt` 可以快速安装项目所需的所有依赖包，确保环境的一致性。确保在激活目标环境后执行此命令。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip upgrade",
+    "summary": "升级 pip 工具本身 (Upgrade the pip tool itself)",
+    "examples": [
+      {
+        "description": "升级 pip 到最新版本",
+        "code": "pip install --upgrade pip"
+      },
+      {
+        "description": "同时升级 pip 和 setuptools (推荐，确保包管理核心组件同步更新)",
+        "code": "pip install --upgrade pip setuptools"
+      }
+    ],
+    "notes": "定期升级 `pip` 本身可以获取最新的功能、性能优化和安全修复。建议在 Conda 环境中执行此操作，以确保升级的是当前环境中的 `pip`。同时升级 `setuptools` 有助于避免与新版 `pip` 的兼容性问题。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip_config_permanent",
+    "summary": "永久配置 pip 的默认镜像源 (Permanently configure pip's default mirror source)",
+    "examples": [
+      {
+        "description": "配置文件的路径 (Linux/macOS)",
+        "code": "~/.pip/pip.conf 或 ~/.config/pip/pip.conf"
+      },
+      {
+        "description": "配置文件的路径 (Windows)",
+        "code": "%APPDATA%\\pip\\pip.ini (通常是 C:\\Users\\你的用户名\\AppData\\Roaming\\pip\\pip.ini)"
+      },
+      {
+        "description": "配置文件的内容示例 (以清华源为例)",
+        "code": "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple\n# 可选：添加备用源，如果主源不通会尝试从这里下载\n# extra-index-url = https://mirrors.aliyun.com/pypi/simple/\n# 如果使用HTTP源（如豆瓣源），需添加此行以避免SSL警告\n# trusted-host = pypi.douban.com"
+      }
+    ],
+    "notes": "通过修改 `pip` 的配置文件，可以设置一个或多个永久的默认镜像源。一旦配置完成，后续所有不带 `-i` 参数的 `pip install` 命令都将自动从这些源下载包，实现 '一劳永逸' 的加速效果。\n\n**操作步骤：**\n1.  **创建目录：** 如果配置文件所在目录不存在，需要先创建（例如：`mkdir -p ~/.pip`）。\n2.  **创建文件：** 如果配置文件本身不存在，需要创建一个空文件（例如：`touch ~/.pip/pip.conf`）。\n3.  **编辑文件：** 使用文本编辑器打开该文件，将示例中的配置内容复制粘贴进去，并根据需要修改 `index-url` 或添加 `extra-index-url` 和 `trusted-host`。\n4.  **保存：** 保存文件后，配置立即生效，无需重启动任何服务。",
+    "shell_type": "Configuration (file)"
+  },
+  {
+    "name": "pip cache",
+    "summary": "管理 pip 的包缓存以优化磁盘使用或调试 (Manage pip's package cache to optimize disk usage or troubleshoot)",
+    "examples": [
+      {
+        "description": "清除所有 pip 缓存",
+        "code": "pip cache purge"
+      },
+      {
+        "description": "显示缓存信息 (包括占用空间)",
+        "code": "pip cache info"
+      },
+      {
+        "description": "列出缓存中的包",
+        "code": "pip cache list"
+      }
+    ],
+    "notes": "`pip cache` 命令用于管理 pip 下载的包缓存，类似于 `conda clean` 的功能。\n- **缓存清理：** 随着时间推移，pip 缓存可能占用大量磁盘空间，使用 `pip cache purge` 可以清理所有缓存以释放空间。\n- **调试用途：** `pip cache info` 和 `pip cache list` 可用于检查缓存状态，排查下载或安装问题。\n- **适用场景：** 尤其在磁盘空间有限或需要重置下载源时使用。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  },
+  {
+    "name": "pip check",
+    "summary": "检查当前环境中已安装包的依赖是否满足 (Check if installed package dependencies are satisfied in the current environment)",
+    "examples": [
+      {
+        "description": "检查当前环境中的依赖兼容性",
+        "code": "pip check"
+      }
+    ],
+    "notes": "此命令用于验证当前 Conda 环境中所有通过 `pip` 安装的包的依赖是否满足。如果存在不兼容的依赖版本，`pip check` 会列出问题详情。适合在安装新包后或环境出现问题时运行，以确保依赖一致性。",
+    "shell_type": "External (`<conda_env_path>/bin/pip`)"
+  }
+]

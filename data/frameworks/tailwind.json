@@ -1,0 +1,614 @@
+[
+  {
+    "name": "container",
+    "summary": "创建一个响应式的、固定宽度的居中容器。",
+    "examples": [
+      {
+        "description": "应用基础容器样式",
+        "code": "container"
+      },
+      {
+        "description": "容器居中，并添加水平内边距",
+        "code": "container mx-auto px-4"
+      }
+    ],
+    "notes": "非常适合用于包裹页面主要内容，确保在不同屏幕尺寸下有合适的最大宽度和边距。其最大宽度与响应式断点相对应。",
+    "category": "布局 (Layout)"
+  },
+  {
+    "name": "display",
+    "summary": "控制元素的显示类型，如块级、行内、Flex 或 Grid 容器。",
+    "examples": [
+      {
+        "description": "块级元素，占据整行。",
+        "code": "block"
+      },
+      {
+        "description": "行内块元素。",
+        "code": "inline-block"
+      },
+      {
+        "description": "设为 Flexbox 容器，用于一维布局。",
+        "code": "flex"
+      },
+      {
+        "description": "设为 Grid 容器，用于二维布局。",
+        "code": "grid"
+      },
+      {
+        "description": "完全隐藏元素 (等同于 display: none)。",
+        "code": "hidden"
+      }
+    ],
+    "notes": "这是所有布局的基础。`hidden` 类在响应式设计中常与断点前缀（如 `md:flex`）结合使用，以在不同屏幕尺寸下显示或隐藏元素。",
+    "category": "布局 (Layout)"
+  },
+  {
+    "name": "position",
+    "summary": "设置元素的定位方式，并使用 top/right/bottom/left 控制其位置。",
+    "examples": [
+      {
+        "description": "相对定位，可用于绝对定位子元素的定位上下文。",
+        "code": "relative"
+      },
+      {
+        "description": "绝对定位，相对于最近的已定位父元素。",
+        "code": "absolute top-0 left-0"
+      },
+      {
+        "description": "固定定位，相对于浏览器视口。",
+        "code": "fixed bottom-0 right-0"
+      },
+      {
+        "description": "粘性定位，在滚动到特定位置时变为固定定位。",
+        "code": "sticky top-0"
+      }
+    ],
+    "notes": "使用 `absolute`, `fixed`, `sticky` 后，必须配合 `top-*`, `left-*` 等工具类来确定其最终位置。",
+    "category": "布局 (Layout)"
+  },
+  {
+    "name": "z-index",
+    "summary": "控制定位元素的堆叠顺序。",
+    "examples": [
+      {
+        "description": "设置 z-index 为 10",
+        "code": "z-10"
+      },
+      {
+        "description": "设置 z-index 为 50 (最高)",
+        "code": "z-50"
+      },
+      {
+        "description": "自动 z-index",
+        "code": "z-auto"
+      }
+    ],
+    "notes": "仅对已定位的元素（`relative`, `absolute`, `fixed`, `sticky`）生效。",
+    "category": "布局 (Layout)"
+  },
+  {
+    "name": "盒模型边距 (Margin & Padding)",
+    "summary": "控制元素的外边距 (margin) 和内边距 (padding)。",
+    "examples": [
+      {
+        "description": "设置所有方向 1rem (16px) 的外边距",
+        "code": "m-4"
+      },
+      {
+        "description": "仅设置上下 0.5rem 的外边距",
+        "code": "my-2"
+      },
+      {
+        "description": "设置所有方向 1.5rem (24px) 的内边距",
+        "code": "p-6"
+      },
+      {
+        "description": "仅设置左右 1rem 的内边距",
+        "code": "px-4"
+      },
+      {
+        "description": "设置上边距为 2rem",
+        "code": "mt-8"
+      }
+    ],
+    "notes": "`m` 代表 margin，`p` 代表 padding。`x` 代表水平方向，`y` 代表垂直方向，`t/r/b/l` 分别代表上/右/下/左。数值单位基于配置中的 `spacing` 比例。",
+    "category": "盒模型 (Box Model)"
+  },
+  {
+    "name": "尺寸 (Sizing)",
+    "summary": "控制元素的宽度 (width) 和高度 (height)。",
+    "examples": [
+      {
+        "description": "设置宽度为父元素的 100%",
+        "code": "w-full"
+      },
+      {
+        "description": "设置宽度为 12rem (192px)",
+        "code": "w-48"
+      },
+      {
+        "description": "设置高度为屏幕视口的高度",
+        "code": "h-screen"
+      },
+      {
+        "description": "设置高度为 16rem (256px)",
+        "code": "h-64"
+      },
+      {
+        "description": "设置最大宽度为 7xl (1280px)",
+        "code": "max-w-7xl"
+      },
+      {
+        "description": "设置最小高度为屏幕视口高度",
+        "code": "min-h-screen"
+      }
+    ],
+    "notes": "支持固定值、百分比和视口单位。`max-w-*` 常用于限制文本行的宽度以提高可读性。",
+    "category": "盒模型 (Box Model)"
+  },
+  {
+    "name": "边框 (Borders)",
+    "summary": "控制元素的边框宽度、颜色和圆角。",
+    "examples": [
+      {
+        "description": "添加 1px 宽的默认颜色边框",
+        "code": "border"
+      },
+      {
+        "description": "设置下边框为 4px 宽",
+        "code": "border-b-4"
+      },
+      {
+        "description": "设置边框颜色为蓝色",
+        "code": "border-blue-500"
+      },
+      {
+        "description": "设置中等大小的圆角",
+        "code": "rounded-md"
+      },
+      {
+        "description": "将元素变为圆形",
+        "code": "rounded-full"
+      }
+    ],
+    "notes": "可以组合使用，例如 `border-2 border-dashed border-red-400 rounded-lg`。",
+    "category": "盒模型 (Box Model)"
+  },
+  {
+    "name": "Flexbox",
+    "summary": "使用 Flexbox 创建强大、灵活的一维布局。",
+    "examples": [
+      {
+        "description": "基础 Flexbox 容器",
+        "code": "flex"
+      },
+      {
+        "description": "垂直堆叠子元素",
+        "code": "flex flex-col"
+      },
+      {
+        "description": "水平和垂直居中",
+        "code": "flex items-center justify-center"
+      },
+      {
+        "description": "子元素两端对齐，中间留有均等空间",
+        "code": "flex justify-between"
+      },
+      {
+        "description": "让一个子元素填充所有剩余空间",
+        "code": "flex-grow"
+      }
+    ],
+    "notes": "Flexbox 是组件级布局的理想选择。`items-*` 控制交叉轴对齐，`justify-*` 控制主轴对齐。",
+    "category": "Flexbox & Grid"
+  },
+  {
+    "name": "Grid",
+    "summary": "使用 CSS Grid 创建复杂的二维网格布局。",
+    "examples": [
+      {
+        "description": "创建一个 3 列的网格布局",
+        "code": "grid grid-cols-3"
+      },
+      {
+        "description": "创建一个自适应列数的网格，每列最小 320px",
+        "code": "grid grid-cols-adaptive"
+      },
+      {
+        "description": "设置网格间距为 1rem",
+        "code": "grid gap-4"
+      },
+      {
+        "description": "让一个子元素横跨 2 列",
+        "code": "col-span-2"
+      },
+      {
+        "description": "指定一个子元素从第 2 列开始",
+        "code": "col-start-2"
+      }
+    ],
+    "notes": "CSS Grid 非常适合页面级的整体布局。`gap-*` 用于控制网格项之间的距离。",
+    "category": "Flexbox & Grid"
+  },
+  {
+    "name": "排版 (Typography)",
+    "summary": "控制文本的字体、大小、颜色、对齐方式等。",
+    "examples": [
+      {
+        "description": "设置基础字体大小 (16px)",
+        "code": "text-base"
+      },
+      {
+        "description": "设置大号字体 (30px)，加粗",
+        "code": "text-3xl font-bold"
+      },
+      {
+        "description": "设置文本颜色为灰色",
+        "code": "text-gray-600"
+      },
+      {
+        "description": "文本居中对齐",
+        "code": "text-center"
+      },
+      {
+        "description": "设置行高 (line-height) 为 1.5",
+        "code": "leading-relaxed"
+      },
+      {
+        "description": "文本添加下划线",
+        "code": "underline"
+      }
+    ],
+    "notes": "Tailwind 提供了从 `text-xs` 到 `text-9xl` 的完整字体大小比例，以及从 `thin` 到 `black` 的多种字重。",
+    "category": "排版 (Typography)"
+  },
+  {
+    "name": "背景 (Backgrounds)",
+    "summary": "控制元素的背景颜色、渐变和图片。",
+    "examples": [
+      {
+        "description": "设置背景颜色为绿色",
+        "code": "bg-green-500"
+      },
+      {
+        "description": "设置从左到右的线性渐变",
+        "code": "bg-gradient-to-r from-cyan-500 to-blue-500"
+      },
+      {
+        "description": "设置背景图片不重复",
+        "code": "bg-no-repeat"
+      },
+      {
+        "description": "设置背景图片居中并覆盖整个元素",
+        "code": "bg-center bg-cover"
+      }
+    ],
+    "notes": "渐变色需要指定起始 (`from-*`)、中间 (`via-*`，可选) 和结束 (`to-*`) 颜色。",
+    "category": "颜色与背景 (Colors & Backgrounds)"
+  },
+  {
+    "name": "特效与滤镜 (Effects & Filters)",
+    "summary": "为元素添加阴影、模糊、滤镜等视觉效果。",
+    "examples": [
+      {
+        "description": "添加中等大小的盒子阴影",
+        "code": "shadow-md"
+      },
+      {
+        "description": "添加一个大的、弥散的阴影",
+        "code": "shadow-2xl"
+      },
+      {
+        "description": "设置元素透明度为 50%",
+        "code": "opacity-50"
+      },
+      {
+        "description": "对元素应用模糊效果",
+        "code": "blur-sm"
+      },
+      {
+        "description": "对元素的背景应用模糊效果 (毛玻璃)",
+        "code": "backdrop-blur-lg"
+      }
+    ],
+    "notes": "`backdrop-filter` 是一个强大的特性，可以对元素背后的内容应用滤镜效果，常用于创建毛玻璃质感。",
+    "category": "特效与滤镜 (Effects & Filters)"
+  },
+  {
+    "name": "变换 (Transforms)",
+    "summary": "对元素进行 2D 变换，如缩放、旋转、位移。",
+    "examples": [
+      {
+        "description": "将元素缩小到 95%",
+        "code": "scale-95"
+      },
+      {
+        "description": "将元素顺时针旋转 45 度",
+        "code": "rotate-45"
+      },
+      {
+        "description": "将元素向右平移 1rem",
+        "code": "translate-x-4"
+      },
+      {
+        "description": "将元素向上平移其自身高度的一半",
+        "code": "-translate-y-1/2"
+      },
+      {
+        "description": "组合变换",
+        "code": "transform scale-110 rotate-6"
+      }
+    ],
+    "notes": "变换类通常与过渡或状态修饰符（如 `hover:`）结合使用，以创建交互动画。",
+    "category": "变换 (Transforms)"
+  },
+  {
+    "name": "过渡与动画 (Transitions & Animations)",
+    "summary": "控制 CSS 过渡和动画效果。",
+    "examples": [
+      {
+        "description": "为所有可过渡属性启用默认过渡效果",
+        "code": "transition"
+      },
+      {
+        "description": "仅为颜色和阴影属性启用过渡",
+        "code": "transition-all"
+      },
+      {
+        "description": "设置过渡时长为 300ms",
+        "code": "duration-300"
+      },
+      {
+        "description": "设置缓动函数为 ease-in-out",
+        "code": "ease-in-out"
+      },
+      {
+        "description": "应用预设的旋转加载动画",
+        "code": "animate-spin"
+      },
+      {
+        "description": "应用预设的脉冲动画，常用于骨架屏",
+        "code": "animate-pulse"
+      }
+    ],
+    "notes": "一个完整的交互动画通常是状态修饰符、变换和过渡的组合，例如：`scale-100 hover:scale-110 transition duration-300`。",
+    "category": "动画与过渡 (Transitions & Animations)"
+  },
+  {
+    "name": "交互性 (Interactivity)",
+    "summary": "控制用户的交互行为，如鼠标指针、文本选择等。",
+    "examples": [
+      {
+        "description": "鼠标悬停时显示手型指针",
+        "code": "cursor-pointer"
+      },
+      {
+        "description": "鼠标悬停时显示等待指针",
+        "code": "cursor-wait"
+      },
+      {
+        "description": "禁用元素的指针事件 (元素不可点击)",
+        "code": "pointer-events-none"
+      },
+      {
+        "description": "禁止用户选择元素内的文本",
+        "code": "select-none"
+      },
+      {
+        "description": "移除表单元素的原生外观",
+        "code": "appearance-none"
+      }
+    ],
+    "notes": "`pointer-events-none` 在需要点击穿透覆盖层时非常有用。`appearance-none` 是自定义复选框、单选按钮等控件样式的第一步。",
+    "category": "交互性 (Interactivity)"
+  },
+  {
+    "name": "响应式设计 (Responsive Design)",
+    "summary": "通过在工具类前添加断点前缀，实现在不同屏幕尺寸下应用不同样式，遵循移动优先的设计理念。",
+    "category": "响应式设计",
+    "examples": [
+      {
+        "description": "默认情况下（小屏幕），元素宽度为1/2；在中等屏幕（md）及以上，宽度为1/3；在超大屏幕（xl）及以上，宽度为1/4。",
+        "code": "<div class=\"w-1/2 md:w-1/3 xl:w-1/4\">...</div>"
+      },
+      {
+        "description": "默认隐藏，仅在中等屏幕（md）及以上尺寸显示为块级元素。",
+        "code": "<div class=\"hidden md:block\">...</div>"
+      },
+      {
+        "description": "移动设备上文字居中，在桌面设备（lg）上居左。",
+        "code": "<p class=\"text-center lg:text-left\">...</p>"
+      },
+      {
+        "description": "使用 max-width 前缀，仅在小于中等屏幕（max-md）的设备上应用样式。",
+        "code": "<div class=\"max-md:bg-blue-500\">...</div>"
+      }
+    ],
+    "notes": "Tailwind 采用移动优先（Mobile-First）策略，没有前缀的工具类应用于所有屏幕尺寸，而带前缀的（如 `md:`）仅在该断点及更宽的屏幕上生效。默认断点：`sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px)。"
+  },
+  {
+    "name": "状态修饰符：交互 (State Modifiers: Interactivity)",
+    "summary": "通过添加状态前缀，在用户与元素交互时（如悬停、聚焦）改变样式。",
+    "category": "状态修饰符",
+    "examples": [
+      {
+        "description": "鼠标悬停时，按钮背景色变深。",
+        "code": "<button class=\"bg-blue-500 hover:bg-blue-700\">...</button>"
+      },
+      {
+        "description": "输入框获得焦点时，显示蓝色外发光轮廓。",
+        "code": "<input class=\"focus:ring-2 focus:ring-blue-500\">"
+      },
+      {
+        "description": "按钮被激活（点击按住）时，进行轻微的缩放变换。",
+        "code": "<button class=\"active:scale-95\">...</button>"
+      },
+      {
+        "description": "链接被访问过后，文字颜色变为紫色。",
+        "code": "<a href=\"...\" class=\"text-blue-600 visited:text-purple-600\">...</a>"
+      }
+    ],
+    "notes": "这些伪类修饰符可以链式应用于任何工具类，是构建交互式UI的核心。常用的交互修饰符包括 `hover:`, `focus:`, `active:`, `visited:`, `focus-within:`, `focus-visible:`。"
+  },
+  {
+    "name": "状态修饰符：表单 (State Modifiers: Forms)",
+    "summary": "根据表单元素的状态（如禁用、选中、必填、无效）应用不同的样式。",
+    "category": "状态修饰符",
+    "examples": [
+      {
+        "description": "当按钮被禁用时，降低其不透明度并改变鼠标指针样式。",
+        "code": "<button class=\"... disabled:opacity-50 disabled:cursor-not-allowed\">...</button>"
+      },
+      {
+        "description": "当复选框被选中时，其背景颜色变为蓝色。",
+        "code": "<input type=\"checkbox\" class=\"checked:bg-blue-600 checked:border-transparent\">"
+      },
+      {
+        "description": "当输入框为必填项时，边框变为粉色。",
+        "code": "<input type=\"text\" class=\"required:border-pink-500\">"
+      },
+      {
+        "description": "当输入框验证失败时，边框变为红色。",
+        "code": "<input type=\"email\" class=\"invalid:border-red-500\">"
+      },
+      {
+        "description": "自定义输入框占位符（placeholder）的文本颜色。",
+        "code": "<input placeholder=\"Email...\" class=\"placeholder:text-gray-400\">"
+      }
+    ],
+    "notes": "这些修饰符对于创建具有清晰视觉反馈的表单至关重要。常用表单修饰符包括 `disabled:`, `checked:`, `required:`, `invalid:`, `valid:`, `placeholder:`。"
+  },
+  {
+    "name": "状态修饰符：组合 (State Modifiers: Group & Peer)",
+    "summary": "根据父元素（group）或兄弟元素（peer）的状态来改变当前元素的样式。",
+    "category": "状态修饰符",
+    "examples": [
+      {
+        "description": "当鼠标悬停在整个卡片（父元素）上时，卡片内的图标颜色变为白色。父元素需添加 `group` 类。",
+        "code": "<div class=\"group bg-white hover:bg-blue-500\">\n  <p class=\"text-gray-900 group-hover:text-white\">Card Title</p>\n  <svg class=\"text-gray-400 group-hover:text-white\">...</svg>\n</div>"
+      },
+      {
+        "description": "当输入框（兄弟元素）获得焦点时，其旁边的标签文本颜色变为蓝色。输入框需添加 `peer` 类。",
+        "code": "<div>\n  <input type=\"text\" class=\"peer ...\">\n  <label class=\"text-gray-500 peer-focus:text-blue-600\">Email</label>\n</div>"
+      },
+      {
+        "description": "当复选框（兄弟元素）被选中时，其后的标签文本添加删除线。复选框需添加 `peer` 类。",
+        "code": "<div class=\"flex items-center\">\n  <input type=\"checkbox\" class=\"peer\">\n  <span class=\"ml-2 peer-checked:line-through\">Task complete</span>\n</div>"
+      }
+    ],
+    "notes": "`group` 和 `peer` 是构建复杂交互式组件的强大工具，它们通过伪类（如 `group-hover:`, `peer-checked:`）将状态从一个元素传递到另一个元素，而无需编写任何 JavaScript。"
+  },
+  {
+    "name": "状态修饰符：暗黑模式 (State Modifiers: Dark Mode)",
+    "summary": "使用 `dark:` 前缀，为网站或应用添加暗黑模式下的特定样式。",
+    "category": "状态修饰符",
+    "examples": [
+      {
+        "description": "在亮色模式下背景为白色，在暗黑模式下背景为深灰色。",
+        "code": "<div class=\"bg-white dark:bg-gray-800\">...</div>"
+      },
+      {
+        "description": "在亮色模式下文本为黑色，在暗黑模式下文本为浅灰色。",
+        "code": "<p class=\"text-gray-900 dark:text-gray-300\">...</p>"
+      },
+      {
+        "description": "暗黑模式下，边框颜色变为灰色。",
+        "code": "<div class=\"border-gray-200 dark:border-gray-600\">...</div>"
+      }
+    ],
+    "notes": "要启用暗黑模式，需要在 `tailwind.config.js` 文件中设置 `darkMode: 'class'` 或 `darkMode: 'media'`。`'class'` 策略（推荐）通过在 `<html>` 标签上添加 `class=\"dark\"` 来激活暗黑模式样式。"
+  },
+  {
+    "name": "核心指令 (Core Directives)",
+    "summary": "在 CSS 文件中使用的特殊指令，用于引入 Tailwind 的功能或编写自定义样式。",
+    "category": "核心概念",
+    "examples": [
+      {
+        "description": "引入 Tailwind 的基础样式、组件样式和工具类。这是所有 Tailwind 项目的起点。",
+        "code": "@tailwind base;\n@tailwind components;\n@tailwind utilities;"
+      },
+      {
+        "description": "使用 `@apply` 在自定义 CSS 类中组合多个 Tailwind 工具类，用于提取可复用的组件样式。",
+        "code": ".btn-primary {\n  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;\n}"
+      },
+      {
+        "description": "使用 `@layer` 将自定义样式添加到 Tailwind 的指定层中，以控制其优先级和被 `purge` 的行为。",
+        "code": "@layer components {\n  .card {\n    background-color: white;\n    border-radius: theme('borderRadius.lg');\n    padding: theme('spacing.6');\n  }\n}"
+      },
+      {
+        "description": "使用 `theme()` 函数在 CSS 中访问 `tailwind.config.js` 文件中定义的主题值。",
+        "code": ".content-area {\n  height: calc(100vh - theme('spacing.12'));\n}"
+      }
+    ],
+    "notes": "这些指令是连接你的 CSS 和 Tailwind 配置的桥梁。`@apply` 对于创建自定义组件非常有用，但应避免过度使用，以免失去 Tailwind 工具类驱动的优势。"
+  },
+  {
+    "name": "任意值 (Arbitrary Values)",
+    "summary": "通过使用方括号 `[]` 语法，直接在 HTML 中使用任何需要的 CSS 值，而无需在配置文件中预定义。",
+    "category": "核心概念",
+    "examples": [
+      {
+        "description": "设置一个精确到像素的上边距。",
+        "code": "<div class=\"top-[117px]\">...</div>"
+      },
+      {
+        "description": "设置一个非标准尺寸的宽度。",
+        "code": "<div class=\"w-[32rem]\">...</div>"
+      },
+      {
+        "description": "使用十六进制颜色值直接设置背景色。",
+        "code": "<div class=\"bg-[#1da1f2]\">...</div>"
+      },
+      {
+        "description": "在 `grid-template-columns` 中使用复杂的 `fr` 单位。",
+        "code": "<div class=\"grid grid-cols-[1fr_500px_2fr]\">...</div>"
+      }
+    ],
+    "notes": "这是 JIT (Just-In-Time) 模式的核心特性之一，极大地增强了 Tailwind 的灵活性。几乎所有工具类都支持任意值。注意，方括号内不能有空格。"
+  },
+  {
+    "name": "自定义配置 (Configuration)",
+    "summary": "通过修改 `tailwind.config.js` 文件，可以扩展或覆盖 Tailwind 的默认主题、添加插件，以满足项目特定需求。",
+    "category": "自定义配置",
+    "examples": [
+      {
+        "description": "在 `theme.extend` 中添加自定义颜色和间距，而不会覆盖默认值。",
+        "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        'custom-blue': '#007bff',\n      },\n      spacing: {\n        '128': '32rem',\n      }\n    }\n  }\n}"
+      },
+      {
+        "description": "完全覆盖默认的字体大小配置。",
+        "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    fontSize: {\n      'sm': '14px',\n      'md': '16px',\n      'lg': '20px',\n    }\n  }\n}"
+      },
+      {
+        "description": "在 `plugins` 数组中添加官方的表单样式插件。",
+        "code": "// tailwind.config.js\nmodule.exports = {\n  plugins: [\n    require('@tailwindcss/forms'),\n  ],\n}"
+      },
+      {
+        "description": "配置 `content` 路径，告诉 Tailwind JIT 引擎去哪里扫描使用的类名。",
+        "code": "// tailwind.config.js\nmodule.exports = {\n  content: [\n    './src/**/*.{html,js,jsx,ts,tsx}',\n  ],\n  // ...\n}"
+      }
+    ],
+    "notes": "自定义配置是使 Tailwind 适应任何设计系统的关键。强烈推荐使用 `theme.extend` 来扩展主题，而不是完全覆盖，以保留 Tailwind 强大的默认设计系统。"
+  },
+  {
+    "name": "辅助功能 (Accessibility)",
+    "summary": "提供用于改善网站可访问性的工具类。",
+    "category": "辅助功能",
+    "examples": [
+      {
+        "description": "视觉上隐藏元素，但保留给屏幕阅读器访问。常用于提供额外的上下文信息。",
+        "code": "<span class=\"sr-only\">（此链接将在新窗口中打开）</span>"
+      },
+      {
+        "description": "与 `sr-only` 相反，在元素获得焦点时（例如通过键盘导航），使其重新可见。常用于“跳到主内容”链接。",
+        "code": "<a href=\"#content\" class=\"sr-only focus:not-sr-only\">跳到主内容</a>"
+      },
+      {
+        "description": "仅在元素通过键盘导航获得焦点时，才显示焦点轮廓。避免了鼠标点击时出现分散注意力的轮廓。",
+        "code": "<button class=\"focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500\">...</button>"
+      }
+    ],
+    "notes": "关注可访问性是现代 Web 开发的重要组成部分。`sr-only` 和 `focus-visible` 是实现包容性设计的简单而有效的方法。"
+  }
+]

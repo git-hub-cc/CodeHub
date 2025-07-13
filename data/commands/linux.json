@@ -1,0 +1,4758 @@
+[
+  {
+    "name": "ls",
+    "summary": "列出目录内容 (List directory contents)",
+    "examples": [
+      {
+        "description": "列出当前目录的文件和文件夹",
+        "code": "ls"
+      },
+      {
+        "description": "以长列表格式显示，包含权限、所有者、大小和修改日期",
+        "code": "ls -l"
+      },
+      {
+        "description": "同时显示隐藏文件 (以.开头的文件)",
+        "code": "ls -a"
+      },
+      {
+        "description": "按人类可读的格式显示文件大小 (e.g., KB, MB, GB)，并以长列表格式显示",
+        "code": "ls -lh"
+      },
+      {
+        "description": "按修改时间倒序排列显示文件，最新在前",
+        "code": "ls -lt"
+      },
+      {
+        "description": "显示当前目录及其子目录中的所有文件",
+        "code": "ls -R"
+      }
+    ],
+    "notes": "这是最常用命令之一，几乎在所有Linux发行版中都默认安装。它是一个外部命令，通常位于 `/usr/bin/ls`。",
+    "shell_type": "External (`/usr/bin/ls`)"
+  },
+  {
+    "name": "cd",
+    "summary": "改变当前工作目录 (Change directory)",
+    "examples": [
+      {
+        "description": "进入指定目录",
+        "code": "cd /home/user/documents"
+      },
+      {
+        "description": "进入用户主目录",
+        "code": "cd ~"
+      },
+      {
+        "description": "进入上次所在的目录",
+        "code": "cd -"
+      },
+      {
+        "description": "返回上一级目录",
+        "code": "cd .."
+      }
+    ],
+    "notes": "这是一个Shell内置命令，因此无需安装。它直接由 `bash` 或 `sh` 等Shell解释执行，不对应文件系统中的独立可执行文件。",
+    "shell_type": "Built-in (Bash/Sh)"
+  },
+  {
+    "name": "pwd",
+    "summary": "显示当前工作目录的路径 (Print working directory)",
+    "examples": [
+      {
+        "description": "显示当前完整的目录路径",
+        "code": "pwd"
+      },
+      {
+        "description": "显示不包含符号链接的物理路径",
+        "code": "pwd -P"
+      }
+    ],
+    "notes": "这是一个Shell内置命令，也存在于 `/usr/bin/pwd` 作为外部命令，但通常Shell会优先执行其内置版本。在所有Linux发行版中都可用。",
+    "shell_type": "Built-in (Bash/Sh) / External (`/usr/bin/pwd`)"
+  },
+  {
+    "name": "mkdir",
+    "summary": "创建新目录 (Make directory)",
+    "examples": [
+      {
+        "description": "在当前目录下创建新目录",
+        "code": "mkdir my_new_directory"
+      },
+      {
+        "description": "创建多级目录，如果父目录不存在则一并创建",
+        "code": "mkdir -p project/src/main/java"
+      },
+      {
+        "description": "创建目录并设置特定权限 (例如 rwx r-x r-x)",
+        "code": "mkdir -m 755 public_html"
+      }
+    ],
+    "notes": "常见且基本的目录操作命令，所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/mkdir`。",
+    "shell_type": "External (`/usr/bin/mkdir`)"
+  },
+  {
+    "name": "rmdir",
+    "summary": "删除空目录 (Remove directory)",
+    "examples": [
+      {
+        "description": "删除一个空目录",
+        "code": "rmdir empty_directory"
+      },
+      {
+        "description": "删除多级空目录 (例如 project/src/main/java，如果它们都为空)",
+        "code": "rmdir -p project/src/main/java"
+      }
+    ],
+    "notes": "只能删除空目录。如果要删除非空目录及其内容，应使用 `rm -r` 命令。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/rmdir`。",
+    "shell_type": "External (`/usr/bin/rmdir`)"
+  },
+  {
+    "name": "cp",
+    "summary": "复制文件和目录 (Copy files and directories)",
+    "examples": [
+      {
+        "description": "复制文件 'source.txt' 到当前目录，并命名为 'destination.txt'",
+        "code": "cp source.txt destination.txt"
+      },
+      {
+        "description": "复制文件 'file.txt' 到指定目录 '/tmp/'，保持原名",
+        "code": "cp file.txt /tmp/"
+      },
+      {
+        "description": "递归地复制整个目录 'source_dir' 到 'dest_dir'",
+        "code": "cp -r source_dir dest_dir"
+      },
+      {
+        "description": "归档模式复制 (递归复制并保留文件属性，如权限、时间戳等)",
+        "code": "cp -a /var/www/html /backup/html_backup"
+      },
+      {
+        "description": "复制时进行交互确认，避免覆盖同名文件",
+        "code": "cp -i old_file.txt new_file.txt"
+      }
+    ],
+    "notes": "常用命令，所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/cp`。",
+    "shell_type": "External (`/usr/bin/cp`)"
+  },
+  {
+    "name": "mv",
+    "summary": "移动或重命名文件和目录 (Move or rename files and directories)",
+    "examples": [
+      {
+        "description": "将文件 'oldname.txt' 重命名为 'newname.txt'",
+        "code": "mv oldname.txt newname.txt"
+      },
+      {
+        "description": "将文件 'file.txt' 移动到 '/tmp/new_location/' 目录",
+        "code": "mv file.txt /tmp/new_location/"
+      },
+      {
+        "description": "将目录 'my_dir' 移动到 '/backup/' 目录",
+        "code": "mv my_dir /backup/"
+      },
+      {
+        "description": "移动文件时进行交互确认，避免覆盖同名文件",
+        "code": "mv -i existing_file.txt /tmp/"
+      }
+    ],
+    "notes": "常用命令，所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/mv`。",
+    "shell_type": "External (`/usr/bin/mv`)"
+  },
+  {
+    "name": "rm",
+    "summary": "删除文件或目录 (Remove files or directories)",
+    "examples": [
+      {
+        "description": "删除文件 'file.txt'",
+        "code": "rm file.txt"
+      },
+      {
+        "description": "强制删除文件，不提示确认",
+        "code": "rm -f sensitive_file.txt"
+      },
+      {
+        "description": "递归删除目录及其所有内容 (慎用！)",
+        "code": "rm -r my_directory"
+      },
+      {
+        "description": "递归并强制删除目录及其所有内容 (极度危险，请务必小心使用！)",
+        "code": "rm -rf /path/to/dangerous_directory"
+      },
+      {
+        "description": "删除前提示确认",
+        "code": "rm -i important_file.txt"
+      }
+    ],
+    "notes": "极其危险的命令，尤其是与 `-r` (递归) 和 `-f` (强制) 选项结合时。一旦删除，数据通常难以恢复。请在使用 `rm -rf` 时务必再三确认目标路径。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/rm`。",
+    "shell_type": "External (`/usr/bin/rm`)"
+  },
+  {
+    "name": "ln",
+    "summary": "创建链接文件 (Make links between files)",
+    "examples": [
+      {
+        "description": "创建文件的硬链接 (只能链接到文件，不能跨文件系统)",
+        "code": "ln original_file.txt hard_link.txt"
+      },
+      {
+        "description": "创建文件的软链接 (符号链接)，可以链接文件或目录，可跨文件系统",
+        "code": "ln -s /path/to/original_file.txt /path/to/soft_link.txt"
+      },
+      {
+        "description": "为目录创建软链接",
+        "code": "ln -s /usr/local/apache/htdocs /var/www/html"
+      }
+    ],
+    "notes": "硬链接和软链接（符号链接）是Linux文件系统中两种不同的文件引用方式。软链接更常用。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/ln`。",
+    "shell_type": "External (`/usr/bin/ln`)"
+  },
+  {
+    "name": "find",
+    "summary": "在目录层次结构中搜索文件 (Search for files in a directory hierarchy)",
+    "examples": [
+      {
+        "description": "在当前目录下按名称查找文件 'report.pdf'",
+        "code": "find . -name \"report.pdf\""
+      },
+      {
+        "description": "在 '/etc' 目录下查找所有以 '.conf' 结尾的文件",
+        "code": "find /etc -name \"*.conf\""
+      },
+      {
+        "description": "查找所有大小超过 100MB 的文件",
+        "code": "find /home -size +100M"
+      },
+      {
+        "description": "查找所有 7 天前修改过的 .log 文件并删除",
+        "code": "find /var/log -name \"*.log\" -mtime +7 -delete"
+      },
+      {
+        "description": "查找所有者为 'john' 的文件",
+        "code": "find /home -user john"
+      },
+      {
+        "description": "查找权限为 777 (rwxrwxrwx) 的文件和目录",
+        "code": "find /opt -perm 777"
+      },
+      {
+        "description": "查找并执行命令：将所有找到的 '.tmp' 文件移动到 '/tmp/old_temps/'",
+        "code": "find . -name \"*.tmp\" -exec mv {} /tmp/old_temps/ \\;"
+      }
+    ],
+    "notes": "功能极其强大的文件搜索工具，支持多种搜索条件（名称、类型、大小、时间、权限、所有者等）并可直接对结果执行操作。熟练掌握 `find` 命令是Linux系统管理的必备技能。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/find`。",
+    "shell_type": "External (`/usr/bin/find`)"
+  },
+  {
+    "name": "stat",
+    "summary": "显示文件或文件系统状态 (Display file or file system status)",
+    "examples": [
+      {
+        "description": "显示文件 'example.txt' 的详细信息",
+        "code": "stat example.txt"
+      },
+      {
+        "description": "显示文件 '/tmp' 所在文件系统的详细信息",
+        "code": "stat -f /tmp"
+      }
+    ],
+    "notes": "用于获取文件或文件系统的详细元数据，如文件大小、inode 号、权限、所有者、创建/修改/访问时间等。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/stat`。",
+    "shell_type": "External (`/usr/bin/stat`)"
+  },
+  {
+    "name": "touch",
+    "summary": "更新文件的时间戳或创建空文件 (Change file timestamps or create files)",
+    "examples": [
+      {
+        "description": "创建名为 'new_file.txt' 的空文件 (如果不存在)",
+        "code": "touch new_file.txt"
+      },
+      {
+        "description": "更新文件 'existing_file.txt' 的访问和修改时间到当前时间",
+        "code": "touch existing_file.txt"
+      },
+      {
+        "description": "将文件时间戳设置为指定日期和时间 (例如 2023年1月1日 10:30)",
+        "code": "touch -t 202301011030.00 my_report.txt"
+      },
+      {
+        "description": "只更新访问时间",
+        "code": "touch -a access_only.txt"
+      },
+      {
+        "description": "只更新修改时间",
+        "code": "touch -m modify_only.txt"
+      }
+    ],
+    "notes": "常用命令，所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/touch`。",
+    "shell_type": "External (`/usr/bin/touch`)"
+  },
+  {
+    "name": "file",
+    "summary": "判断文件类型 (Determine file type)",
+    "examples": [
+      {
+        "description": "显示文件 'document.pdf' 的类型",
+        "code": "file document.pdf"
+      },
+      {
+        "description": "显示可执行文件 '/usr/bin/ls' 的类型",
+        "code": "file /usr/bin/ls"
+      },
+      {
+        "description": "显示所有文件的MIME类型",
+        "code": "file -i *"
+      }
+    ],
+    "notes": "通过检查文件内容的魔数（magic numbers）来判断文件类型，而不仅仅是依靠文件扩展名。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/file`。",
+    "shell_type": "External (`/usr/bin/file`)"
+  },
+  {
+    "name": "whereis",
+    "summary": "查找命令的二进制文件、源代码和man页面位置 (Locate the binary, source, and manual page files for a command)",
+    "examples": [
+      {
+        "description": "查找 'ls' 命令的相关文件",
+        "code": "whereis ls"
+      },
+      {
+        "description": "只查找 'grep' 命令的二进制文件",
+        "code": "whereis -b grep"
+      },
+      {
+        "description": "只查找 'passwd' 命令的man页面",
+        "code": "whereis -m passwd"
+      }
+    ],
+    "notes": "用于快速定位特定命令的安装位置和相关文档。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/whereis`。",
+    "shell_type": "External (`/usr/bin/whereis`)"
+  },
+  {
+    "name": "which",
+    "summary": "显示命令的完整路径 (Locate a command)",
+    "examples": [
+      {
+        "description": "显示 'python' 命令的完整路径 (在 PATH 环境变量中找到的第一个)",
+        "code": "which python"
+      },
+      {
+        "description": "显示所有在 PATH 中找到的 'ls' 命令实例",
+        "code": "which -a ls"
+      }
+    ],
+    "notes": "`which` 只在用户的 `PATH` 环境变量中查找可执行文件。如果命令是一个Shell内置命令或别名，`which` 可能无法找到，此时 `type` 命令更通用。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/which`。",
+    "shell_type": "External (`/usr/bin/which`)"
+  },
+  {
+    "name": "cat",
+    "summary": "连接文件并打印到标准输出 (Concatenate files and print on the standard output)",
+    "examples": [
+      {
+        "description": "显示文件 'notes.txt' 的全部内容",
+        "code": "cat notes.txt"
+      },
+      {
+        "description": "连接两个文件 'file1.txt' 和 'file2.txt' 的内容并显示",
+        "code": "cat file1.txt file2.txt"
+      },
+      {
+        "description": "连接两个文件并将输出重定向到一个新文件 'combined.txt'",
+        "code": "cat file1.txt file2.txt > combined.txt"
+      },
+      {
+        "description": "创建一个新文件并输入内容，按 Ctrl+D 结束输入",
+        "code": "cat > new_document.txt\nThis is the content.\nAnother line.\n^D (按 Ctrl+D)"
+      },
+      {
+        "description": "显示文件内容并给所有行加上行号",
+        "code": "cat -n document.txt"
+      }
+    ],
+    "notes": "常用命令，尤其适用于查看较短的文本文件内容或进行简单的文件合并。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/cat`。",
+    "shell_type": "External (`/usr/bin/cat`)"
+  },
+  {
+    "name": "less",
+    "summary": "分页查看文件内容 (Pager for viewing file contents)",
+    "examples": [
+      {
+        "description": "分页查看大文件 'large_log.txt'",
+        "code": "less large_log.txt"
+      },
+      {
+        "description": "在 'less' 界面中搜索 'error'",
+        "code": "/error (在 less 界面中输入)"
+      },
+      {
+        "description": "查看压缩过的日志文件 (无需先解压)",
+        "code": "less /var/log/syslog.gz"
+      },
+      {
+        "description": "实时查看文件末尾内容 (类似 tail -f)",
+        "code": "less +F /var/log/nginx/access.log"
+      }
+    ],
+    "notes": "比 `more` 命令功能更强大、更灵活。允许用户在文件中前后翻页、搜索文本、实时跟踪文件等。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/less`。",
+    "shell_type": "External (`/usr/bin/less`)"
+  },
+  {
+    "name": "more",
+    "summary": "分页查看文件内容 (Pager for viewing file contents)",
+    "examples": [
+      {
+        "description": "分页查看文件 'document.txt'",
+        "code": "more document.txt"
+      },
+      {
+        "description": "从第10行开始查看文件",
+        "code": "more +10 document.txt"
+      }
+    ],
+    "notes": "比 `less` 命令更简单，只允许向下翻页，不支持向上翻页或搜索。在现代Linux环境中，通常推荐使用 `less`。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/more`。",
+    "shell_type": "External (`/usr/bin/more`)"
+  },
+  {
+    "name": "head",
+    "summary": "输出文件开头部分 (Output the first part of files)",
+    "examples": [
+      {
+        "description": "显示文件 'log.txt' 的前10行 (默认)",
+        "code": "head log.txt"
+      },
+      {
+        "description": "显示文件 'data.csv' 的前5行",
+        "code": "head -n 5 data.csv"
+      },
+      {
+        "description": "显示文件 'script.sh' 的前20个字节",
+        "code": "head -c 20 script.sh"
+      }
+    ],
+    "notes": "常用命令，尤其在查看日志文件或大型文件的开头部分时非常有用。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/head`。",
+    "shell_type": "External (`/usr/bin/head`)"
+  },
+  {
+    "name": "tail",
+    "summary": "输出文件末尾部分 (Output the last part of files)",
+    "examples": [
+      {
+        "description": "显示文件 'error.log' 的最后10行 (默认)",
+        "code": "tail error.log"
+      },
+      {
+        "description": "显示文件 'access.log' 的最后50行",
+        "code": "tail -n 50 access.log"
+      },
+      {
+        "description": "实时监控文件 'system.log' 的新增内容 (常用于查看日志)",
+        "code": "tail -f system.log"
+      },
+      {
+        "description": "同时监控多个日志文件",
+        "code": "tail -f /var/log/nginx/access.log /var/log/nginx/error.log"
+      },
+      {
+        "description": "显示文件 'large_file.bin' 的最后1KB",
+        "code": "tail -c 1K large_file.bin"
+      }
+    ],
+    "notes": "`tail -f` 是系统管理员和开发人员诊断实时问题时最常用的命令之一。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/tail`。",
+    "shell_type": "External (`/usr/bin/tail`)"
+  },
+  {
+    "name": "grep",
+    "summary": "强大的文本搜索工具 (Print lines matching a pattern)",
+    "examples": [
+      {
+        "description": "在文件 'nginx.conf' 中搜索包含 'server_name' 的行",
+        "code": "grep server_name nginx.conf"
+      },
+      {
+        "description": "忽略大小写搜索 'error' 关键词",
+        "code": "grep -i error /var/log/messages"
+      },
+      {
+        "description": "反向搜索：显示不包含 'success' 的行",
+        "code": "grep -v success /tmp/output.txt"
+      },
+      {
+        "description": "递归搜索目录 'src' 下所有文件中包含 'TODO' 的行",
+        "code": "grep -r TODO src/"
+      },
+      {
+        "description": "显示匹配行的行号",
+        "code": "grep -n \"failed\" /var/log/auth.log"
+      },
+      {
+        "description": "仅显示匹配到的部分 (而非整行)",
+        "code": "grep -o \"[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\" access.log"
+      },
+      {
+        "description": "从管道输入中搜索特定字符串",
+        "code": "ps aux | grep nginx"
+      }
+    ],
+    "notes": "`grep` 是最强大的文本处理工具之一，支持正则表达式进行复杂匹配。掌握其常用选项对于日志分析和文本处理至关重要。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/grep`。",
+    "shell_type": "External (`/usr/bin/grep`)"
+  },
+  {
+    "name": "wc",
+    "summary": "统计文件中的行数、单词数和字符数 (Print newline, word, and byte counts for each file)",
+    "examples": [
+      {
+        "description": "统计文件 'document.txt' 的行数、单词数和字符数",
+        "code": "wc document.txt"
+      },
+      {
+        "description": "只统计文件 'report.txt' 的行数",
+        "code": "wc -l report.txt"
+      },
+      {
+        "description": "只统计文件 'code.py' 的单词数",
+        "code": "wc -w code.py"
+      },
+      {
+        "description": "只统计文件 'data.csv' 的字符数",
+        "code": "wc -c data.csv"
+      },
+      {
+        "description": "统计标准输入的行数 (例如通过管道)",
+        "code": "ls -l | wc -l"
+      }
+    ],
+    "notes": "简单而有效的文本统计工具，常用于脚本中进行计数。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/wc`。",
+    "shell_type": "External (`/usr/bin/wc`)"
+  },
+  {
+    "name": "diff",
+    "summary": "比较两个文件之间的差异 (Compare two files line by line)",
+    "examples": [
+      {
+        "description": "比较两个文件 'file1.txt' 和 'file2.txt' 的差异",
+        "code": "diff file1.txt file2.txt"
+      },
+      {
+        "description": "以统一格式 (unified format) 显示差异 (常用于生成补丁文件)",
+        "code": "diff -u original.txt modified.txt"
+      },
+      {
+        "description": "以并排格式 (side-by-side format) 显示差异",
+        "code": "diff -y old_config.conf new_config.conf"
+      },
+      {
+        "description": "忽略空白符的变化",
+        "code": "diff -w fileA.txt fileB.txt"
+      }
+    ],
+    "notes": "在管理配置文件、代码版本控制或比较文本文件内容时非常有用。 `diff -u` 的输出常作为 `patch` 命令的输入。所有Linux发行版均默认安装。它是一个外部命令，通常位于 `/usr/bin/diff`。",
+    "shell_type": "External (`/usr/bin/diff`)"
+  },
+  {
+    "name": "sed",
+    "summary": "流编辑器，用于对文本进行转换 (Stream editor for filtering and transforming text)",
+    "examples": [
+      {
+        "description": "将文件中的 'oldstring' 替换为 'newstring' (只替换每行第一个匹配项)",
+        "code": "sed 's/oldstring/newstring/' filename.txt"
+      },
+      {
+        "description": "全局替换文件中的 'oldstring' 为 'newstring' (替换所有匹配项)",
+        "code": "sed 's/oldstring/newstring/g' filename.txt"
+      },
+      {
+        "description": "删除文件中包含 'pattern' 的行",
+        "code": "sed '/pattern/d' filename.txt"
+      },
+      {
+        "description": "在每行末尾添加字符串",
+        "code": "sed 's/$/ added_text/' filename.txt"
+      },
+      {
+        "description": "将修改直接写入文件 (小心使用，此操作会覆盖原文件)",
+        "code": "sed -i 's/old/new/g' filename.txt"
+      }
+    ],
+    "notes": "sed 是一款功能强大的非交互式文本流编辑器，常用于自动化脚本中对文本文件进行批处理操作。它按行处理文件，支持正则表达式进行匹配和替换。\n- **通用性:** sed 是 GNU Coreutils 的一部分，几乎所有Linux发行版都默认安装。\n- **发行版差异:** 命令本身没有显著的发行版差异，但其实现（如 GNU sed vs BSD sed）在某些高级特性上可能略有不同。",
+    "shell_type": "External (`/usr/bin/sed`)"
+  },
+  {
+    "name": "awk",
+    "summary": "文本处理语言，用于模式扫描和处理 (Pattern scanning and processing language)",
+    "examples": [
+      {
+        "description": "打印文件的第一列和第三列",
+        "code": "awk '{print $1, $3}' filename.txt"
+      },
+      {
+        "description": "打印文件中包含 'error' 且第二列为 'network' 的行",
+        "code": "awk '/error/ && $2 == \"network\" {print}' /var/log/syslog"
+      },
+      {
+        "description": "计算文件中所有行的总和 (假设每行只有一个数字)",
+        "code": "awk '{s+=$1} END {print s}' numbers.txt"
+      },
+      {
+        "description": "使用逗号作为字段分隔符，打印第二列",
+        "code": "awk -F',' '{print $2}' data.csv"
+      }
+    ],
+    "notes": "awk 是一种非常强大的文本分析工具和编程语言，它允许你通过定义模式和相应的操作来处理文本文件。它按字段（列）处理数据，非常适合生成报告或提取结构化信息。\n- **通用性:** awk（通常是 GNU Awk，即 `gawk`）是所有Linux发行版都默认安装的重要工具。\n- **发行版差异:** 命令本身没有显著的发行版差异。",
+    "shell_type": "External (`/usr/bin/awk` 或 `/usr/bin/gawk`)"
+  },
+  {
+    "name": "cut",
+    "summary": "从每行中剪切指定字段 (Remove sections from each line of files)",
+    "examples": [
+      {
+        "description": "以空格为分隔符，提取文件的第一列",
+        "code": "cut -d ' ' -f 1 filename.txt"
+      },
+      {
+        "description": "提取文件中每行的第3到第5个字符",
+        "code": "cut -c 3-5 filename.txt"
+      },
+      {
+        "description": "以冒号为分隔符，提取 `/etc/passwd` 文件中的用户名和Shell",
+        "code": "cut -d ':' -f 1,7 /etc/passwd"
+      }
+    ],
+    "notes": "cut 命令用于从文件或标准输入中提取文本的特定部分，可以按字符位置或按指定分隔符的字段来提取。它常与其他命令（如 `grep`、`sort`）结合使用，进行数据过滤和格式化。\n- **通用性:** cut 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/cut`)"
+  },
+  {
+    "name": "sort",
+    "summary": "对文本文件进行排序 (Sort lines of text files)",
+    "examples": [
+      {
+        "description": "按字母顺序对文件内容进行排序",
+        "code": "sort filename.txt"
+      },
+      {
+        "description": "按数字大小倒序排序 (假设每行都是数字)",
+        "code": "sort -nr numbers.txt"
+      },
+      {
+        "description": "根据第三列（以空格分隔）的数字大小进行排序",
+        "code": "sort -k 3n data.txt"
+      },
+      {
+        "description": "移除重复行并排序 (通常与 `uniq` 结合使用，但 `sort -u` 也可以实现)",
+        "code": "sort -u file_with_duplicates.txt"
+      }
+    ],
+    "notes": "sort 命令用于对文本文件的行进行排序，支持多种排序规则（字母、数字、月份、倒序、字段排序等）。它在数据处理和日志分析中非常有用。\n- **通用性:** sort 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/sort`)"
+  },
+  {
+    "name": "uniq",
+    "summary": "报告或过滤重复行 (Report or omit repeated lines)",
+    "examples": [
+      {
+        "description": "显示文件中不重复的行 (需要先排序)",
+        "code": "sort filename.txt | uniq"
+      },
+      {
+        "description": "显示文件中重复的行及其重复次数",
+        "code": "sort filename.txt | uniq -c"
+      },
+      {
+        "description": "只显示出现一次的行",
+        "code": "sort filename.txt | uniq -u"
+      }
+    ],
+    "notes": "uniq 命令用于处理相邻的重复行。它通常与 `sort` 命令结合使用，因为 `uniq` 只能检测和处理连续的重复行。在清理数据、查找唯一项或统计重复次数时非常有用。\n- **通用性:** uniq 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/uniq`)"
+  },
+  {
+    "name": "tr",
+    "summary": "转换或删除字符 (Translate or delete characters)",
+    "examples": [
+      {
+        "description": "将文本中的小写字母转换为大写字母",
+        "code": "echo \"hello world\" | tr 'a-z' 'A-Z'"
+      },
+      {
+        "description": "删除文件中的所有数字",
+        "code": "cat filename.txt | tr -d '0-9'"
+      },
+      {
+        "description": "将文件中的所有空格替换为换行符",
+        "code": "cat filename.txt | tr ' ' '\\n'"
+      },
+      {
+        "description": "压缩多个连续空格为一个空格",
+        "code": "echo \"a   b    c\" | tr -s ' '"
+      }
+    ],
+    "notes": "tr 命令是一个字符转换工具，它可以将一组字符替换为另一组字符，或者删除特定字符。它主要用于管道操作，即从标准输入读取数据并输出到标准输出。\n- **通用性:** tr 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/tr`)"
+  },
+  {
+    "name": "patch",
+    "summary": "应用 'diff' 命令生成的补丁文件 (Apply a diff file to an original)",
+    "examples": [
+      {
+        "description": "将补丁文件 'changes.patch' 应用到原始文件",
+        "code": "patch < changes.patch"
+      },
+      {
+        "description": "在指定目录下查找文件并应用补丁",
+        "code": "patch -p1 < changes.patch"
+      },
+      {
+        "description": "反向应用补丁（撤销更改）",
+        "code": "patch -R < changes.patch"
+      }
+    ],
+    "notes": "patch 命令用于将 `diff` 命令生成的补丁文件应用到原始文件，从而实现代码或文本的更新和版本管理。在软件开发、系统维护和修复漏洞时非常常见。\n- **通用性:** patch 通常作为标准工具链的一部分默认安装。\n- **发行版差异:** 命令本身没有显著的发行版差异。",
+    "shell_type": "External (`/usr/bin/patch`)"
+  },
+  {
+    "name": "nl",
+    "summary": "为文件添加行号 (Number lines of files)",
+    "examples": [
+      {
+        "description": "为文件内容添加行号并输出",
+        "code": "nl filename.txt"
+      },
+      {
+        "description": "只为非空行添加行号",
+        "code": "nl -ba filename.txt"
+      }
+    ],
+    "notes": "nl 命令用于为文本文件添加行号。它提供了多种选项来控制行号的格式和编号方式，例如是否编号空行、行号的宽度等。\n- **通用性:** nl 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/nl`)"
+  },
+  {
+    "name": "od",
+    "summary": "以八进制或其他格式显示文件内容 (Dump files in octal and other formats)",
+    "examples": [
+      {
+        "description": "以八进制和字符形式显示文件内容",
+        "code": "od -c filename.bin"
+      },
+      {
+        "description": "以十六进制和字符形式显示文件内容",
+        "code": "od -xc filename.bin"
+      },
+      {
+        "description": "显示文件的前16个字节的十六进制内容",
+        "code": "head -c 16 filename.bin | od -tx1"
+      }
+    ],
+    "notes": "od (octal dump) 命令用于以各种格式（如八进制、十六进制、十进制、ASCII字符等）显示文件的内容。它主要用于查看二进制文件、设备文件或调试低级数据。\n- **通用性:** od 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/od`)"
+  },
+  {
+    "name": "paste",
+    "summary": "将文件按行合并 (Merge lines of files)",
+    "examples": [
+      {
+        "description": "将两个文件的第一行合并，第二行合并，以此类推",
+        "code": "paste file1.txt file2.txt"
+      },
+      {
+        "description": "使用逗号作为分隔符合并文件",
+        "code": "paste -d ',' file1.txt file2.txt"
+      }
+    ],
+    "notes": "paste 命令用于将多个文件的对应行合并在一起，默认使用制表符作为分隔符。它与 `cut` 相对，`cut` 垂直分割文件，`paste` 水平合并文件。\n- **通用性:** paste 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/paste`)"
+  },
+  {
+    "name": "split",
+    "summary": "将文件分割成多个小文件 (Split a file into pieces)",
+    "examples": [
+      {
+        "description": "将文件 'large.log' 分割成每个 1000 行的小文件 (默认前缀为 'x')",
+        "code": "split -l 1000 large.log"
+      },
+      {
+        "description": "将文件 'video.mp4' 分割成每个 100MB 的小文件 (自定义前缀 'part-')",
+        "code": "split -b 100m video.mp4 part-"
+      }
+    ],
+    "notes": "split 命令用于将一个大文件分割成若干个较小的文件，可以按行数或字节大小分割。这对于处理巨大文件、方便传输或分块处理非常有用。分割后的文件可以通过 `cat` 命令重新合并。\n- **通用性:** split 是 GNU Coreutils 的一部分，所有Linux发行版都默认安装。",
+    "shell_type": "External (`/usr/bin/split`)"
+  },
+  {
+    "name": "column",
+    "summary": "将文本格式化为多列 (Columnate lists)",
+    "examples": [
+      {
+        "description": "将文本自动格式化为多列对齐",
+        "code": "cat data.txt | column -t"
+      },
+      {
+        "description": "指定分隔符为逗号，并对齐输出",
+        "code": "cat csv_data.csv | column -s ',' -t"
+      }
+    ],
+    "notes": "column 命令用于将输入文本格式化为易于阅读的多列输出。它对于美化 Shell 命令的输出，使其更易于表格形式查看非常有用。它会自动计算列宽并对齐文本。\n- **通用性:** column 命令通常包含在 `util-linux` 或 `bsdutils` 包中，大多数发行版默认安装。\n- **发行版差异:** 在旧版本或某些精简系统中可能需要单独安装 `bsdutils` 或 `util-linux` 包。\n  - **Ubuntu/Debian:** `sudo apt install bsdutils` (通常已包含)\n  - **CentOS/Red Hat:** `sudo yum install util-linux` 或 `sudo dnf install util-linux` (通常已包含)",
+    "shell_type": "External (`/usr/bin/column`)"
+  },
+  {
+    "name": "tar",
+    "summary": "打包和解包文件 (Tape Archiver)",
+    "examples": [
+      {
+        "description": "打包并使用 gzip 压缩目录 'my_dir' 为 'archive.tar.gz'",
+        "code": "tar -czvf archive.tar.gz my_dir/"
+      },
+      {
+        "description": "解压 'archive.tar.gz' 到当前目录",
+        "code": "tar -xzvf archive.tar.gz"
+      },
+      {
+        "description": "查看 'archive.tar.gz' 中的内容列表",
+        "code": "tar -tzvf archive.tar.gz"
+      },
+      {
+        "description": "打包多个文件到 'my_files.tar'",
+        "code": "tar -cvf my_files.tar file1.txt file2.doc"
+      }
+    ],
+    "notes": "tar 是 Linux/Unix 系统中最常用的归档工具，它可以将多个文件或目录打包成一个文件（.tar文件），然后通常与压缩工具（如 gzip, bzip2, xz）结合使用来减小文件大小。\n- **常用选项组合:** `c` (创建), `x` (解压), `t` (列表), `v` (显示过程), `f` (指定文件名), `z` (gzip), `j` (bzip2), `J` (xz)。\n- **通用性:** tar 是所有Linux发行版的核心工具，默认安装。",
+    "shell_type": "External (`/usr/bin/tar`)"
+  },
+  {
+    "name": "gzip",
+    "summary": "GNU Zip 压缩工具 (Compress or expand files)",
+    "examples": [
+      {
+        "description": "压缩文件 'document.txt' 为 'document.txt.gz' (原文件会被删除)",
+        "code": "gzip document.txt"
+      },
+      {
+        "description": "查看压缩文件的信息而不解压",
+        "code": "gzip -l document.txt.gz"
+      },
+      {
+        "description": "压缩多个文件",
+        "code": "gzip file1.txt file2.log"
+      }
+    ],
+    "notes": "gzip 是一个用于文件压缩的工具。它通常只压缩单个文件，并添加 `.gz` 后缀。如果需要打包多个文件，通常会先用 `tar` 打包，再用 `gzip` 压缩。\n- **通用性:** gzip 是所有Linux发行版默认安装的压缩工具。",
+    "shell_type": "External (`/usr/bin/gzip`)"
+  },
+  {
+    "name": "gunzip",
+    "summary": "解压 gzip 压缩的文件 (Decompress gzip compressed files)",
+    "examples": [
+      {
+        "description": "解压文件 'document.txt.gz' 为 'document.txt' (原压缩文件会被删除)",
+        "code": "gunzip document.txt.gz"
+      },
+      {
+        "description": "解压到标准输出 (不删除原压缩文件)",
+        "code": "gunzip -c document.txt.gz > document.txt"
+      }
+    ],
+    "notes": "gunzip 是 gzip 的配套工具，用于解压 `.gz` 格式的文件。它通常是 `gzip` 命令的一个符号链接或别名。\n- **通用性:** gunzip 是所有Linux发行版默认安装的工具。",
+    "shell_type": "External (`/usr/bin/gunzip` 或链接到 `/usr/bin/gzip`)"
+  },
+  {
+    "name": "bzip2",
+    "summary": "高压缩比的压缩工具 (A block-sorting file compressor, Bzip2)",
+    "examples": [
+      {
+        "description": "压缩文件 'data.sql' 为 'data.sql.bz2' (原文件会被删除)",
+        "code": "bzip2 data.sql"
+      },
+      {
+        "description": "强制压缩，即使文件已存在",
+        "code": "bzip2 -f existing_file.txt"
+      }
+    ],
+    "notes": "bzip2 提供比 gzip 更高的压缩比，但压缩和解压速度通常比 gzip 慢。它也通常只压缩单个文件，并添加 `.bz2` 后缀。常用于与 `tar` 结合打包和压缩。\n- **通用性:** bzip2 是所有Linux发行版默认安装的压缩工具。",
+    "shell_type": "External (`/usr/bin/bzip2`)"
+  },
+  {
+    "name": "bunzip2",
+    "summary": "解压 bzip2 压缩的文件 (Decompress bzip2 compressed files)",
+    "examples": [
+      {
+        "description": "解压文件 'data.sql.bz2' 为 'data.sql' (原压缩文件会被删除)",
+        "code": "bunzip2 data.sql.bz2"
+      }
+    ],
+    "notes": "bunzip2 是 bzip2 的配套工具，用于解压 `.bz2` 格式的文件。它通常是 `bzip2` 命令的一个符号链接或别名。\n- **通用性:** bunzip2 是所有Linux发行版默认安装的工具。",
+    "shell_type": "External (`/usr/bin/bunzip2` 或链接到 `/usr/bin/bzip2`)"
+  },
+  {
+    "name": "xz",
+    "summary": "更高压缩比的压缩工具 (XZ Utils, an LZMA-based compressor)",
+    "examples": [
+      {
+        "description": "压缩文件 'bigfile.iso' 为 'bigfile.iso.xz' (原文件会被删除)",
+        "code": "xz bigfile.iso"
+      },
+      {
+        "description": "使用极高压缩比进行压缩 (时间较长)",
+        "code": "xz -9 large_document.txt"
+      }
+    ],
+    "notes": "xz 提供了目前主流压缩工具中最高的压缩比，但压缩和解压时间也相对最长。它与 `tar` 结合使用时非常常见，生成 `.tar.xz` 文件。\n- **通用性:** xz 是所有Linux发行版默认安装的压缩工具。",
+    "shell_type": "External (`/usr/bin/xz`)"
+  },
+  {
+    "name": "unxz",
+    "summary": "解压 xz 压缩的文件 (Decompress xz compressed files)",
+    "examples": [
+      {
+        "description": "解压文件 'bigfile.iso.xz' 为 'bigfile.iso' (原压缩文件会被删除)",
+        "code": "unxz bigfile.iso.xz"
+      }
+    ],
+    "notes": "unxz 是 xz 的配套工具，用于解压 `.xz` 格式的文件。它通常是 `xz` 命令的一个符号链接或别名。\n- **通用性:** unxz 是所有Linux发行版默认安装的工具。",
+    "shell_type": "External (`/usr/bin/unxz` 或链接到 `/usr/bin/xz`)"
+  },
+  {
+    "name": "zip",
+    "summary": "跨平台压缩工具 (Package and compress (archive) files)",
+    "examples": [
+      {
+        "description": "压缩文件 'file1.txt' 和目录 'docs' 到 'archive.zip'",
+        "code": "zip -r archive.zip file1.txt docs/"
+      },
+      {
+        "description": "添加密码保护的压缩包",
+        "code": "zip -er encrypted.zip secret_docs/"
+      },
+      {
+        "description": "更新现有压缩包中的文件",
+        "code": "zip -u archive.zip new_file.txt"
+      }
+    ],
+    "notes": "zip 是一种广泛使用的压缩格式，尤其在 Windows 和 Linux 之间传输文件时非常方便。它既可以打包也可以压缩。Linux 中的 `zip` 命令支持多种选项，包括密码保护和增量更新。\n- **通用性:** `zip` 和 `unzip` 工具在大多数Linux发行版中并非核心组件，但通常默认或容易安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install zip unzip`\n  - **CentOS/Red Hat:** `sudo yum install zip unzip` 或 `sudo dnf install zip unzip`",
+    "shell_type": "External (`/usr/bin/zip`)"
+  },
+  {
+    "name": "unzip",
+    "summary": "解压 zip 压缩的文件 (Extract files from a .zip archive)",
+    "examples": [
+      {
+        "description": "解压 'archive.zip' 到当前目录",
+        "code": "unzip archive.zip"
+      },
+      {
+        "description": "解压到指定目录 '/tmp/extracted'",
+        "code": "unzip archive.zip -d /tmp/extracted"
+      },
+      {
+        "description": "查看 zip 包内容，不解压",
+        "code": "unzip -l archive.zip"
+      }
+    ],
+    "notes": "unzip 命令用于解压 `.zip` 格式的归档文件。它是 `zip` 命令的配套工具，广泛用于跨平台的文件解压。\n- **通用性:** `zip` 和 `unzip` 工具在大多数Linux发行版中并非核心组件，但通常默认或容易安装。\n- **安装命令:** 同 `zip` 命令的安装。",
+    "shell_type": "External (`/usr/bin/unzip`)"
+  },
+  {
+    "name": "7z",
+    "summary": "7-Zip 归档管理器 (A file archiver with a high compression ratio)",
+    "examples": [
+      {
+        "description": "创建 7z 压缩包 (支持多种格式)",
+        "code": "7z a archive.7z my_dir/"
+      },
+      {
+        "description": "解压 7z 压缩包",
+        "code": "7z x archive.7z"
+      },
+      {
+        "description": "查看 7z 压缩包内容",
+        "code": "7z l archive.7z"
+      },
+      {
+        "description": "压缩为 tar.xz 格式 (需要 tar 和 xz)",
+        "code": "7z a -tTxz archive.tar.xz my_dir/"
+      }
+    ],
+    "notes": "7z 是 7-Zip 归档格式的命令行工具，以其高压缩比和对多种归档格式的支持而闻名（如 7z, XZ, BZIP2, GZIP, TAR, ZIP）。在Linux上，它通常通过 `p7zip` 或 `p7zip-full` 包提供。\n- **通用性:** 并非所有系统默认安装，需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install p7zip-full` (提供 `7z`, `7za`, `7zr`)\n  - **CentOS/Red Hat:** `sudo yum install p7zip p7zip-plugins` 或 `sudo dnf install p7zip p7zip-plugins` (提供 `7za`, `7z` 命令可能通过 `p7zip-full` 或 `p7zip` 自身提供)",
+    "shell_type": "External (`/usr/bin/7z` 或 `/usr/bin/7za`)"
+  },
+  {
+    "name": "chmod",
+    "summary": "改变文件或目录的权限 (Change file or directory permissions)",
+    "examples": [
+      {
+        "description": "给文件 owner (u), group (g), others (o) 读写执行 (rwx) 权限，数字表示法 (777)",
+        "code": "chmod 777 myfile.txt"
+      },
+      {
+        "description": "给文件 owner 读写执行，group 读执行，others 只读 (754)",
+        "code": "chmod 754 myfile.txt"
+      },
+      {
+        "description": "给所有者添加执行权限",
+        "code": "chmod u+x myscript.sh"
+      },
+      {
+        "description": "递归地为目录及其所有内容添加读写执行权限",
+        "code": "chmod -R 777 my_directory"
+      },
+      {
+        "description": "移除文件的所有执行权限",
+        "code": "chmod a-x myfile.txt"
+      }
+    ],
+    "notes": "chmod 是最常用的权限管理命令之一，理解其数字表示法（八进制）和符号表示法（u/g/o/a, +/-/=, r/w/x）至关重要。正确设置文件权限是Linux系统安全的基础。Shorthand for permissions: r=4, w=2, x=1. Owner(u), Group(g), Others(o).",
+    "shell_type": "External (`/usr/bin/chmod`)"
+  },
+  {
+    "name": "chown",
+    "summary": "改变文件或目录的所有者和组 (Change file or directory owner and group)",
+    "examples": [
+      {
+        "description": "改变文件 'myfile.txt' 的所有者为 'john'",
+        "code": "sudo chown john myfile.txt"
+      },
+      {
+        "description": "改变文件 'myfile.txt' 的所有者为 'john'，组为 'users'",
+        "code": "sudo chown john:users myfile.txt"
+      },
+      {
+        "description": "递归地改变目录 'my_directory' 及其内容的属主和属组",
+        "code": "sudo chown -R john:users my_directory"
+      },
+      {
+        "description": "仅改变文件的组而不改变所有者 (注意冒号前为空)",
+        "code": "sudo chown :developers myfile.txt"
+      }
+    ],
+    "notes": "chown 命令需要 `root` 权限才能改变文件所有者。它允许您设置文件和目录的归属，这对于多用户环境和Web服务器（如将网站文件所有者设置为 `www-data` 或 `apache`）非常重要。",
+    "shell_type": "External (`/usr/bin/chown`)"
+  },
+  {
+    "name": "chgrp",
+    "summary": "改变文件或目录的所属组 (Change file or directory group ownership)",
+    "examples": [
+      {
+        "description": "改变文件 'myfile.txt' 的所属组为 'developers'",
+        "code": "sudo chgrp developers myfile.txt"
+      },
+      {
+        "description": "递归地改变目录 'my_directory' 及其内容的所属组",
+        "code": "sudo chgrp -R developers my_directory"
+      }
+    ],
+    "notes": "chgrp 命令用于专门改变文件的所属组。它通常需要 `root` 权限，或者您必须是文件的所有者并且是目标组的成员。在某些情况下，`chown user:group` 更常用，因为它可以在一个命令中同时改变所有者和组。",
+    "shell_type": "External (`/usr/bin/chgrp`)"
+  },
+  {
+    "name": "sudo",
+    "summary": "以超级用户或其他用户权限执行命令 (Execute a command as another user, typically the superuser)",
+    "examples": [
+      {
+        "description": "以 root 权限安装软件包 (Ubuntu/Debian)",
+        "code": "sudo apt update && sudo apt install package_name"
+      },
+      {
+        "description": "以 root 权限安装软件包 (CentOS/Red Hat)",
+        "code": "sudo yum update && sudo yum install package_name"
+      },
+      {
+        "description": "以 root 权限编辑文件",
+        "code": "sudo vi /etc/hosts"
+      },
+      {
+        "description": "切换到 root 用户的 shell (建议使用 'sudo -i' 或 'sudo su -')",
+        "code": "sudo su"
+      },
+      {
+        "description": "以特定用户 'john' 的身份运行命令",
+        "code": "sudo -u john ls /home/john"
+      }
+    ],
+    "notes": "sudo 是日常Linux管理中最常用的命令之一。它允许授权用户（在 `/etc/sudoers` 文件中配置）以 `root` 或其他用户身份执行命令，而无需知道 `root` 密码。这提供了比直接使用 `su -` 更精细的权限控制和更好的审计能力。首次使用或在一段时间后使用可能需要输入当前用户的密码。",
+    "shell_type": "External (`/usr/bin/sudo`)"
+  },
+  {
+    "name": "su",
+    "summary": "切换用户身份 (Substitute user identity)",
+    "examples": [
+      {
+        "description": "切换到 root 用户，但保持当前用户的环境变量 (不推荐用于日常管理)",
+        "code": "su"
+      },
+      {
+        "description": "切换到 root 用户，并加载 root 用户的环境变量 (推荐用于日常管理)",
+        "code": "su -"
+      },
+      {
+        "description": "切换到用户 'john' 的身份",
+        "code": "su john"
+      },
+      {
+        "description": "切换到用户 'john' 的身份并加载其环境变量",
+        "code": "su - john"
+      }
+    ],
+    "notes": "su 命令用于切换到另一个用户。如果未指定用户，则默认切换到 `root` 用户。它需要目标用户的密码。与 `sudo` 相比，`su` 适用于需要长时间以另一个用户身份操作的场景，但安全性不如 `sudo`，因为它共享 `root` 密码。`su -` 是最佳实践，因为它会加载目标用户的完整环境。",
+    "shell_type": "External (`/usr/bin/su`)"
+  },
+  {
+    "name": "passwd",
+    "summary": "更改用户密码 (Change user password)",
+    "examples": [
+      {
+        "description": "更改当前用户的密码",
+        "code": "passwd"
+      },
+      {
+        "description": "更改用户 'john' 的密码 (需要 root 权限)",
+        "code": "sudo passwd john"
+      },
+      {
+        "description": "锁定用户 'john' 的密码，使其无法登录 (需要 root 权限)",
+        "code": "sudo passwd -l john"
+      },
+      {
+        "description": "解锁用户 'john' 的密码 (需要 root 权限)",
+        "code": "sudo passwd -u john"
+      }
+    ],
+    "notes": "用于设置或更改用户密码。普通用户只能更改自己的密码，而 `root` 用户可以更改任何用户的密码或操作密码状态（如锁定/解锁）。密码复杂度要求通常在 `/etc/pam.d/passwd` 或相关配置文件中定义。",
+    "shell_type": "External (`/usr/bin/passwd`)"
+  },
+  {
+    "name": "id",
+    "summary": "显示用户和组ID信息 (Print user and group information)",
+    "examples": [
+      {
+        "description": "显示当前用户的用户ID (UID) 和组ID (GID) 信息",
+        "code": "id"
+      },
+      {
+        "description": "显示用户 'john' 的 ID 信息",
+        "code": "id john"
+      },
+      {
+        "description": "仅显示当前用户的有效用户ID",
+        "code": "id -u"
+      },
+      {
+        "description": "仅显示当前用户的所有组ID (数字)",
+        "code": "id -G"
+      },
+      {
+        "description": "仅显示当前用户的所有组名",
+        "code": "id -Gn"
+      }
+    ],
+    "notes": "id 命令用于快速查看用户或指定用户的用户ID、主组ID以及所属的所有附加组ID和名称。在权限排查和确认用户身份时非常有用。",
+    "shell_type": "External (`/usr/bin/id`)"
+  },
+  {
+    "name": "whoami",
+    "summary": "显示当前有效用户ID (Print effective userid)",
+    "examples": [
+      {
+        "description": "显示当前登录用户的用户名",
+        "code": "whoami"
+      }
+    ],
+    "notes": "一个非常简单的命令，用于显示当前有效的用户账户名。在您通过 `su` 或 `sudo -u` 切换用户身份后，使用 `whoami` 可以确认当前操作的用户身份。",
+    "shell_type": "External (`/usr/bin/whoami`)"
+  },
+  {
+    "name": "useradd",
+    "summary": "创建新用户账户 (Create a new user or update default new user information)",
+    "examples": [
+      {
+        "description": "创建一个新用户 'testuser' (通常不带选项会使用默认设置)",
+        "code": "sudo useradd testuser"
+      },
+      {
+        "description": "创建一个新用户 'john'，并指定主目录、shell和注释",
+        "code": "sudo useradd -m -d /home/john -s /bin/bash -c \"John Doe\" john"
+      },
+      {
+        "description": "创建一个新用户 'devuser'，并将其添加到 'developers' 组",
+        "code": "sudo useradd -m -G developers devuser"
+      },
+      {
+        "description": "创建一个系统用户 (无主目录，无登录shell)",
+        "code": "sudo useradd -r systemuser"
+      }
+    ],
+    "notes": "useradd 命令用于在系统中添加新的用户账户。它通常需要 `root` 权限。该命令只创建账户，不会自动设置密码，需要之后使用 `passwd` 命令为新用户设置密码。默认的用户创建设置可以在 `/etc/default/useradd` 中查看和修改。",
+    "shell_type": "External (`/usr/sbin/useradd`)"
+  },
+  {
+    "name": "userdel",
+    "summary": "删除用户账户及其相关文件 (Delete a user account and associated files)",
+    "examples": [
+      {
+        "description": "删除用户 'testuser'，但保留其主目录和邮件池",
+        "code": "sudo userdel testuser"
+      },
+      {
+        "description": "删除用户 'john' 及其主目录和邮件池 (推荐使用)",
+        "code": "sudo userdel -r john"
+      }
+    ],
+    "notes": "userdel 命令用于从系统中删除用户账户。它通常需要 `root` 权限。`-r` 选项非常重要，它会删除用户的主目录以及邮件池，确保用户相关数据被清理。删除前务必确认，以免误删重要数据。",
+    "shell_type": "External (`/usr/sbin/userdel`)"
+  },
+  {
+    "name": "usermod",
+    "summary": "修改用户账户属性 (Modify a user account)",
+    "examples": [
+      {
+        "description": "将用户 'john' 的主目录从 '/home/oldjohn' 更改为 '/home/newjohn'",
+        "code": "sudo usermod -d /home/newjohn -m john"
+      },
+      {
+        "description": "将用户 'john' 添加到 'developers' 组 (不移除其他组)",
+        "code": "sudo usermod -aG developers john"
+      },
+      {
+        "description": "将用户 'john' 的主组更改为 'sales'",
+        "code": "sudo usermod -g sales john"
+      },
+      {
+        "description": "更改用户 'john' 的登录Shell为 '/bin/zsh'",
+        "code": "sudo usermod -s /bin/zsh john"
+      },
+      {
+        "description": "更改用户 'oldname' 的登录名为 'newname'",
+        "code": "sudo usermod -l newname oldname"
+      }
+    ],
+    "notes": "usermod 命令用于修改现有用户账户的各种属性，如主目录、所属组、Shell、登录名等。它通常需要 `root` 权限。这是一个非常灵活的命令，用于调整用户账户配置。",
+    "shell_type": "External (`/usr/sbin/usermod`)"
+  },
+  {
+    "name": "groupadd",
+    "summary": "创建新用户组 (Create a new user group)",
+    "examples": [
+      {
+        "description": "创建一个名为 'developers' 的新组",
+        "code": "sudo groupadd developers"
+      },
+      {
+        "description": "创建一个新组 'webusers' 并指定GID为 5000",
+        "code": "sudo groupadd -g 5000 webusers"
+      },
+      {
+        "description": "创建一个系统组 (GID通常小于1000)",
+        "code": "sudo groupadd -r systemgroup"
+      }
+    ],
+    "notes": "groupadd 命令用于在系统中添加新的用户组。它通常需要 `root` 权限。组在Linux中用于管理文件权限和访问控制。",
+    "shell_type": "External (`/usr/sbin/groupadd`)"
+  },
+  {
+    "name": "groupdel",
+    "summary": "删除用户组 (Delete a user group)",
+    "examples": [
+      {
+        "description": "删除名为 'developers' 的组",
+        "code": "sudo groupdel developers"
+      }
+    ],
+    "notes": "groupdel 命令用于从系统中删除一个用户组。它通常需要 `root` 权限。在删除组之前，最好确保没有用户以该组作为主组，或者将这些用户的主组更改为其他组，否则可能会导致问题。",
+    "shell_type": "External (`/usr/sbin/groupdel`)"
+  },
+  {
+    "name": "gpasswd",
+    "summary": "管理 /etc/group 和 /etc/gshadow 文件 (Administer /etc/group and /etc/gshadow)",
+    "examples": [
+      {
+        "description": "将用户 'john' 添加到 'developers' 组",
+        "code": "sudo gpasswd -a john developers"
+      },
+      {
+        "description": "将用户 'mary' 从 'developers' 组中移除",
+        "code": "sudo gpasswd -d mary developers"
+      },
+      {
+        "description": "为 'developers' 组设置密码 (不推荐，但有时用于特定场景)",
+        "code": "sudo gpasswd developers"
+      },
+      {
+        "description": "将 'john' 设为 'developers' 组的管理员",
+        "code": "sudo gpasswd -A john developers"
+      }
+    ],
+    "notes": "gpasswd 命令提供了更精细的组管理功能，特别是用于管理组密码和组成员。它通常需要 `root` 权限。对于添加或删除组的成员，`usermod -aG` 和 `gpasswd -a` 都可以，但 `gpasswd` 更专注于组本身的管理。",
+    "shell_type": "External (`/usr/bin/gpasswd`)"
+  },
+  {
+    "name": "chage",
+    "summary": "更改用户密码过期信息 (Change user password expiry information)",
+    "examples": [
+      {
+        "description": "查看用户 'john' 的密码过期信息",
+        "code": "sudo chage -l john"
+      },
+      {
+        "description": "强制用户 'john' 在下次登录时更改密码",
+        "code": "sudo chage -d 0 john"
+      },
+      {
+        "description": "设置用户 'john' 密码的有效期为 90 天",
+        "code": "sudo chage -M 90 john"
+      },
+      {
+        "description": "禁用用户 'john' 的密码过期",
+        "code": "sudo chage -M -1 john"
+      }
+    ],
+    "notes": "chage 命令允许管理员设置和管理用户的密码过期策略，如密码最长有效期、最短有效期、警告期等。这对于增强系统安全性和合规性非常重要。它需要 `root` 权限。",
+    "shell_type": "External (`/usr/bin/chage`)"
+  },
+  {
+    "name": "visudo",
+    "summary": "安全地编辑 sudoers 文件 (Edit the sudoers file safely)",
+    "examples": [
+      {
+        "description": "打开 sudoers 文件进行编辑",
+        "code": "sudo visudo"
+      }
+    ],
+    "notes": "visudo 命令用于以安全的方式编辑 `/etc/sudoers` 文件，该文件控制哪些用户可以使用 `sudo` 命令以及他们可以运行哪些命令。`visudo` 会在保存前检查文件的语法，防止因语法错误导致任何用户（包括 `root`）都无法使用 `sudo` 的灾难性后果。务必使用 `visudo` 而不是直接用文本编辑器打开 `/etc/sudoers`。",
+    "shell_type": "External (`/usr/sbin/visudo`)"
+  },
+  {
+    "name": "ping",
+    "summary": "测试网络连通性 (Packet Internet Groper)",
+    "examples": [
+      {
+        "description": "测试与指定IP地址或主机名的连通性",
+        "code": "ping 8.8.8.8"
+      },
+      {
+        "description": "发送指定数量的探测包 (如4个)",
+        "code": "ping -c 4 google.com"
+      },
+      {
+        "description": "指定发送包的大小 (如100字节)",
+        "code": "ping -s 100 192.168.1.1"
+      },
+      {
+        "description": "持续ping，每秒一次 (默认行为)",
+        "code": "ping www.example.com"
+      }
+    ],
+    "notes": "ping 是诊断网络连接问题的首选工具。它发送ICMP回显请求到目标主机，并侦听回显应答。通过返回的TTL（Time To Live）值可以判断数据包经过的路由跳数。",
+    "shell_type": "External (`/usr/bin/ping`)"
+  },
+  {
+    "name": "ip",
+    "summary": "显示/操纵路由、设备、策略路由和隧道 (Internet Protocol)",
+    "examples": [
+      {
+        "description": "显示所有网络接口的IP地址信息",
+        "code": "ip addr show"
+      },
+      {
+        "description": "只显示活动的网络接口",
+        "code": "ip -br addr show"
+      },
+      {
+        "description": "显示内核路由表",
+        "code": "ip route show"
+      },
+      {
+        "description": "启用或禁用网络接口 (如 eth0)",
+        "code": "sudo ip link set eth0 up\nsudo ip link set eth0 down"
+      },
+      {
+        "description": "添加IP地址到接口 (临时)",
+        "code": "sudo ip addr add 192.168.1.100/24 dev eth0"
+      },
+      {
+        "description": "删除IP地址",
+        "code": "sudo ip addr del 192.168.1.100/24 dev eth0"
+      }
+    ],
+    "notes": "`ip` 命令是 `net-tools` (包含 `ifconfig`, `route`, `netstat`) 的替代品，功能更强大、更现代化，并且是Linux网络配置的推荐工具。它通常作为 `iproute2` 包的一部分默认安装。",
+    "shell_type": "External (`/usr/sbin/ip`)"
+  },
+  {
+    "name": "ifconfig",
+    "summary": "配置网络接口 (interface configuration)",
+    "examples": [
+      {
+        "description": "显示所有网络接口的配置信息",
+        "code": "ifconfig"
+      },
+      {
+        "description": "显示指定接口 (如 eth0) 的信息",
+        "code": "ifconfig eth0"
+      },
+      {
+        "description": "启用或禁用网络接口 (如 eth0)",
+        "code": "sudo ifconfig eth0 up\nsudo ifconfig eth0 down"
+      },
+      {
+        "description": "为接口设置IP地址和子网掩码 (临时)",
+        "code": "sudo ifconfig eth0 192.168.1.100 netmask 255.255.255.0"
+      }
+    ],
+    "notes": "`ifconfig` 是一个传统的网络配置命令，在许多现代Linux发行版中已被 `ip` 命令取代（通常不再默认安装或不再推荐使用）。然而，由于其悠久历史，在一些老旧系统或嵌入式设备中仍广泛使用。\n- **Ubuntu/Debian:** 默认可能未安装，需要安装 `net-tools`：`sudo apt install net-tools`\n- **CentOS/Red Hat:** 默认可能未安装，需要安装 `net-tools`：`sudo yum install net-tools` 或 `sudo dnf install net-tools`",
+    "shell_type": "External (`/sbin/ifconfig`)"
+  },
+  {
+    "name": "ss",
+    "summary": "显示套接字统计信息 (socket statistics)",
+    "examples": [
+      {
+        "description": "显示所有监听中的TCP连接",
+        "code": "ss -ltn"
+      },
+      {
+        "description": "显示所有建立的TCP连接",
+        "code": "ss -stn"
+      },
+      {
+        "description": "显示所有UDP连接",
+        "code": "ss -lun"
+      },
+      {
+        "description": "显示所有连接及其进程名和PID",
+        "code": "ss -tunap"
+      },
+      {
+        "description": "按目标端口过滤 (如 80 端口)",
+        "code": "ss -tun 'dport = :80'"
+      }
+    ],
+    "notes": "`ss` 是 `netstat` 命令的替代品，运行速度更快，并且能获取更多有关套接字和连接的信息。它通常作为 `iproute2` 包的一部分默认安装。在排查网络连接、端口占用等问题时非常有用。",
+    "shell_type": "External (`/usr/sbin/ss`)"
+  },
+  {
+    "name": "netstat",
+    "summary": "显示网络连接、路由表、接口统计等 (network statistics)",
+    "examples": [
+      {
+        "description": "显示所有活动的TCP连接 (-t) 和监听端口 (-l)，不解析服务名 (-n)",
+        "code": "netstat -tln"
+      },
+      {
+        "description": "显示所有活动的UDP连接 (-u) 和监听端口 (-l)，不解析服务名 (-n)",
+        "code": "netstat -uln"
+      },
+      {
+        "description": "显示所有网络连接和监听端口，并显示进程PID和程序名",
+        "code": "netstat -tunlp"
+      },
+      {
+        "description": "显示路由表",
+        "code": "netstat -r"
+      },
+      {
+        "description": "显示接口统计信息",
+        "code": "netstat -i"
+      }
+    ],
+    "notes": "`netstat` 是一个传统的网络工具，在很多现代Linux发行版中已被 `ss` 命令取代（通常不再默认安装或不再推荐使用）。但在一些老旧系统或作为备用诊断工具时仍很有用。\n- **Ubuntu/Debian:** 默认可能未安装，需要安装 `net-tools`：`sudo apt install net-tools`\n- **CentOS/Red Hat:** 默认可能未安装，需要安装 `net-tools`：`sudo yum install net-tools` 或 `sudo dnf install net-tools`",
+    "shell_type": "External (`/bin/netstat` 或 `/usr/bin/netstat`)"
+  },
+  {
+    "name": "curl",
+    "summary": "传输数据到或从服务器 (client URL)",
+    "examples": [
+      {
+        "description": "下载网页内容并显示到标准输出",
+        "code": "curl https://example.com"
+      },
+      {
+        "description": "下载文件并保存到本地文件",
+        "code": "curl -O https://example.com/file.zip"
+      },
+      {
+        "description": "使用POST方法发送JSON数据",
+        "code": "curl -X POST -H \"Content-Type: application/json\" -d '{\"key\":\"value\"}' https://api.example.com/data"
+      },
+      {
+        "description": "跟随HTTP重定向",
+        "code": "curl -L http://shorturl.com/somepage"
+      },
+      {
+        "description": "发送带认证信息的请求",
+        "code": "curl -u username:password https://api.example.com/protected"
+      }
+    ],
+    "notes": "curl 是一个非常强大的命令行工具，支持多种协议（HTTP, HTTPS, FTP, FTPS, SCP, SFTP 等），常用于测试Web服务API、下载文件、上传数据等。它是Web开发和系统管理中不可或缺的工具。",
+    "shell_type": "External (`/usr/bin/curl`)"
+  },
+  {
+    "name": "wget",
+    "summary": "非交互式网络文件下载器 (web get)",
+    "examples": [
+      {
+        "description": "从URL下载文件",
+        "code": "wget https://example.com/largefile.tar.gz"
+      },
+      {
+        "description": "下载并保存为指定文件名",
+        "code": "wget -O my_local_file.html https://example.com/index.html"
+      },
+      {
+        "description": "后台下载文件，不显示进度",
+        "code": "wget -b https://example.com/very_large_file.iso"
+      },
+      {
+        "description": "递归下载整个网站 (慎用，可能耗尽资源)",
+        "code": "wget -r -l 1 -np -k https://www.example.com/"
+      }
+    ],
+    "notes": "wget 适合在脚本中或在后台进行文件下载，因为它是非交互式的，即使网络中断也能尝试恢复下载。对于下载单个文件或镜像简单网站非常方便。",
+    "shell_type": "External (`/usr/bin/wget`)"
+  },
+  {
+    "name": "ssh",
+    "summary": "远程登录到另一台计算机 (Secure Shell)",
+    "examples": [
+      {
+        "description": "以当前用户身份连接到远程主机",
+        "code": "ssh username@remote_host"
+      },
+      {
+        "description": "指定远程主机的端口号 (默认为22)",
+        "code": "ssh -p 2222 username@remote_host"
+      },
+      {
+        "description": "在远程主机上直接执行命令，不登录Shell",
+        "code": "ssh username@remote_host \"ls -l /var/log\""
+      },
+      {
+        "description": "通过SSH进行端口转发 (本地端口L转发到远程主机R的端口S)",
+        "code": "ssh -L 8080:localhost:80 user@remote_host"
+      },
+      {
+        "description": "使用密钥文件进行认证",
+        "code": "ssh -i ~/.ssh/id_rsa username@remote_host"
+      }
+    ],
+    "notes": "ssh 是最常用的远程管理工具，用于安全地登录远程服务器执行命令、传输文件、设置隧道等。它是取代 `telnet` 和 `rsh` 的安全协议。",
+    "shell_type": "External (`/usr/bin/ssh`)"
+  },
+  {
+    "name": "scp",
+    "summary": "在本地主机和远程主机之间复制文件 (secure copy)",
+    "examples": [
+      {
+        "description": "从本地复制文件到远程主机",
+        "code": "scp /path/to/local_file.txt user@remote_host:/path/to/remote_directory/"
+      },
+      {
+        "description": "从远程主机复制文件到本地",
+        "code": "scp user@remote_host:/path/to/remote_file.txt /path/to/local_directory/"
+      },
+      {
+        "description": "递归复制整个目录到远程主机",
+        "code": "scp -r /path/to/local_dir user@remote_host:/path/to/remote_parent_dir/"
+      },
+      {
+        "description": "指定端口进行复制",
+        "code": "scp -P 2222 local_file.txt user@remote_host:/remote/path/"
+      }
+    ],
+    "notes": "scp 是基于SSH协议的文件传输工具，提供加密的安全传输。它的语法与 `cp` 类似，但支持远程路径。适用于快速、安全地传输文件或目录。",
+    "shell_type": "External (`/usr/bin/scp`)"
+  },
+  {
+    "name": "sftp",
+    "summary": "安全文件传输程序 (secure file transfer protocol)",
+    "examples": [
+      {
+        "description": "连接到远程SFTP服务器",
+        "code": "sftp user@remote_host"
+      },
+      {
+        "description": "上传本地文件到远程 (在sftp交互模式下)",
+        "code": "put local_file.txt"
+      },
+      {
+        "description": "从远程下载文件 (在sftp交互模式下)",
+        "code": "get remote_file.txt"
+      },
+      {
+        "description": "列出远程目录内容 (在sftp交互模式下)",
+        "code": "ls"
+      },
+      {
+        "description": "切换远程目录 (在sftp交互模式下)",
+        "code": "cd /remote/directory"
+      }
+    ],
+    "notes": "sftp 提供了一个交互式的FTP-like界面，但底层通过SSH协议进行加密传输。它比 `scp` 更适合进行多文件操作或需要浏览远程文件系统的场景。",
+    "shell_type": "External (`/usr/bin/sftp`)"
+  },
+  {
+    "name": "dig",
+    "summary": "查询DNS名称服务器 (domain information groper)",
+    "examples": [
+      {
+        "description": "查询域名的A记录",
+        "code": "dig google.com"
+      },
+      {
+        "description": "查询域名的MX (邮件交换) 记录",
+        "code": "dig google.com MX"
+      },
+      {
+        "description": "反向DNS查询 (IP地址到域名)",
+        "code": "dig -x 8.8.8.8"
+      },
+      {
+        "description": "指定DNS服务器进行查询",
+        "code": "dig @1.1.1.1 google.com"
+      },
+      {
+        "description": "简要显示查询结果",
+        "code": "dig +short google.com"
+      }
+    ],
+    "notes": "dig 是一个强大的DNS诊断工具，用于查询DNS服务器，获取域名的各种记录信息（A, MX, NS, CNAME, TXT等）。它比 `nslookup` 功能更丰富，被DNS管理员和网络工程师广泛使用。",
+    "shell_type": "External (`/usr/bin/dig`)"
+  },
+  {
+    "name": "host",
+    "summary": "执行DNS查找 (Perform DNS lookups)",
+    "examples": [
+      {
+        "description": "查询域名对应的IP地址",
+        "code": "host google.com"
+      },
+      {
+        "description": "反向查询IP地址对应的域名",
+        "code": "host 8.8.8.8"
+      },
+      {
+        "description": "查询指定类型的记录 (如MX记录)",
+        "code": "host -t MX google.com"
+      }
+    ],
+    "notes": "host 提供了比 `dig` 更简洁的DNS查询功能，适合快速查找域名到IP或IP到域名的映射关系。",
+    "shell_type": "External (`/usr/bin/host`)"
+  },
+  {
+    "name": "traceroute",
+    "summary": "显示数据包到达目的主机的路径 (Print the route packets take to network host)",
+    "examples": [
+      {
+        "description": "追踪到目的主机的路径",
+        "code": "traceroute google.com"
+      },
+      {
+        "description": "指定使用的协议 (如 TCP)",
+        "code": "traceroute -T google.com"
+      },
+      {
+        "description": "限制最大跳数",
+        "code": "traceroute -m 10 google.com"
+      }
+    ],
+    "notes": "traceroute 命令用于诊断网络路径中的瓶颈或故障点。它通过发送TTL递增的数据包来确定从源到目标的每个路由器（跳点）。在某些系统上，此命令可能需要root权限。\n- **Ubuntu/Debian:** `sudo apt install traceroute` (或 `iputils-traceroute`)\n- **CentOS/Red Hat:** `sudo yum install traceroute` 或 `sudo dnf install traceroute`",
+    "shell_type": "External (`/usr/bin/traceroute`)"
+  },
+  {
+    "name": "tracepath",
+    "summary": "追踪到目的主机的路径，无需root权限 (Traces path to network host, no root privileges needed)",
+    "examples": [
+      {
+        "description": "追踪到目的主机的路径",
+        "code": "tracepath google.com"
+      },
+      {
+        "description": "指定最大跳数",
+        "code": "tracepath -m 10 google.com"
+      }
+    ],
+    "notes": "tracepath 是 `traceroute` 的替代品，通常不需要root权限即可运行，并且支持发现路径MTU (最大传输单元)。它通常作为 `iproute2` 包的一部分默认安装。",
+    "shell_type": "External (`/usr/bin/tracepath`)"
+  },
+  {
+    "name": "route",
+    "summary": "显示和操作IP路由表 (Show and manipulate IP routing table)",
+    "examples": [
+      {
+        "description": "显示内核IP路由表",
+        "code": "route -n"
+      },
+      {
+        "description": "添加默认网关 (临时)",
+        "code": "sudo route add default gw 192.168.1.1"
+      },
+      {
+        "description": "删除默认网关",
+        "code": "sudo route del default gw 192.168.1.1"
+      },
+      {
+        "description": "添加特定网络的路由",
+        "code": "sudo route add -net 192.168.2.0 netmask 255.255.255.0 gw 192.168.1.1"
+      }
+    ],
+    "notes": "`route` 是一个传统的路由管理命令，已被 `ip route` 命令取代。在新的Linux发行版中，`ip route` 是管理路由的首选工具。\n- **Ubuntu/Debian:** 默认可能未安装，需要安装 `net-tools`：`sudo apt install net-tools`\n- **CentOS/Red Hat:** 默认可能未安装，需要安装 `net-tools`：`sudo yum install net-tools` 或 `sudo dnf install net-tools`",
+    "shell_type": "External (`/sbin/route`)"
+  },
+  {
+    "name": "hostname",
+    "summary": "显示或设置系统主机名 (Show or set the system's host name)",
+    "examples": [
+      {
+        "description": "显示当前系统的主机名",
+        "code": "hostname"
+      },
+      {
+        "description": "显示FQN (完全限定域名)",
+        "code": "hostname -f"
+      },
+      {
+        "description": "设置临时主机名 (重启后失效)",
+        "code": "sudo hostname new_hostname"
+      }
+    ],
+    "notes": "用于快速查看或临时修改系统的主机名。要永久修改主机名，通常需要编辑 `/etc/hostname` (Debian/Ubuntu) 或 `/etc/sysconfig/network` (CentOS/RHEL) 文件，并配合 `hostnamectl` 命令更新。",
+    "shell_type": "External (`/usr/bin/hostname`)"
+  },
+  {
+    "name": "hostnamectl",
+    "summary": "控制系统主机名 (Control the system hostname)",
+    "examples": [
+      {
+        "description": "显示当前主机名信息",
+        "code": "hostnamectl status"
+      },
+      {
+        "description": "设置静态主机名 (永久)",
+        "code": "sudo hostnamectl set-hostname your-new-hostname"
+      },
+      {
+        "description": "设置漂亮的 (pretty) 主机名",
+        "code": "sudo hostnamectl set-hostname \"My Awesome Server\" --pretty"
+      },
+      {
+        "description": "设置临时主机名",
+        "code": "sudo hostnamectl set-hostname temporary-name --transient"
+      }
+    ],
+    "notes": "hostnamectl 是 systemd 提供的一个工具，用于统一管理系统主机名。它是修改主机名的推荐方式，会同时更新 `/etc/hostname` (或等效文件) 和其他相关配置。在所有使用 systemd 的现代Linux发行版中都可用。",
+    "shell_type": "External (`/usr/bin/hostnamectl`)"
+  },
+  {
+    "name": "nmcli",
+    "summary": "NetworkManager 命令行接口 (NetworkManager CLI)",
+    "examples": [
+      {
+        "description": "显示网络连接状态摘要",
+        "code": "nmcli connection show"
+      },
+      {
+        "description": "显示设备状态",
+        "code": "nmcli device status"
+      },
+      {
+        "description": "启用/禁用网络接口 (如 eth0)",
+        "code": "nmcli device disconnect eth0\nnmcli device connect eth0"
+      },
+      {
+        "description": "添加新的有线连接",
+        "code": "nmcli connection add type ethernet ifname eth0 con-name \"MyEthernet\" ip4 192.168.1.100/24 gw4 192.168.1.1"
+      },
+      {
+        "description": "激活连接",
+        "code": "nmcli connection up \"MyEthernet\""
+      }
+    ],
+    "notes": "nmcli 是 NetworkManager 的命令行客户端，用于配置和管理网络连接。它在桌面和服务器发行版中都很常见，尤其是当 NetworkManager 作为默认网络服务时。对于有图形界面的Linux系统，`nmcli` 可以实现与图形界面网络设置相同的功能。\n- **Ubuntu/Debian:** 通常默认安装，是 `network-manager` 包的一部分。\n- **CentOS/Red Hat:** 通常默认安装，是 `NetworkManager` 包的一部分。",
+    "shell_type": "External (`/usr/bin/nmcli`)"
+  },
+  {
+    "name": "nmtui",
+    "summary": "NetworkManager 文本用户界面 (NetworkManager Text User Interface)",
+    "examples": [
+      {
+        "description": "启动 nmtui 界面进行交互式网络配置",
+        "code": "nmtui"
+      }
+    ],
+    "notes": "nmtui 提供了一个基于文本的图形化界面，方便用户通过键盘导航来配置网络。它比 `nmcli` 更直观，适合不熟悉命令行参数的用户。它也是 `NetworkManager` 的一部分。\n- **Ubuntu/Debian:** 通常作为 `network-manager` 包的一部分默认安装。\n- **CentOS/Red Hat:** 通常作为 `NetworkManager-tui` 包的一部分安装。\n  `sudo yum install NetworkManager-tui` 或 `sudo dnf install NetworkManager-tui`",
+    "shell_type": "External (`/usr/bin/nmtui`)"
+  },
+  {
+    "name": "iptables",
+    "summary": "Linux内核防火墙管理工具 (Administration tool for IPv4 packet filtering and NAT)",
+    "examples": [
+      {
+        "description": "显示当前所有防火墙规则",
+        "code": "sudo iptables -L -n -v"
+      },
+      {
+        "description": "允许SSH (22端口) 连接",
+        "code": "sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT"
+      },
+      {
+        "description": "拒绝来自某个IP的连接",
+        "code": "sudo iptables -A INPUT -s 192.168.1.10 -j DROP"
+      },
+      {
+        "description": "清除所有规则",
+        "code": "sudo iptables -F"
+      },
+      {
+        "description": "保存当前规则 (确保重启后生效，方法因发行版而异)",
+        "code": "sudo apt install iptables-persistent; sudo netfilter-persistent save  (Ubuntu/Debian)\nsudo service iptables save (CentOS/RHEL 6/7, 需安装 iptables-services)"
+      }
+    ],
+    "notes": "`iptables` 是Linux内核的防火墙管理工具，功能强大但配置复杂。它直接操作内核的 `netfilter` 框架。在较新的发行版中，`firewalld` 或 `ufw` 通常作为前端替代了直接使用 `iptables`。但在很多老旧服务器或特殊场景下仍在使用。\n- **Ubuntu/Debian:** `sudo apt install iptables` (管理工具), `iptables-persistent` (保存规则)\n- **CentOS/Red Hat:** `sudo yum install iptables` (管理工具), `iptables-services` (保存服务) 或 `sudo dnf install iptables iptables-services`",
+    "shell_type": "External (`/usr/sbin/iptables`)"
+  },
+  {
+    "name": "firewall-cmd",
+    "summary": "Firewalld 防火墙管理工具 (Firewalld command line client)",
+    "examples": [
+      {
+        "description": "查看firewalld服务的状态",
+        "code": "sudo systemctl status firewalld"
+      },
+      {
+        "description": "列出所有活跃区域的规则",
+        "code": "sudo firewall-cmd --list-all"
+      },
+      {
+        "description": "允许HTTP服务 (80端口) 永久生效",
+        "code": "sudo firewall-cmd --permanent --add-service=http"
+      },
+      {
+        "description": "允许特定端口 (如 8080/tcp) 永久生效",
+        "code": "sudo firewall-cmd --permanent --add-port=8080/tcp"
+      },
+      {
+        "description": "重新加载firewalld配置使永久规则生效",
+        "code": "sudo firewall-cmd --reload"
+      }
+    ],
+    "notes": "firewall-cmd 是 Firewalld 服务的命令行客户端，Firewalld 是 CentOS/RHEL 7/8/9、Fedora 等系统默认的防火墙解决方案。它采用区域（zones）概念来简化管理，并支持运行时修改规则而无需重启服务。它是管理RHEL系防火墙的首选工具。\n- **CentOS/Red Hat:** 默认安装。确保 `firewalld` 服务已启用并运行：`sudo systemctl enable firewalld --now`",
+    "shell_type": "External (`/usr/bin/firewall-cmd`)"
+  },
+  {
+    "name": "ufw",
+    "summary": "Uncomplicated Firewall，一个用户友好的 `iptables` 前端 (Uncomplicated Firewall)",
+    "examples": [
+      {
+        "description": "启用ufw防火墙",
+        "code": "sudo ufw enable"
+      },
+      {
+        "description": "允许SSH服务 (22端口)",
+        "code": "sudo ufw allow ssh"
+      },
+      {
+        "description": "允许HTTP (80端口) 和 HTTPS (443端口)",
+        "code": "sudo ufw allow http\nsudo ufw allow https"
+      },
+      {
+        "description": "查看防火墙状态和规则",
+        "code": "sudo ufw status verbose"
+      },
+      {
+        "description": "拒绝所有出站连接 (不推荐，除非你知道自己在做什么)",
+        "code": "sudo ufw default deny outgoing"
+      }
+    ],
+    "notes": "`ufw` 是 Ubuntu 和 Debian 等系统上推荐的防火墙管理工具，它为 `iptables` 提供了一个更简单易用的命令行界面，非常适合初学者和日常服务器管理。\n- **Ubuntu/Debian:** 通常默认安装。如果没有，可以安装：`sudo apt install ufw`",
+    "shell_type": "External (`/usr/sbin/ufw`)"
+  },
+  {
+    "name": "nmap",
+    "summary": "网络扫描和安全审计工具 (Network exploration tool and security / port scanner)",
+    "examples": [
+      {
+        "description": "扫描目标主机的常用端口",
+        "code": "nmap scanme.nmap.org"
+      },
+      {
+        "description": "扫描指定端口范围",
+        "code": "nmap -p 1-1000 192.168.1.1"
+      },
+      {
+        "description": "探测操作系统和服务版本",
+        "code": "sudo nmap -O -sV 192.168.1.1"
+      },
+      {
+        "description": "对整个子网进行ping扫描 (发现活跃主机)",
+        "code": "nmap -sn 192.168.1.0/24"
+      }
+    ],
+    "notes": "nmap 是一个功能强大的网络发现和安全审计工具。它可以用于主机发现、端口扫描、操作系统识别、服务版本探测等。通常用于网络安全分析、故障排查和系统管理员了解网络拓扑。由于其功能强大，一些扫描可能需要root权限。\n- **Ubuntu/Debian:** `sudo apt install nmap`\n- **CentOS/Red Hat:** `sudo yum install nmap` 或 `sudo dnf install nmap`",
+    "shell_type": "External (`/usr/bin/nmap`)"
+  },
+  {
+    "name": "nc",
+    "summary": "网络工具中的“瑞士军刀”，用于创建各种网络连接，监听端口等 (Arbitrary TCP and UDP connections and listens)",
+    "examples": [
+      {
+        "description": "测试目标主机的某个端口是否开放",
+        "code": "nc -vz remote_host 80"
+      },
+      {
+        "description": "在本地监听指定端口",
+        "code": "nc -l -p 12345"
+      },
+      {
+        "description": "向监听端口发送数据",
+        "code": "echo \"Hello from client\" | nc localhost 12345"
+      },
+      {
+        "description": "简单的文件传输 (服务器端监听，客户端发送)",
+        "code": "nc -l -p 12345 > received_file.txt  (Server)\nnc localhost 12345 < sent_file.txt (Client)"
+      },
+      {
+        "description": "创建简单的HTTP请求",
+        "code": "echo -e \"GET / HTTP/1.0\\n\\n\" | nc example.com 80"
+      }
+    ],
+    "notes": "`nc` (netcat) 是一个功能极其强大的网络调试和数据传输工具，常被称为“网络瑞士军刀”。它可以用于端口扫描、端口监听、文件传输、简单的聊天室等。在许多网络攻击和防御场景中都能看到它的身影。\n- **Ubuntu/Debian:** 通常默认安装，或者作为 `netcat-traditional` 或 `netcat-openbsd` 包提供。\n- **CentOS/Red Hat:** 通常默认安装，或者作为 `nmap-ncat` 包提供。",
+    "shell_type": "External (`/usr/bin/nc` 或 `/bin/nc`)"
+  },
+  {
+    "name": "resolvectl",
+    "summary": "systemd-resolved DNS客户端配置和状态管理 (Resolve domain names, IP addresses, DNS resources, and LLMNR/mDNS records)",
+    "examples": [
+      {
+        "description": "显示DNS解析器的当前状态和配置",
+        "code": "resolvectl status"
+      },
+      {
+        "description": "查询域名的A记录",
+        "code": "resolvectl query google.com"
+      },
+      {
+        "description": "查询IP地址的反向记录",
+        "code": "resolvectl query 8.8.8.8"
+      },
+      {
+        "description": "设置指定接口的DNS服务器 (临时)",
+        "code": "sudo resolvectl dns eth0 8.8.8.8 8.8.4.4"
+      },
+      {
+        "description": "设置全局DNS服务器 (永久，通过编辑配置文件)",
+        "code": "sudo nano /etc/systemd/resolved.conf\n(添加 DNS=8.8.8.8 8.8.4.4)\nsudo systemctl restart systemd-resolved"
+      }
+    ],
+    "notes": "resolvectl 是 systemd-resolved 服务的客户端工具，用于管理DNS解析。在现代Linux发行版中，`systemd-resolved` 替换了传统的 `resolvconf` 和 `dnsmasq` 作为默认的本地DNS缓存和解析器。它是管理DNS设置的推荐工具。",
+    "shell_type": "External (`/usr/bin/resolvectl`)"
+  },
+  {
+    "name": "apt",
+    "summary": "Debian/Ubuntu 系统的高级软件包管理工具 (Advanced Package Tool)",
+    "examples": [
+      {
+        "description": "更新本地软件包索引",
+        "code": "sudo apt update"
+      },
+      {
+        "description": "升级所有可升级的软件包",
+        "code": "sudo apt upgrade"
+      },
+      {
+        "description": "安装一个新软件包 (例如 nginx)",
+        "code": "sudo apt install nginx"
+      },
+      {
+        "description": "查找包含特定关键词的软件包",
+        "code": "apt search mysql-server"
+      },
+      {
+        "description": "移除软件包及其配置文件",
+        "code": "sudo apt purge nginx"
+      }
+    ],
+    "notes": "这是 Ubuntu 和 Debian 系统上推荐的软件包管理命令行工具，比 `apt-get` 和 `apt-cache` 更用户友好，提供了进度条、颜色输出等特性。它实际上是 `apt-get`, `apt-cache` 和 `apt-listchanges` 等命令的一个更友好的前端封装。",
+    "shell_type": "External (`/usr/bin/apt`)"
+  },
+  {
+    "name": "apt-get",
+    "summary": "Debian/Ubuntu 系统的底层软件包管理工具 (Advanced Package Tool - Get)",
+    "examples": [
+      {
+        "description": "更新本地软件包列表",
+        "code": "sudo apt-get update"
+      },
+      {
+        "description": "安装软件包",
+        "code": "sudo apt-get install apache2"
+      },
+      {
+        "description": "卸载软件包，但不移除配置文件",
+        "code": "sudo apt-get remove apache2"
+      },
+      {
+        "description": "升级已安装的软件包",
+        "code": "sudo apt-get upgrade"
+      },
+      {
+        "description": "清除已下载的软件包归档文件",
+        "code": "sudo apt-get clean"
+      },
+      {
+        "description": "自动移除不再需要的依赖包",
+        "code": "sudo apt-get autoremove"
+      }
+    ],
+    "notes": "`apt-get` 是 APT 工具集中的一个关键命令，通常在脚本中自动化软件包操作时使用，因为它比 `apt` 更稳定且输出格式更适合脚本解析。在用户交互式操作中，`apt` 命令更受欢迎。\n- **适用发行版:** Ubuntu, Debian 及其衍生版。",
+    "shell_type": "External (`/usr/bin/apt-get`)"
+  },
+  {
+    "name": "apt-cache",
+    "summary": "查询 APT 软件包缓存 (Advanced Package Tool - Cache)",
+    "examples": [
+      {
+        "description": "在软件包缓存中搜索关键字 (例如 'php')",
+        "code": "apt-cache search php"
+      },
+      {
+        "description": "显示软件包的详细信息 (例如 'nginx')",
+        "code": "apt-cache show nginx"
+      },
+      {
+        "description": "查看软件包的依赖关系",
+        "code": "apt-cache depends nginx"
+      },
+      {
+        "description": "查看哪些软件包依赖于某个软件包",
+        "code": "apt-cache rdepends libssl-dev"
+      }
+    ],
+    "notes": "`apt-cache` 用于查询 Debian 软件包数据库的本地缓存，可以获取软件包的描述、版本信息、依赖关系等。它不会对系统进行任何更改。\n- **适用发行版:** Ubuntu, Debian 及其衍生版。",
+    "shell_type": "External (`/usr/bin/apt-cache`)"
+  },
+  {
+    "name": "dpkg",
+    "summary": "Debian 软件包管理系统的底层工具 (Debian Package)",
+    "examples": [
+      {
+        "description": "安装一个本地 .deb 软件包文件",
+        "code": "sudo dpkg -i mypackage.deb"
+      },
+      {
+        "description": "列出所有已安装的软件包",
+        "code": "dpkg -l"
+      },
+      {
+        "description": "查询某个软件包是否已安装",
+        "code": "dpkg -l | grep sshd"
+      },
+      {
+        "description": "移除一个已安装的软件包 (不删除配置文件)",
+        "code": "sudo dpkg -r mypackage"
+      },
+      {
+        "description": "移除一个已安装的软件包及其配置文件",
+        "code": "sudo dpkg -P mypackage"
+      },
+      {
+        "description": "显示已安装软件包的详细信息",
+        "code": "dpkg -s nginx"
+      },
+      {
+        "description": "列出软件包安装的文件",
+        "code": "dpkg -L nginx"
+      }
+    ],
+    "notes": "`dpkg` 是 Debian 系列发行版中最底层的软件包管理工具，直接操作 `.deb` 包。它不处理依赖关系，通常由 `apt` 或 `apt-get` 在后台调用。\n- **适用发行版:** Ubuntu, Debian 及其衍生版。",
+    "shell_type": "External (`/usr/bin/dpkg`)"
+  },
+  {
+    "name": "yum",
+    "summary": "CentOS/Red Hat 系统软件包管理工具 (Yellowdog Updater, Modified)",
+    "examples": [
+      {
+        "description": "安装一个软件包 (例如 httpd)",
+        "code": "sudo yum install httpd"
+      },
+      {
+        "description": "更新所有系统软件包",
+        "code": "sudo yum update"
+      },
+      {
+        "description": "移除一个软件包",
+        "code": "sudo yum remove httpd"
+      },
+      {
+        "description": "搜索软件包",
+        "code": "yum search mysql"
+      },
+      {
+        "description": "列出所有可用或已安装的软件包",
+        "code": "yum list"
+      },
+      {
+        "description": "清除 yum 缓存",
+        "code": "sudo yum clean all"
+      }
+    ],
+    "notes": "`yum` 是 CentOS/RHEL 7 及更早版本的主要软件包管理器。它能够自动处理依赖关系。在 CentOS/RHEL 8 及更新版本中，`dnf` 已取代 `yum` 成为默认的软件包管理器，但 `yum` 命令通常作为 `dnf` 的软链接或兼容层存在。\n- **适用发行版:** CentOS 7/6/5, Red Hat Enterprise Linux 7/6/5, Fedora (旧版本)。",
+    "shell_type": "External (`/usr/bin/yum`, 在新版系统中可能是 `dnf` 的软链接)"
+  },
+  {
+    "name": "dnf",
+    "summary": "CentOS 8 / Fedora / RHEL 8 系统的下一代软件包管理工具 (Dandified YUM)",
+    "examples": [
+      {
+        "description": "安装一个软件包 (例如 nginx)",
+        "code": "sudo dnf install nginx"
+      },
+      {
+        "description": "检查可用的软件包更新",
+        "code": "sudo dnf check-update"
+      },
+      {
+        "description": "升级所有软件包",
+        "code": "sudo dnf upgrade"
+      },
+      {
+        "description": "移除一个软件包",
+        "code": "sudo dnf remove nginx"
+      },
+      {
+        "description": "搜索软件包",
+        "code": "dnf search mariadb"
+      },
+      {
+        "description": "查看软件包信息",
+        "code": "dnf info mariadb-server"
+      },
+      {
+        "description": "自动清理不必要的软件包",
+        "code": "sudo dnf autoremove"
+      }
+    ],
+    "notes": "`dnf` 是 `yum` 的继任者，提供了更好的性能、依赖解决能力和更清晰的API。它向后兼容 `yum` 的大部分命令。在 CentOS/RHEL 8 及更高版本，以及 Fedora 中是默认的软件包管理器。\n- **适用发行版:** CentOS 8/9, Red Hat Enterprise Linux 8/9, Fedora。",
+    "shell_type": "External (`/usr/bin/dnf`)"
+  },
+  {
+    "name": "rpm",
+    "summary": "Red Hat Package Manager 格式的底层工具 (Red Hat Package Manager)",
+    "examples": [
+      {
+        "description": "安装一个本地 .rpm 软件包文件",
+        "code": "sudo rpm -ivh mypackage.rpm"
+      },
+      {
+        "description": "查询所有已安装的软件包",
+        "code": "rpm -qa"
+      },
+      {
+        "description": "查询软件包是否已安装",
+        "code": "rpm -q httpd"
+      },
+      {
+        "description": "卸载一个软件包",
+        "code": "sudo rpm -e httpd"
+      },
+      {
+        "description": "列出软件包安装的文件",
+        "code": "rpm -ql httpd"
+      },
+      {
+        "description": "显示软件包信息",
+        "code": "rpm -qi httpd"
+      }
+    ],
+    "notes": "`rpm` 是 Red Hat 系列发行版中最底层的软件包管理工具，直接操作 `.rpm` 包。它不处理依赖关系，通常由 `yum` 或 `dnf` 在后台调用。\n- **适用发行版:** CentOS, Red Hat Enterprise Linux, Fedora。",
+    "shell_type": "External (`/usr/bin/rpm`)"
+  },
+  {
+    "name": "snap",
+    "summary": "通用软件包管理系统，跨发行版 (Universal software packaging and deployment system)",
+    "examples": [
+      {
+        "description": "安装一个 Snap 包 (例如 htop)",
+        "code": "sudo snap install htop"
+      },
+      {
+        "description": "搜索 Snap 包",
+        "code": "snap find editor"
+      },
+      {
+        "description": "列出已安装的 Snap 包",
+        "code": "snap list"
+      },
+      {
+        "description": "更新所有 Snap 包",
+        "code": "sudo snap refresh"
+      },
+      {
+        "description": "移除一个 Snap 包",
+        "code": "sudo snap remove htop"
+      }
+    ],
+    "notes": "`snap` 是由 Canonical (Ubuntu 的开发商) 开发的一种通用打包格式和管理系统，旨在提供跨发行版的应用部署。Snap 应用是独立的，包含所有依赖项，并在隔离的沙盒中运行。它在 Ubuntu 系统上预装并广泛使用，其他发行版通常需要额外安装 `snapd` 服务。\n- **安装 snapd 服务:**\n  - **Ubuntu/Debian:** `sudo apt install snapd`\n  - **CentOS/Red Hat:** `sudo yum install snapd` 或 `sudo dnf install snapd` (可能需要启用 EPEL 仓库)",
+    "shell_type": "External (`/usr/bin/snap`)"
+  },
+  {
+    "name": "flatpak",
+    "summary": "通用软件包管理系统，跨发行版 (Universal software packaging and deployment system)",
+    "examples": [
+      {
+        "description": "添加 Flathub 仓库 (常用)",
+        "code": "flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo"
+      },
+      {
+        "description": "安装一个 Flatpak 应用 (例如 GIMP)",
+        "code": "flatpak install flathub org.gimp.GIMP"
+      },
+      {
+        "description": "搜索 Flatpak 应用",
+        "code": "flatpak search libreoffice"
+      },
+      {
+        "description": "列出已安装的 Flatpak 应用",
+        "code": "flatpak list"
+      },
+      {
+        "description": "更新所有 Flatpak 应用",
+        "code": "flatpak update"
+      },
+      {
+        "description": "移除一个 Flatpak 应用",
+        "code": "flatpak uninstall org.gimp.GIMP"
+      }
+    ],
+    "notes": "`flatpak` 是一个由 Red Hat/Fedora 社区推动的通用打包格式和管理系统，与 `snap` 类似，也提供应用沙盒化和跨发行版部署。它旨在解决 Linux 应用分发碎片化的问题。许多桌面环境如 GNOME 和 KDE 都对 Flatpak 有良好支持。通常需要额外安装。\n- **安装 flatpak:**\n  - **Ubuntu/Debian:** `sudo apt install flatpak`\n  - **CentOS/Red Hat:** `sudo yum install flatpak` 或 `sudo dnf install flatpak`",
+    "shell_type": "External (`/usr/bin/flatpak`)"
+  },
+  {
+    "name": "pacman",
+    "summary": "Arch Linux 及其衍生发行版的软件包管理器 (Package manager for Arch Linux)",
+    "examples": [
+      {
+        "description": "同步并升级所有软件包",
+        "code": "sudo pacman -Syu"
+      },
+      {
+        "description": "安装一个或多个软件包 (例如 firefox)",
+        "code": "sudo pacman -S firefox"
+      },
+      {
+        "description": "移除软件包及其依赖 (如果不再被其他包需要)",
+        "code": "sudo pacman -Rs firefox"
+      },
+      {
+        "description": "搜索软件包",
+        "code": "pacman -Ss python"
+      },
+      {
+        "description": "显示软件包信息",
+        "code": "pacman -Si linux"
+      }
+    ],
+    "notes": "`pacman` 是 Arch Linux 及其衍生发行版（如 Manjaro）的默认软件包管理器。它以其速度快、功能强大而闻名。其命令选项与 Debian/Red Hat 系有显著不同。\n- **适用发行版:** Arch Linux, Manjaro, EndeavourOS 等。",
+    "shell_type": "External (`/usr/bin/pacman`)"
+  },
+  {
+    "name": "make",
+    "summary": "GNU Make 工具，用于从源代码编译和安装程序 (GNU Make utility to maintain groups of programs)",
+    "examples": [
+      {
+        "description": "编译当前目录下的 Makefile 定义的程序",
+        "code": "make"
+      },
+      {
+        "description": "安装编译后的程序到系统目录 (通常需要root权限)",
+        "code": "sudo make install"
+      },
+      {
+        "description": "清除编译生成的文件",
+        "code": "make clean"
+      },
+      {
+        "description": "编译指定目标",
+        "code": "make all"
+      }
+    ],
+    "notes": "`make` 是一个自动化构建工具，广泛用于编译C/C++等语言的源代码项目。它读取 `Makefile` 文件来决定如何编译程序。开发环境通常会默认安装，如果未安装，可以安装构建工具包。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install build-essential` (此包包含 `make` 和编译器等)\n  - **CentOS/Red Hat:** `sudo yum groupinstall \"Development Tools\"` 或 `sudo dnf groupinstall \"Development Tools\"` (此组包含 `make` 和编译器等)",
+    "shell_type": "External (`/usr/bin/make`)"
+  },
+  {
+    "name": "ps",
+    "summary": "报告当前运行的进程快照 (Report a snapshot of the current processes)",
+    "examples": [
+      {
+        "description": "显示所有用户的进程 (BSD风格)",
+        "code": "ps aux"
+      },
+      {
+        "description": "显示所有进程的完整格式列表 (System V风格)",
+        "code": "ps -ef"
+      },
+      {
+        "description": "显示指定进程ID (PID) 的进程信息",
+        "code": "ps -p 1234"
+      },
+      {
+        "description": "显示特定用户的所有进程",
+        "code": "ps -u username"
+      },
+      {
+        "description": "结合 grep 查找特定进程 (例如 nginx)",
+        "code": "ps aux | grep nginx"
+      }
+    ],
+    "notes": "`ps` 命令是查看进程状态最基本的工具。`aux` (BSD风格) 和 `-ef` (System V风格) 是两种最常用的显示所有进程的选项集。它显示的是一个静态快照，如果需要实时监控，请使用 `top` 或 `htop`。",
+    "shell_type": "External (`/usr/bin/ps`)"
+  },
+  {
+    "name": "top",
+    "summary": "实时显示进程活动和系统资源使用情况 (Display Linux processes)",
+    "examples": [
+      {
+        "description": "启动 top 交互式界面",
+        "code": "top"
+      },
+      {
+        "description": "在 top 界面中，按 'M' 按内存使用排序",
+        "code": "M (在 top 运行中输入)"
+      },
+      {
+        "description": "在 top 界面中，按 'P' 按 CPU 使用排序",
+        "code": "P (在 top 运行中输入)"
+      },
+      {
+        "description": "在 top 界面中，按 'k' 杀死进程 (输入 PID 后按 Enter)",
+        "code": "k (在 top 运行中输入)"
+      },
+      {
+        "description": "在 top 界面中，按 'q' 退出",
+        "code": "q (在 top 运行中输入)"
+      }
+    ],
+    "notes": "`top` 是一个非常重要的系统监控工具，它以交互式界面实时显示系统中运行的进程、CPU 使用率、内存使用情况等。可以通过键盘命令进行排序、杀死进程等操作。默认已安装。",
+    "shell_type": "External (`/usr/bin/top`)"
+  },
+  {
+    "name": "htop",
+    "summary": "交互式进程查看器，比 top 更用户友好 (Interactive process viewer)",
+    "examples": [
+      {
+        "description": "启动 htop 交互式界面",
+        "code": "htop"
+      },
+      {
+        "description": "在 htop 界面中，按 F6 进行排序",
+        "code": "F6 (在 htop 运行中输入)"
+      },
+      {
+        "description": "在 htop 界面中，按 F9 杀死进程",
+        "code": "F9 (在 htop 运行中输入)"
+      },
+      {
+        "description": "在 htop 界面中，按 F4 进行过滤",
+        "code": "F4 (在 htop 运行中输入)"
+      },
+      {
+        "description": "在 htop 界面中，按 F10 退出",
+        "code": "F10 (在 htop 运行中输入)"
+      }
+    ],
+    "notes": "`htop` 是 `top` 的增强版，提供了更直观的彩色界面、鼠标支持、易于使用的进程管理功能（如杀死、调整优先级、过滤、搜索等）。它通常不是默认安装的，但强烈推荐安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install htop`\n  - **CentOS/Red Hat:** `sudo yum install htop` 或 `sudo dnf install htop`",
+    "shell_type": "External (`/usr/bin/htop`)"
+  },
+  {
+    "name": "kill",
+    "summary": "向进程发送信号 (Send a signal to a process)",
+    "examples": [
+      {
+        "description": "向 PID 为 1234 的进程发送终止信号 (SIGTERM)",
+        "code": "kill 1234"
+      },
+      {
+        "description": "强制终止 PID 为 1234 的进程 (SIGKILL)",
+        "code": "kill -9 1234"
+      },
+      {
+        "description": "列出所有可用的信号类型",
+        "code": "kill -l"
+      },
+      {
+        "description": "暂停 PID 为 5678 的进程 (SIGSTOP)",
+        "code": "kill -SIGSTOP 5678"
+      }
+    ],
+    "notes": "`kill` 命令用于向指定进程发送信号。最常用的是终止信号 (15, SIGTERM) 和强制终止信号 (9, SIGKILL)。`SIGTERM` 会让进程有机会进行清理，而 `SIGKILL` 则会立即终止进程，不给进程清理的机会。请谨慎使用 `-9` 选项。\n- **Shell内置/外部:** `kill` 命令既可以是 Shell 内置命令 (如 Bash, Zsh)，也可以是外部程序 (`/bin/kill`)。Shell 内置版本通常更常用且优先执行。",
+    "shell_type": "Built-in (bash/sh) and External (`/bin/kill`)"
+  },
+  {
+    "name": "killall",
+    "summary": "按名称终止进程 (Kill processes by name)",
+    "examples": [
+      {
+        "description": "终止所有名为 'firefox' 的进程",
+        "code": "killall firefox"
+      },
+      {
+        "description": "强制终止所有名为 'nginx' 的进程",
+        "code": "killall -9 nginx"
+      },
+      {
+        "description": "终止所有属于指定用户的进程",
+        "code": "killall -u username"
+      }
+    ],
+    "notes": "`killall` 命令根据进程名称来终止进程，这比使用 `kill` 命令根据 PID 更方便，因为它不需要事先查找 PID。但请注意，如果进程名称不唯一，它可能会终止多个进程。与 `kill` 类似，也可以使用信号选项。\n- **适用发行版:** 广泛应用于各种 Linux 发行版。",
+    "shell_type": "External (`/usr/bin/killall`)"
+  },
+  {
+    "name": "pkill",
+    "summary": "根据名称或其他属性发送信号到进程 (Send signal to processes based on name and other attributes)",
+    "examples": [
+      {
+        "description": "终止所有包含 'apache' 字符串的进程名",
+        "code": "pkill apache"
+      },
+      {
+        "description": "强制终止属于用户 'www-data' 的所有 'php-fpm' 进程",
+        "code": "pkill -9 -u www-data -f php-fpm"
+      },
+      {
+        "description": "终止所有由指定终端 (tty) 启动的进程",
+        "code": "pkill -t ttyS0"
+      },
+      {
+        "description": "查找进程但不发送信号 (结合 `pgrep`)",
+        "code": "pgrep -l apache"
+      }
+    ],
+    "notes": "`pkill` 是一个比 `killall` 更灵活的进程终止工具，它支持更强大的匹配模式（包括正则表达式）和筛选条件（如用户、终端、进程组等）。它的底层是 `pgrep` 命令，用于查找进程。\n- **适用发行版:** 广泛应用于各种 Linux 发行版。",
+    "shell_type": "External (`/usr/bin/pkill`)"
+  },
+  {
+    "name": "nice",
+    "summary": "以指定的优先级运行命令 (Run a command with modified scheduling priority)",
+    "examples": [
+      {
+        "description": "以默认的较低优先级运行命令 (nice值为 10)",
+        "code": "nice -n 10 my_long_running_script.sh"
+      },
+      {
+        "description": "以更高的优先级运行命令 (需要root权限，nice值为 -10)",
+        "code": "sudo nice -n -10 my_critical_process"
+      },
+      {
+        "description": "查看当前 Shell 的 nice 值 (默认为 0)",
+        "code": "nice"
+      }
+    ],
+    "notes": "`nice` 命令用于调整进程的 CPU 调度优先级。nice 值范围从 -20 (最高优先级) 到 19 (最低优先级)。默认值为 0。普通用户只能增加 nice 值（降低优先级），降低 nice 值（提高优先级）需要 root 权限。\n- **适用发行版:** 广泛应用于各种 Linux 发行版。",
+    "shell_type": "External (`/usr/bin/nice`)"
+  },
+  {
+    "name": "renice",
+    "summary": "改变运行中进程的优先级 (Alter priority of running processes)",
+    "examples": [
+      {
+        "description": "将 PID 为 1234 的进程的 nice 值改为 5",
+        "code": "renice 5 -p 1234"
+      },
+      {
+        "description": "将所有属于用户 'myuser' 的进程的 nice 值改为 19",
+        "code": "renice 19 -u myuser"
+      },
+      {
+        "description": "将所有进程组 ID 为 5678 的进程的 nice 值改为 -5 (需要root权限)",
+        "code": "sudo renice -5 -g 5678"
+      }
+    ],
+    "notes": "`renice` 命令用于修改一个或多个正在运行的进程的调度优先级。与 `nice` 类似，普通用户只能降低优先级，提高优先级需要 root 权限。\n- **适用发行版:** 广泛应用于各种 Linux 发行版。",
+    "shell_type": "External (`/usr/bin/renice`)"
+  },
+  {
+    "name": "bg",
+    "summary": "将停止的作业放入后台运行 (Put a job in the background)",
+    "examples": [
+      {
+        "description": "运行一个命令，然后按 Ctrl+Z 停止它，再用 bg 放到后台",
+        "code": "long_running_command\nCtrl+Z\nbg"
+      },
+      {
+        "description": "将作业列表中的第二个作业放到后台",
+        "code": "bg %2"
+      }
+    ],
+    "notes": "`bg` 是 Shell 的内置命令，用于将一个被停止的作业 (通过 Ctrl+Z 暂停的进程) 放到后台继续运行。在后台运行的进程不会占用当前终端的输入，但其输出仍然会显示在终端上，除非重定向。\n- **Shell内置:** 这是一个 Shell 内置命令，适用于 Bash, Zsh, Sh 等。",
+    "shell_type": "Built-in (bash/sh)"
+  },
+  {
+    "name": "fg",
+    "summary": "将后台作业带到前台运行 (Put a job in the foreground)",
+    "examples": [
+      {
+        "description": "将最近放到后台的作业带到前台",
+        "code": "fg"
+      },
+      {
+        "description": "将作业列表中的第一个作业带到前台",
+        "code": "fg %1"
+      }
+    ],
+    "notes": "`fg` 是 Shell 的内置命令，用于将一个在后台运行的作业带回到前台，使其可以接收用户输入。它通常与 `bg` 和 `jobs` 命令一起使用。\n- **Shell内置:** 这是一个 Shell 内置命令，适用于 Bash, Zsh, Sh 等。",
+    "shell_type": "Built-in (bash/sh)"
+  },
+  {
+    "name": "jobs",
+    "summary": "列出当前 Shell 中的作业 (List active jobs)",
+    "examples": [
+      {
+        "description": "列出所有在当前 Shell 中运行或停止的作业",
+        "code": "jobs"
+      },
+      {
+        "description": "以长格式列出作业，包括 PID",
+        "code": "jobs -l"
+      }
+    ],
+    "notes": "`jobs` 是 Shell 的内置命令，用于查看当前 Shell 会话中所有在后台或已停止的作业。每个作业都有一个编号，可以配合 `fg` 和 `bg` 命令使用。\n- **Shell内置:** 这是一个 Shell 内置命令，适用于 Bash, Zsh, Sh 等。",
+    "shell_type": "Built-in (bash/sh)"
+  },
+  {
+    "name": "nohup",
+    "summary": "运行命令时忽略挂断信号，即使退出 Shell 也继续运行 (Run a command immune to hangups, with output to a non-TTY)",
+    "examples": [
+      {
+        "description": "在后台运行一个脚本，即使关闭终端也不会停止",
+        "code": "nohup ./my_script.sh &"
+      },
+      {
+        "description": "运行一个命令，将其输出重定向到指定文件",
+        "code": "nohup ./my_command > output.log 2>&1 &"
+      }
+    ],
+    "notes": "`nohup` 命令的作用是让命令或脚本在用户退出登录后仍然能够继续运行。它忽略 `SIGHUP` 信号。如果命令没有重定向输出，`nohup` 会将其输出默认重定向到当前目录下的 `nohup.out` 文件中。\n- **适用发行版:** 广泛应用于各种 Linux 发行版。",
+    "shell_type": "External (`/usr/bin/nohup`)"
+  },
+  {
+    "name": "pstree",
+    "summary": "以树状图显示进程 (Display a tree of processes)",
+    "examples": [
+      {
+        "description": "显示所有进程的树状结构",
+        "code": "pstree"
+      },
+      {
+        "description": "显示进程树，并包含进程 PID",
+        "code": "pstree -p"
+      },
+      {
+        "description": "显示指定用户的进程树",
+        "code": "pstree username"
+      },
+      {
+        "description": "显示指定 PID 的进程及其子进程树",
+        "code": "pstree 1234"
+      }
+    ],
+    "notes": "`pstree` 命令以ASCII树的形式显示进程之间的父子关系，这对于理解进程的启动来源和它们之间的关系非常有用。它通常不是默认安装，但非常实用。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install psmisc` (包含 `pstree`, `fuser` 等)\n  - **CentOS/Red Hat:** `sudo yum install psmisc` 或 `sudo dnf install psmisc`",
+    "shell_type": "External (`/usr/bin/pstree`)"
+  },
+  {
+    "name": "lsof",
+    "summary": "列出所有打开的文件 (List open files)",
+    "examples": [
+      {
+        "description": "列出所有打开的文件",
+        "code": "lsof"
+      },
+      {
+        "description": "列出所有进程打开的网络连接 (监听和已建立)",
+        "code": "lsof -i"
+      },
+      {
+        "description": "查看哪些进程打开了端口 80",
+        "code": "lsof -i :80"
+      },
+      {
+        "description": "查看某个文件被哪些进程打开",
+        "code": "lsof /var/log/syslog"
+      },
+      {
+        "description": "查看某个用户打开的所有文件",
+        "code": "lsof -u username"
+      },
+      {
+        "description": "查看某个进程 ID (PID) 打开的所有文件",
+        "code": "lsof -p 1234"
+      }
+    ],
+    "notes": "`lsof` (List Open Files) 是一个非常强大的诊断工具，用于显示系统上所有进程打开的文件。在 Linux 中，万物皆文件，因此 `lsof` 可以显示普通文件、目录、套接字（网络连接）、管道、设备等。对于查找文件被占用、端口冲突等问题非常有用。\n- **安装命令:** 大多数发行版默认安装，如果缺少：\n  - **Ubuntu/Debian:** `sudo apt install lsof`\n  - **CentOS/Red Hat:** `sudo yum install lsof` 或 `sudo dnf install lsof`",
+    "shell_type": "External (`/usr/bin/lsof`)"
+  },
+  {
+    "name": "strace",
+    "summary": "追踪进程的系统调用和信号 (Trace system calls and signals)",
+    "examples": [
+      {
+        "description": "追踪并显示命令 'ls' 执行时所做的所有系统调用",
+        "code": "strace ls"
+      },
+      {
+        "description": "追踪并附加到 PID 为 1234 的运行中进程",
+        "code": "strace -p 1234"
+      },
+      {
+        "description": "只追踪文件相关的系统调用",
+        "code": "strace -e file ls"
+      },
+      {
+        "description": "统计系统调用执行次数和耗时",
+        "code": "strace -c ls"
+      }
+    ],
+    "notes": "`strace` 是一个功能强大的调试工具，它能够追踪一个程序执行时所做的所有系统调用，并显示这些调用的参数、返回值以及接收到的信号。这对于诊断程序崩溃、I/O 问题、权限问题等非常有用。通常默认安装。\n- **适用发行版:** 广泛应用于各种 Linux 发行版。",
+    "shell_type": "External (`/usr/bin/strace`)"
+  },
+  {
+    "name": "ltrace",
+    "summary": "追踪进程的库函数调用 (Trace library calls)",
+    "examples": [
+      {
+        "description": "追踪命令 'ls' 执行时所做的所有库函数调用",
+        "code": "ltrace ls"
+      },
+      {
+        "description": "追踪并附加到 PID 为 1234 的运行中进程",
+        "code": "ltrace -p 1234"
+      },
+      {
+        "description": "只追踪特定库函数的调用 (例如 'malloc')",
+        "code": "ltrace -e malloc ls"
+      }
+    ],
+    "notes": "`ltrace` 与 `strace` 类似，但它追踪的是程序对共享库函数 (如 `libc.so`) 的调用，而不是系统调用。这对于理解程序在更高层次上如何与库交互、诊断内存泄漏或库函数使用不当等问题很有帮助。通常需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install ltrace`\n  - **CentOS/Red Hat:** `sudo yum install ltrace` 或 `sudo dnf install ltrace`",
+    "shell_type": "External (`/usr/bin/ltrace`)"
+  },
+  {
+    "name": "df",
+    "summary": "显示文件系统磁盘空间使用情况 (Report file system disk space usage)",
+    "examples": [
+      {
+        "description": "以人类可读的格式显示所有文件系统的磁盘空间使用情况",
+        "code": "df -h"
+      },
+      {
+        "description": "显示指定文件系统类型（如 ext4）的磁盘空间使用情况",
+        "code": "df -hT ext4"
+      },
+      {
+        "description": "显示指定目录所在文件系统的磁盘空间使用情况",
+        "code": "df -h /home"
+      },
+      {
+        "description": "显示 inode 使用情况 (inode 是文件系统对象的元数据结构)",
+        "code": "df -i"
+      }
+    ],
+    "notes": "df 命令用于报告文件系统的总体磁盘空间使用情况，包括已用空间、可用空间、使用率等。它是日常系统管理中检查磁盘容量的重要工具。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/df`)"
+  },
+  {
+    "name": "du",
+    "summary": "估算文件或目录的磁盘使用情况 (Estimate file space usage)",
+    "examples": [
+      {
+        "description": "显示当前目录及其子目录的磁盘使用情况，并以人类可读格式汇总",
+        "code": "du -sh ."
+      },
+      {
+        "description": "显示指定目录中每个文件和子目录的磁盘使用情况",
+        "code": "du -h /var/log"
+      },
+      {
+        "description": "显示所有文件和目录的磁盘使用情况，并按大小排序",
+        "code": "du -ah | sort -rh"
+      },
+      {
+        "description": "显示某个目录总的磁盘使用情况，不显示子目录",
+        "code": "du -sh /var/cache"
+      }
+    ],
+    "notes": "du 命令用于估算文件或目录所占用的磁盘空间。与 `df` 命令不同，`df` 关注的是文件系统的整体使用，而 `du` 关注的是特定文件或目录树的占用空间。它是查找大文件或目录的利器。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/du`)"
+  },
+  {
+    "name": "free",
+    "summary": "显示内存和交换空间使用情况 (Display amount of free and used memory in the system)",
+    "examples": [
+      {
+        "description": "以人类可读的格式显示内存和交换空间使用情况",
+        "code": "free -h"
+      },
+      {
+        "description": "以字节为单位显示详细信息",
+        "code": "free -b"
+      },
+      {
+        "description": "每秒刷新显示一次",
+        "code": "watch -n 1 free -h"
+      }
+    ],
+    "notes": "free 命令用于快速查看系统当前的物理内存 (RAM) 和交换空间 (Swap) 的使用情况。它能帮助你了解内存是否充足，以及是否存在过度使用交换空间（这通常意味着内存不足）。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/free`)"
+  },
+  {
+    "name": "vmstat",
+    "summary": "报告虚拟内存统计信息 (Report virtual memory statistics)",
+    "examples": [
+      {
+        "description": "显示一次虚拟内存统计信息",
+        "code": "vmstat"
+      },
+      {
+        "description": "每2秒刷新显示一次统计信息",
+        "code": "vmstat 2"
+      },
+      {
+        "description": "显示内存使用统计 (包含活跃/非活跃内存)",
+        "code": "vmstat -a"
+      },
+      {
+        "description": "显示详细的磁盘I/O统计信息",
+        "code": "vmstat -d"
+      }
+    ],
+    "notes": "vmstat 命令用于报告系统虚拟内存的各种统计信息，包括进程、内存、页、块I/O、陷阱和CPU活动。它是监控系统性能和诊断瓶颈的重要工具。\n- **Ubuntu/Debian:** 通常包含在 `procps` 包中，默认已安装。\n- **CentOS/Red Hat:** 通常包含在 `procps-ng` 包中，默认已安装。",
+    "shell_type": "External (`/usr/bin/vmstat`)"
+  },
+  {
+    "name": "iostat",
+    "summary": "报告CPU使用率和设备I/O统计信息 (Report CPU utilization and device I/O statistics)",
+    "examples": [
+      {
+        "description": "显示所有CPU和设备的统计信息 (通常包含在 `sysstat` 包中)",
+        "code": "iostat"
+      },
+      {
+        "description": "每2秒显示一次报告，显示可读的设备I/O统计信息",
+        "code": "iostat -h 2"
+      },
+      {
+        "description": "显示扩展的设备统计信息，包括每个设备的平均队列长度等",
+        "code": "iostat -x"
+      },
+      {
+        "description": "显示磁盘分区上的I/O统计信息",
+        "code": "iostat -p sda"
+      }
+    ],
+    "notes": "iostat 命令用于监控系统I/O负载，报告CPU使用率和设备（硬盘、CD-ROM等）的I/O活动。在排查磁盘I/O瓶颈时非常有用。它不总是默认安装，通常作为 `sysstat` 包的一部分提供：\n- **Ubuntu/Debian:** `sudo apt install sysstat`\n- **CentOS/Red Hat:** `sudo yum install sysstat` 或 `sudo dnf install sysstat`",
+    "shell_type": "External (`/usr/bin/iostat`)"
+  },
+  {
+    "name": "dmesg",
+    "summary": "显示内核环形缓冲区信息 (Display messages from the kernel ring buffer)",
+    "examples": [
+      {
+        "description": "显示所有内核消息",
+        "code": "dmesg"
+      },
+      {
+        "description": "显示最近的20条内核消息",
+        "code": "dmesg | tail -n 20"
+      },
+      {
+        "description": "过滤包含特定关键字（如 'usb' 或 'error'）的内核消息",
+        "code": "dmesg | grep -i usb"
+      },
+      {
+        "description": "分页查看内核消息",
+        "code": "dmesg | less"
+      },
+      {
+        "description": "显示人类可读的时间戳",
+        "code": "dmesg -T"
+      }
+    ],
+    "notes": "dmesg 命令用于检查和分析内核启动信息、硬件初始化、驱动加载、以及运行时可能发生的任何内核相关错误或警告。它是系统启动故障排除和硬件问题诊断的重要工具。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/dmesg`)"
+  },
+  {
+    "name": "uptime",
+    "summary": "显示系统运行时间、登录用户和平均负载 (Tell how long the system has been running, and the number of users)",
+    "examples": [
+      {
+        "description": "显示当前系统的运行时间、登录用户数和平均负载",
+        "code": "uptime"
+      }
+    ],
+    "notes": "uptime 命令提供了一个快速概览，显示系统已经运行了多长时间、当前有多少用户登录，以及系统在过去1分钟、5分钟和15分钟内的平均负载。平均负载是衡量系统CPU繁忙程度的重要指标。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/uptime`)"
+  },
+  {
+    "name": "w",
+    "summary": "显示当前登录的用户及其活动 (Show who is logged on and what they are doing)",
+    "examples": [
+      {
+        "description": "显示所有当前登录的用户及其正在执行的命令",
+        "code": "w"
+      },
+      {
+        "description": "不显示JCPU和PCPU列",
+        "code": "w -s"
+      }
+    ],
+    "notes": "w 命令能够列出当前登录到系统的所有用户，以及他们从哪个终端登录、登录时间、空闲时间，以及他们当前正在执行什么命令。对于系统管理员来说，这是一个监控用户活动和识别潜在问题的有用工具。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/w`)"
+  },
+  {
+    "name": "who",
+    "summary": "显示当前登录的用户 (Show who is logged on)",
+    "examples": [
+      {
+        "description": "显示当前登录的所有用户及其终端、登录时间",
+        "code": "who"
+      },
+      {
+        "description": "显示当前登录用户的运行级别",
+        "code": "who -r"
+      },
+      {
+        "description": "显示当前系统的启动时间",
+        "code": "who -b"
+      }
+    ],
+    "notes": "who 命令比 `w` 更简洁，主要用于显示当前登录到系统的用户列表，包括用户名、终端线路、登录时间等。它从 `/var/run/utmp` 文件读取信息。在所有Linux发行版中都是标准且默认安装的。",
+    "shell_type": "External (`/usr/bin/who`)"
+  },
+  {
+    "name": "last",
+    "summary": "显示最近登录的用户列表 (Show a listing of last logged in users)",
+    "examples": [
+      {
+        "description": "显示所有用户的最近登录历史 (从 `/var/log/wtmp` 读取)",
+        "code": "last"
+      },
+      {
+        "description": "显示指定用户的登录历史",
+        "code": "last username"
+      },
+      {
+        "description": "显示最近10次登录",
+        "code": "last -10"
+      },
+      {
+        "description": "显示最近的重启和关机历史",
+        "code": "last reboot"
+      }
+    ],
+    "notes": "last 命令用于查询和显示系统的登录/注销历史记录，以及系统重启和关机的时间。它从 `/var/log/wtmp` 文件中读取信息。对于安全审计和了解系统使用情况非常重要。在所有Linux发行版中都是标准且默认安装的，通常是 `util-linux` 或 `shadow-utils` 包的一部分。",
+    "shell_type": "External (`/usr/bin/last`)"
+  },
+  {
+    "name": "lastb",
+    "summary": "显示最近失败的登录尝试 (Show a listing of last bad login attempts)",
+    "examples": [
+      {
+        "description": "显示所有用户的最近失败登录尝试历史 (从 `/var/log/btmp` 读取)",
+        "code": "lastb"
+      },
+      {
+        "description": "显示指定用户的失败登录尝试历史",
+        "code": "lastb username"
+      }
+    ],
+    "notes": "lastb 命令是 `last` 命令的变体，专门用于显示所有失败的登录尝试。它从 `/var/log/btmp` 文件中读取数据。这是安全监控的重要工具，可以帮助识别潜在的暴力破解尝试或未授权访问。在所有Linux发行版中都是标准且默认安装的，通常与 `last` 属于同一个包。",
+    "shell_type": "External (`/usr/bin/lastb`)"
+  },
+  {
+    "name": "journalctl",
+    "summary": "查询 systemd 日志 (Query the systemd journal)",
+    "examples": [
+      {
+        "description": "显示所有系统日志 (分页显示)",
+        "code": "journalctl"
+      },
+      {
+        "description": "显示从最近启动以来的日志",
+        "code": "journalctl -b"
+      },
+      {
+        "description": "实时查看最新日志 (类似 tail -f)",
+        "code": "journalctl -f"
+      },
+      {
+        "description": "显示某个服务（如 nginx）的日志",
+        "code": "journalctl -u nginx"
+      },
+      {
+        "description": "显示特定时间范围内的日志",
+        "code": "journalctl --since \"2023-01-01 10:00:00\" --until \"2023-01-01 11:00:00\""
+      },
+      {
+        "description": "显示内核消息 (等同于 dmesg -k)",
+        "code": "journalctl -k"
+      }
+    ],
+    "notes": "journalctl 是 `systemd` 日志管理的核心工具，用于查询和显示由 `systemd-journald` 服务收集的所有日志。它取代了传统的文本日志文件（如 `/var/log/messages`, `/var/log/syslog`）的直接查看方式，提供更强大的过滤和查询功能。**适用于所有使用 systemd 作为初始化系统的现代Linux发行版 (如 Ubuntu 16.04+, CentOS 7+, Red Hat 7+, Debian 8+， Fedora)。** 旧的SysVinit系统不使用此命令。它通常是 `systemd` 包的一部分，默认已安装。",
+    "shell_type": "External (`/usr/bin/journalctl`)"
+  },
+  {
+    "name": "syslog-ng",
+    "summary": "高级日志消息收集和管理服务 (Advanced log message collection and management service)",
+    "examples": [
+      {
+        "description": "检查 syslog-ng 服务状态",
+        "code": "sudo systemctl status syslog-ng"
+      },
+      {
+        "description": "启动 syslog-ng 服务",
+        "code": "sudo systemctl start syslog-ng"
+      },
+      {
+        "description": "重启 syslog-ng 服务",
+        "code": "sudo systemctl restart syslog-ng"
+      },
+      {
+        "description": "编辑 syslog-ng 配置文件 (路径可能因发行版而异)",
+        "code": "sudo vim /etc/syslog-ng/syslog-ng.conf"
+      }
+    ],
+    "notes": "syslog-ng 是一个流行的日志管理程序（daemon），用于收集、过滤、处理和转发系统日志消息。它是一个服务，不是一个直接执行的命令行工具，但通过 `systemctl` 命令进行管理。它提供了比传统 syslogd 更强大的过滤和路由功能，常用于复杂的日志聚合场景。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install syslog-ng` (或 `syslog-ng-core`)\n- **CentOS/Red Hat:** `sudo yum install syslog-ng` 或 `sudo dnf install syslog-ng` (RHEL/CentOS 8+)",
+    "shell_type": "External (Service, managed via `systemctl`, binaries in `/usr/sbin/syslog-ng`)"
+  },
+  {
+    "name": "rsyslog",
+    "summary": "通用的系统日志守护进程 (The enhanced syslogd that supports various extensions)",
+    "examples": [
+      {
+        "description": "检查 rsyslog 服务状态",
+        "code": "sudo systemctl status rsyslog"
+      },
+      {
+        "description": "重启 rsyslog 服务",
+        "code": "sudo systemctl restart rsyslog"
+      },
+      {
+        "description": "编辑 rsyslog 配置文件",
+        "code": "sudo vim /etc/rsyslog.conf"
+      },
+      {
+        "description": "实时查看默认系统日志 (如果 rsyslog 配置为输出到此)",
+        "code": "tail -f /var/log/syslog"
+      }
+    ],
+    "notes": "rsyslog 是 Linux 系统上广泛使用的日志收集和管理守护进程，它是传统 `syslogd` 的增强版。它负责收集来自内核、服务和应用程序的日志消息，并根据配置写入文件、转发到其他系统或数据库。它也是一个服务，通过 `systemctl` 管理。在很多Linux发行版中是默认的日志系统：\n- **Ubuntu/Debian:** 默认安装和使用。\n- **CentOS/Red Hat:** 默认安装和使用 (从 CentOS/RHEL 6 开始)。",
+    "shell_type": "External (Service, managed via `systemctl`, binaries in `/usr/sbin/rsyslogd`)"
+  },
+  {
+    "name": "iotop",
+    "summary": "实时监控磁盘I/O使用情况 (Top-like utility for I/O activity)",
+    "examples": [
+      {
+        "description": "实时显示进程或线程的磁盘I/O活动",
+        "code": "sudo iotop"
+      },
+      {
+        "description": "仅显示实际执行I/O的进程，并以累积模式显示",
+        "code": "sudo iotop -o -a"
+      },
+      {
+        "description": "每隔3秒刷新一次显示，并只显示有I/O活动的进程",
+        "code": "sudo iotop -d 3 -o"
+      }
+    ],
+    "notes": "iotop 是一个交互式工具，类似于 `top`，但它专注于显示进程或线程的磁盘I/O活动。当系统I/O负载高时，`iotop` 可以帮助你快速识别是哪个进程正在大量读写磁盘。通常需要root权限才能运行。它不是默认安装的，需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install iotop`\n- **CentOS/Red Hat:** `sudo yum install iotop` 或 `sudo dnf install iotop`",
+    "shell_type": "External (`/usr/sbin/iotop`)"
+  },
+  {
+    "name": "sar",
+    "summary": "收集、报告或保存系统活动信息 (System activity reporter)",
+    "examples": [
+      {
+        "description": "报告CPU使用率 (每2秒采集一次，共5次)",
+        "code": "sar 2 5"
+      },
+      {
+        "description": "报告内存和交换空间使用情况",
+        "code": "sar -r"
+      },
+      {
+        "description": "报告磁盘I/O统计信息",
+        "code": "sar -b"
+      },
+      {
+        "description": "报告网络统计信息",
+        "code": "sar -n DEV"
+      },
+      {
+        "description": "从历史数据文件查看昨天的CPU使用率 (数据文件路径可能因配置而异)",
+        "code": "sar -f /var/log/sa/sa$(date -d 'yesterday' +%d)"
+      }
+    ],
+    "notes": "sar (System Activity Reporter) 是 `sysstat` 工具包的核心组件，用于收集、报告和保存系统活动信息。它能够提供详细的CPU、内存、I/O、网络、进程等性能数据，并支持历史数据分析，对于长期性能趋势分析和故障诊断非常有用。它不总是默认安装，需要安装 `sysstat` 包：\n- **Ubuntu/Debian:** `sudo apt install sysstat`\n- **CentOS/Red Hat:** `sudo yum install sysstat` 或 `sudo dnf install sysstat`",
+    "shell_type": "External (`/usr/bin/sar`)"
+  },
+  {
+    "name": "mpstat",
+    "summary": "报告多处理器系统的处理器相关统计信息 (Report processors related statistics for a multiprocessor system)",
+    "examples": [
+      {
+        "description": "显示所有CPU核心的详细统计信息 (每2秒刷新一次)",
+        "code": "mpstat -P ALL 2"
+      },
+      {
+        "description": "显示单个CPU核心（如 CPU 0）的统计信息",
+        "code": "mpstat -P 0"
+      }
+    ],
+    "notes": "mpstat 是 `sysstat` 工具包的一部分，专门用于报告多处理器（或多核CPU）系统的处理器统计信息。它可以显示每个CPU核心的利用率、中断、上下文切换等，有助于识别单个核心的瓶颈。它不总是默认安装，需要安装 `sysstat` 包：\n- **Ubuntu/Debian:** `sudo apt install sysstat`\n- **CentOS/Red Hat:** `sudo yum install sysstat` 或 `sudo dnf install sysstat`",
+    "shell_type": "External (`/usr/bin/mpstat`)"
+  },
+  {
+    "name": "pidstat",
+    "summary": "报告进程或线程相关的统计信息 (Report statistics for Linux tasks (processes) or threads)",
+    "examples": [
+      {
+        "description": "报告所有进程的CPU使用率",
+        "code": "pidstat"
+      },
+      {
+        "description": "报告指定进程ID (PID) 的I/O统计信息",
+        "code": "pidstat -d -p 1234"
+      },
+      {
+        "description": "报告所有线程的内存使用情况 (每秒刷新一次)",
+        "code": "pidstat -r -t 1"
+      },
+      {
+        "description": "报告进程的堆栈信息和上下文切换情况",
+        "code": "pidstat -w"
+      }
+    ],
+    "notes": "pidstat 也是 `sysstat` 工具包的一部分，它允许你按进程或线程级别查看详细的CPU、内存、I/O和上下文切换统计信息。这比 `top` 和 `ps` 提供的更细粒度的信息，对于深入分析特定进程的性能瓶颈非常有用。它不总是默认安装，需要安装 `sysstat` 包：\n- **Ubuntu/Debian:** `sudo apt install sysstat`\n- **CentOS/Red Hat:** `sudo yum install sysstat` 或 `sudo dnf install sysstat`",
+    "shell_type": "External (`/usr/bin/pidstat`)"
+  },
+  {
+    "name": "mount",
+    "summary": "挂载文件系统 (Mount a filesystem)",
+    "examples": [
+      {
+        "description": "挂载 /dev/sdb1 到 /mnt/data",
+        "code": "sudo mount /dev/sdb1 /mnt/data"
+      },
+      {
+        "description": "挂载 ISO 镜像文件到指定目录",
+        "code": "sudo mount -o loop /path/to/image.iso /mnt/iso"
+      },
+      {
+        "description": "以只读模式挂载文件系统",
+        "code": "sudo mount -o ro /dev/sdb1 /mnt/data"
+      },
+      {
+        "description": "查看所有已挂载的文件系统",
+        "code": "mount"
+      }
+    ],
+    "notes": "mount 命令用于将文件系统挂载到指定目录，使其内容可访问。系统启动时通常会根据 `/etc/fstab` 文件自动挂载。挂载点必须是空目录。若设备已经分区或格式化，则可以直接挂载。对于一些特殊文件系统（如 NTFS），可能需要额外安装驱动包（`ntfs-3g`）。",
+    "shell_type": "External (`/usr/bin/mount`)"
+  },
+  {
+    "name": "umount",
+    "summary": "卸载文件系统 (Unmount a filesystem)",
+    "examples": [
+      {
+        "description": "卸载 /mnt/data 挂载点上的文件系统",
+        "code": "sudo umount /mnt/data"
+      },
+      {
+        "description": "强制卸载文件系统 (慎用，可能导致数据丢失或文件系统损坏)",
+        "code": "sudo umount -f /dev/sdb1"
+      },
+      {
+        "description": "惰性卸载文件系统 (当不再被使用时卸载)",
+        "code": "sudo umount -l /mnt/data"
+      }
+    ],
+    "notes": "umount 命令用于从挂载点分离文件系统。如果文件系统正在被使用（例如，有进程正在访问其上的文件），则无法直接卸载，此时可使用 `lsof | grep /mnt/data` 查找占用进程并终止，或尝试惰性卸载 `-l`。",
+    "shell_type": "External (`/usr/bin/umount`)"
+  },
+  {
+    "name": "fdisk",
+    "summary": "管理磁盘分区表 (Manipulate disk partition table)",
+    "examples": [
+      {
+        "description": "列出所有磁盘的分区信息",
+        "code": "sudo fdisk -l"
+      },
+      {
+        "description": "进入 /dev/sdb 的交互式分区模式",
+        "code": "sudo fdisk /dev/sdb"
+      },
+      {
+        "description": "在交互模式中，键入 'p' 打印分区表，'n' 新建分区，'d' 删除分区，'w' 保存并退出，'q' 不保存退出",
+        "code": "p (在 fdisk 交互模式中)\nn (在 fdisk 交互模式中)\nd (在 fdisk 交互模式中)\nw (在 fdisk 交互模式中)\nq (在 fdisk 交互模式中)"
+      }
+    ],
+    "notes": "fdisk 是传统的磁盘分区工具，主要用于管理 MBR (Master Boot Record) 分区表。对于大于2TB的磁盘或需要使用 GUID 分区表 (GPT) 的情况，推荐使用 `parted` 或 `gdisk`。使用此命令进行分区操作会丢失数据，请务必谨慎。",
+    "shell_type": "External (`/usr/sbin/fdisk`)"
+  },
+  {
+    "name": "parted",
+    "summary": "磁盘分区工具 (A disk partition manipulation tool)",
+    "examples": [
+      {
+        "description": "列出所有磁盘的分区信息 (推荐使用 `lsblk` 或 `fdisk -l` 替代)",
+        "code": "sudo parted -l"
+      },
+      {
+        "description": "进入 /dev/sdb 的交互式分区模式",
+        "code": "sudo parted /dev/sdb"
+      },
+      {
+        "description": "在交互模式中，设置分区表类型为 GPT",
+        "code": "mklabel gpt (在 parted 交互模式中)"
+      },
+      {
+        "description": "在交互模式中，创建主分区 (primary)，从 1MB 到 10GB，文件系统类型为 ext4",
+        "code": "mkpart primary ext4 1MiB 10GiB (在 parted 交互模式中)"
+      },
+      {
+        "description": "在交互模式中，打印分区表",
+        "code": "print (在 parted 交互模式中)"
+      },
+      {
+        "description": "在交互模式中，退出",
+        "code": "quit (在 parted 交互模式中)"
+      }
+    ],
+    "notes": "parted 是一个强大的磁盘分区工具，支持 MBR 和 GPT 分区表，并且可以处理大于2TB的磁盘。它比 `fdisk` 更现代和灵活。分区操作具有风险，请务必在充分理解后操作。",
+    "shell_type": "External (`/usr/sbin/parted`)"
+  },
+  {
+    "name": "mkfs",
+    "summary": "构建Linux文件系统 (Build a Linux filesystem)",
+    "examples": [
+      {
+        "description": "格式化 /dev/sdb1 为 ext4 文件系统",
+        "code": "sudo mkfs.ext4 /dev/sdb1"
+      },
+      {
+        "description": "格式化 /dev/sdc1 为 xfs 文件系统",
+        "code": "sudo mkfs.xfs /dev/sdc1"
+      },
+      {
+        "description": "格式化 /dev/sdd2 为 fat32 文件系统",
+        "code": "sudo mkfs.vfat /dev/sdd2"
+      }
+    ],
+    "notes": "mkfs 是一个通用命令，用于在分区上创建（格式化）文件系统。它实际上是各种文件系统特定工具的符号链接或调用器，例如 `mkfs.ext4`、`mkfs.xfs`、`mkfs.vfat` (对应 FAT32)。执行格式化会擦除分区上的所有数据，请务必小心。",
+    "shell_type": "External (`/usr/sbin/mkfs`)"
+  },
+  {
+    "name": "fsck",
+    "summary": "检查和修复Linux文件系统 (Check and repair a Linux filesystem)",
+    "examples": [
+      {
+        "description": "检查 /dev/sdb1 文件系统 (通常在未挂载状态下执行)",
+        "code": "sudo fsck /dev/sdb1"
+      },
+      {
+        "description": "自动修复 /dev/sdb1 (慎用，-y 选项意味着自动同意所有修复)",
+        "code": "sudo fsck -y /dev/sdb1"
+      }
+    ],
+    "notes": "fsck 用于检查文件系统的完整性并尝试修复发现的错误。**非常重要：请勿在已挂载的文件系统上运行 fsck**，这可能导致数据损坏。通常在系统启动时（如果检测到文件系统异常）或在单用户模式下执行。",
+    "shell_type": "External (`/usr/sbin/fsck`)"
+  },
+  {
+    "name": "lsblk",
+    "summary": "列出块设备信息 (List information about block devices)",
+    "examples": [
+      {
+        "description": "显示所有块设备信息",
+        "code": "lsblk"
+      },
+      {
+        "description": "显示更详细的树状结构和大小 (人类可读)",
+        "code": "lsblk -f"
+      },
+      {
+        "description": "显示所有信息，包括文件系统类型、UUID、挂载点",
+        "code": "lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT,UUID"
+      }
+    ],
+    "notes": "lsblk 是一个非常方便的工具，用于快速查看系统中的所有块设备（如硬盘、分区、LVM 逻辑卷、RAID 设备等）及其相互关系和挂载状态。",
+    "shell_type": "External (`/usr/bin/lsblk`)"
+  },
+  {
+    "name": "dd",
+    "summary": "转换和复制文件 (Convert and copy a file)",
+    "examples": [
+      {
+        "description": "将整个磁盘 /dev/sda 备份到文件 /path/to/backup.img (慎用，极度危险)",
+        "code": "sudo dd if=/dev/sda of=/path/to/backup.img bs=4M status=progress"
+      },
+      {
+        "description": "将备份文件恢复到 /dev/sdb (慎用，极度危险)",
+        "code": "sudo dd if=/path/to/backup.img of=/dev/sdb bs=4M status=progress"
+      },
+      {
+        "description": "创建一个 1GB 的空文件 (用于测试或创建交换文件)",
+        "code": "dd if=/dev/zero of=testfile.img bs=1M count=1024"
+      },
+      {
+        "description": "生成随机数据到文件 (用于创建加密容器)",
+        "code": "dd if=/dev/urandom of=random_data.bin bs=1M count=100"
+      }
+    ],
+    "notes": "**警告：dd 命令非常强大且危险。错误的 `if` (输入) 和 `of` (输出) 参数可能导致数据丢失或整个磁盘被擦除。请在充分了解其作用后再使用。** 它常用于磁盘镜像、数据恢复、创建大文件或引导盘等场景。",
+    "shell_type": "External (`/usr/bin/dd`)"
+  },
+  {
+    "name": "sync",
+    "summary": "将内存中的数据同步到磁盘 (Flush filesystem buffers)",
+    "examples": [
+      {
+        "description": "将所有缓冲的写入操作立即刷新到磁盘",
+        "code": "sync"
+      }
+    ],
+    "notes": "sync 命令用于确保所有在内存中排队等待写入磁盘的数据都被立即写入。这在系统意外断电前非常重要，可以最大程度地减少数据丢失。在执行磁盘操作（如分区、格式化）后，最好执行 `sync` 确保文件系统元数据已写入。",
+    "shell_type": "External (`/usr/bin/sync`)"
+  },
+  {
+    "name": "losetup",
+    "summary": "设置和控制 loop 设备 (Set up and control loop devices)",
+    "examples": [
+      {
+        "description": "将 ISO 镜像文件关联到第一个可用的 loop 设备",
+        "code": "sudo losetup -f /path/to/image.iso"
+      },
+      {
+        "description": "查看所有当前的 loop 设备",
+        "code": "losetup -a"
+      },
+      {
+        "description": "分离一个 loop 设备 (例如 /dev/loop0)",
+        "code": "sudo losetup -d /dev/loop0"
+      },
+      {
+        "description": "将 ISO 镜像挂载到 /mnt/iso 的完整步骤",
+        "code": "sudo losetup -f --show /path/to/image.iso\n# 输出类似于 /dev/loop0\nsudo mount /dev/loop0 /mnt/iso\n# 使用完毕后：\nsudo umount /mnt/iso\nsudo losetup -d /dev/loop0"
+      }
+    ],
+    "notes": "loop 设备允许将一个文件视为块设备，常用于挂载 ISO 镜像文件、磁盘映像文件或创建加密文件系统。它使得你可以像访问物理硬盘一样访问文件中的数据。",
+    "shell_type": "External (`/usr/sbin/losetup`)"
+  },
+  {
+    "name": "LVM (系列命令)",
+    "summary": "逻辑卷管理 (Logical Volume Management) 相关命令，用于弹性管理磁盘空间。",
+    "examples": [
+      {
+        "description": "列出物理卷 (Physical Volumes)",
+        "code": "sudo pvs"
+      },
+      {
+        "description": "列出卷组 (Volume Groups)",
+        "code": "sudo vgs"
+      },
+      {
+        "description": "列出逻辑卷 (Logical Volumes)",
+        "code": "sudo lvs"
+      },
+      {
+        "description": "创建物理卷 (例如在 /dev/sdb1 上)",
+        "code": "sudo pvcreate /dev/sdb1"
+      },
+      {
+        "description": "创建卷组 (名为 'myvg'，包含 /dev/sdb1 和 /dev/sdc1)",
+        "code": "sudo vgcreate myvg /dev/sdb1 /dev/sdc1"
+      },
+      {
+        "description": "创建逻辑卷 (在 'myvg' 中创建 10GB 名为 'mylv' 的逻辑卷)",
+        "code": "sudo lvcreate -L 10G -n mylv myvg"
+      },
+      {
+        "description": "扩展逻辑卷大小到 20GB",
+        "code": "sudo lvextend -L +10G /dev/myvg/mylv"
+      }
+    ],
+    "notes": "LVM (Logical Volume Manager) 提供了比传统分区更灵活的磁盘管理方式。它允许动态调整分区大小，聚合多个物理磁盘为单个存储池，并支持快照等高级功能。使用 LVM 前需要安装 `lvm2` 包。\n- **Ubuntu/Debian:** `sudo apt install lvm2`\n- **CentOS/Red Hat:** `sudo yum install lvm2` 或 `sudo dnf install lvm2`",
+    "shell_type": "External (例如 `/usr/sbin/pvs`, `/usr/sbin/vgcreate` 等)"
+  },
+  {
+    "name": "mdadm",
+    "summary": "管理 Linux 软件 RAID 阵列 (Manage MD devices, Linux software RAID)",
+    "examples": [
+      {
+        "description": "查看所有软件 RAID 设备的运行状态",
+        "code": "cat /proc/mdstat"
+      },
+      {
+        "description": "详细检查某个 RAID 阵列的状态 (例如 /dev/md0)",
+        "code": "sudo mdadm -D /dev/md0"
+      },
+      {
+        "description": "（示例）创建 RAID5 阵列，由 /dev/sdb1, /dev/sdc1, /dev/sdd1 组成",
+        "code": "sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1"
+      }
+    ],
+    "notes": "mdadm 是 Linux 上用于创建、管理和监控软件 RAID (Redundant Array of Independent Disks) 阵列的工具。软件 RAID 允许将多个物理磁盘组合成一个逻辑单元，以提供数据冗余、性能提升或两者兼顾。使用前需要安装 `mdadm` 包。\n- **Ubuntu/Debian:** `sudo apt install mdadm`\n- **CentOS/Red Hat:** `sudo yum install mdadm` 或 `sudo dnf install mdadm`",
+    "shell_type": "External (`/usr/sbin/mdadm`)"
+  },
+  {
+    "name": "smartctl",
+    "summary": "控制和监控 SMART 数据 (Control and monitor S.M.A.R.T. data for hard disks)",
+    "examples": [
+      {
+        "description": "查看 /dev/sda 硬盘的 SMART 健康状态",
+        "code": "sudo smartctl -H /dev/sda"
+      },
+      {
+        "description": "查看 /dev/sdb 硬盘的详细 SMART 信息",
+        "code": "sudo smartctl -a /dev/sdb"
+      }
+    ],
+    "notes": "smartctl 是 `smartmontools` 套件的一部分，用于通过 S.M.A.R.T. (Self-Monitoring, Analysis and Reporting Technology) 系统监控硬盘驱动器的健康状况和预测潜在故障。对于服务器和重要数据存储来说，定期检查硬盘 SMART 信息非常重要。使用前需要安装 `smartmontools` 包。\n- **Ubuntu/Debian:** `sudo apt install smartmontools`\n- **CentOS/Red Hat:** `sudo yum install smartmontools` 或 `sudo dnf install smartmontools`",
+    "shell_type": "External (`/usr/sbin/smartctl`)"
+  },
+  {
+    "name": "date",
+    "summary": "显示或设置系统日期和时间 (Print or set the system date and time)",
+    "examples": [
+      {
+        "description": "显示当前日期和时间",
+        "code": "date"
+      },
+      {
+        "description": "显示特定格式的日期和时间 (年-月-日_时:分:秒)",
+        "code": "date +%F_%T"
+      },
+      {
+        "description": "将系统时间设置为 '2024-03-15 10:30:00' (需要 root 权限)",
+        "code": "sudo date -s \"2024-03-15 10:30:00\""
+      },
+      {
+        "description": "显示下一周的日期",
+        "code": "date -d \"next week\""
+      }
+    ],
+    "notes": "date 命令用于查询和设置系统时间。在现代 Linux 系统中，更推荐使用 `timedatectl` 来进行时间管理，因为它能更好地处理时区、硬件时钟和 NTP 同步。`date` 本身通常是外部命令，但其功能常被 Shell 内置命令或函数封装使用。",
+    "shell_type": "External (`/usr/bin/date`)"
+  },
+  {
+    "name": "hwclock",
+    "summary": "查询或设置硬件时钟 (Query and set the hardware clock (RTC))",
+    "examples": [
+      {
+        "description": "显示硬件时钟的当前时间",
+        "code": "sudo hwclock --show"
+      },
+      {
+        "description": "将系统时间写入硬件时钟 (同步硬件时间到系统时间)",
+        "code": "sudo hwclock --systohc"
+      },
+      {
+        "description": "将硬件时钟时间写入系统时间 (同步系统时间到硬件时间)",
+        "code": "sudo hwclock --hctosys"
+      }
+    ],
+    "notes": "hwclock 命令用于管理系统的硬件时钟 (RTC, Real Time Clock)。硬件时钟独立于操作系统运行，通常用于在系统关闭时保持时间。在系统启动时，通常会根据硬件时钟来设置系统时间，反之亦然。保持系统时间和硬件时间同步对于避免时间偏差和日志混乱很重要。",
+    "shell_type": "External (`/usr/sbin/hwclock`)"
+  },
+  {
+    "name": "crontab",
+    "summary": "管理用户定时任务 (Maintain crontab files for individual users)",
+    "examples": [
+      {
+        "description": "编辑当前用户的 cron 任务 (进入 vi/vim 模式)",
+        "code": "crontab -e"
+      },
+      {
+        "description": "列出当前用户的所有 cron 任务",
+        "code": "crontab -l"
+      },
+      {
+        "description": "删除当前用户的所有 cron 任务 (慎用)",
+        "code": "crontab -r"
+      },
+      {
+        "description": "在 crontab 中添加每小时执行一次的命令",
+        "code": "# 在 'crontab -e' 后添加一行：\n0 * * * * /path/to/your_script.sh"
+      }
+    ],
+    "notes": "crontab 用于管理用户的周期性任务。每个用户都可以有自己的 crontab 文件来定义在特定时间自动运行的命令或脚本。系统级别的定时任务通常定义在 `/etc/cron.*` 目录或 `/etc/crontab` 中。`crontab -e` 默认使用 `vi` 或 `vim` 编辑器。",
+    "shell_type": "External (`/usr/bin/crontab`)"
+  },
+  {
+    "name": "at",
+    "summary": "在指定时间执行一次性任务 (Queue, examine or delete jobs for later execution)",
+    "examples": [
+      {
+        "description": "在今晚 11:00 执行一条命令",
+        "code": "echo \"ls -l /tmp > /tmp/ls.txt\" | at 23:00"
+      },
+      {
+        "description": "在 5 分钟后执行一个脚本",
+        "code": "at now + 5 minutes -f /path/to/your_script.sh"
+      },
+      {
+        "description": "列出所有待执行的 at 任务",
+        "code": "atq"
+      },
+      {
+        "description": "查看指定任务的内容 (例如任务号 1)",
+        "code": "at -c 1"
+      },
+      {
+        "description": "删除指定任务 (例如任务号 1)",
+        "code": "atrm 1"
+      }
+    ],
+    "notes": "at 命令用于调度一次性任务在未来的某个指定时间运行。与 cron 不同，它不适合重复性任务。要使用 `at` 命令，`atd` 服务必须正在运行。通常 `at` 软件包默认安装，如果未安装，请使用以下命令：\n- **Ubuntu/Debian:** `sudo apt install at`\n- **CentOS/Red Hat:** `sudo yum install at` 或 `sudo dnf install at`",
+    "shell_type": "External (`/usr/bin/at`)"
+  },
+  {
+    "name": "ntpdate",
+    "summary": "通过 NTP 服务器设置日期和时间 (Set the date and time via NTP)",
+    "examples": [
+      {
+        "description": "从 pool.ntp.org 同步时间 (需要 root 权限)",
+        "code": "sudo ntpdate pool.ntp.org"
+      }
+    ],
+    "notes": "**注意：ntpdate 命令在现代 Linux 系统中已被视为过时和不推荐使用。** 它只能一次性同步时间，不能持续保持系统时间与 NTP 服务器同步。推荐使用 `timedatectl` 结合 `chronyd` 或 `ntpd` 服务来管理时间同步。如果仍需安装：\n- **Ubuntu/Debian:** `sudo apt install ntpdate`\n- **CentOS/Red Hat:** `sudo yum install ntpdate` 或 `sudo dnf install ntpdate`",
+    "shell_type": "External (`/usr/sbin/ntpdate`)"
+  },
+  {
+    "name": "timedatectl",
+    "summary": "控制系统时间、日期和时区 (Control the system time and date)",
+    "examples": [
+      {
+        "description": "显示当前的系统时间和日期设置",
+        "code": "timedatectl status"
+      },
+      {
+        "description": "列出所有可用的时区",
+        "code": "timedatectl list-timezones"
+      },
+      {
+        "description": "设置系统时区 (例如设置为 'Asia/Shanghai')",
+        "code": "sudo timedatectl set-timezone Asia/Shanghai"
+      },
+      {
+        "description": "启用网络时间同步 (NTP)",
+        "code": "sudo timedatectl set-ntp true"
+      },
+      {
+        "description": "禁用网络时间同步 (NTP)",
+        "code": "sudo timedatectl set-ntp false"
+      },
+      {
+        "description": "设置系统时间和日期 (需要 root 权限)",
+        "code": "sudo timedatectl set-time \"2024-03-15 10:30:00\""
+      }
+    ],
+    "notes": "timedatectl 是 `systemd` 体系下的一个重要命令，用于统一管理系统的日期、时间、时区和 NTP（网络时间协议）同步状态。它是现代 Linux 系统中推荐的时间管理工具，取代了传统的 `date`、`hwclock` 和 `ntpdate` 命令的某些功能。",
+    "shell_type": "External (`/usr/bin/timedatectl`)"
+  },
+  {
+    "name": "chronyc",
+    "summary": "chrony NTP 客户端的命令行界面 (Command line interface for chrony)",
+    "examples": [
+      {
+        "description": "显示 chrony 的 NTP 源状态",
+        "code": "chronyc sources"
+      },
+      {
+        "description": "显示 chrony 的跟踪信息 (如偏移、频率)",
+        "code": "chronyc tracking"
+      },
+      {
+        "description": "强制进行一次时间同步",
+        "code": "sudo chronyc -a makestep"
+      }
+    ],
+    "notes": "chronyc 是 `chrony` NTP 客户端的服务管理命令。`chrony` 是一个轻量级且精确的网络时间协议实现，在许多现代 Linux 发行版中已取代了传统的 `ntpd` 服务，用于保持系统时间与 NTP 服务器同步。使用前需要安装 `chrony` 包并启动 `chronyd` 服务。\n- **Ubuntu/Debian:** `sudo apt install chrony`\n- **CentOS/Red Hat:** `sudo yum install chrony` 或 `sudo dnf install chrony`",
+    "shell_type": "External (`/usr/bin/chronyc`)"
+  },
+  {
+    "name": "reboot",
+    "summary": "重启系统 (Reboot the system)",
+    "examples": [
+      {
+        "description": "立即重启系统",
+        "code": "sudo reboot"
+      },
+      {
+        "description": "强制重启系统 (不等待进程结束)",
+        "code": "sudo reboot -f"
+      }
+    ],
+    "notes": "这是用于立即重启系统的便捷命令。在现代Linux系统（如使用Systemd的系统），`reboot` 通常是 `systemctl reboot` 的一个符号链接或别名。",
+    "shell_type": "External (`/sbin/reboot`, often a symlink to `systemctl`)"
+  },
+  {
+    "name": "shutdown",
+    "summary": "关闭系统或重启系统 (Shut down or reboot the system)",
+    "examples": [
+      {
+        "description": "立即关闭系统",
+        "code": "sudo shutdown -h now"
+      },
+      {
+        "description": "在 10 分钟后关闭系统",
+        "code": "sudo shutdown -h +10"
+      },
+      {
+        "description": "在指定时间关闭系统 (例如晚上 10 点 30 分)",
+        "code": "sudo shutdown -h 22:30"
+      },
+      {
+        "description": "立即重启系统",
+        "code": "sudo shutdown -r now"
+      }
+    ],
+    "notes": "一个功能更全面的关机/重启命令，可以设置延时关机或发送警告消息给登录用户。`now` 等同于 `+0`。与 `reboot`/`poweroff`/`halt` 相比，`shutdown` 更常用于计划性操作和通知用户。",
+    "shell_type": "External (`/sbin/shutdown`, often a symlink to `systemctl`)"
+  },
+  {
+    "name": "poweroff",
+    "summary": "立即关闭系统电源 (Power off the system)",
+    "examples": [
+      {
+        "description": "立即关闭系统并断开电源",
+        "code": "sudo poweroff"
+      },
+      {
+        "description": "强制关闭系统电源 (不等待进程结束)",
+        "code": "sudo poweroff -f"
+      }
+    ],
+    "notes": "直接关闭系统电源的命令。在现代Linux系统上，`poweroff` 通常是 `systemctl poweroff` 的一个符号链接或别名。",
+    "shell_type": "External (`/sbin/poweroff`, often a symlink to `systemctl`)"
+  },
+  {
+    "name": "halt",
+    "summary": "停止系统运行 (Stop the system)",
+    "examples": [
+      {
+        "description": "停止系统运行 (通常会切断电源)",
+        "code": "sudo halt"
+      },
+      {
+        "description": "强制停止系统运行",
+        "code": "sudo halt -f"
+      }
+    ],
+    "notes": "`halt` 命令在旧版系统上是停止CPU活动但不切断电源，在现代系统上通常等同于 `poweroff`，会切断电源。在Systemd系统中，`halt` 通常是 `systemctl halt` 的符号链接。",
+    "shell_type": "External (`/sbin/halt`, often a symlink to `systemctl`)"
+  },
+  {
+    "name": "systemctl",
+    "summary": "控制 systemd 系统和服务管理器 (Control the systemd system and service manager)",
+    "examples": [
+      {
+        "description": "启动一个服务 (例如 Apache)",
+        "code": "sudo systemctl start apache2"
+      },
+      {
+        "description": "停止一个服务",
+        "code": "sudo systemctl stop apache2"
+      },
+      {
+        "description": "重启一个服务",
+        "code": "sudo systemctl restart apache2"
+      },
+      {
+        "description": "查看服务状态",
+        "code": "systemctl status apache2"
+      },
+      {
+        "description": "设置服务开机自启动",
+        "code": "sudo systemctl enable apache2"
+      },
+      {
+        "description": "禁用服务开机自启动",
+        "code": "sudo systemctl disable apache2"
+      },
+      {
+        "description": "列出所有正在运行的服务",
+        "code": "systemctl list-units --type=service --state=running"
+      },
+      {
+        "description": "进入救援模式 (Rescue Mode)",
+        "code": "sudo systemctl isolate rescue.target"
+      },
+      {
+        "description": "立即重启系统",
+        "code": "sudo systemctl reboot"
+      }
+    ],
+    "notes": "这是现代Linux发行版 (如 CentOS/RHEL 7/8/9+, Ubuntu 15.04+, Debian 8+) 中用于管理系统服务、启动进程和运行级别（目标）的核心命令。它取代了传统的 `service`、`chkconfig` 和 `init` 命令。",
+    "shell_type": "External (`/usr/bin/systemctl`)"
+  },
+  {
+    "name": "init",
+    "summary": "SysVinit 系统初始化命令 (Initialisation command for SysVinit systems)",
+    "examples": [
+      {
+        "description": "切换到运行级别 0 (关机)",
+        "code": "sudo init 0"
+      },
+      {
+        "description": "切换到运行级别 6 (重启)",
+        "code": "sudo init 6"
+      },
+      {
+        "description": "切换到运行级别 3 (多用户、命令行模式)",
+        "code": "sudo init 3"
+      }
+    ],
+    "notes": "这个命令主要用于传统的SysVinit系统（如 CentOS/RHEL 6及以前，Ubuntu 14.04及以前）。在Systemd系统中，`init` 命令通常是一个指向 `systemctl` 的符号链接，所以它会调用 `systemctl` 来处理运行级别（Systemd中称为'目标'）。\n例如，`init 6` 在Systemd系统上等同于 `systemctl reboot`。",
+    "shell_type": "External (`/sbin/init`, often a symlink to `systemctl` on modern systems)"
+  },
+  {
+    "name": "runlevel",
+    "summary": "显示和更改运行级别 (Display and change runlevel)",
+    "examples": [
+      {
+        "description": "显示上次和当前的运行级别",
+        "code": "runlevel"
+      }
+    ],
+    "notes": "与 `init` 类似，`runlevel` 也是SysVinit系统的概念。它显示系统上一次和当前的运行级别。在Systemd系统中，虽然命令可能仍然存在，但其背后的机制已由'目标'（targets）取代。例如，'graphical.target' 对应图形界面，'multi-user.target' 对应命令行多用户模式。",
+    "shell_type": "External (`/sbin/runlevel`)"
+  },
+  {
+    "name": "bootctl",
+    "summary": "控制 systemd-boot 启动管理器 (Control a systemd-boot boot manager)",
+    "examples": [
+      {
+        "description": "显示 systemd-boot 状态和分区信息",
+        "code": "bootctl status"
+      },
+      {
+        "description": "安装 systemd-boot 到 EFI 系统分区",
+        "code": "sudo bootctl install"
+      },
+      {
+        "description": "列出所有已知的启动项",
+        "code": "bootctl list"
+      }
+    ],
+    "notes": "这个命令用于管理 `systemd-boot`，一个简单的 UEFI 启动管理器。它不像 GRUB 那样常见，主要用于某些仅支持UEFI启动的发行版或特定配置。如果你的系统使用 GRUB 或其他启动管理器，则此命令可能不适用或未安装。",
+    "shell_type": "External (`/usr/bin/bootctl`)"
+  },
+  {
+    "name": "grub-mkconfig",
+    "summary": "生成 GRUB 配置文件 (Generate GRUB configuration file)",
+    "examples": [
+      {
+        "description": "生成 GRUB 配置文件到标准输出",
+        "code": "sudo grub-mkconfig"
+      },
+      {
+        "description": "将生成的配置保存到默认路径 (通常是 /boot/grub/grub.cfg)",
+        "code": "sudo grub-mkconfig -o /boot/grub/grub.cfg"
+      }
+    ],
+    "notes": "GRUB (GRand Unified Bootloader) 是Linux系统中最常用的启动管理器。此命令用于根据系统当前安装的内核和其他操作系统自动生成 `grub.cfg` 配置文件。当内核更新后，通常需要运行此命令来更新启动项。",
+    "shell_type": "External (`/usr/sbin/grub-mkconfig`)"
+  },
+  {
+    "name": "update-grub",
+    "summary": "更新 GRUB 配置文件 (Update GRUB configuration file)",
+    "examples": [
+      {
+        "description": "自动更新 GRUB 配置文件",
+        "code": "sudo update-grub"
+      }
+    ],
+    "notes": "**Ubuntu/Debian 特有：** `update-grub` 是一个简化命令，它实际上是 `grub-mkconfig -o /boot/grub/grub.cfg` 的一个 Shell 脚本封装。在 Ubuntu 和 Debian 系统中，当安装新内核时，这个命令会自动运行以更新 GRUB 菜单。在 CentOS/Red Hat 等基于 RPM 的系统上，对应的命令是 `grub2-mkconfig -o /boot/grub2/grub.cfg`，但通常通过 `grub2-install` 或 `yum/dnf update kernel` 来自动处理。",
+    "shell_type": "External (`/usr/sbin/update-grub`, a script for `grub-mkconfig`)"
+  },
+  {
+    "name": "uname",
+    "summary": "显示系统信息 (Print system information)",
+    "examples": [
+      {
+        "description": "显示内核名称",
+        "code": "uname -s"
+      },
+      {
+        "description": "显示内核版本",
+        "code": "uname -r"
+      },
+      {
+        "description": "显示机器硬件名称 (例如 x86_64)",
+        "code": "uname -m"
+      },
+      {
+        "description": "显示所有可用的系统信息",
+        "code": "uname -a"
+      }
+    ],
+    "notes": "一个基础的命令，用于获取关于当前操作系统、内核、主机名和硬件架构等信息。是了解系统环境的起点。",
+    "shell_type": "External (`/usr/bin/uname`)"
+  },
+  {
+    "name": "lsb_release",
+    "summary": "显示 Linux 发行版信息 (Display Linux Standard Base information)",
+    "examples": [
+      {
+        "description": "显示所有发行版信息",
+        "code": "lsb_release -a"
+      },
+      {
+        "description": "显示发行版名称",
+        "code": "lsb_release -i"
+      },
+      {
+        "description": "显示发行版版本号",
+        "code": "lsb_release -r"
+      }
+    ],
+    "notes": "这个命令通常用于获取遵循 Linux Standard Base (LSB) 规范的发行版信息。它提供了发行版ID、描述、发布号等。虽然大多数发行版都支持，但有时可能需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install lsb-release`\n- **CentOS/Red Hat:** `sudo yum install redhat-lsb-core` 或 `sudo dnf install redhat-lsb-core`",
+    "shell_type": "External (`/usr/bin/lsb_release`)"
+  },
+  {
+    "name": "cat /etc/os-release",
+    "summary": "显示 Linux 发行版信息文件内容 (Display the content of the Linux distribution information file)",
+    "examples": [
+      {
+        "description": "显示系统的发行版信息",
+        "code": "cat /etc/os-release"
+      }
+    ],
+    "notes": "这是一个更通用的获取发行版信息的方法，因为 `/etc/os-release` 是一个标准文件，大多数现代Linux发行版都提供。它包含发行版名称、版本、ID等信息，比 `lsb_release` 更普遍。",
+    "shell_type": "External (`/usr/bin/cat` 用于查看文件)"
+  },
+  {
+    "name": "sysctl",
+    "summary": "在运行时配置内核参数 (Configure kernel parameters at runtime)",
+    "examples": [
+      {
+        "description": "显示所有可用的内核参数",
+        "code": "sysctl -a"
+      },
+      {
+        "description": "查看特定内核参数的值 (例如允许ping广播)",
+        "code": "sysctl net.ipv4.icmp_echo_ignore_broadcasts"
+      },
+      {
+        "description": "临时设置一个内核参数 (例如允许IP转发)",
+        "code": "sudo sysctl -w net.ipv4.ip_forward=1"
+      },
+      {
+        "description": "从文件加载配置 (通常是 /etc/sysctl.conf 或 /etc/sysctl.d/)",
+        "code": "sudo sysctl -p"
+      }
+    ],
+    "notes": "sysctl 允许系统管理员在不重启系统的情况下修改内核参数，例如网络性能、内存管理、文件系统行为等。对系统优化和故障排除非常重要。永久修改需要编辑 `/etc/sysctl.conf` 或 `/etc/sysctl.d/` 下的文件。",
+    "shell_type": "External (`/sbin/sysctl`)"
+  },
+  {
+    "name": "modprobe",
+    "summary": "自动加载或卸载可加载的内核模块 (Automatically load or unload loadable kernel modules)",
+    "examples": [
+      {
+        "description": "加载一个内核模块 (例如虚拟网络接口模块)",
+        "code": "sudo modprobe dummy"
+      },
+      {
+        "description": "卸载一个内核模块",
+        "code": "sudo modprobe -r dummy"
+      },
+      {
+        "description": "列出指定模块的信息",
+        "code": "modinfo dummy"
+      }
+    ],
+    "notes": "用于管理内核模块，例如网卡驱动、文件系统模块等。当系统启动时，内核会根据硬件配置自动加载必要的模块，但有时需要手动加载或卸载。",
+    "shell_type": "External (`/sbin/modprobe`)"
+  },
+  {
+    "name": "lsmod",
+    "summary": "列出已加载的内核模块 (List loaded kernel modules)",
+    "examples": [
+      {
+        "description": "列出所有当前加载的内核模块",
+        "code": "lsmod"
+      }
+    ],
+    "notes": "显示当前在运行的Linux内核中加载的所有模块及其依赖关系和使用情况。对于诊断驱动问题或确认模块是否正确加载非常有用。",
+    "shell_type": "External (`/sbin/lsmod`)"
+  },
+  {
+    "name": "rmmod",
+    "summary": "卸载内核模块 (Unload kernel modules)",
+    "examples": [
+      {
+        "description": "卸载一个不再使用的内核模块",
+        "code": "sudo rmmod dummy"
+      }
+    ],
+    "notes": "用于从内核中移除一个已加载的模块。需要注意的是，如果模块正在被使用或有其他模块依赖它，则无法卸载。通常用 `modprobe -r` 代替，因为它会先检查依赖。",
+    "shell_type": "External (`/sbin/rmmod`)"
+  },
+  {
+    "name": "lspci",
+    "summary": "列出所有 PCI 设备 (List all PCI devices)",
+    "examples": [
+      {
+        "description": "列出所有 PCI 设备及其简要信息",
+        "code": "lspci"
+      },
+      {
+        "description": "以详细模式显示 PCI 设备信息 (包括供应商ID、设备ID等)",
+        "code": "lspci -v"
+      },
+      {
+        "description": "以树状结构显示 PCI 设备信息",
+        "code": "lspci -t"
+      },
+      {
+        "description": "显示人类可读的 PCI 设备信息",
+        "code": "lspci -vvv"
+      }
+    ],
+    "notes": "用于显示系统中所有 PCI (Peripheral Component Interconnect) 设备的详细信息，如显卡、网卡、声卡、SATA控制器等。对于硬件故障排查和驱动安装非常有用。",
+    "shell_type": "External (`/usr/bin/lspci`)"
+  },
+  {
+    "name": "lsusb",
+    "summary": "列出所有 USB 设备 (List all USB devices)",
+    "examples": [
+      {
+        "description": "列出所有连接的 USB 设备",
+        "code": "lsusb"
+      },
+      {
+        "description": "以详细模式显示 USB 设备信息",
+        "code": "lsusb -v"
+      }
+    ],
+    "notes": "用于显示系统中所有连接的 USB (Universal Serial Bus) 设备的详细信息，如USB驱动器、摄像头、键盘、鼠标等。有助于识别USB设备和排查USB相关问题。",
+    "shell_type": "External (`/usr/bin/lsusb`)"
+  },
+  {
+    "name": "lscpu",
+    "summary": "显示 CPU 架构信息 (Display CPU architecture information)",
+    "examples": [
+      {
+        "description": "显示 CPU 架构信息",
+        "code": "lscpu"
+      }
+    ],
+    "notes": "提供关于CPU架构、核心数、线程数、缓存大小、CPU家族、型号等详细信息。对于了解服务器的物理CPU配置非常有用。它是 `util-linux` 包的一部分。",
+    "shell_type": "External (`/usr/bin/lscpu`)"
+  },
+  {
+    "name": "lsmem",
+    "summary": "显示内存硬件信息 (Display memory hardware information)",
+    "examples": [
+      {
+        "description": "显示内存硬件信息",
+        "code": "lsmem"
+      },
+      {
+        "description": "以人类可读的格式显示内存信息",
+        "code": "lsmem -J -b"
+      }
+    ],
+    "notes": "显示系统的内存布局、内存条插槽、内存大小等详细信息。对于诊断内存问题或了解物理内存配置非常有用。它通常是 `util-linux` 包的一部分，在某些旧系统上可能没有。",
+    "shell_type": "External (`/usr/bin/lsmem`)"
+  },
+  {
+    "name": "dmidecode",
+    "summary": "显示 DMI 表内容 (Decode DMI table contents)",
+    "examples": [
+      {
+        "description": "显示所有 DMI 信息",
+        "code": "sudo dmidecode"
+      },
+      {
+        "description": "显示 BIOS 信息",
+        "code": "sudo dmidecode -t bios"
+      },
+      {
+        "description": "显示内存模块信息",
+        "code": "sudo dmidecode -t memory"
+      },
+      {
+        "description": "显示主板信息",
+        "code": "sudo dmidecode -t baseboard"
+      }
+    ],
+    "notes": "dmidecode 用于从系统的DMI (Desktop Management Interface) 或 SMBIOS (System Management BIOS) 表中提取硬件信息，如BIOS版本、主板型号、CPU信息、内存条型号和速度、序列号等。对于详细的硬件清单和故障排查非常有用。它需要root权限才能运行。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install dmidecode`\n- **CentOS/Red Hat:** `sudo yum install dmidecode` 或 `sudo dnf install dmidecode`",
+    "shell_type": "External (`/usr/sbin/dmidecode`)"
+  },
+  {
+    "name": "hwinfo",
+    "summary": "探测系统所有硬件信息并报告 (Probe for hardware and report it)",
+    "examples": [
+      {
+        "description": "显示所有硬件信息",
+        "code": "sudo hwinfo"
+      },
+      {
+        "description": "只显示显卡信息",
+        "code": "sudo hwinfo --gfxcard"
+      },
+      {
+        "description": "只显示硬盘信息",
+        "code": "sudo hwinfo --disk"
+      }
+    ],
+    "notes": "hwinfo 是一个功能全面的硬件信息检测工具，能够提供比 `lspci`、`lsusb` 等命令更详细、更集中的硬件报告，包括设备名称、制造商、驱动、PCI ID等。对于构建硬件清单或进行硬件故障排查非常有用。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install hwinfo`\n- **CentOS/Red Hat:** `sudo yum install hwinfo` 或 `sudo dnf install hwinfo`",
+    "shell_type": "External (`/usr/sbin/hwinfo`)"
+  },
+  {
+    "name": "echo",
+    "summary": "打印文本或变量到标准输出 (Display a line of text)",
+    "examples": [
+      {
+        "description": "打印简单的文本字符串",
+        "code": "echo \"Hello, Linux!\""
+      },
+      {
+        "description": "打印环境变量的值",
+        "code": "echo \"当前用户的家目录是: $HOME\""
+      },
+      {
+        "description": "使用转义字符 (例如，换行符)",
+        "code": "echo -e \"第一行\\n第二行\""
+      },
+      {
+        "description": "不换行打印",
+        "code": "echo -n \"这是不带换行的文本\""
+      }
+    ],
+    "notes": "`echo` 是Shell中最常用的命令之一，用于简单的文本输出。`-e` 选项允许解释反斜杠转义字符（如 `\\n` 换行，`\\t` 制表符）。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "export",
+    "summary": "设置或显示环境变量 (Set export attribute for shell variables or functions)",
+    "examples": [
+      {
+        "description": "定义一个环境变量并使其对子进程可见",
+        "code": "export MY_VAR=\"Hello from export\""
+      },
+      {
+        "description": "显示所有已导出的环境变量",
+        "code": "export"
+      },
+      {
+        "description": "将一个已存在的Shell变量导出为环境变量",
+        "code": "COUNT=10\nexport COUNT"
+      }
+    ],
+    "notes": "`export` 命令用于将Shell变量转换为环境变量。环境变量会被当前Shell的所有子进程继承，这对于配置程序路径 (`PATH`)、库路径 (`LD_LIBRARY_PATH`) 等非常重要。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "env",
+    "summary": "以修改后的环境运行程序或打印当前环境 (Run a program in a modified environment or print the current environment)",
+    "examples": [
+      {
+        "description": "显示当前Shell的所有环境变量",
+        "code": "env"
+      },
+      {
+        "description": "在指定环境变量的环境下运行命令",
+        "code": "env MY_CONFIG=/path/to/config.ini my_app"
+      },
+      {
+        "description": "清除所有现有环境变量，只保留指定变量运行命令 (慎用)",
+        "code": "env -i PATH=/bin:/usr/bin my_script.sh"
+      }
+    ],
+    "notes": "`env` 可以用来查看当前所有环境变量，也可以在执行命令时临时修改环境变量，而不影响当前Shell的环境。它是一个外部命令，通常位于 `/usr/bin/env`。",
+    "shell_type": "External (`/usr/bin/env`)"
+  },
+  {
+    "name": "printenv",
+    "summary": "打印所有或指定的环境变量 (Print all or part of the environment)",
+    "examples": [
+      {
+        "description": "打印所有环境变量",
+        "code": "printenv"
+      },
+      {
+        "description": "打印指定环境变量的值",
+        "code": "printenv PATH"
+      }
+    ],
+    "notes": "`printenv` 的功能与 `env` 类似，但它通常只用于打印环境变量，而不用于执行带修改环境的命令。",
+    "shell_type": "External (`/usr/bin/printenv`)"
+  },
+  {
+    "name": "alias",
+    "summary": "定义或显示命令别名 (Define or display aliases)",
+    "examples": [
+      {
+        "description": "为 `ls -l` 创建一个别名 `ll`",
+        "code": "alias ll='ls -l'"
+      },
+      {
+        "description": "显示所有已定义的别名",
+        "code": "alias"
+      },
+      {
+        "description": "显示特定别名的定义",
+        "code": "alias ll"
+      }
+    ],
+    "notes": "`alias` 命令用于为常用的长命令或复杂命令创建短别名，提高命令行效率。别名默认只在当前Shell会话中有效，若要永久生效，需要将其写入Shell的配置文件（如 `~/.bashrc` 或 `~/.zshrc`）。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "unalias",
+    "summary": "删除别名定义 (Remove alias definitions)",
+    "examples": [
+      {
+        "description": "删除别名 `ll`",
+        "code": "unalias ll"
+      },
+      {
+        "description": "删除所有别名 (慎用)",
+        "code": "unalias -a"
+      }
+    ],
+    "notes": "用于取消之前定义的别名。如果别名是在配置文件中定义的，需要修改配置文件并重新加载才能永久删除。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "history",
+    "summary": "显示或操作Shell命令历史记录 (Display or manipulate the history list)",
+    "examples": [
+      {
+        "description": "显示最近执行的所有命令",
+        "code": "history"
+      },
+      {
+        "description": "执行历史列表中的第N条命令 (例如，执行第100条命令)",
+        "code": "!100"
+      },
+      {
+        "description": "执行最近一次以 'ls' 开头的命令",
+        "code": "!ls"
+      },
+      {
+        "description": "清除历史记录 (慎用)",
+        "code": "history -c"
+      }
+    ],
+    "notes": "`history` 是一个非常实用的Bash（和其他Shell）内置命令，可以帮助用户回顾和重用之前执行过的命令。历史记录通常保存在 `~/.bash_history` 文件中。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "source",
+    "summary": "在当前Shell中执行脚本 (Execute commands from a file in the current shell)",
+    "examples": [
+      {
+        "description": "重新加载 Bash 配置文件，使其修改生效",
+        "code": "source ~/.bashrc"
+      },
+      {
+        "description": "在当前Shell中执行一个脚本文件",
+        "code": "source my_script.sh"
+      }
+    ],
+    "notes": "与直接执行脚本不同 (`./my_script.sh`)，`source` 命令会在当前Shell环境中执行脚本，这意味着脚本中定义的变量、函数、别名等会直接影响当前Shell，而不是在一个子Shell中运行。这对于加载配置文件尤其重要。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": ".",
+    "summary": "`source` 命令的等效简写 (Synonym for the `source` command)",
+    "examples": [
+      {
+        "description": "重新加载 Bash 配置文件，使其修改生效",
+        "code": ". ~/.bashrc"
+      },
+      {
+        "description": "在当前Shell中执行一个脚本文件",
+        "code": ". my_script.sh"
+      }
+    ],
+    "notes": "点号（`.`）是 `source` 命令的POSIX标准表示形式。在大多数Shell中，两者功能相同。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "clear",
+    "summary": "清除终端屏幕 (Clear the terminal screen)",
+    "examples": [
+      {
+        "description": "清除当前终端屏幕上的所有内容",
+        "code": "clear"
+      }
+    ],
+    "notes": "一个简单的实用命令，用于清空终端显示，让界面看起来更整洁。通常，按下 `Ctrl+L` 快捷键也能达到同样的效果。",
+    "shell_type": "External (`/usr/bin/clear`)"
+  },
+  {
+    "name": "test",
+    "summary": "检查文件类型和比较值 (Check file types and compare values)",
+    "examples": [
+      {
+        "description": "检查文件是否存在",
+        "code": "if test -f \"myfile.txt\"; then echo \"文件存在\"; fi"
+      },
+      {
+        "description": "比较两个整数是否相等",
+        "code": "if test 10 -eq 10; then echo \"相等\"; fi"
+      },
+      {
+        "description": "检查字符串是否为空",
+        "code": "VAR=\"\"; if test -z \"$VAR\"; then echo \"字符串为空\"; fi"
+      }
+    ],
+    "notes": "`test` 命令在Shell脚本中用于条件判断，例如判断文件属性、字符串比较或数字比较。它通常与 `if` 语句结合使用。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "[",
+    "summary": "`test` 命令的别名或等效形式 (Alias or equivalent form of the `test` command)",
+    "examples": [
+      {
+        "description": "检查文件是否存在 (注意方括号内外的空格)",
+        "code": "if [ -f \"myfile.txt\" ]; then echo \"文件存在\"; fi"
+      },
+      {
+        "description": "检查目录是否存在",
+        "code": "if [ -d \"my_dir\" ]; then echo \"目录存在\"; fi"
+      }
+    ],
+    "notes": "左方括号 `[` 是 `test` 命令的另一个名称。使用时，`[` 和 `]` 必须与内容之间有空格。它同样是Shell脚本中进行条件判断的常用方式。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "[[ ... ]]",
+    "summary": "Bash 专用的增强型条件表达式 (Bash-specific extended conditional expression)",
+    "examples": [
+      {
+        "description": "检查字符串是否匹配正则表达式",
+        "code": "if [[ \"hello world\" =~ \"hello.*\" ]]; then echo \"匹配\"; fi"
+      },
+      {
+        "description": "使用逻辑AND和OR (`-a` 和 `-o` 不适用于 `[[`，直接使用 `&&` 和 `||`)",
+        "code": "if [[ -f \"file1.txt\" && -d \"dir1\" ]]; then echo \"文件和目录都存在\"; fi"
+      }
+    ],
+    "notes": "`[[ ... ]]` 是Bash Shell特有的条件判断语法，比 `[ ... ]` 更强大，支持正则表达式匹配 (`=~`)、逻辑操作符 (`&&`, `||`)，并且不需要对某些特殊字符进行引用。它不是POSIX标准，因此在其他Shell（如 `sh`）中可能不兼容。",
+    "shell_type": "Builtin (bash specific)"
+  },
+  {
+    "name": "(( ... ))",
+    "summary": "Bash 专用的算术评估表达式 (Bash-specific arithmetic evaluation expression)",
+    "examples": [
+      {
+        "description": "执行算术运算并赋值",
+        "code": "x=10; y=5; ((z = x + y)); echo $z"
+      },
+      {
+        "description": "在条件判断中进行算术比较",
+        "code": "val=15; if ((val > 10 && val < 20)); then echo \"值在10到20之间\"; fi"
+      }
+    ],
+    "notes": "`(( ... ))` 是Bash Shell特有的算术评估语法，允许在Shell脚本中进行C语言风格的整数算术运算和比较，而无需使用 `expr` 或 `$` 符号。它不是POSIX标准，只在Bash中可用。",
+    "shell_type": "Builtin (bash specific)"
+  },
+  {
+    "name": "read",
+    "summary": "从标准输入读取一行 (Read a line from standard input)",
+    "examples": [
+      {
+        "description": "提示用户输入并读取到变量中",
+        "code": "read -p \"请输入你的名字: \" NAME\necho \"你好, $NAME!\""
+      },
+      {
+        "description": "设置读取超时时间 (例如 5 秒)",
+        "code": "if read -t 5 -p \"你有5秒钟输入: \" RESPONSE; then echo \"你输入了: $RESPONSE\"; else echo \"超时！\"; fi"
+      },
+      {
+        "description": "从文件按行读取内容 (在循环中常用)",
+        "code": "while IFS= read -r line; do\n  echo \"处理行: $line\"\ndone < input.txt"
+      }
+    ],
+    "notes": "`read` 命令在Shell脚本中非常重要，它允许脚本与用户进行交互，获取用户输入。常用选项包括 `-p` (显示提示符)、`-t` (设置超时)、`-s` (静默输入，常用于密码)。",
+    "shell_type": "Builtin (bash/sh)"
+  },
+  {
+    "name": "printf",
+    "summary": "格式化并打印数据 (Format and print data)",
+    "examples": [
+      {
+        "description": "格式化打印字符串和数字",
+        "code": "printf \"名字: %s, 年龄: %d\\n\" \"张三\" 30"
+      },
+      {
+        "description": "右对齐并填充空格",
+        "code": "printf \"|%10s|%5d|\\n\" \"Apple\" 123"
+      },
+      {
+        "description": "保留两位小数",
+        "code": "printf \"圆周率: %.2f\\n\" 3.14159"
+      }
+    ],
+    "notes": "`printf` 提供了比 `echo` 更强大的格式化输出能力，类似于C语言中的 `printf` 函数。它支持多种格式化选项，对于生成结构化的输出报告或日志非常有用。它既可以是Shell内置命令，也可以是外部命令 (`/usr/bin/printf`)，通常优先使用内置版本。",
+    "shell_type": "Builtin (bash/sh) / External (`/usr/bin/printf`)"
+  },
+  {
+    "name": "xargs",
+    "summary": "从标准输入构建并执行命令行 (Build and execute command lines from standard input)",
+    "examples": [
+      {
+        "description": "查找所有 .txt 文件并删除它们",
+        "code": "find . -name \"*.txt\" | xargs rm"
+      },
+      {
+        "description": "查找所有 .jpg 文件并压缩它们",
+        "code": "find . -name \"*.jpg\" -print0 | xargs -0 gzip"
+      },
+      {
+        "description": "一次处理多个参数，每个命令处理3个文件",
+        "code": "ls *.txt | xargs -n 3 cp -t /tmp/backup"
+      }
+    ],
+    "notes": "`xargs` 是一个非常强大的命令，它将标准输入转换为命令行参数，并执行指定的命令。这在处理大量文件列表时特别有用，例如与 `find`、`grep` 等命令结合使用。使用 `-print0` 和 `-0` 选项可以安全地处理包含空格或特殊字符的文件名。",
+    "shell_type": "External (`/usr/bin/xargs`)"
+  },
+  {
+    "name": "tee",
+    "summary": "从标准输入读取并同时写入标准输出和文件 (Read from standard input and write to standard output and files)",
+    "examples": [
+      {
+        "description": "将命令的输出同时显示在屏幕上并保存到文件中",
+        "code": "ls -l | tee output.txt"
+      },
+      {
+        "description": "追加命令输出到文件而不是覆盖",
+        "code": "echo \"新的日志条目\" | tee -a app.log"
+      }
+    ],
+    "notes": "`tee` 命令就像一个“T”形管道，它将数据流一分为二，一份继续流向标准输出，另一份则写入文件。这对于在执行命令时同时进行实时监控和日志记录非常方便。",
+    "shell_type": "External (`/usr/bin/tee`)"
+  },
+  {
+    "name": "watch",
+    "summary": "周期性地执行命令并显示输出 (Execute a program periodically, showing output fullscreen)",
+    "examples": [
+      {
+        "description": "每隔1秒刷新一次 `free -h` 的输出，实时监控内存使用",
+        "code": "watch -n 1 free -h"
+      },
+      {
+        "description": "每隔2秒刷新一次，高亮显示变化的部分",
+        "code": "watch -n 2 -d \"ps aux | head -n 1; ps aux | grep httpd\""
+      }
+    ],
+    "notes": "`watch` 命令是一个非常实用的系统监控工具，它会定期执行一个命令，并全屏显示其输出，同时高亮显示两次输出之间的差异。对于需要实时观察系统状态或某个命令输出变化的情况非常有用。\n- **Ubuntu/Debian:** 通常随 `procps` 包一起安装。\n- **CentOS/Red Hat:** 通常随 `procps-ng` 包一起安装。",
+    "shell_type": "External (`/usr/bin/watch`)"
+  },
+  {
+    "name": "sleep",
+    "summary": "延迟指定的时间 (Delay for a specified amount of time)",
+    "examples": [
+      {
+        "description": "暂停脚本执行5秒",
+        "code": "echo \"开始...\"; sleep 5; echo \"5秒后结束。\""
+      },
+      {
+        "description": "暂停0.5秒 (支持小数)",
+        "code": "sleep 0.5"
+      },
+      {
+        "description": "暂停1分钟",
+        "code": "sleep 1m"
+      },
+      {
+        "description": "暂停1小时",
+        "code": "sleep 1h"
+      }
+    ],
+    "notes": "`sleep` 命令在Shell脚本中非常常用，用于在执行一系列操作时引入时间间隔，例如等待某个服务启动、执行定时任务等。它支持秒（默认）、分钟（m）、小时（h）和天（d）作为时间单位。",
+    "shell_type": "External (`/usr/bin/sleep`)"
+  },
+  {
+    "name": "yes",
+    "summary": "重复打印一行字符串，直到被终止 (Print a string repeatedly until killed)",
+    "examples": [
+      {
+        "description": "重复打印 'yes' (默认行为)",
+        "code": "yes"
+      },
+      {
+        "description": "重复打印 'Y' 并通过管道传递给需要确认的命令",
+        "code": "yes Y | rm -i old_file.txt"
+      },
+      {
+        "description": "重复打印自定义字符串",
+        "code": "yes \"确认\" | your_script_requiring_confirmation"
+      }
+    ],
+    "notes": "`yes` 命令会不断输出字符串，直到被终止。它通常与管道符 `|` 结合使用，自动化地响应一些交互式命令的确认提示，例如 `apt -y install` (虽然 `apt -y` 内部已经处理了)，或一些要求 `yes/no` 回复的旧式脚本。**使用 `yes` 与 `rm -rf` 等破坏性命令时务必极其小心，因为它会强制确认所有操作，可能导致数据丢失。**",
+    "shell_type": "External (`/usr/bin/yes`)"
+  },
+  {
+    "name": "vi",
+    "summary": "Unix 标准文本编辑器 (Standard Unix text editor)",
+    "examples": [
+      {
+        "description": "打开或创建文件",
+        "code": "vi filename.txt"
+      },
+      {
+        "description": "进入插入模式 (在光标位置插入)",
+        "code": "i (在 vi 命令模式下输入)"
+      },
+      {
+        "description": "保存文件并退出",
+        "code": ":wq (在 vi 命令模式下输入)"
+      },
+      {
+        "description": "不保存退出",
+        "code": ":q! (在 vi 命令模式下输入)"
+      }
+    ],
+    "notes": "vi 是所有Unix/Linux系统默认安装的编辑器，功能强大但上手有一定难度，需要记住命令模式和插入模式的切换。在现代Linux系统上，`vi` 通常是 `vim-tiny` 或 `vim` 的软链接。",
+    "shell_type": "External (`/usr/bin/vi`，通常链接到 `vim` 或 `vim-tiny`)"
+  },
+  {
+    "name": "vim",
+    "summary": "Vi IMproved，vi 编辑器的增强版 (Vi IMproved, an enhanced version of the vi editor)",
+    "examples": [
+      {
+        "description": "打开文件并启用语法高亮",
+        "code": "vim filename.py"
+      },
+      {
+        "description": "在文件中搜索 'keyword'",
+        "code": "/keyword (在 vim 命令模式下输入)"
+      },
+      {
+        "description": "替换文件中所有 'old' 为 'new'",
+        "code": ":%s/old/new/g (在 vim 命令模式下输入)"
+      },
+      {
+        "description": "分屏编辑两个文件",
+        "code": "vim -O file1.txt file2.txt"
+      }
+    ],
+    "notes": "vim 比 vi 功能更丰富，支持语法高亮、代码折叠、插件等。它是Linux系统管理员和开发者常用的工具。虽然很多发行版默认安装了轻量级的 `vim-tiny`，但完整版 `vim` 需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install vim`\n- **CentOS/Red Hat:** `sudo yum install vim` 或 `sudo dnf install vim`",
+    "shell_type": "External (`/usr/bin/vim`)"
+  },
+  {
+    "name": "nano",
+    "summary": "简单易用的命令行文本编辑器 (An easy-to-use command-line text editor)",
+    "examples": [
+      {
+        "description": "打开或创建文件",
+        "code": "nano filename.txt"
+      },
+      {
+        "description": "保存修改 (通常按 Ctrl+O)",
+        "code": "Ctrl+O (在 nano 界面中操作)"
+      },
+      {
+        "description": "退出编辑器 (通常按 Ctrl+X)",
+        "code": "Ctrl+X (在 nano 界面中操作)"
+      },
+      {
+        "description": "搜索文本",
+        "code": "Ctrl+W (在 nano 界面中操作)"
+      }
+    ],
+    "notes": "nano 对新手非常友好，底部显示常用的快捷键提示，操作直观，适合快速编辑配置文件或短文件。通常是默认安装。",
+    "shell_type": "External (`/usr/bin/nano`)"
+  },
+  {
+    "name": "emacs",
+    "summary": "可扩展、可定制、自文档化的实时显示文本编辑器 (Extensible, customizable, free/libre text editor with real-time display)",
+    "examples": [
+      {
+        "description": "打开文件",
+        "code": "emacs filename.txt"
+      },
+      {
+        "description": "保存文件 (Ctrl-x Ctrl-s)",
+        "code": "Ctrl+x Ctrl+s (在 Emacs 界面中操作)"
+      },
+      {
+        "description": "退出 Emacs (Ctrl-x Ctrl-c)",
+        "code": "Ctrl+x Ctrl+c (在 Emacs 界面中操作)"
+      },
+      {
+        "description": "启动内置教程",
+        "code": "Ctrl+h t (在 Emacs 界面中操作)"
+      }
+    ],
+    "notes": "Emacs 是一个功能极其强大的文本编辑器，被许多开发者视为一个完整的操作系统。它拥有庞大的生态系统和高度的可扩展性，但学习曲线较陡峭。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install emacs`\n- **CentOS/Red Hat:** `sudo yum install emacs` 或 `sudo dnf install emacs`",
+    "shell_type": "External (`/usr/bin/emacs`)"
+  },
+  {
+    "name": "mcedit",
+    "summary": "Midnight Commander (mc) 文件管理器内置的文本编辑器 (Text editor built into Midnight Commander)",
+    "examples": [
+      {
+        "description": "通过 mc 调用编辑器打开文件",
+        "code": "mc (进入 Midnight Commander 界面后，选中文件按 F4)"
+      },
+      {
+        "description": "直接从命令行打开文件",
+        "code": "mcedit filename.txt"
+      },
+      {
+        "description": "保存并退出 (F2 保存，F10 退出)",
+        "code": "F2 (保存), F10 (退出) (在 mcedit 界面中操作)"
+      }
+    ],
+    "notes": "mcedit 是 `mc` (Midnight Commander) 的一个组成部分，提供了图形化的文本编辑体验，对初学者比 vi/vim 友好。它通常不单独安装，而是随 `mc` 包一起安装。\n- **Ubuntu/Debian:** `sudo apt install mc`\n- **CentOS/Red Hat:** `sudo yum install mc` 或 `sudo dnf install mc`",
+    "shell_type": "External (part of `mc`, usually `/usr/bin/mcedit`)"
+  },
+  {
+    "name": "ed",
+    "summary": "行编辑器 (The standard Unix line editor)",
+    "examples": [
+      {
+        "description": "打开文件 (输入 'a' 进入追加模式，输入 '.' 结束追加)",
+        "code": "ed filename.txt\na\nHello World.\n.\n"
+      },
+      {
+        "description": "打印所有行",
+        "code": ",p (在 ed 命令模式下输入)"
+      },
+      {
+        "description": "保存文件并退出",
+        "code": "w\nq (在 ed 命令模式下输入)"
+      }
+    ],
+    "notes": "ed 是最古老的Unix文本编辑器之一，它是一个行编辑器，没有全屏界面，主要用于脚本或非常受限的环境。它在日常交互使用中不常见，但其概念影响了后来的 `vi` 和 `sed`。",
+    "shell_type": "External (`/usr/bin/ed`)"
+  },
+  {
+    "name": "bc",
+    "summary": "任意精度计算器语言 (An arbitrary precision calculator language)",
+    "examples": [
+      {
+        "description": "启动交互式计算器",
+        "code": "bc"
+      },
+      {
+        "description": "计算表达式 (在 bc 交互模式下)",
+        "code": "2 + 2\n(输出: 4)"
+      },
+      {
+        "description": "设置小数精度 (在 bc 交互模式下)",
+        "code": "scale=10\n10/3\n(输出: 3.3333333333)"
+      },
+      {
+        "description": "从命令行计算表达式并退出",
+        "code": "echo \"scale=2; 10/3\" | bc"
+      }
+    ],
+    "notes": "bc 是一个命令行数学计算工具，支持任意精度计算，对于需要精确小数计算或在脚本中进行数学运算非常有用。",
+    "shell_type": "External (`/usr/bin/bc`)"
+  },
+  {
+    "name": "cal",
+    "summary": "显示日历 (Displays a calendar)",
+    "examples": [
+      {
+        "description": "显示当前月份的日历",
+        "code": "cal"
+      },
+      {
+        "description": "显示指定年份的日历 (如 2024 年)",
+        "code": "cal 2024"
+      },
+      {
+        "description": "显示指定月份和年份的日历 (如 2024 年 3 月)",
+        "code": "cal 3 2024"
+      }
+    ],
+    "notes": "一个简单实用的命令行工具，用于快速查看日历。",
+    "shell_type": "External (`/usr/bin/cal`)"
+  },
+  {
+    "name": "factor",
+    "summary": "打印数字的质因数 (Prints prime factors of numbers)",
+    "examples": [
+      {
+        "description": "分解数字 12 的质因数",
+        "code": "factor 12"
+      },
+      {
+        "description": "分解多个数字的质因数",
+        "code": "factor 100 233 1024"
+      }
+    ],
+    "notes": "一个用于数学计算的小工具，可以快速分解给定整数的质因数。",
+    "shell_type": "External (`/usr/bin/factor`)"
+  },
+  {
+    "name": "figlet",
+    "summary": "将文本转换为大型艺术字 (Prints large, artistic text banners)",
+    "examples": [
+      {
+        "description": "生成 'Hello World' 的艺术字",
+        "code": "figlet \"Hello World\""
+      },
+      {
+        "description": "使用指定字体生成艺术字 (需安装字体文件，例如 Big)",
+        "code": "figlet -f Big Linux"
+      }
+    ],
+    "notes": "一个有趣的工具，可以将普通文本转换成ASCII艺术字。常用于制作命令行横幅或欢迎信息。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install figlet`\n- **CentOS/Red Hat:** `sudo yum install figlet` 或 `sudo dnf install figlet`",
+    "shell_type": "External (`/usr/bin/figlet`)"
+  },
+  {
+    "name": "wall",
+    "summary": "向所有登录用户发送消息 (Write a message to all users logged in)",
+    "examples": [
+      {
+        "description": "向所有终端广播消息",
+        "code": "echo \"系统将在5分钟后重启，请保存您的工作！\" | wall"
+      },
+      {
+        "description": "直接输入消息，按 Ctrl+D 结束",
+        "code": "wall\n系统通知：服务器将于今晚进行维护。\n请提前下线。\n^D (按 Ctrl+D)"
+      }
+    ],
+    "notes": "管理员常用命令，用于向当前所有登录的用户发送广播消息，通常用于系统维护通知。需要root权限或特殊组权限。",
+    "shell_type": "External (`/usr/bin/wall`)"
+  },
+  {
+    "name": "mesg",
+    "summary": "控制其他用户是否可以向你的终端发送消息 (Controls whether other users can send messages to your terminal)",
+    "examples": [
+      {
+        "description": "允许其他用户发送消息",
+        "code": "mesg y"
+      },
+      {
+        "description": "禁止其他用户发送消息",
+        "code": "mesg n"
+      },
+      {
+        "description": "查看当前设置",
+        "code": "mesg"
+      }
+    ],
+    "notes": "这个命令通常与 `write` 和 `talk` 命令（它们允许用户之间直接在终端上通信）配合使用。设置 `mesg n` 可以避免不必要的打扰。",
+    "shell_type": "External (`/usr/bin/mesg`)"
+  },
+  {
+    "name": "tput",
+    "summary": "初始化终端或查询 terminfo 数据库 (Initialize a terminal or query terminfo database)",
+    "examples": [
+      {
+        "description": "获取终端的行数",
+        "code": "tput lines"
+      },
+      {
+        "description": "获取终端的列数",
+        "code": "tput cols"
+      },
+      {
+        "description": "将光标移动到第10行第20列",
+        "code": "tput cup 10 20"
+      },
+      {
+        "description": "设置前景色为红色 (脚本中常用)",
+        "code": "echo \"$(tput setaf 1)This is red text.$(tput sgr0)\""
+      }
+    ],
+    "notes": "tput 是一个强大的shell脚本工具，用于控制终端的各种特性，如光标位置、颜色、清除屏幕等。它通过查询 `terminfo` 数据库来实现终端兼容性。",
+    "shell_type": "External (`/usr/bin/tput`)"
+  },
+  {
+    "name": "screen",
+    "summary": "具有 VT100/ANSI 终端模拟功能的屏幕管理器 (Screen manager with VT100/ANSI terminal emulation)",
+    "examples": [
+      {
+        "description": "启动一个新的 screen 会话",
+        "code": "screen"
+      },
+      {
+        "description": "启动一个命名会话",
+        "code": "screen -S my_session"
+      },
+      {
+        "description": "从当前会话分离 (离开终端，但进程仍在运行)",
+        "code": "Ctrl+a d (在 screen 会话中输入)"
+      },
+      {
+        "description": "重新连接到上次分离的会话",
+        "code": "screen -r"
+      },
+      {
+        "description": "列出所有 screen 会话",
+        "code": "screen -ls"
+      }
+    ],
+    "notes": "screen 是一个非常有用的工具，允许用户在一个终端窗口中运行多个独立的Shell会话。即使SSH连接断开，会话中的进程也会继续运行，用户可以稍后重新连接。对于长时间运行的任务或SSH连接不稳定的情况非常有用。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install screen`\n- **CentOS/Red Hat:** `sudo yum install screen` 或 `sudo dnf install screen`",
+    "shell_type": "External (`/usr/bin/screen`)"
+  },
+  {
+    "name": "tmux",
+    "summary": "终端复用器 (Terminal multiplexer)",
+    "examples": [
+      {
+        "description": "启动一个新的 tmux 会话",
+        "code": "tmux"
+      },
+      {
+        "description": "启动一个命名会话",
+        "code": "tmux new -s my_session"
+      },
+      {
+        "description": "从当前会话分离",
+        "code": "Ctrl+b d (在 tmux 会话中输入)"
+      },
+      {
+        "description": "重新连接到上次分离的会话",
+        "code": "tmux attach"
+      },
+      {
+        "description": "在当前会话中创建新窗口",
+        "code": "Ctrl+b c (在 tmux 会话中输入)"
+      },
+      {
+        "description": "水平分割窗口",
+        "code": "Ctrl+b \" (在 tmux 会话中输入)"
+      }
+    ],
+    "notes": "tmux 是一个比 screen 更现代的终端复用器，提供了更强大的功能，如多窗格分割、更灵活的会话管理等。许多用户更倾向于使用 tmux。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install tmux`\n- **CentOS/Red Hat:** `sudo yum install tmux` 或 `sudo dnf install tmux`",
+    "shell_type": "External (`/usr/bin/tmux`)"
+  },
+  {
+    "name": "localedef",
+    "summary": "编译 locale 定义文件 (Compiles locale definition files)",
+    "examples": [
+      {
+        "description": "编译一个名为 'zh_CN.UTF-8' 的 locale",
+        "code": "localedef -i zh_CN -f UTF-8 zh_CN.UTF-8"
+      }
+    ],
+    "notes": "这个命令用于从源文件编译或更新系统的语言环境（locale）定义。普通用户很少直接使用，主要由系统管理员在配置国际化环境时使用。它定义了字符集、日期时间格式、货币符号等区域设置。",
+    "shell_type": "External (`/usr/bin/localedef`)"
+  },
+  {
+    "name": "locale",
+    "summary": "获取 locale 信息 (Get locale information)",
+    "examples": [
+      {
+        "description": "显示当前所有的 locale 设置",
+        "code": "locale"
+      },
+      {
+        "description": "列出所有可用的 locale",
+        "code": "locale -a"
+      },
+      {
+        "description": "显示某个特定类别的 locale 设置 (如语言)",
+        "code": "locale LC_ALL"
+      }
+    ],
+    "notes": "用于显示或验证系统的语言环境设置，有助于排查与字符编码、日期格式等相关的问题。",
+    "shell_type": "External (`/usr/bin/locale`)"
+  },
+  {
+    "name": "logger",
+    "summary": "将消息写入系统日志 (Enter messages into the system log)",
+    "examples": [
+      {
+        "description": "将一条消息写入系统日志 (通常是 syslog 或 journald)",
+        "code": "logger \"这是一个来自脚本的警告信息。\""
+      },
+      {
+        "description": "指定优先级和设施写入日志",
+        "code": "logger -p user.warn \"重要：磁盘空间不足。\""
+      }
+    ],
+    "notes": "脚本中常用的命令，用于将自定义消息发送到系统日志守护进程（如 `syslogd` 或 `systemd-journald`），方便后续通过 `journalctl` 或 `cat /var/log/syslog` 进行查看和分析。",
+    "shell_type": "External (`/usr/bin/logger`)"
+  },
+  {
+    "name": "logrotate",
+    "summary": "轮转、压缩和邮寄系统日志 (Rotates, compresses, and mails system logs)",
+    "examples": [
+      {
+        "description": "强制执行日志轮转，用于调试或手动触发",
+        "code": "sudo logrotate -f /etc/logrotate.conf"
+      },
+      {
+        "description": "调试模式，不实际执行操作，只显示将要发生什么",
+        "code": "sudo logrotate -d /etc/logrotate.conf"
+      }
+    ],
+    "notes": "logrotate 是一个重要的系统工具，用于管理日志文件的大小。它定期归档、压缩、删除旧的日志文件，防止日志文件无限增长而耗尽磁盘空间。通常由 cron 自动触发执行。",
+    "shell_type": "External (`/usr/sbin/logrotate`)"
+  },
+  {
+    "name": "pwgen",
+    "summary": "生成可读或随机的密码 (Generate pronounceable passwords)",
+    "examples": [
+      {
+        "description": "生成一个16位长的密码",
+        "code": "pwgen 16 1"
+      },
+      {
+        "description": "生成8位且包含数字和特殊字符的密码",
+        "code": "pwgen -cnys 8 1"
+      }
+    ],
+    "notes": "一个方便的小工具，用于快速生成随机且符合安全要求的密码。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install pwgen`\n- **CentOS/Red Hat:** `sudo yum install pwgen` 或 `sudo dnf install pwgen`",
+    "shell_type": "External (`/usr/bin/pwgen`)"
+  },
+  {
+    "name": "uuidgen",
+    "summary": "生成一个新的通用唯一标识符 (UUID) (Generate a new UUID)",
+    "examples": [
+      {
+        "description": "生成一个标准的UUID (基于Type 4，随机)",
+        "code": "uuidgen"
+      },
+      {
+        "description": "生成一个基于时间戳的UUID (Type 1)",
+        "code": "uuidgen -t"
+      }
+    ],
+    "notes": "用于生成全球唯一的标识符，常用于数据库记录、文件系统、设备ID或分布式系统中的唯一标识符。",
+    "shell_type": "External (`/usr/bin/uuidgen`)"
+  },
+  {
+    "name": "dialog",
+    "summary": "从shell脚本中显示对话框 (Display dialog boxes from shell scripts)",
+    "examples": [
+      {
+        "description": "显示一个简单的消息框",
+        "code": "dialog --msgbox \"欢迎使用脚本！\" 6 20"
+      },
+      {
+        "description": "显示一个输入框并获取用户输入",
+        "code": "dialog --inputbox \"请输入您的姓名：\" 8 40 \"\" 2>/tmp/input.txt; NAME=$(cat /tmp/input.txt); rm /tmp/input.txt; echo \"Hello, $NAME!\""
+      },
+      {
+        "description": "显示一个菜单框让用户选择",
+        "code": "dialog --menu \"选择一项:\" 15 40 4 1 \"选项一\" 2 \"选项二\" 3 \"选项三\" 2>/tmp/menu.txt; CHOICE=$(cat /tmp/menu.txt); rm /tmp/menu.txt; echo \"您选择了: $CHOICE\""
+      }
+    ],
+    "notes": "dialog 允许Shell脚本创建基于curses库的交互式文本界面（TUI），如消息框、输入框、菜单、进度条等，使得脚本更加用户友好。通常需要额外安装：\n- **Ubuntu/Debian:** `sudo apt install dialog`\n- **CentOS/Red Hat:** `sudo yum install dialog` 或 `sudo dnf install dialog`",
+    "shell_type": "External (`/usr/bin/dialog`)"
+  },
+  {
+    "name": "whiptail",
+    "summary": "从shell脚本中显示对话框 (Display dialog boxes from shell scripts)",
+    "examples": [
+      {
+        "description": "显示一个信息框",
+        "code": "whiptail --infobox \"信息：操作已完成。\" 8 40"
+      },
+      {
+        "description": "显示一个 Yes/No 确认框",
+        "code": "if (whiptail --title \"确认\" --yesno \"确定要继续吗？\" 10 40); then\n  echo \"用户选择了是。\"\nelse\n  echo \"用户选择了否。\"\nfi"
+      }
+    ],
+    "notes": "whiptail 是 dialog 的一个轻量级替代品，功能类似，也是用于在终端中创建简单的交互式对话框，常用于安装脚本或简单的TUI程序。在某些发行版中可能默认安装，或作为其他包的依赖。\n- **Ubuntu/Debian:** 通常作为 `bsdutils` 或 `newt-common` 包的一部分安装。\n- **CentOS/Red Hat:** 通常作为 `newt` 或 `newt-whiptail` 包的一部分安装。\n  `sudo yum install newt` 或 `sudo dnf install newt`",
+    "shell_type": "External (`/usr/bin/whiptail`)"
+  }
+]

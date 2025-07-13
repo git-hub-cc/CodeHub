@@ -1,0 +1,395 @@
+[
+  {
+    "name": "Headings (标题)",
+    "summary": "创建不同层级的标题，用于组织文档结构和自动生成目录。",
+    "examples": [
+      {
+        "description": "一级标题 (通常是文档主标题)",
+        "code": "# 我的文档标题"
+      },
+      {
+        "description": "二级标题 (主要章节)",
+        "code": "## 主要章节名称"
+      },
+      {
+        "description": "三级标题 (子章节)",
+        "code": "### 子章节名称"
+      },
+      {
+        "description": "六级标题 (最低层级)",
+        "code": "###### 最低层级标题"
+      }
+    ],
+    "notes": "标题通过在行首添加1到6个 `#` 符号来创建。`#` 的数量决定了标题的层级。建议在 `#` 后保留一个空格以提高可读性。标题是构建文档结构和生成目录（Table of Contents）的基础。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Paragraphs and Line Breaks (段落与换行)",
+    "summary": "定义文本段落和强制文本换行。",
+    "examples": [
+      {
+        "description": "通过空行分隔的段落",
+        "code": "这是第一个段落。\n\n这是第二个段落。"
+      },
+      {
+        "description": "通过两个或更多空格强制换行 (软换行)",
+        "code": "第一行内容  \n第二行内容"
+      },
+      {
+        "description": "通过 HTML `<br/>` 标签强制换行 (硬换行)",
+        "code": "第一行内容<br/>\n第二行内容"
+      }
+    ],
+    "notes": "Markdown 中，一个或多个空行会创建新的段落。普通的换行（回车）通常会被解析器忽略或视为一个空格，除非在行尾添加两个或更多的空格来强制换行，或者使用 HTML 的 `<br/>` 标签。使用 `<br/>` 兼容性更好。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Emphasis (粗体与斜体)",
+    "summary": "通过星号或下划线使文本变为斜体、粗体或粗斜体。",
+    "examples": [
+      {
+        "description": "斜体 (使用星号)",
+        "code": "*斜体文本*"
+      },
+      {
+        "description": "斜体 (使用下划线)",
+        "code": "_斜体文本_"
+      },
+      {
+        "description": "粗体 (使用双星号)",
+        "code": "**粗体文本**"
+      },
+      {
+        "description": "粗体 (使用双下划线)",
+        "code": "__粗体文本__"
+      },
+      {
+        "description": "粗斜体 (使用三星号)",
+        "code": "***粗斜体文本***"
+      },
+      {
+        "description": "粗斜体 (使用三下划线)",
+        "code": "___粗斜体文本___"
+      }
+    ],
+    "notes": "推荐在同一文档中保持星号和下划线使用风格的一致性。被强调的文本不应与星号/下划线之间有空格。通常，斜体用于强调，粗体用于重要内容。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Lists (列表)",
+    "summary": "创建有序（numbered）和无序（bulleted）列表，支持多层嵌套。",
+    "examples": [
+      {
+        "description": "无序列表 (使用星号)",
+        "code": "* Item 1\n* Item 2\n  * Nested Item 2.1\n  * Nested Item 2.2"
+      },
+      {
+        "description": "无序列表 (使用连字符)",
+        "code": "- Item A\n- Item B"
+      },
+      {
+        "description": "无序列表 (使用加号)",
+        "code": "+ Item X\n+ Item Y"
+      },
+      {
+        "description": "有序列表 (数字会自动递增)",
+        "code": "1. First item\n2. Second item\n  1. Nested ordered item\n3. Third item (数字无需连续)"
+      },
+      {
+        "description": "混合嵌套列表",
+        "code": "- 主列表项\n  1. 嵌套的有序列表项\n     - 更深一层的无序列表项"
+      }
+    ],
+    "notes": "无序列表可以使用 `*`、`-` 或 `+`。有序列表使用数字后跟 `.`。列表项之间可以通过缩进（通常是2或4个空格，或一个Tab）来创建嵌套。在同一文档中选择一种无序列表符号并保持一致性。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Links (链接)",
+    "summary": "在文档中插入超链接，指向外部资源或文档内部的锚点。",
+    "examples": [
+      {
+        "description": "行内链接 (Inline Link) - 带可选标题",
+        "code": "[访问 Google](https://www.google.com \"Google 搜索引擎\")"
+      },
+      {
+        "description": "行内链接 - 简单形式",
+        "code": "[我的博客](https://myblog.com/)"
+      },
+      {
+        "description": "引用式链接 (Reference-style Link) - 链接定义在文档末尾",
+        "code": "查看 [示例网站][exampleid] 获取更多信息。\n\n[exampleid]: https://www.example.com \"可选的提示文本\""
+      },
+      {
+        "description": "自动链接 (Automatic Link) - 直接显示 URL 或邮箱地址 (CommonMark/GFM)",
+        "code": "<https://www.docker.com>\n<mailto:support@docker.com>"
+      },
+      {
+        "description": "链接到文档内部的标题 (锚点链接)",
+        "code": "[跳转到 Docker Pull 命令](#docker-pull)"
+      }
+    ],
+    "notes": "行内链接简洁直接。引用式链接有助于保持文档正文的整洁，特别是有重复链接时。锚点链接的名称通常是小写，并用连字符 `-` 连接空格。对于自动链接，`<>` 括起来的 URL 或邮箱会被自动识别。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Images (图片)",
+    "summary": "在文档中嵌入图片。",
+    "examples": [
+      {
+        "description": "行内图片 - 带替代文本和可选标题",
+        "code": "![Docker Logo](https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png \"Docker 官方Logo\")"
+      },
+      {
+        "description": "行内图片 - 使用相对路径",
+        "code": "![本地图示](../assets/diagram.png)"
+      }
+    ],
+    "notes": "图片的语法与链接非常相似，只是在方括号 `[]` 前多了一个感叹号 `!`。`alt` 文本（替代文本）在图片无法显示时替代显示，对无障碍访问和SEO很重要。Markdown 本身不支持直接控制图片大小或居中，通常需要结合 HTML 标签（如 `<img src=\"...\" width=\"100\" align=\"center\">`）来实现。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Code (代码)",
+    "summary": "展示代码片段，包括行内代码和多行代码块。",
+    "examples": [
+      {
+        "description": "行内代码 (Inline Code)",
+        "code": "这是一个 `git status` 命令的例子。"
+      },
+      {
+        "description": "围栏式代码块 (Fenced Code Block) - 推荐，支持语言高亮",
+        "code": "```python\nprint(\"Hello, World!\")\nfor i in range(5):\n    print(i)\n```"
+      },
+      {
+        "description": "围栏式代码块 - 不指定语言",
+        "code": "```\n这是一个不带语言高亮的代码块。\n第二行。\n```"
+      },
+      {
+        "description": "缩进式代码块 (已不推荐，但仍兼容)",
+        "code": "    这是一个缩进式代码块。\n    每行都以四个空格或一个Tab开头。"
+      }
+    ],
+    "notes": "行内代码使用单个反引号 `` ` `` 包裹。代码块推荐使用三个反引号 ` ``` ` 包裹，并在开头指定编程语言名称（如 `python`, `javascript`, `bash`）以实现语法高亮。围栏式代码块前后需有空行，以确保正确解析。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Blockquotes (引用)",
+    "summary": "引用他人的内容、突出显示文本或作为特殊说明。",
+    "examples": [
+      {
+        "description": "单层引用",
+        "code": "> 这是一段引用的文字。\n> 第二行引用内容。"
+      },
+      {
+        "description": "多层嵌套引用",
+        "code": "> 第一层引用。\n> > 第二层嵌套引用。\n> > > 第三层嵌套引用。"
+      },
+      {
+        "description": "引用中包含其他 Markdown 语法",
+        "code": "> ## 引用中的标题\n> 这是一段 **重要** 的内容。"
+      }
+    ],
+    "notes": "使用 `>` 符号作为行首标记来创建引用。每个 `>` 代表一层引用。引用块内可以包含其他 Markdown 语法，如标题、列表、代码块等。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Horizontal Rules (水平线)",
+    "summary": "创建视觉上的水平分隔线。",
+    "examples": [
+      {
+        "description": "使用三个连字符",
+        "code": "---"
+      },
+      {
+        "description": "使用三个星号",
+        "code": "***"
+      },
+      {
+        "description": "使用三个下划线",
+        "code": "___"
+      },
+      {
+        "description": "带空格的水平线",
+        "code": "- - -"
+      }
+    ],
+    "notes": "水平线可以使用三个或更多（通常是三个）的连字符 `-`、星号 `*` 或下划线 `_` 来创建。这些符号之间可以有空格，但整行除了这些符号和空格外不能有其他内容。水平线前后通常需要空行才能正确渲染。",
+    "category": "Core Syntax"
+  },
+  {
+    "name": "Tables (表格)",
+    "summary": "创建结构化的数据表格。",
+    "examples": [
+      {
+        "description": "基础表格 (左对齐)",
+        "code": "| 列头1 | 列头2 |\n|:------|:------|\n| 内容A | 内容B |\n| 内容C | 内容D |"
+      },
+      {
+        "description": "表格 - 居中、左对齐和右对齐",
+        "code": "| 左对齐 | 居中对齐 | 右对齐 |\n|:-------|:--------:|-------:|\n| Left   | Center   | Right  |\n| 1      | 2        | 3      |"
+      },
+      {
+        "description": "简单表格",
+        "code": "| Name | Age |\n|---|---|\n| Alice | 30 |\n| Bob | 24 |"
+      }
+    ],
+    "notes": "表格语法由 `|` 符号分隔列，使用 `---` 或 `===` 分隔表头和内容。冒号 `:` 在分隔线中用于控制文本对齐方式：`:---` 左对齐，`---:` 右对齐，`:---:` 居中对齐。表格的列宽会根据内容自动调整，但你可以在 Markdown 中添加额外的空格来调整源代码的视觉对齐。",
+    "category": "Extended Syntax (GFM/CommonMark)"
+  },
+  {
+    "name": "Task Lists (任务列表)",
+    "summary": "创建带有复选框的可交互任务列表。",
+    "examples": [
+      {
+        "description": "未完成的任务",
+        "code": "- [ ] 购买牛奶"
+      },
+      {
+        "description": "已完成的任务",
+        "code": "- [x] 提交报告"
+      },
+      {
+        "description": "任务列表与普通列表混合",
+        "code": "- 项目规划\n  - [x] 定义需求\n  - [ ] 撰写设计文档\n- 开发阶段"
+      }
+    ],
+    "notes": "任务列表是 GitHub Flavored Markdown (GFM) 和 CommonMark 的扩展。它基于无序列表，在列表项的 `[` 和 `]` 之间添加一个空格表示未完成，添加 `x` (不区分大小写) 表示已完成。许多 Markdown 编辑器和渲染器会将其渲染为可点击的复选框。",
+    "category": "Extended Syntax (GFM/CommonMark)"
+  },
+  {
+    "name": "Strikethrough (删除线)",
+    "summary": "给文本添加删除线。",
+    "examples": [
+      {
+        "description": "被删除的文本",
+        "code": "~~这段文字已被删除~~"
+      }
+    ],
+    "notes": "删除线通过在文本两端各添加两个波浪线 `~~` 来实现。这是 GFM 和 CommonMark 的扩展语法。",
+    "category": "Extended Syntax (GFM/CommonMark)"
+  },
+  {
+    "name": "Footnotes (脚注)",
+    "summary": "为文档内容添加注释或引用来源。",
+    "examples": [
+      {
+        "description": "在正文中引用脚注，并在文档末尾定义",
+        "code": "这是一个需要解释的概念[^note1]。\n\n[^note1]: 这是对概念的详细解释或引用来源。"
+      },
+      {
+        "description": "多个脚注",
+        "code": "文本内容[^first]。另一个点[^second]。\n\n[^first]: 第一个脚注的定义。\n[^second]: 第二个脚注的详细说明。"
+      }
+    ],
+    "notes": "脚注的语法是 `[^id]` 用于在正文中引用，`[^id]:` 用于在文档的任何位置定义脚注内容。`id` 可以是任何字母数字组合，但最好具有描述性。并非所有 Markdown 解析器都支持脚注，例如 Pandoc 和一些高级渲染器支持。",
+    "category": "Extended Syntax (Partial Support)"
+  },
+  {
+    "name": "Definition Lists (定义列表)",
+    "summary": "创建术语及其对应解释的列表。",
+    "examples": [
+      {
+        "description": "基本定义列表",
+        "code": "Apple\n:   Fuji\n:   Granny Smith\n\nOrange\n:   Citrus fruit"
+      },
+      {
+        "description": "多行定义",
+        "code": "Term\n: Definition 1\n  Definition 2 on new line"
+      }
+    ],
+    "notes": "定义列表以术语开头，其下方跟着一个或多个以 `: ` 开头的定义。每个定义可以多行，后续行需缩进。此功能在不同 Markdown 解析器中支持程度不一，CommonMark 默认不包含，但 Pandoc 等工具支持。",
+    "category": "Extended Syntax (Partial Support)"
+  },
+  {
+    "name": "Escaping Characters (字符转义)",
+    "summary": "当 Markdown 特殊字符需要作为普通文本显示时，使用反斜杠 `\\` 进行转义。",
+    "examples": [
+      {
+        "description": "显示一个星号而不是斜体",
+        "code": "我想显示一个 \\*星号\\*。"
+      },
+      {
+        "description": "显示反引号",
+        "code": "这个符号是 \\`。"
+      },
+      {
+        "description": "显示下划线",
+        "code": "文件名为 `my\\_file.md`。"
+      }
+    ],
+    "notes": "你需要转义的常见 Markdown 特殊字符包括：`\\\\\\` 反斜杠, `` ` `` 反引号, `*` 星号, `_` 下划线, `{ }` 大括号, `[ ]` 方括号, `( )` 圆括号, `#` 井号, `+` 加号, `-` 连字符, `.` 句点, `!` 感叹号, `>` 大于号, `|` 竖线。在这些符号前添加 `\\\\\\` 即可。",
+    "category": "Special Handling"
+  },
+  {
+    "name": "HTML Embedding (嵌入HTML)",
+    "summary": "直接在 Markdown 文档中嵌入 HTML 标签，以实现 Markdown 自身不支持的复杂排版或功能。",
+    "examples": [
+      {
+        "description": "嵌入简单的 HTML 标签",
+        "code": "<p style=\"color:blue;\">这段文字是蓝色的。</p>"
+      },
+      {
+        "description": "嵌入更复杂的 HTML 结构",
+        "code": "<div>\n  <span class=\"important\">这是一个</span> <strong>复杂的</strong> HTML 片段。\n</div>"
+      },
+      {
+        "description": "嵌入图片并控制大小和居中",
+        "code": "<p align=\"center\"><img src=\"https://example.com/image.jpg\" width=\"200\" alt=\"居中图片\"></p>"
+      }
+    ],
+    "notes": "大多数 Markdown 解析器允许直接在 Markdown 文件中写入 HTML。块级 HTML 元素（如 `<div>`, `<table>`, `<p>`）前后应留有空行。Markdown 语法在 HTML 块内部通常不会被解析，反之亦然。虽然强大，但过度依赖 HTML 会降低 Markdown 的简洁性。",
+    "category": "Special Handling"
+  },
+  {
+    "name": "Comments (注释)",
+    "summary": "在文档中添加不会在最终渲染结果中显示的注释。",
+    "examples": [
+      {
+        "description": "HTML 风格的注释",
+        "code": "<!-- 这是一个不会被渲染的注释，用于内部说明或调试。 -->"
+      }
+    ],
+    "notes": "Markdown 本身没有原生的注释语法。通常使用 HTML 的注释语法 `<!-- ... -->` 来实现。这种注释在 Markdown 源文件中可见，但在转换成 HTML 或其他格式时会被忽略，不会显示给最终用户。",
+    "category": "Special Handling"
+  },
+  {
+    "name": "Document Structuring with Headings (通过标题构建文档结构)",
+    "summary": "合理利用标题层级来组织文档，提升可读性和导航性，是编写良好文档的关键。",
+    "examples": [],
+    "notes": "遵循逻辑上的层级递进：`#` 用于文档的最高层级标题（如书名或主标题），`##` 用于主要章节，`###` 用于子章节，依此类推。保持标题的简明扼要，并确保每个标题都准确反映其下内容的范围。良好的标题结构是生成有效目录和方便读者快速定位内容的基础。",
+    "category": "Document Organization"
+  },
+  {
+    "name": "Table of Contents (目录生成)",
+    "summary": "通过标题层级自动生成文档目录，方便读者快速导航和理解文档结构。",
+    "examples": [],
+    "notes": "Markdown 自身没有内置的目录生成语法。目录通常由 Markdown 编辑器、静态网站生成器（如 MkDocs, Jekyll, Hugo）或渲染工具根据文档中的标题（`#`、`##` 等）自动生成。为确保目录的准确性和链接的有效性，建议保持标题的唯一性，并注意许多工具会根据标题文本自动生成URL友好型的锚点（slug）。",
+    "category": "Document Organization"
+  },
+  {
+    "name": "Inter-file Linking (文件间链接)",
+    "summary": "在大型文档项目或多文件文档中，创建不同 Markdown 文件之间的链接。",
+    "examples": [
+      {
+        "description": "链接到同目录下的另一个 Markdown 文件",
+        "code": "[查看更多信息](./another-document.md)"
+      },
+      {
+        "description": "链接到子目录中的 Markdown 文件",
+        "code": "[阅读入门指南](./getting-started/introduction.md)"
+      },
+      {
+        "description": "链接到另一个 Markdown 文件中的特定标题 (锚点)",
+        "code": "[跳转到 Docker Pull 命令](./docker-commands.md#docker-pull)"
+      }
+    ],
+    "notes": "使用相对路径来链接文件，这使得文档项目更具可移植性。链接到特定标题时，锚点名称通常是小写、单词之间用连字符连接的标题文本。在不同的渲染环境中，锚点生成的规则可能略有差异，需要测试确认。",
+    "category": "Document Organization"
+  },
+  {
+    "name": "Markdown Best Practices (最佳实践)",
+    "summary": "编写清晰、一致且易于维护的 Markdown 文档的建议，以提高协作效率和文档质量。",
+    "examples": [],
+    "notes": "1. **一致性**: 统一使用一种强调符号（`*` 或 `_`）、列表符号（`-` 或 `*`）和代码块风格。2. **可读性**: 适当使用空行分隔逻辑块，避免单行过长，限制每段的长度。3. **遵循标准**: 尽可能遵循 CommonMark 或 GitHub Flavored Markdown (GFM) 规范，以确保跨平台兼容性。4. **Git 友好**: 编写时考虑版本控制，例如每行只写一个句子或逻辑单元，减少不必要的空白符，使 `git diff` 更清晰。5. **工具选择**: 利用支持实时预览、语法高亮和TOC生成的 Markdown 编辑器或工具（如 Typora, VS Code + Markdown Preview Enhanced, Obsidian, MkDocs等）。",
+    "category": "Writing Practices"
+  }
+]

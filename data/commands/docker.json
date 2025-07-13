@@ -1,0 +1,1150 @@
+[
+  {
+    "name": "docker pull",
+    "summary": "从 Docker Hub 或其他镜像仓库拉取（下载）一个镜像 (Pull (download) an image from Docker Hub or another registry)",
+    "examples": [
+      {
+        "description": "拉取官方 Ubuntu 镜像的最新稳定版本",
+        "code": "docker pull ubuntu:latest"
+      },
+      {
+        "description": "拉取 Nginx 官方镜像，默认使用 'latest' 标签",
+        "code": "docker pull nginx"
+      },
+      {
+        "description": "从私有镜像仓库拉取指定版本的镜像",
+        "code": "docker pull myregistry.com/my-app:1.2.3"
+      },
+      {
+        "description": "拉取镜像时不显示进度条 (静默模式)",
+        "code": "docker pull -q alpine"
+      }
+    ],
+    "notes": "这是获取 Docker 镜像到本地的第一步。如果未指定标签，Docker 默认会尝试拉取 `latest` 标签的镜像。如果镜像已存在且是最新版本，此命令不会执行任何操作。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker build",
+    "summary": "使用 Dockerfile 构建一个自定义镜像 (Build a custom image using a Dockerfile)",
+    "examples": [
+      {
+        "description": "在当前目录 (包含 Dockerfile) 构建镜像，并指定名称和标签",
+        "code": "docker build -t my-web-app:1.0 ."
+      },
+      {
+        "description": "使用特定目录下的 Dockerfile 构建镜像，并重用缓存",
+        "code": "docker build -f /path/to/my/Dockerfile -t my-backend:dev /path/to/my/context"
+      },
+      {
+        "description": "强制不使用构建缓存重新构建镜像 (在 Dockerfile 或文件改变后确保最新)",
+        "code": "docker build --no-cache -t my-app:fresh ."
+      },
+      {
+        "description": "构建时从远程 Git 仓库获取上下文",
+        "code": "docker build -t my-repo/my-app:latest https://github.com/myuser/myrepo.git#branchname:path/to/dockerfile"
+      },
+      {
+        "description": "在构建过程中传递变量 (ARG 指令)",
+        "code": "docker build --build-arg HTTP_PROXY=http://myproxy.com:8080 -t my-app:proxy-aware ."
+      }
+    ],
+    "notes": "构建镜像是 Docker 化的核心步骤。`-t` 选项用于给镜像命名和打标签，格式为 `name:tag`。最后一个参数是构建上下文的路径，通常是包含 Dockerfile 和所有相关文件（如源代码）的目录。Docker daemon 会将整个上下文发送到 Docker daemon 进行构建。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker images",
+    "summary": "列出本地所有的 Docker 镜像 (List all Docker images locally stored)",
+    "examples": [
+      {
+        "description": "列出所有本地镜像（不包括中间层镜像）",
+        "code": "docker images"
+      },
+      {
+        "description": "列出所有镜像，包括中间层镜像和悬挂镜像",
+        "code": "docker images -a"
+      },
+      {
+        "description": "只显示镜像 ID",
+        "code": "docker images -q"
+      },
+      {
+        "description": "以人类可读的格式显示镜像大小，并显示摘要 (digest)",
+        "code": "docker images --digests"
+      },
+      {
+        "description": "根据镜像名称过滤显示（例如所有 `ubuntu` 相关的镜像）",
+        "code": "docker images ubuntu"
+      },
+      {
+        "description": "使用过滤器查找所有悬挂镜像 (没有标签的镜像)",
+        "code": "docker images -f \"dangling=true\""
+      }
+    ],
+    "notes": "这是查看本地镜像库存的常用命令。悬挂镜像 (dangling images) 是指没有被任何标签引用的镜像层，它们通常是旧的、未使用的构建层，可以使用 `docker image prune` 或 `docker system prune` 清理。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker rmi",
+    "summary": "删除一个或多个本地镜像 (Remove one or more local images)",
+    "examples": [
+      {
+        "description": "根据名称和标签删除一个镜像",
+        "code": "docker rmi my-web-app:1.0"
+      },
+      {
+        "description": "根据镜像 ID 删除一个镜像",
+        "code": "docker rmi 1a2b3c4d5e6f"
+      },
+      {
+        "description": "强制删除一个被容器使用的镜像 (慎用)",
+        "code": "docker rmi -f my-image:latest"
+      },
+      {
+        "description": "删除所有悬挂镜像 (等同于 `docker image prune`)",
+        "code": "docker rmi $(docker images -f \"dangling=true\" -q)"
+      },
+      {
+        "description": "删除所有镜像 (危险操作，请务必确认!)",
+        "code": "docker rmi -f $(docker images -q)"
+      }
+    ],
+    "notes": "删除镜像前，请确保没有正在运行的容器在使用它，否则需要添加 `-f` 强制删除。删除镜像不会影响已运行的容器，但会释放磁盘空间。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker tag",
+    "summary": "为本地镜像打标签或创建别名 (Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE)",
+    "examples": [
+      {
+        "description": "为现有镜像创建一个新的标签",
+        "code": "docker tag my-app:1.0 my-app:stable"
+      },
+      {
+        "description": "为推送到 Docker Hub 准备镜像 (格式通常为 `username/repo:tag`)",
+        "code": "docker tag my-app:1.0 myusername/my-app:1.0"
+      },
+      {
+        "description": "为推送到私有 Registry 准备镜像 (格式通常为 `registry.example.com/repo:tag`)",
+        "code": "docker tag my-app:latest myregistry.com/my-app:latest"
+      },
+      {
+        "description": "使用镜像 ID 打标签",
+        "code": "docker tag 1a2b3c4d5e6f my-app:production"
+      }
+    ],
+    "notes": "打标签是管理镜像版本和准备推送的关键步骤。一个镜像可以有多个标签，但它们都指向同一个镜像 ID。`latest` 标签是默认的，但不总是代表最新版本，好的实践是明确指定版本标签。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker run",
+    "summary": "创建一个新的容器并运行一个命令 (Create a new container and run a command in it)",
+    "examples": [
+      {
+        "description": "后台运行 Nginx 容器，并将宿主机的 80 端口映射到容器的 80 端口，并命名为 `my-nginx-server`",
+        "code": "docker run -d -p 80:80 --name my-nginx-server nginx:latest"
+      },
+      {
+        "description": "交互式运行 Ubuntu 容器，进入其 Bash shell，并在容器退出时自动删除",
+        "code": "docker run -it --rm ubuntu:latest bash"
+      },
+      {
+        "description": "挂载宿主机 `/app/data` 目录到容器的 `/var/lib/mydata` 目录 (数据持久化)",
+        "code": "docker run -v /app/data:/var/lib/mydata --name my-data-app my-custom-app:latest"
+      },
+      {
+        "description": "设置容器的环境变量",
+        "code": "docker run -e MY_VAR=hello -e DB_HOST=mydb --name my-env-app my-app:latest"
+      },
+      {
+        "description": "将容器连接到名为 `my-custom-network` 的网络",
+        "code": "docker run --network my-custom-network --name my-networked-app my-app:latest"
+      },
+      {
+        "description": "限制容器的 CPU 使用量 (0.5 个 CPU 核心)",
+        "code": "docker run --cpus=\"0.5\" --name limited-cpu-app my-app:latest"
+      },
+      {
+        "description": "限制容器的内存使用量 (512MB)",
+        "code": "docker run --memory=\"512m\" --name limited-mem-app my-app:latest"
+      },
+      {
+        "description": "设置容器的重启策略为 'always' (在 Docker daemon 启动或容器退出时总是重启)",
+        "code": "docker run -d --restart=always --name auto-restart-app my-app:latest"
+      },
+      {
+        "description": "以特权模式运行容器 (授予容器几乎所有宿主机权限，慎用)",
+        "code": "docker run --privileged --name dangerous-app my-app:latest"
+      }
+    ],
+    "notes": "这是 Docker 最核心也最复杂的命令。掌握其常用选项对于容器化应用的部署至关重要。`COMMAND` 和 `ARG` 参数会覆盖 Dockerfile 中定义的 `CMD` 或 `ENTRYPOINT`。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker ps",
+    "summary": "列出所有正在运行的容器 (List all running containers)",
+    "examples": [
+      {
+        "description": "列出所有运行中的容器",
+        "code": "docker ps"
+      },
+      {
+        "description": "列出所有容器，包括正在运行的和已停止的",
+        "code": "docker ps -a"
+      },
+      {
+        "description": "只显示容器 ID",
+        "code": "docker ps -q"
+      },
+      {
+        "description": "显示容器大小",
+        "code": "docker ps -s"
+      },
+      {
+        "description": "根据名称过滤显示容器",
+        "code": "docker ps -f name=my-nginx-server"
+      },
+      {
+        "description": "根据镜像名过滤显示容器",
+        "code": "docker ps -f ancestor=nginx"
+      },
+      {
+        "description": "自定义输出格式，显示 ID, 名称, 镜像和状态",
+        "code": "docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\""
+      }
+    ],
+    "notes": "`docker ps` 是日常查看容器状态的必备命令。结合 `grep` 和 `awk` 可以进行更复杂的过滤和信息提取。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker inspect",
+    "summary": "显示 Docker 对象（镜像、容器、网络、卷等）的详细信息 (Display detailed information on Docker objects like images, containers, networks, volumes)",
+    "examples": [
+      {
+        "description": "查看容器 `my-nginx-server` 的详细配置和状态",
+        "code": "docker inspect my-nginx-server"
+      },
+      {
+        "description": "查看 `nginx:latest` 镜像的详细元数据",
+        "code": "docker inspect nginx:latest"
+      },
+      {
+        "description": "查看名为 `my-network` 的网络的详细信息",
+        "code": "docker inspect my-network"
+      },
+      {
+        "description": "从容器的 inspect 输出中提取 IP 地址 (使用 `--format` 模板)",
+        "code": "docker inspect -f '{{.NetworkSettings.IPAddress}}' my-nginx-server"
+      },
+      {
+        "description": "从容器的 inspect 输出中提取挂载的卷信息",
+        "code": "docker inspect -f '{{json .Mounts}}' my-data-app"
+      }
+    ],
+    "notes": "此命令返回一个 JSON 格式的大型对象，包含关于 Docker 对象的几乎所有可查询信息。`--format` 选项非常强大，可以使用 Go 模板语法提取特定字段，这在脚本中非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker start",
+    "summary": "启动一个或多个已停止的容器 (Start one or more stopped containers)",
+    "examples": [
+      {
+        "description": "启动名为 'my-web-server' 的容器",
+        "code": "docker start my-web-server"
+      },
+      {
+        "description": "启动多个容器",
+        "code": "docker start container1 container2"
+      }
+    ],
+    "notes": "此命令用于启动一个之前通过 `docker stop` 或 `docker rm` 停止的容器。容器会恢复到停止时的状态，并继续执行。如果容器在启动时设置了 `restart` 策略 (如 `always`)，在 Docker 服务启动或容器非正常退出后会自动启动。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker stop",
+    "summary": "优雅地停止一个或多个运行中的容器 (Gracefully stop one or more running containers)",
+    "examples": [
+      {
+        "description": "停止名为 'my-web-server' 的容器",
+        "code": "docker stop my-web-server"
+      },
+      {
+        "description": "指定超时时间停止容器 (例如，等待10秒)",
+        "code": "docker stop -t 10 my-web-server"
+      },
+      {
+        "description": "停止所有运行中的容器 (慎用)",
+        "code": "docker stop $(docker ps -q)"
+      }
+    ],
+    "notes": "Docker 会向容器发送 `SIGTERM` 信号，等待容器内部进程自行停止（默认10秒），如果超时仍未停止，则会发送 `SIGKILL` 信号强制终止。建议始终优先使用 `docker stop` 而不是 `docker kill` 来给容器清理资源的机会。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker restart",
+    "summary": "重启一个或多个容器 (Restart one or more containers)",
+    "examples": [
+      {
+        "description": "重启名为 'my-web-server' 的容器",
+        "code": "docker restart my-web-server"
+      },
+      {
+        "description": "重启所有运行中的容器 (慎用)",
+        "code": "docker restart $(docker ps -q)"
+      }
+    ],
+    "notes": "此命令相当于先执行 `docker stop`，再执行 `docker start`。它会向容器发送 `SIGTERM` 信号，然后强制终止（如果超时），最后重新启动容器。对于需要应用配置更改或简单重启服务的场景很有用。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker rm",
+    "summary": "删除一个或多个已停止的容器 (Remove one or more stopped containers)",
+    "examples": [
+      {
+        "description": "删除名为 'my-old-container' 的容器",
+        "code": "docker rm my-old-container"
+      },
+      {
+        "description": "强制删除运行中的容器",
+        "code": "docker rm -f running-container"
+      },
+      {
+        "description": "删除容器并同时删除其关联的匿名卷",
+        "code": "docker rm -v my-data-container"
+      },
+      {
+        "description": "删除所有已停止的容器 (慎用)",
+        "code": "docker rm $(docker ps -aq --filter status=exited)"
+      }
+    ],
+    "notes": "只能删除已停止的容器，除非使用 `-f` 选项强制删除运行中的容器。使用 `-v` 选项可以同时删除容器创建的所有匿名卷，但不会删除命名卷。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker exec",
+    "summary": "在运行中的容器内部执行一个命令 (Execute a command in a running container)",
+    "examples": [
+      {
+        "description": "在 'my-web-server' 容器内执行 'ls /var/www/html' 命令",
+        "code": "docker exec my-web-server ls /var/www/html"
+      },
+      {
+        "description": "交互式地进入 'my-web-server' 容器的 Bash Shell (常用调试方式)",
+        "code": "docker exec -it my-web-server bash"
+      },
+      {
+        "description": "在容器内以特定用户身份执行命令",
+        "code": "docker exec -u www-data my-web-server whoami"
+      }
+    ],
+    "notes": "这是调试和管理运行中容器的关键命令。`-it` 选项结合使用，`i` 保持标准输入打开，`t` 分配一个伪TTY，使得可以像在普通终端中一样与容器交互。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker logs",
+    "summary": "查看容器的日志输出 (Fetch the logs of a container)",
+    "examples": [
+      {
+        "description": "查看 'my-web-server' 容器的所有日志",
+        "code": "docker logs my-web-server"
+      },
+      {
+        "description": "实时跟踪 'my-web-server' 容器的日志输出 (类似 tail -f)",
+        "code": "docker logs -f my-web-server"
+      },
+      {
+        "description": "查看最新的100行日志",
+        "code": "docker logs --tail 100 my-web-server"
+      },
+      {
+        "description": "查看某个时间点之后的日志 (例如，从今天午夜开始)",
+        "code": "docker logs --since \"2023-01-01T00:00:00\" my-web-server"
+      }
+    ],
+    "notes": "默认情况下，`docker logs` 会显示容器的标准输出（stdout）和标准错误（stderr）流。对于容器化应用故障排查至关重要。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker login",
+    "summary": "登录到 Docker Hub 或私有 registry (Log in to a Docker registry)",
+    "examples": [
+      {
+        "description": "登录到 Docker Hub (默认)",
+        "code": "docker login"
+      },
+      {
+        "description": "登录到指定的私有 Docker registry",
+        "code": "docker login registry.example.com"
+      }
+    ],
+    "notes": "执行此命令后，系统会提示您输入用户名和密码。凭据通常会保存在 `~/.docker/config.json` 文件中，以便后续的 `docker pull` 和 `docker push` 命令无需再次认证。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker logout",
+    "summary": "注销 Docker Hub 或私有 registry (Log out from a Docker registry)",
+    "examples": [
+      {
+        "description": "从 Docker Hub 注销 (默认)",
+        "code": "docker logout"
+      },
+      {
+        "description": "从指定的私有 Docker registry 注销",
+        "code": "docker logout registry.example.com"
+      }
+    ],
+    "notes": "此命令会清除您在 `~/.docker/config.json` 中保存的对应 registry 的凭据。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker push",
+    "summary": "将镜像推送到 Docker Hub 或私有 registry (Push an image or a repository to a registry)",
+    "examples": [
+      {
+        "description": "将本地镜像 'myusername/my-app:1.0' 推送到 Docker Hub",
+        "code": "docker push myusername/my-app:1.0"
+      },
+      {
+        "description": "推送一个不带标签的镜像 (默认推送到 latest 标签)",
+        "code": "docker push myusername/my-app"
+      }
+    ],
+    "notes": "在执行 `docker push` 之前，您需要使用 `docker tag` 命令为本地镜像打上包含 registry 地址（或 Docker Hub 用户名）的标签，并且已经通过 `docker login` 登录到目标 registry。例如，对于 Docker Hub，镜像名称通常是 `your-docker-id/your-image-name:tag`。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker search",
+    "summary": "在 Docker Hub 上搜索镜像 (Search Docker Hub for images)",
+    "examples": [
+      {
+        "description": "搜索所有包含 'wordpress' 关键字的公共镜像",
+        "code": "docker search wordpress"
+      },
+      {
+        "description": "搜索官方（OFFICIAL）的 'ubuntu' 镜像",
+        "code": "docker search --filter is-official=true ubuntu"
+      },
+      {
+        "description": "搜索星级（STARS）大于100的镜像",
+        "code": "docker search --filter stars=100 nginx"
+      }
+    ],
+    "notes": "此命令用于查找 Docker Hub 上可用的公共镜像。结果会显示镜像名称、描述、星级、是否官方以及是否自动化构建等信息。",
+    "shell_type": "External"
+  },
+  {
+    "name": "docker-compose up",
+    "summary": "构建（如果需要）并启动 `docker-compose.yml` 中定义的所有服务。(Builds (if needed) and starts all services defined in `docker-compose.yml`.)",
+    "examples": [
+      {
+        "description": "启动所有服务，并在前台显示所有服务的聚合日志输出。退出时服务也会停止。",
+        "code": "docker-compose up"
+      },
+      {
+        "description": "在后台（分离模式）启动所有服务，不显示日志。这是生产环境常用模式。",
+        "code": "docker-compose up -d"
+      },
+      {
+        "description": "强制重新构建服务镜像，即使镜像没有变化。这在Dockerfile被修改后很有用。",
+        "code": "docker-compose up --build"
+      },
+      {
+        "description": "强制重新创建所有容器，即使它们没有被修改。当需要清理容器状态时使用。",
+        "code": "docker-compose up --force-recreate"
+      },
+      {
+        "description": "只启动指定的服务及其依赖，不启动所有服务。例如只启动 `web` 服务。",
+        "code": "docker-compose up -d web"
+      },
+      {
+        "description": "只启动 `web` 服务，不启动其依赖服务。不推荐，除非你确定依赖已运行。",
+        "code": "docker-compose up --no-deps web"
+      }
+    ],
+    "notes": "这是 Docker Compose 最核心的命令，用于启动整个应用栈。它会根据 `docker-compose.yml` 文件中的定义，拉取镜像、构建镜像、创建网络、挂载卷并启动容器。`docker-compose up` 会自动创建默认的网络和卷（如果未指定命名卷）。在首次运行时，或 `docker-compose.yml` 有变动时，它会自动检测并创建或更新服务。可以使用 `-f` 选项指定不同的 Compose 文件。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose down",
+    "summary": "停止并移除 `docker-compose.yml` 中定义的所有服务、网络和默认卷。(Stops and removes all services, networks, and default volumes defined in `docker-compose.yml`.)",
+    "examples": [
+      {
+        "description": "停止并移除所有服务和默认网络。",
+        "code": "docker-compose down"
+      },
+      {
+        "description": "除了移除服务和网络外，也移除所有匿名卷（未命名的数据卷）。这通常用于清理数据。",
+        "code": "docker-compose down -v"
+      },
+      {
+        "description": "移除Compose创建的镜像。这会删除那些专门为Compose服务构建的镜像。",
+        "code": "docker-compose down --rmi all"
+      },
+      {
+        "description": "在停止服务前，增加一个等待超时时间（秒）。",
+        "code": "docker-compose down -t 30"
+      }
+    ],
+    "notes": "这是 `docker-compose up` 的反向操作，用于清理由 Compose 启动的环境。默认情况下，它只会删除容器和网络，而不会删除命名卷，以保护数据持久性。使用 `-v` 选项可以删除匿名卷，使用 `--rmi all` 可以删除服务构建的镜像。如果遇到权限问题，可能需要使用 `sudo`。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose build",
+    "summary": "构建（或重新构建）`docker-compose.yml` 中定义的服务镜像。(Builds (or rebuilds) service images defined in `docker-compose.yml`.)",
+    "examples": [
+      {
+        "description": "构建 `docker-compose.yml` 中所有需要构建的服务镜像。",
+        "code": "docker-compose build"
+      },
+      {
+        "description": "只构建指定的 `web` 服务镜像。",
+        "code": "docker-compose build web"
+      },
+      {
+        "description": "不使用缓存构建镜像。这会从头开始执行Dockerfile中的所有步骤。",
+        "code": "docker-compose build --no-cache"
+      },
+      {
+        "description": "在构建过程中设置一个或多个构建参数，这些参数可以在Dockerfile中通过 `ARG` 指令接收。",
+        "code": "docker-compose build --build-arg HTTP_PROXY=http://proxy.example.com"
+      }
+    ],
+    "notes": "这个命令通常在 `docker-compose up` 之前单独运行，用于预先构建镜像，或者在 Dockerfile 被修改后手动触发重新构建。`docker-compose up --build` 也可以实现同样的效果，但 `build` 命令可以更精确地控制构建过程，例如禁用缓存等。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose ps",
+    "summary": "列出 `docker-compose.yml` 中定义的所有服务容器的状态。(Lists the status of all service containers defined in `docker-compose.yml`.)",
+    "examples": [
+      {
+        "description": "列出当前项目所有 Compose 服务的状态，包括名称、命令、状态、端口映射等。",
+        "code": "docker-compose ps"
+      },
+      {
+        "description": "只显示服务的ID。",
+        "code": "docker-compose ps -q"
+      },
+      {
+        "description": "显示服务容器的磁盘空间使用情况。",
+        "code": "docker-compose ps -s"
+      }
+    ],
+    "notes": "这个命令类似于 `docker ps`，但是它只显示与当前 `docker-compose.yml` 文件相关的服务容器。这对于快速查看应用栈中各个服务的运行状态非常有用。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose logs",
+    "summary": "查看 `docker-compose.yml` 中定义的服务容器的聚合日志输出。(Views the aggregated log output of service containers defined in `docker-compose.yml`.)",
+    "examples": [
+      {
+        "description": "显示所有服务的聚合日志，从所有容器的标准输出和标准错误流中收集。",
+        "code": "docker-compose logs"
+      },
+      {
+        "description": "实时跟踪所有服务的日志输出（类似于 `tail -f`）。",
+        "code": "docker-compose logs -f"
+      },
+      {
+        "description": "只显示 `web` 服务的日志。",
+        "code": "docker-compose logs web"
+      },
+      {
+        "description": "实时跟踪 `web` 和 `db` 服务的日志。",
+        "code": "docker-compose logs -f web db"
+      },
+      {
+        "description": "显示日志的最后100行。",
+        "code": "docker-compose logs --tail=100"
+      },
+      {
+        "description": "显示自某个时间点以来的日志 (例如 '2023-01-01T00:00:00')。",
+        "code": "docker-compose logs --since 2023-01-01T00:00:00"
+      }
+    ],
+    "notes": "这是一个非常重要的调试工具，可以集中查看所有或特定服务的日志。在分布式应用中，这比单独查看每个容器的日志效率更高。 `-f` 选项在开发和问题排查时尤其有用。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose exec",
+    "summary": "在运行中的服务容器内部执行一个命令。(Executes a command inside a running service container.)",
+    "examples": [
+      {
+        "description": "进入 `web` 服务的 Bash Shell。",
+        "code": "docker-compose exec web bash"
+      },
+      {
+        "description": "在 `db` 服务容器中执行 SQL 查询，例如查看数据库版本。",
+        "code": "docker-compose exec db mysql -uroot -psecret -e \"SELECT VERSION();\""
+      },
+      {
+        "description": "在 `web` 服务中列出 `/app` 目录的内容。",
+        "code": "docker-compose exec web ls /app"
+      }
+    ],
+    "notes": "类似于 `docker exec`，但它针对 Compose 服务。这对于在不停止容器的情况下进行调试、运行一次性脚本或执行管理任务非常方便。通常使用 `-it` 选项进行交互式操作。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose restart",
+    "summary": "重启一个或多个服务容器。(Restarts one or more service containers.)",
+    "examples": [
+      {
+        "description": "重启当前 Compose 项目中的所有服务。",
+        "code": "docker-compose restart"
+      },
+      {
+        "description": "只重启 `web` 服务。",
+        "code": "docker-compose restart web"
+      },
+      {
+        "description": "重启 `db` 服务，并设置一个停止超时时间（秒）。",
+        "code": "docker-compose restart -t 30 db"
+      }
+    ],
+    "notes": "这个命令会停止指定的服务（或所有服务），然后重新启动它们。这在应用代码更新或配置更改后需要应用新设置时很有用。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose stop",
+    "summary": "停止一个或多个服务容器，但不移除它们。(Stops one or more service containers, but does not remove them.)",
+    "examples": [
+      {
+        "description": "停止当前 Compose 项目中的所有服务。",
+        "code": "docker-compose stop"
+      },
+      {
+        "description": "只停止 `web` 服务。",
+        "code": "docker-compose stop web"
+      },
+      {
+        "description": "停止 `web` 服务，并设置一个停止超时时间（秒）。",
+        "code": "docker-compose stop -t 30 web"
+      }
+    ],
+    "notes": "停止服务后，容器仍然存在，可以通过 `docker-compose start` 重新启动，并且其状态（例如文件系统更改）会被保留。这与 `docker-compose down` 不同，`down` 会移除容器和网络。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose start",
+    "summary": "启动一个或多个已停止的服务容器。(Starts one or more stopped service containers.)",
+    "examples": [
+      {
+        "description": "启动当前 Compose 项目中所有已停止的服务。",
+        "code": "docker-compose start"
+      },
+      {
+        "description": "只启动 `web` 服务（如果它处于停止状态）。",
+        "code": "docker-compose start web"
+      }
+    ],
+    "notes": "在服务被 `docker-compose stop` 停止后，可以使用此命令重新启动它们，而无需重新构建或重新创建容器。这在暂停和恢复应用时非常有用。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker-compose pull",
+    "summary": "拉取 `docker-compose.yml` 中定义的所有服务依赖的镜像。(Pulls images required by services defined in `docker-compose.yml`.)",
+    "examples": [
+      {
+        "description": "拉取 `docker-compose.yml` 中所有服务所需的所有镜像。",
+        "code": "docker-compose pull"
+      },
+      {
+        "description": "只拉取 `web` 服务所需的镜像。",
+        "code": "docker-compose pull web"
+      },
+      {
+        "description": "并行拉取镜像。",
+        "code": "docker-compose pull --parallel"
+      },
+      {
+        "description": "总是尝试拉取镜像的最新版本，即使本地存在同名同标签的镜像。",
+        "code": "docker-compose pull --include-deps"
+      }
+    ],
+    "notes": "这个命令会预先下载所有必要的镜像，避免在 `docker-compose up` 时因网络下载而等待。这对于部署到生产环境或确保在网络不佳的环境中可用性非常有用。",
+    "shell_type": "External (`/usr/local/bin/docker-compose`)"
+  },
+  {
+    "name": "docker network ls",
+    "summary": "列出所有 Docker 网络 (List all Docker networks)",
+    "examples": [
+      {
+        "description": "列出所有 Docker 网络",
+        "code": "docker network ls"
+      },
+      {
+        "description": "只显示网络的ID",
+        "code": "docker network ls -q"
+      },
+      {
+        "description": "过滤，只显示驱动类型为 'bridge' 的网络",
+        "code": "docker network ls --filter driver=bridge"
+      },
+      {
+        "description": "格式化输出，只显示网络名称和ID",
+        "code": "docker network ls --format \"{{.Name}}\\t{{.ID}}\""
+      }
+    ],
+    "notes": "Docker 网络是容器之间以及容器与外部世界通信的基础。每个 Docker 安装都会默认创建几个网络，例如 `bridge` (默认，容器间通过IP通信)、`host` (容器共享宿主机网络栈) 和 `none` (禁用网络)。自定义网络通常是首选，因为它们提供了更好的隔离和名称解析。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker network create",
+    "summary": "创建一个新的自定义网络 (Create a new custom network)",
+    "examples": [
+      {
+        "description": "创建一个名为 'my-app-network' 的默认 bridge 网络",
+        "code": "docker network create my-app-network"
+      },
+      {
+        "description": "创建一个具有指定子网和网关的 bridge 网络",
+        "code": "docker network create --driver bridge --subnet 172.18.0.0/16 --gateway 172.18.0.1 my-custom-subnet-network"
+      },
+      {
+        "description": "创建一个 overlay 网络 (通常用于 Docker Swarm 集群)",
+        "code": "docker network create --driver overlay --attachable my-overlay-network"
+      }
+    ],
+    "notes": "为多容器应用创建自定义网络是最佳实践。自定义网络内的容器可以通过名称相互解析，而无需知道对方的IP地址，这使得应用部署更加灵活和健壮。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker network connect",
+    "summary": "将容器连接到指定网络 (Connect a container to a specified network)",
+    "examples": [
+      {
+        "description": "将运行中的 'my-container' 容器连接到 'my-app-network'",
+        "code": "docker network connect my-app-network my-container"
+      },
+      {
+        "description": "连接时指定容器在网络中的别名，允许其他容器通过此别名访问它",
+        "code": "docker network connect --alias webserver my-app-network my-nginx-container"
+      }
+    ],
+    "notes": "此命令允许您动态地更改容器的网络连接，例如将一个容器从一个网络移动到另一个网络，或使其同时存在于多个网络中以实现不同的通信需求。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker network disconnect",
+    "summary": "将容器从指定网络断开 (Disconnect a container from a specified network)",
+    "examples": [
+      {
+        "description": "将 'my-container' 容器从 'my-app-network' 断开",
+        "code": "docker network disconnect my-app-network my-container"
+      }
+    ],
+    "notes": "该命令用于从网络中移除容器，切断其在该网络中的连接。断开后，容器将无法通过该网络与其他容器或外部服务通信。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker network rm",
+    "summary": "删除一个或多个网络 (Remove one or more networks)",
+    "examples": [
+      {
+        "description": "删除名为 'my-app-network' 的网络",
+        "code": "docker network rm my-app-network"
+      },
+      {
+        "description": "同时删除多个网络",
+        "code": "docker network rm network1 network2"
+      }
+    ],
+    "notes": "只能删除没有容器连接的网络。如果尝试删除正在使用的网络，Docker 会报错。需要先断开或删除所有连接到该网络的容器。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker volume ls",
+    "summary": "列出所有 Docker 卷 (List all Docker volumes)",
+    "examples": [
+      {
+        "description": "列出所有 Docker 卷",
+        "code": "docker volume ls"
+      },
+      {
+        "description": "只显示卷的ID",
+        "code": "docker volume ls -q"
+      },
+      {
+        "description": "过滤，只显示驱动类型为 'local' 的卷",
+        "code": "docker volume ls --filter driver=local"
+      }
+    ],
+    "notes": "Docker 卷是用于持久化存储容器数据的首选机制。它们独立于容器的生命周期，即使容器被删除，卷中的数据仍然保留，方便数据的备份、迁移和在多个容器间共享。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker volume create",
+    "summary": "创建一个命名卷 (Create a named volume)",
+    "examples": [
+      {
+        "description": "创建一个名为 'my-data-volume' 的命名卷",
+        "code": "docker volume create my-data-volume"
+      },
+      {
+        "description": "创建一个使用指定驱动和选项的卷 (例如，NFS驱动)",
+        "code": "docker volume create --driver local --opt type=nfs --opt o=addr=192.168.1.100,rw --opt device=:/mnt/nfs/data my-nfs-volume"
+      }
+    ],
+    "notes": "命名卷是管理容器数据持久化的最推荐方式。与绑定挂载 (bind mounts) 相比，命名卷由 Docker 管理，通常具有更好的性能、更易于备份和迁移，并且不依赖宿主机的特定目录结构。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker volume inspect",
+    "summary": "显示卷的详细信息 (Display detailed information on a volume)",
+    "examples": [
+      {
+        "description": "查看 'my-data-volume' 卷的详细信息 (JSON 格式)",
+        "code": "docker volume inspect my-data-volume"
+      },
+      {
+        "description": "只查看卷的挂载路径 (Mountpoint)",
+        "code": "docker volume inspect -f '{{ .Mountpoint }}' my-data-volume"
+      }
+    ],
+    "notes": "此命令提供了卷的名称、驱动、挂载点、标签等所有配置细节。对于调试卷配置或验证数据存储路径非常有用。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker volume rm",
+    "summary": "删除一个或多个卷 (Remove one or more volumes)",
+    "examples": [
+      {
+        "description": "删除名为 'my-data-volume' 的卷",
+        "code": "docker volume rm my-data-volume"
+      },
+      {
+        "description": "强制删除正在被容器使用的卷 (慎用，可能导致数据丢失)",
+        "code": "docker volume rm -f my-data-volume"
+      }
+    ],
+    "notes": "默认情况下，Docker 不允许删除正在被容器使用的卷。如果需要删除，必须先停止并删除关联的容器，或者使用 `-f` 强制删除（这会立即删除卷，即使有容器仍在尝试使用它，可能导致数据损坏或丢失）。",
+    "shell_type": "External (`docker` binary)"
+  },
+  {
+    "name": "docker system df",
+    "summary": "显示 Docker 磁盘使用情况 (Show Docker disk usage)",
+    "examples": [
+      {
+        "description": "显示 Docker 磁盘使用情况概览",
+        "code": "docker system df"
+      },
+      {
+        "description": "以人类可读的格式显示详细信息，包括各类型资源的占用",
+        "code": "docker system df -v"
+      }
+    ],
+    "notes": "此命令类似于 Linux 的 `df` 命令，用于快速查看 Docker 在宿主机上占用的磁盘空间，包括镜像、容器、卷和构建缓存。这对于监控 Docker 环境的存储使用情况以及进行容量规划非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker system prune",
+    "summary": "清理 Docker 系统资源 (Remove unused Docker data)",
+    "examples": [
+      {
+        "description": "清理所有停止的容器、未使用的网络和悬挂镜像 (dangling images)",
+        "code": "docker system prune"
+      },
+      {
+        "description": "清理所有未使用的对象（包括未被任何容器引用的镜像）和所有未使用的卷",
+        "code": "docker system prune -a --volumes"
+      },
+      {
+        "description": "强制执行清理，不询问确认（慎用）",
+        "code": "docker system prune -f"
+      }
+    ],
+    "notes": "一个非常重要的维护命令，用于回收磁盘空间。`--volumes` 选项会删除所有未使用的匿名卷和命名卷。在使用 `-a` (all) 和 `--volumes` 选项时要格外小心，因为它们会删除大量数据，请确保您了解其影响。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker stats",
+    "summary": "实时显示容器资源使用情况 (Display a live stream of container(s) resource usage statistics)",
+    "examples": [
+      {
+        "description": "显示所有运行中容器的实时统计信息",
+        "code": "docker stats"
+      },
+      {
+        "description": "只显示特定容器的统计信息",
+        "code": "docker stats my-web-server my-db"
+      },
+      {
+        "description": "不显示流式更新，只显示一次快照",
+        "code": "docker stats --no-stream my-container"
+      }
+    ],
+    "notes": "提供容器的 CPU 使用率、内存使用量、网络 I/O 和块设备 I/O 的实时概览。这对于诊断性能瓶颈、监控容器的健康状况或了解应用程序的资源消耗非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker version",
+    "summary": "显示 Docker 客户端和服务器版本信息 (Show the Docker version information)",
+    "examples": [
+      {
+        "description": "显示客户端 (Client) 和守护进程 (Server) 的完整版本信息",
+        "code": "docker version"
+      },
+      {
+        "description": "以 JSON 格式显示版本信息，方便程序解析",
+        "code": "docker version --format '{{json .}}'"
+      }
+    ],
+    "notes": "此命令用于检查当前安装的 Docker 客户端和守护进程 (Docker Engine) 的版本。这对于兼容性检查、故障排除以及确认 Docker 环境的配置非常重要。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker info",
+    "summary": "显示 Docker 系统的详细信息 (Display system-wide information)",
+    "examples": [
+      {
+        "description": "显示 Docker 系统的所有详细信息，包括容器、镜像、存储驱动等",
+        "code": "docker info"
+      }
+    ],
+    "notes": "提供关于 Docker 环境的全面信息，包括容器和镜像的数量、存储驱动类型、日志驱动、运行时（runtime）、安全选项、Docker Root Dir 等。对于理解 Docker 配置、诊断复杂问题以及进行系统审计至关重要。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker history",
+    "summary": "显示镜像的构建历史 (Show the history of an image)",
+    "examples": [
+      {
+        "description": "显示 Nginx 镜像的构建历史",
+        "code": "docker history nginx:latest"
+      },
+      {
+        "description": "以人类可读的格式显示每一层的大小，并限制显示行数",
+        "code": "docker history --human --no-trunc my-image"
+      }
+    ],
+    "notes": "此命令展示了镜像的每一层是如何创建的，包括创建该层所执行的命令、创建时间、作者和每一层占用的空间。这对于理解镜像的构成、优化镜像大小以及追踪镜像中的变更来源非常有帮助。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker save",
+    "summary": "将一个或多个镜像保存为 tar 归档文件 (Save one or more images to a tar archive)",
+    "examples": [
+      {
+        "description": "将 Nginx 镜像保存到名为 `nginx.tar` 的文件中",
+        "code": "docker save -o nginx.tar nginx:latest"
+      },
+      {
+        "description": "将多个镜像保存到同一个 tar 文件中",
+        "code": "docker save -o images.tar my-app:1.0 ubuntu:latest"
+      }
+    ],
+    "notes": "此命令用于将 Docker 镜像打包成一个可移植的 `.tar` 归档文件，方便在没有网络连接的环境中传输或部署 Docker 镜像。这个文件包含了镜像的所有层和元数据，可以用于离线安装或备份。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker load",
+    "summary": "从 tar 归档文件加载一个或多个镜像 (Load an image from a tar archive or STDIN)",
+    "examples": [
+      {
+        "description": "从 `nginx.tar` 文件加载镜像到本地 Docker 环境",
+        "code": "docker load -i nginx.tar"
+      },
+      {
+        "description": "通过标准输入管道加载镜像（例如，从远程服务器下载后直接导入）",
+        "code": "cat my-image.tar | docker load"
+      }
+    ],
+    "notes": "`docker save` 命令的逆操作，用于将 `tar` 归档文件中的镜像加载到本地 Docker 守护进程中。这在离线环境中导入镜像或从备份恢复镜像时非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker image prune",
+    "summary": "删除未被任何容器使用的镜像 (Remove unused images)",
+    "examples": [
+      {
+        "description": "删除所有悬挂镜像（dangling images，即没有标签且没有被任何容器引用的镜像）",
+        "code": "docker image prune"
+      },
+      {
+        "description": "删除所有未使用的镜像（包括悬挂镜像和非悬挂但未被任何容器引用的镜像）",
+        "code": "docker image prune -a"
+      },
+      {
+        "description": "强制执行，不询问确认",
+        "code": "docker image prune -f"
+      }
+    ],
+    "notes": "此命令是清理本地 Docker 存储空间的重要工具。悬挂镜像通常是由于构建新镜像时旧镜像标签被覆盖而产生的。使用 `-a` 选项时需要小心，因为它会删除所有当前没有容器在使用的镜像，即使它们有标签。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker attach",
+    "summary": "连接到运行中容器的标准输入、输出和错误流 (Attach to a running container's STDIN, STDOUT, and STDERR)",
+    "examples": [
+      {
+        "description": "连接到名为 'my-app-container' 的容器",
+        "code": "docker attach my-app-container"
+      },
+      {
+        "description": "连接后，使用组合键 (Ctrl+p Ctrl+q) 从容器分离而不停止它",
+        "code": "Ctrl+p Ctrl+q (在 attach 模式下输入)"
+      }
+    ],
+    "notes": "此命令通常用于连接到在前台运行的容器（例如，启动时没有使用 `-d` 选项）。如果容器的主进程退出，`attach` 命令也会退出。为了避免这种情况并保持容器运行，可以通过 `Ctrl+p Ctrl+q` 组合键进行分离。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker cp",
+    "summary": "复制文件和目录到容器内或从容器内复制 (Copy files/folders between a container and the local filesystem)",
+    "examples": [
+      {
+        "description": "从宿主机复制文件 'config.txt' 到容器 'my-web-server' 的 '/etc/' 目录",
+        "code": "docker cp ./config.txt my-web-server:/etc/"
+      },
+      {
+        "description": "从容器 'my-web-server' 的 '/var/log/app.log' 复制文件到宿主机当前目录",
+        "code": "docker cp my-web-server:/var/log/app.log ."
+      },
+      {
+        "description": "递归复制宿主机目录 'data/' 到容器 '/app/data/'",
+        "code": "docker cp ./data/ my-app-container:/app/data/"
+      }
+    ],
+    "notes": "这是一个非常实用的命令，用于在容器和宿主机之间传输文件。它在调试、上传配置文件或下载日志/数据时非常方便。注意目标路径的冒号 `:` 用来区分容器路径和宿主机路径。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker pause",
+    "summary": "暂停一个或多个容器中的所有进程 (Pause all processes within one or more containers)",
+    "examples": [
+      {
+        "description": "暂停名为 'my-app-container' 的容器",
+        "code": "docker pause my-app-container"
+      }
+    ],
+    "notes": "此命令会暂停容器内所有进程的执行，将其置于“冻结”状态。容器仍然占用内存和 CPU 资源（如果之前有分配），但不再消耗 CPU 时间。这对于需要暂时停止容器而不希望其丢失状态或数据的情况很有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker unpause",
+    "summary": "取消暂停一个或多个容器中的所有进程 (Unpause all processes within one or more containers)",
+    "examples": [
+      {
+        "description": "取消暂停名为 'my-app-container' 的容器",
+        "code": "docker unpause my-app-container"
+      }
+    ],
+    "notes": "恢复之前通过 `docker pause` 命令暂停的容器的执行。容器将从暂停时的状态继续运行。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker rename",
+    "summary": "重命名一个容器 (Rename a container)",
+    "examples": [
+      {
+        "description": "将名为 'old-app-name' 的容器重命名为 'new-app-name'",
+        "code": "docker rename old-app-name new-app-name"
+      }
+    ],
+    "notes": "允许更改现有容器的名称。这在容器创建后需要调整其标识时非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker update",
+    "summary": "更新容器的配置，例如 CPU 限制、内存限制、重启策略等 (Update configuration of one or more containers)",
+    "examples": [
+      {
+        "description": "更新容器 'my-app-container' 的重启策略为 'always'",
+        "code": "docker update --restart=always my-app-container"
+      },
+      {
+        "description": "更新容器 'my-app-container' 的 CPU 份额和内存限制",
+        "code": "docker update --cpus=\"0.5\" --memory=\"512m\" my-app-container"
+      }
+    ],
+    "notes": "此命令允许在不停止和重新创建容器的情况下修改其运行时配置，例如资源限制、重启策略等。这对于在生产环境中动态调整容器行为非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker top",
+    "summary": "查看容器内部运行的进程 (Display the running processes of a container)",
+    "examples": [
+      {
+        "description": "查看名为 'my-app-container' 容器内部的所有进程",
+        "code": "docker top my-app-container"
+      }
+    ],
+    "notes": "类似于在容器内部执行 `ps` 或 `top` 命令，但可以直接从宿主机执行。这对于诊断容器内部的进程问题（如僵尸进程、CPU占用过高）非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker diff",
+    "summary": "显示容器文件系统与镜像之间的更改 (Inspect changes on files or directories on a container’s filesystem)",
+    "examples": [
+      {
+        "description": "显示容器 'my-app-container' 文件系统的所有更改",
+        "code": "docker diff my-app-container"
+      }
+    ],
+    "notes": "此命令会列出容器文件系统中自其启动以来发生的所有更改。它会标记出新增 (A)、删除 (D) 或修改 (C) 的文件或目录。这对于审计容器运行时对文件系统的影响、识别临时文件或调试意外的文件变动非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker events",
+    "summary": "从服务器获取实时事件流 (Get real time events from the server)",
+    "examples": [
+      {
+        "description": "实时显示所有 Docker 事件",
+        "code": "docker events"
+      },
+      {
+        "description": "过滤只显示容器的启动和停止事件",
+        "code": "docker events --filter 'type=container' --filter 'event=start' --filter 'event=stop'"
+      },
+      {
+        "description": "只显示特定容器的事件",
+        "code": "docker events --filter 'container=my-app-container'"
+      }
+    ],
+    "notes": "此命令提供了一个实时流，显示 Docker 守护进程上发生的各种事件，例如容器的创建、启动、停止、删除，镜像的拉取、推送，卷的创建、删除等。这对于自动化脚本、监控系统或深入了解 Docker 环境的动态非常有用。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker commit",
+    "summary": "将容器的当前状态保存为一个新的镜像 (Create a new image from a container’s changes)",
+    "examples": [
+      {
+        "description": "将容器 'my-temp-container' 的更改提交为新镜像 'my-custom-image:1.0'",
+        "code": "docker commit my-temp-container my-custom-image:1.0"
+      },
+      {
+        "description": "提交时添加作者和提交信息",
+        "code": "docker commit -a \"Your Name\" -m \"Added debug tools\" my-temp-container my-custom-image:debug"
+      }
+    ],
+    "notes": "**警告：** 虽然此命令可以将容器的当前状态保存为新镜像，但它通常**不推荐用于生产环境或可重复的构建过程**。最佳实践是使用 `Dockerfile` 来定义镜像的构建步骤，确保每次构建都具有可追溯性和一致性。`docker commit` 主要用于快速创建临时镜像进行调试或实验。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  },
+  {
+    "name": "docker context",
+    "summary": "管理 Docker Contexts，用于切换到不同的 Docker Daemon (本地或远程) (Manage Docker contexts)",
+    "examples": [
+      {
+        "description": "列出所有可用的 Docker Contexts",
+        "code": "docker context ls"
+      },
+      {
+        "description": "创建一个名为 'remote-host-context' 的远程 Context，连接到指定 SSH 主机上的 Docker Daemon",
+        "code": "docker context create remote-host-context --docker \"host=ssh://user@remote-host\""
+      },
+      {
+        "description": "切换到 'remote-host-context'，后续 Docker 命令将在此远程主机上执行",
+        "code": "docker context use remote-host-context"
+      },
+      {
+        "description": "切换回默认的本地 Docker Context",
+        "code": "docker context use default"
+      },
+      {
+        "description": "删除一个 Context",
+        "code": "docker context rm remote-host-context"
+      }
+    ],
+    "notes": "Docker Contexts 允许您轻松地在不同的 Docker 环境之间切换，无论是本地 Docker Daemon、远程 SSH 主机上的 Docker、Docker Desktop 还是 Kubernetes 集群。这对于管理多个部署目标或进行跨环境开发非常有帮助。",
+    "shell_type": "External (`/usr/bin/docker`)"
+  }
+]

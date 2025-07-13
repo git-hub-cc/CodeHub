@@ -1,0 +1,2178 @@
+[
+  {
+    "name": "kubectl version",
+    "summary": "显示 kubectl 客户端和 Kubernetes 服务端版本 (Display client and server version information)",
+    "examples": [
+      {
+        "description": "查看客户端和服务端版本",
+        "code": "kubectl version"
+      },
+      {
+        "description": "以 JSON 格式输出版本信息",
+        "code": "kubectl version -o json"
+      }
+    ],
+    "notes": "用于确认 kubectl 与集群版本兼容性。建议 kubectl 版本与服务端版本保持在 ±1 次要版本内（如 1.32 的 kubectl 支持 1.31、1.32、1.33 集群）。输出包括客户端版本（Client Version）和服务端版本（Server Version）。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl cluster-info",
+    "summary": "显示集群控制平面信息 (Display cluster control plane information)",
+    "examples": [
+      {
+        "description": "查看集群控制平面地址",
+        "code": "kubectl cluster-info"
+      },
+      {
+        "description": "导出详细的集群诊断信息",
+        "code": "kubectl cluster-info dump"
+      }
+    ],
+    "notes": "显示 Kubernetes 控制平面的端点（如 API Server、KubeDNS）。对于调试集群连接问题很有用。建议结合 `kubectl get nodes` 使用以了解集群状态。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get nodes",
+    "summary": "列出集群中的所有节点及其状态 (List all nodes in the cluster and their status)",
+    "examples": [
+      {
+        "description": "列出所有节点",
+        "code": "kubectl get nodes"
+      },
+      {
+        "description": "以宽格式显示节点详细信息（如 IP 地址）",
+        "code": "kubectl get nodes -o wide"
+      }
+    ],
+    "notes": "常用于检查节点健康状态（Ready/NotReady）。输出的 STATUS 字段显示节点是否可调度。结合 `kubectl describe node` 可查看更详细的信息，如资源使用情况。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get namespaces",
+    "summary": "列出集群中的所有命名空间 (List all namespaces in the cluster)",
+    "examples": [
+      {
+        "description": "列出所有命名空间",
+        "code": "kubectl get namespaces"
+      },
+      {
+        "description": "以 JSON 格式输出命名空间列表",
+        "code": "kubectl get namespaces -o json"
+      }
+    ],
+    "notes": "命名空间用于隔离资源，默认包括 `default`、`kube-system` 等。建议为不同项目或团队创建独立命名空间以避免资源冲突。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl config view",
+    "summary": "查看当前的 kubeconfig 配置 (View the current kubeconfig configuration)",
+    "examples": [
+      {
+        "description": "查看完整 kubeconfig 配置",
+        "code": "kubectl config view"
+      },
+      {
+        "description": "查看当前上下文",
+        "code": "kubectl config current-context"
+      }
+    ],
+    "notes": "显示 kubeconfig 文件的内容（通常位于 `~/.kube/config`），包括集群、用户和上下文信息。常用于调试认证或连接问题。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl config use-context",
+    "summary": "切换到指定的上下文（集群） (Switch to a specified context or cluster)",
+    "examples": [
+      {
+        "description": "切换到名为 'my-cluster' 的上下文",
+        "code": "kubectl config use-context my-cluster"
+      },
+      {
+        "description": "列出所有上下文并切换",
+        "code": "kubectl config get-contexts\nkubectl config use-context my-cluster"
+      }
+    ],
+    "notes": "上下文定义了 kubectl 连接的集群、用户和命名空间。切换上下文后，kubectl 将对新集群执行操作。确保上下文存在于 kubeconfig 文件中。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get",
+    "summary": "列出指定类型的资源 (List resources of a specified type)",
+    "examples": [
+      {
+        "description": "列出默认命名空间中的 Pod",
+        "code": "kubectl get pods"
+      },
+      {
+        "description": "列出特定命名空间中的服务",
+        "code": "kubectl get svc -n kube-system"
+      },
+      {
+        "description": "以 YAML 格式输出 Deployment 列表",
+        "code": "kubectl get deployments -o yaml"
+      }
+    ],
+    "notes": "支持的资源类型包括 pods、services、deployments、nodes 等。使用 `-n <namespace>` 指定命名空间，`-o wide` 显示更多细节，`-o yaml/json` 输出详细配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl describe",
+    "summary": "显示资源的详细信息 (Show detailed information about a resource)",
+    "examples": [
+      {
+        "description": "查看名为 'my-pod' 的 Pod 详情",
+        "code": "kubectl describe pod my-pod"
+      },
+      {
+        "description": "查看特定命名空间中的 Deployment 详情",
+        "code": "kubectl describe deployment my-app -n my-namespace"
+      }
+    ],
+    "notes": "显示资源的元数据、状态和事件，适合调试问题（如 Pod 未启动的原因）。常用于排查资源配置错误或事件异常。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create",
+    "summary": "通过文件或命令创建资源 (Create a resource from a file or command)",
+    "examples": [
+      {
+        "description": "通过 YAML 文件创建 Pod",
+        "code": "kubectl create -f pod.yaml"
+      },
+      {
+        "description": "创建命名空间",
+        "code": "kubectl create namespace my-namespace"
+      }
+    ],
+    "notes": "与 `kubectl apply` 不同，`create` 不支持更新已有资源，适合一次性创建。使用 `--dry-run=client -o yaml` 可预览生成的 YAML。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl apply",
+    "summary": "应用或更新资源配置 (Apply or update resource configurations)",
+    "examples": [
+      {
+        "description": "应用 YAML 文件中的资源配置",
+        "code": "kubectl apply -f deployment.yaml"
+      },
+      {
+        "description": "递归应用目录中的所有 YAML 文件",
+        "code": "kubectl apply -f ./configs/"
+      }
+    ],
+    "notes": "推荐用于声明式资源管理，支持创建和更新资源。使用 `-k` 可结合 Kustomize 应用配置。建议检查 YAML 文件的正确性以避免配置错误。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl delete",
+    "summary": "删除指定的资源 (Delete a specified resource)",
+    "examples": [
+      {
+        "description": "删除名为 'my-pod' 的 Pod",
+        "code": "kubectl delete pod my-pod"
+      },
+      {
+        "description": "删除 YAML 文件中的资源",
+        "code": "kubectl delete -f deployment.yaml"
+      }
+    ],
+    "notes": "支持通过名称、标签选择器或文件删除资源。使用 `--force --grace-period=0` 可强制删除。注意删除操作不可逆，建议先备份。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl edit",
+    "summary": "编辑集群中的资源配置 (Edit a resource configuration in the cluster)",
+    "examples": [
+      {
+        "description": "编辑名为 'my-app' 的 Deployment",
+        "code": "kubectl edit deployment my-app"
+      },
+      {
+        "description": "在特定命名空间编辑服务",
+        "code": "kubectl edit svc my-service -n my-namespace"
+      }
+    ],
+    "notes": "打开默认编辑器（如 vim）直接修改资源配置。保存后自动应用更改。确保编辑器环境变量（EDITOR）正确配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl logs",
+    "summary": "查看 Pod 中容器的日志 (View logs of a container in a Pod)",
+    "examples": [
+      {
+        "description": "查看名为 'my-pod' 的 Pod 日志",
+        "code": "kubectl logs my-pod"
+      },
+      {
+        "description": "实时流式查看特定容器的日志",
+        "code": "kubectl logs -f my-pod -c my-container"
+      }
+    ],
+    "notes": "用于调试容器问题。`-f` 启用实时日志，`-c` 指定容器（多容器 Pod 时需要）。日志输出依赖容器配置的日志驱动。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl exec",
+    "summary": "在 Pod 的容器中执行命令 (Execute a command in a container in a Pod)",
+    "examples": [
+      {
+        "description": "在 Pod 中运行 bash 终端",
+        "code": "kubectl exec -it my-pod -- bash"
+      },
+      {
+        "description": "在特定容器中执行命令",
+        "code": "kubectl exec my-pod -c my-container -- ls /app"
+      }
+    ],
+    "notes": "`-it` 用于交互式终端，适合调试或检查容器环境。确保 Pod 中的容器有相应 shell（如 bash 或 sh）。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl port-forward",
+    "summary": "将本地端口转发到 Pod 端口 (Forward local port to a Pod port)",
+    "examples": [
+      {
+        "description": "转发本地 8080 端口到 Pod 的 80 端口",
+        "code": "kubectl port-forward my-pod 8080:80"
+      },
+      {
+        "description": "转发到特定命名空间的 Service",
+        "code": "kubectl port-forward svc/my-service 8080:80 -n my-namespace"
+      }
+    ],
+    "notes": "用于本地调试或访问 Pod/Service 的网络服务。进程在前台运行，Ctrl+C 终止。支持 Pod、Service 或 Deployment。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl cp",
+    "summary": "在 Pod 和本地之间复制文件 (Copy files between a Pod and local system)",
+    "examples": [
+      {
+        "description": "从 Pod 复制文件到本地",
+        "code": "kubectl cp my-pod:/app/config.txt ./config.txt"
+      },
+      {
+        "description": "将本地文件复制到 Pod",
+        "code": "kubectl cp ./config.txt my-pod:/app/config.txt"
+      }
+    ],
+    "notes": "类似 `scp`，用于文件传输。需指定容器路径和本地路径。多容器 Pod 需用 `-c` 指定容器。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl scale",
+    "summary": "调整 Deployment 或 ReplicaSet 的副本数 (Scale the number of replicas in a Deployment or ReplicaSet)",
+    "examples": [
+      {
+        "description": "将 Deployment 的副本数调整为 3",
+        "code": "kubectl scale deployment my-app --replicas=3"
+      },
+      {
+        "description": "在特定命名空间缩放副本",
+        "code": "kubectl scale deployment my-app --replicas=5 -n my-namespace"
+      }
+    ],
+    "notes": "用于手动调整应用规模。结合 HPA（`kubectl autoscale`）可实现自动扩展。确保资源配额允许缩放。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl rollout status",
+    "summary": "查看 Deployment 滚动更新状态 (Check the status of a Deployment rollout)",
+    "examples": [
+      {
+        "description": "查看名为 'my-app' 的 Deployment 滚动状态",
+        "code": "kubectl rollout status deployment my-app"
+      },
+      {
+        "description": "在特定命名空间查看状态",
+        "code": "kubectl rollout status deployment my-app -n my-namespace"
+      }
+    ],
+    "notes": "显示滚动更新的进度，成功时返回 'successfully rolled out'。若更新失败，可结合 `kubectl describe` 排查原因。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl rollout undo",
+    "summary": "回滚 Deployment 到上一个版本 (Undo a Deployment to the previous revision)",
+    "examples": [
+      {
+        "description": "回滚名为 'my-app' 的 Deployment",
+        "code": "kubectl rollout undo deployment my-app"
+      },
+      {
+        "description": "回滚到指定版本",
+        "code": "kubectl rollout undo deployment my-app --to-revision=2"
+      }
+    ],
+    "notes": "用于快速恢复到上一个稳定版本。结合 `kubectl rollout history` 可查看版本历史。注意回滚可能受限于 ReplicaSet 配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl set image",
+    "summary": "更新 Deployment 中容器的镜像 (Update the container image in a Deployment)",
+    "examples": [
+      {
+        "description": "更新 Deployment 的容器镜像",
+        "code": "kubectl set image deployment my-app my-container=nginx:latest"
+      },
+      {
+        "description": "在特定命名空间更新镜像",
+        "code": "kubectl set image deployment my-app my-container=nginx:1.14.2 -n my-namespace"
+      }
+    ],
+    "notes": "触发滚动更新以应用新镜像。确保镜像存在于仓库且可访问。结合 `kubectl rollout status` 监控更新进度。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get svc",
+    "summary": "列出服务资源 (List Service resources)",
+    "examples": [
+      {
+        "description": "列出默认命名空间中的服务",
+        "code": "kubectl get svc"
+      },
+      {
+        "description": "列出所有命名空间的服务",
+        "code": "kubectl get svc --all-namespaces"
+      }
+    ],
+    "notes": "显示服务的类型（如 ClusterIP、NodePort）、端口和关联的 Endpoints。结合 `kubectl describe svc` 可查看更多细节。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl expose",
+    "summary": "暴露 Deployment 或 Pod 为服务 (Expose a Deployment or Pod as a Service)",
+    "examples": [
+      {
+        "description": "暴露 Deployment 为 ClusterIP 服务",
+        "code": "kubectl expose deployment my-app --port=80 --type=ClusterIP"
+      },
+      {
+        "description": "暴露为 NodePort 服务",
+        "code": "kubectl expose deployment my-app --port=80 --type=NodePort"
+      }
+    ],
+    "notes": "创建 Service 以访问 Pod 或 Deployment。支持的类型包括 ClusterIP、NodePort、LoadBalancer。注意检查端口冲突和网络策略。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get ingress",
+    "summary": "列出 Ingress 资源 (List Ingress resources)",
+    "examples": [
+      {
+        "description": "列出默认命名空间中的 Ingress",
+        "code": "kubectl get ingress"
+      },
+      {
+        "description": "以 JSON 格式输出 Ingress 详情",
+        "code": "kubectl get ingress -o json"
+      }
+    ],
+    "notes": "显示 Ingress 规则和后端服务，需配合 Ingress 控制器（如 Nginx、Traefik）。确保集群已部署 Ingress 控制器。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl api-versions",
+    "summary": "列出 Kubernetes 集群支持的 API 版本 (List API versions supported by the Kubernetes cluster)",
+    "examples": [
+      {
+        "description": "显示所有 API 版本",
+        "code": "kubectl api-versions"
+      },
+      {
+        "description": "过滤特定 API 组（如 apps）",
+        "code": "kubectl api-versions | grep apps"
+      }
+    ],
+    "notes": "用于检查集群支持的 API 版本，特别是在使用自定义资源（CRD）或升级集群时。输出包括核心 API（如 v1）和扩展 API（如 apps/v1）。建议在调试 API 不兼容问题时使用。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl api-resources",
+    "summary": "列出 Kubernetes 集群支持的所有资源类型及其 API 组 (List all resource types and their API groups supported by the cluster)",
+    "examples": [
+      {
+        "description": "显示所有资源类型",
+        "code": "kubectl api-resources"
+      },
+      {
+        "description": "显示特定命名空间的资源类型",
+        "code": "kubectl api-resources --namespaced=true"
+      }
+    ],
+    "notes": "此命令帮助管理员了解集群支持的资源（如 Pod、Deployment、CRD）及其缩写（如 po、deploy）。对编写 YAML 或调试 API 非常有用。使用 --verbs 查看支持的操作（如 get、list）。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get componentstatus",
+    "summary": "查看控制平面组件的状态 (View the status of control plane components)",
+    "examples": [
+      {
+        "description": "显示所有组件状态",
+        "code": "kubectl get componentstatus"
+      }
+    ],
+    "notes": "仅适用于非托管集群（如自建 Kubernetes）。显示 scheduler、controller-manager 等组件的健康状态。在 EKS/ACK 等托管集群中可能不可用。替代方法：检查 kube-system 命名空间的 Pod 状态。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl config set-cluster",
+    "summary": "配置 kubeconfig 中的集群信息 (Configure cluster information in kubeconfig)",
+    "examples": [
+      {
+        "description": "添加新集群",
+        "code": "kubectl config set-cluster my-cluster --server=https://api.example.com:6443"
+      },
+      {
+        "description": "设置集群并指定 CA 证书",
+        "code": "kubectl config set-cluster my-cluster --server=https://api.example.com:6443 --certificate-authority=/path/to/ca.crt"
+      }
+    ],
+    "notes": "用于手动配置或更新 kubeconfig 文件中的集群条目。常用于多集群管理或自定义认证。注意：证书路径必须有效，否则会导致连接失败。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl config set-credentials",
+    "summary": "为 kubeconfig 设置用户认证信息 (Set user authentication information in kubeconfig)",
+    "examples": [
+      {
+        "description": "设置用户 token",
+        "code": "kubectl config set-credentials my-user --token=eyJhbGciOiJIUzI1NiJ9..."
+      },
+      {
+        "description": "设置用户证书和密钥",
+        "code": "kubectl config set-credentials my-user --client-certificate=/path/to/cert.pem --client-key=/path/to/key.pem"
+      }
+    ],
+    "notes": "用于配置用户认证（如 token、证书）。常用于 RBAC 或服务账户访问。确保 token 或证书有效，否则会导致认证错误。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl config set-context",
+    "summary": "创建或更新 kubeconfig 中的上下文 (Create or update a context in kubeconfig)",
+    "examples": [
+      {
+        "description": "创建新上下文",
+        "code": "kubectl config set-context my-context --cluster=my-cluster --user=my-user --namespace=default"
+      },
+      {
+        "description": "更新现有上下文的命名空间",
+        "code": "kubectl config set-context my-context --namespace=kube-system"
+      }
+    ],
+    "notes": "上下文将集群、用户和命名空间关联，便于切换工作环境。常用于多集群或多命名空间管理。使用后需运行 `kubectl config use-context` 激活。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl config get-contexts",
+    "summary": "列出 kubeconfig 中的所有上下文 (List all contexts in kubeconfig)",
+    "examples": [
+      {
+        "description": "显示所有上下文",
+        "code": "kubectl config get-contexts"
+      },
+      {
+        "description": "显示当前上下文的详细信息",
+        "code": "kubectl config get-contexts --output=name"
+      }
+    ],
+    "notes": "用于查看当前和可用上下文，星号 (*) 表示当前使用的上下文。常用于多集群管理或调试配置错误。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl cluster-info dump",
+    "summary": "导出集群诊断信息 (Dump diagnostic information for the cluster)",
+    "examples": [
+      {
+        "description": "导出集群信息到标准输出",
+        "code": "kubectl cluster-info dump"
+      },
+      {
+        "description": "导出到指定文件",
+        "code": "kubectl cluster-info dump --output-directory=/path/to/dump"
+      }
+    ],
+    "notes": "用于调试集群问题，输出包括节点、Pod、事件等详细信息。输出可能较大，建议指定目录保存。注意：可能包含敏感信息，需谨慎处理。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl apply -k",
+    "summary": "使用 Kustomize 应用目录中的资源配置 (Apply resources from a directory using Kustomize)",
+    "examples": [
+      {
+        "description": "应用 Kustomize 配置",
+        "code": "kubectl apply -k ./kustomization/"
+      },
+      {
+        "description": "预览 Kustomize 渲染结果",
+        "code": "kubectl apply -k ./kustomization/ --dry-run=client -o yaml"
+      }
+    ],
+    "notes": "Kustomize 是 Kubernetes 原生工具，用于管理 YAML 配置（如修改镜像、标签）。目录需包含 kustomization.yaml 文件。适合复杂应用的配置管理。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl patch",
+    "summary": "动态修补 Kubernetes 资源 (Dynamically patch Kubernetes resources)",
+    "examples": [
+      {
+        "description": "更新 Deployment 的副本数",
+        "code": "kubectl patch deployment my-app -p '{\"spec\": {\"replicas\": 3}}'"
+      },
+      {
+        "description": "为 Pod 添加标签",
+        "code": "kubectl patch pod my-pod -p '{\"metadata\": {\"labels\": {\"env\": \"prod\"}}}'"
+      }
+    ],
+    "notes": "支持 JSON 或 YAML 格式的补丁操作，适合小规模动态更新。需熟悉资源结构，避免语法错误。建议先用 --dry-run 测试。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl replace",
+    "summary": "替换现有资源配置 (Replace an existing resource configuration)",
+    "examples": [
+      {
+        "description": "替换 Deployment 配置",
+        "code": "kubectl replace -f deployment.yaml"
+      },
+      {
+        "description": "强制替换（忽略资源版本）",
+        "code": "kubectl replace --force -f deployment.yaml"
+      }
+    ],
+    "notes": "需提供完整 YAML 文件，替换整个资源。相比 `apply`，`replace` 不支持增量更新，需谨慎使用以避免覆盖意外更改。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl label",
+    "summary": "为资源添加或更新标签 (Add or update labels on resources)",
+    "examples": [
+      {
+        "description": "为 Pod 添加标签",
+        "code": "kubectl label pod my-pod env=prod"
+      },
+      {
+        "description": "覆盖现有标签",
+        "code": "kubectl label pod my-pod env=prod --overwrite"
+      },
+      {
+        "description": "删除标签",
+        "code": "kubectl label pod my-pod env-"
+      }
+    ],
+    "notes": "标签用于资源选择和组织（如 Selector）。确保标签键值符合 Kubernetes 命名规则（63 字符以内）。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl annotate",
+    "summary": "为资源添加或更新注解 (Add or update annotations on resources)",
+    "examples": [
+      {
+        "description": "为 Pod 添加注解",
+        "code": "kubectl annotate pod my-pod description='Test pod'"
+      },
+      {
+        "description": "覆盖现有注解",
+        "code": "kubectl annotate pod my-pod description='Updated description' --overwrite"
+      }
+    ],
+    "notes": "注解用于存储非标识性元数据（如工具配置）。常用于 CI/CD 或控制器自定义逻辑。确保注解键值格式正确。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl taint",
+    "summary": "为节点添加或更新污点 (Add or update taints on nodes)",
+    "examples": [
+      {
+        "description": "添加 NoSchedule 污点",
+        "code": "kubectl taint node node1 my-key=my-value:NoSchedule"
+      },
+      {
+        "description": "移除污点",
+        "code": "kubectl taint node node1 my-key:NoSchedule-"
+      }
+    ],
+    "notes": "污点与容忍（Toleration）配合使用，控制 Pod 调度。常见效果：NoSchedule、PreferNoSchedule、NoExecute。需管理员权限。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl attach",
+    "summary": "附加到运行中的容器 (Attach to a running container)",
+    "examples": [
+      {
+        "description": "附加到 Pod 的默认容器",
+        "code": "kubectl attach my-pod -c my-container"
+      },
+      {
+        "description": "附加并启用交互模式",
+        "code": "kubectl attach my-pod -i -t"
+      }
+    ],
+    "notes": "类似 docker attach，适合查看容器实时输出。需容器支持 stdin/stdout。相比 `exec`，更适合监控正在运行的进程。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl run",
+    "summary": "快速创建单个 Pod (Quickly create a single Pod)",
+    "examples": [
+      {
+        "description": "创建临时 Pod 运行 nginx",
+        "code": "kubectl run test-pod --image=nginx --restart=Never"
+      },
+      {
+        "description": "生成 Pod YAML 配置",
+        "code": "kubectl run test-pod --image=nginx --restart=Never --dry-run=client -o yaml"
+      }
+    ],
+    "notes": "常用于测试或调试。设置 --restart=Never 确保创建 Pod 而非 Deployment。建议结合 --dry-run 生成 YAML 后用 `apply` 管理。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl wait",
+    "summary": "等待资源达到指定状态 (Wait for a resource to reach a specific condition)",
+    "examples": [
+      {
+        "description": "等待 Pod 变为 Ready",
+        "code": "kubectl wait --for=condition=Ready pod/my-pod"
+      },
+      {
+        "description": "等待所有 Pod 就绪（带标签选择器）",
+        "code": "kubectl wait --for=condition=Ready pod -l app=my-app --timeout=120s"
+      }
+    ],
+    "notes": "用于脚本自动化，等待资源达到特定状态（如 Ready、Complete）。支持 --timeout 设置等待时间，默认 30s。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl debug",
+    "summary": "启动 Pod 或节点的调试会话 (Start a debugging session for a Pod or node)",
+    "examples": [
+      {
+        "description": "调试 Pod",
+        "code": "kubectl debug pod/my-pod"
+      },
+      {
+        "description": "调试节点（需特权）",
+        "code": "kubectl debug node/node1"
+      }
+    ],
+    "notes": "Kubernetes 1.18+ 引入，创建临时调试容器或 Pod。适合排查容器或节点问题。节点调试需管理员权限，需谨慎使用。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl autoscale",
+    "summary": "为 Deployment 创建自动扩展 (Create autoscaling for a Deployment)",
+    "examples": [
+      {
+        "description": "为 Deployment 设置 HPA",
+        "code": "kubectl autoscale deployment my-app --min=2 --max=5 --cpu-percent=80"
+      },
+      {
+        "description": "查看 HPA 配置",
+        "code": "kubectl get hpa"
+      }
+    ],
+    "notes": "创建 HorizontalPodAutoscaler（HPA），需 metrics-server 支持。确保集群已启用指标收集，否则会失败。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl rollout history",
+    "summary": "查看 Deployment 滚动更新历史 (View the rollout history of a Deployment)",
+    "examples": [
+      {
+        "description": "显示 Deployment 更新历史",
+        "code": "kubectl rollout history deployment my-app"
+      },
+      {
+        "description": "查看特定修订版本详情",
+        "code": "kubectl rollout history deployment my-app --revision=2"
+      }
+    ],
+    "notes": "用于追踪 Deployment 更新记录，配合 `rollout undo` 可回滚到指定版本。建议定期清理旧修订版以节省 etcd 空间。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl rollout restart",
+    "summary": "重启 Deployment 的所有 Pod (Restart all Pods in a Deployment)",
+    "examples": [
+      {
+        "description": "重启 Deployment",
+        "code": "kubectl rollout restart deployment my-app"
+      },
+      {
+        "description": "重启特定命名空间的 Deployment",
+        "code": "kubectl rollout restart deployment my-app -n my-namespace"
+      }
+    ],
+    "notes": "通过更新 Pod 模板触发滚动重启，适合刷新配置或镜像。不会中断服务，但需注意滚动更新策略。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl set env",
+    "summary": "更新 Deployment 的环境变量 (Update environment variables in a Deployment)",
+    "examples": [
+      {
+        "description": "添加环境变量",
+        "code": "kubectl set env deployment my-app ENV=prod"
+      },
+      {
+        "description": "从 ConfigMap 更新环境变量",
+        "code": "kubectl set env deployment my-app --from=configmap/my-config"
+      }
+    ],
+    "notes": "动态更新容器环境变量，触发滚动更新。建议先用 --dry-run 测试，避免意外更改。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get endpoints",
+    "summary": "查看服务对应的 Endpoints (View the Endpoints for a Service)",
+    "examples": [
+      {
+        "description": "列出服务 Endpoints",
+        "code": "kubectl get endpoints my-service"
+      },
+      {
+        "description": "以 JSON 格式查看详细信息",
+        "code": "kubectl get endpoints my-service -o json"
+      }
+    ],
+    "notes": "用于调试服务连接问题，检查 Pod IP 和端口是否正确映射。Endpoints 未更新可能导致服务不可用。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create service clusterip",
+    "summary": "创建 ClusterIP 类型服务 (Create a ClusterIP service)",
+    "examples": [
+      {
+        "description": "创建 ClusterIP 服务",
+        "code": "kubectl create service clusterip my-service --tcp=80:8080"
+      },
+      {
+        "description": "生成服务 YAML",
+        "code": "kubectl create service clusterip my-service --tcp=80:8080 --dry-run=client -o yaml"
+      }
+    ],
+    "notes": "ClusterIP 是默认服务类型，仅限集群内部访问。适合快速创建服务，建议用 YAML 管理复杂配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create service nodeport",
+    "summary": "创建 NodePort 类型服务 (Create a NodePort service)",
+    "examples": [
+      {
+        "description": "创建 NodePort 服务",
+        "code": "kubectl create service nodeport my-service --tcp=80:8080 --node-port=30080"
+      },
+      {
+        "description": "生成服务 YAML",
+        "code": "kubectl create service nodeport my-service --tcp=80:8080 --dry-run=client -o yaml"
+      }
+    ],
+    "notes": "NodePort 暴露服务到节点端口（30000-32767）。适合开发或测试，生产环境建议用 LoadBalancer 或 Ingress。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create ingress",
+    "summary": "创建 Ingress 资源 (Create an Ingress resource)",
+    "examples": [
+      {
+        "description": "创建简单 Ingress",
+        "code": "kubectl create ingress my-ingress --rule='host.com/path=my-service:80'"
+      },
+      {
+        "description": "生成 Ingress YAML",
+        "code": "kubectl create ingress my-ingress --rule='host.com/path=my-service:80' --dry-run=client -o yaml"
+      }
+    ],
+    "notes": "需集群安装 Ingress 控制器（如 nginx-ingress）。Ingress 用于 HTTP/HTTPS 路由管理。确保域名和路径正确配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl proxy",
+    "summary": "启动本地代理以访问 Kubernetes API (Start a local proxy to access the Kubernetes API)",
+    "examples": [
+      {
+        "description": "启动代理（默认 8001 端口）",
+        "code": "kubectl proxy"
+      },
+      {
+        "description": "指定端口",
+        "code": "kubectl proxy --port=8080"
+      }
+    ],
+    "notes": "通过代理访问 API（如 curl http://localhost:8001/api/v1/pods）。适合调试或直接调用 API。注意：需确保 kubeconfig 有效。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get pv",
+    "summary": "列出 PersistentVolume (List PersistentVolumes)",
+    "examples": [
+      {
+        "description": "列出所有 PV",
+        "code": "kubectl get pv"
+      },
+      {
+        "description": "以宽格式显示 PV 详情",
+        "code": "kubectl get pv -o wide"
+      }
+    ],
+    "notes": "显示集群范围的存储卷状态（如 Bound、Available）。常用于检查存储分配问题。需配合 StorageClass 和 PVC 使用。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get pvc",
+    "summary": "列出 PersistentVolumeClaim (List PersistentVolumeClaims)",
+    "examples": [
+      {
+        "description": "列出命名空间中的 PVC",
+        "code": "kubectl get pvc -n my-namespace"
+      },
+      {
+        "description": "显示 PVC 详细信息",
+        "code": "kubectl get pvc -o yaml"
+      }
+    ],
+    "notes": "显示 PVC 的绑定状态和容量。常用于调试存储挂载问题。确保 StorageClass 正确配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create -f (PV/PVC)",
+    "summary": "通过 YAML 文件创建 PersistentVolume 或 PersistentVolumeClaim (Create PersistentVolume or PersistentVolumeClaim from YAML)",
+    "examples": [
+      {
+        "description": "创建 PV",
+        "code": "kubectl create -f pv.yaml"
+      },
+      {
+        "description": "创建 PVC",
+        "code": "kubectl create -f pvc.yaml"
+      }
+    ],
+    "notes": "PV 和 PVC 用于动态或静态存储分配。确保 YAML 中的 storageClassName 和容量匹配。建议使用 `apply` 替代 `create` 以支持更新。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl describe storageclass",
+    "summary": "查看 StorageClass 详细信息 (View details of a StorageClass)",
+    "examples": [
+      {
+        "description": "描述指定 StorageClass",
+        "code": "kubectl describe storageclass standard"
+      }
+    ],
+    "notes": "显示存储类的配置（如 provisioner、参数）。常用于验证动态存储分配设置。确保 provisioner 与云提供商兼容。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get role",
+    "summary": "列出命名空间中的 Role (List Roles in a namespace)",
+    "examples": [
+      {
+        "description": "列出默认命名空间的 Role",
+        "code": "kubectl get role"
+      },
+      {
+        "description": "列出指定命名空间的 Role",
+        "code": "kubectl get role -n kube-system"
+      }
+    ],
+    "notes": "Role 定义命名空间级别的 RBAC 权限。常用于审计权限分配。配合 `describe` 查看详细规则。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get rolebinding",
+    "summary": "列出命名空间中的 RoleBinding (List RoleBindings in a namespace)",
+    "examples": [
+      {
+        "description": "列出默认命名空间的 RoleBinding",
+        "code": "kubectl get rolebinding"
+      },
+      {
+        "description": "以 YAML 格式查看 RoleBinding",
+        "code": "kubectl get rolebinding -o yaml"
+      }
+    ],
+    "notes": "RoleBinding 将 Role 绑定到用户或服务账户。常用于 RBAC 权限管理。确保绑定对象存在。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get clusterrole",
+    "summary": "列出集群范围的 ClusterRole (List ClusterRoles in the cluster)",
+    "examples": [
+      {
+        "description": "列出所有 ClusterRole",
+        "code": "kubectl get clusterrole"
+      },
+      {
+        "description": "过滤特定 ClusterRole",
+        "code": "kubectl get clusterrole | grep admin"
+      }
+    ],
+    "notes": "ClusterRole 定义集群级别的 RBAC 权限。常用于全局资源管理（如节点、PV）。需管理员权限查看。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get clusterrolebinding",
+    "summary": "列出集群范围的 ClusterRoleBinding (List ClusterRoleBindings in the cluster)",
+    "examples": [
+      {
+        "description": "列出所有 ClusterRoleBinding",
+        "code": "kubectl get clusterrolebinding"
+      },
+      {
+        "description": "查看详细信息",
+        "code": "kubectl get clusterrolebinding -o yaml"
+      }
+    ],
+    "notes": "ClusterRoleBinding 将 ClusterRole 绑定到用户或服务账户。常用于全局权限分配。确保绑定对象有效。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create role",
+    "summary": "创建命名空间级别的 Role (Create a namespace-scoped Role)",
+    "examples": [
+      {
+        "description": "创建允许获取 Pod 的 Role",
+        "code": "kubectl create role my-role --verb=get --resource=pods -n my-namespace"
+      },
+      {
+        "description": "生成 Role YAML",
+        "code": "kubectl create role my-role --verb=get --resource=pods --dry-run=client -o yaml"
+      }
+    ],
+    "notes": "用于定义命名空间级别的 RBAC 权限。支持的 verb 包括 get、list、create 等。建议用 YAML 管理复杂规则。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl create rolebinding",
+    "summary": "创建 RoleBinding 绑定用户到 Role (Create a RoleBinding to bind a user to a Role)",
+    "examples": [
+      {
+        "description": "绑定用户到 Role",
+        "code": "kubectl create rolebinding my-binding --role=my-role --user=my-user -n my-namespace"
+      },
+      {
+        "description": "绑定服务账户",
+        "code": "kubectl create rolebinding my-binding --role=my-role --serviceaccount=my-namespace:my-sa"
+      }
+    ],
+    "notes": "将 Role 或 ClusterRole 绑定到用户、服务账户或组。确保用户或 SA 存在，否则绑定无效。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl top pod",
+    "summary": "查看 Pod 的资源使用情况 (View resource usage of Pods)",
+    "examples": [
+      {
+        "description": "显示 Pod 的 CPU 和内存使用",
+        "code": "kubectl top pod -n my-namespace"
+      },
+      {
+        "description": "按 CPU 使用量排序",
+        "code": "kubectl top pod --sort-by=cpu"
+      }
+    ],
+    "notes": "需安装 metrics-server，否则会报错。用于监控 Pod 资源占用，适合性能优化和故障排查。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl top node",
+    "summary": "查看节点的资源使用情况 (View resource usage of nodes)",
+    "examples": [
+      {
+        "description": "显示所有节点的资源使用",
+        "code": "kubectl top node"
+      },
+      {
+        "description": "按内存使用量排序",
+        "code": "kubectl top node --sort-by=memory"
+      }
+    ],
+    "notes": "需 metrics-server 支持。用于监控节点 CPU 和内存使用，适合容量规划和性能优化。需管理员权限。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl get events",
+    "summary": "查看集群事件日志 (View cluster event logs)",
+    "examples": [
+      {
+        "description": "列出默认命名空间的事件",
+        "code": "kubectl get events"
+      },
+      {
+        "description": "实时监控事件",
+        "code": "kubectl get events --watch"
+      }
+    ],
+    "notes": "事件日志记录 Pod、节点等资源的异常或状态变化。适合调试调度失败、镜像拉取错误等问题。使用 --watch 实时监控。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl diff",
+    "summary": "比较本地 YAML 与集群资源差异 (Compare local YAML with cluster resource differences)",
+    "examples": [
+      {
+        "description": "比较 Deployment 配置差异",
+        "code": "kubectl diff -f deployment.yaml"
+      },
+      {
+        "description": "比较 Kustomize 配置",
+        "code": "kubectl diff -k ./kustomization/"
+      }
+    ],
+    "notes": "显示本地配置与集群实际配置的差异，类似 git diff。适合在 `apply` 前验证更改。需 kubectl 1.14+。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl apply view-last-applied",
+    "summary": "查看最后应用的资源配置 (View the last applied configuration for a resource)",
+    "examples": [
+      {
+        "description": "查看 Deployment 的最后应用配置",
+        "code": "kubectl apply view-last-applied deployment my-app"
+      },
+      {
+        "description": "以 JSON 格式输出",
+        "code": "kubectl apply view-last-applied deployment my-app -o json"
+      }
+    ],
+    "notes": "检查通过 `apply` 应用的配置，存储在注解中。适合验证配置是否正确应用或恢复配置。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl cordon",
+    "summary": "标记节点为不可调度 (Mark a node as unschedulable)",
+    "examples": [
+      {
+        "description": "标记节点不可调度",
+        "code": "kubectl cordon node1"
+      }
+    ],
+    "notes": "防止新 Pod 调度到节点，但现有 Pod 不受影响。常用于节点维护前的准备。需管理员权限。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl uncordon",
+    "summary": "取消节点的不可调度状态 (Mark a node as schedulable)",
+    "examples": [
+      {
+        "description": "恢复节点调度",
+        "code": "kubectl uncordon node1"
+      }
+    ],
+    "notes": "恢复节点的可调度状态，允许新 Pod 调度。常用于节点维护完成后。需管理员权限。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl drain",
+    "summary": "安全腾空节点以进行维护 (Safely evict Pods from a node for maintenance)",
+    "examples": [
+      {
+        "description": "腾空节点（忽略 DaemonSet）",
+        "code": "kubectl drain node1 --ignore-daemonsets"
+      },
+      {
+        "description": "强制腾空并设置超时",
+        "code": "kubectl drain node1 --ignore-daemonsets --force --timeout=120s"
+      }
+    ],
+    "notes": "腾空节点前会标记为不可调度，并逐个驱逐 Pod。需配合 --ignore-daemonsets 处理 DaemonSet Pod。需管理员权限。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "kubectl certificate approve",
+    "summary": "批准证书签名请求 (Approve a certificate signing request)",
+    "examples": [
+      {
+        "description": "批准 CSR",
+        "code": "kubectl certificate approve my-csr"
+      },
+      {
+        "description": "查看 CSR 状态",
+        "code": "kubectl get csr"
+      }
+    ],
+    "notes": "用于批准用户或服务账户的 CSR，常见于 kubelet 或自定义客户端认证。需管理员权限，确保 CSR 合法。",
+    "shell_type": "External (`/usr/bin/kubectl`)"
+  },
+  {
+    "name": "aws eks create-cluster",
+    "summary": "创建 Amazon EKS 集群 (Create an Amazon EKS cluster)",
+    "examples": [
+      {
+        "description": "创建名为 my-cluster 的 EKS 集群，使用指定 IAM 角色和 VPC 配置",
+        "code": "aws eks create-cluster --name my-cluster --region us-west-2 --role-arn arn:aws:iam::123456789012:role/eks-role --resources-vpc-config subnetIds=subnet-12345678,subnet-87654321,securityGroupIds=sg-12345678"
+      }
+    ],
+    "notes": "创建 EKS 集群需要 IAM 角色具有 eks:CreateCluster 权限，VPC 必须配置正确的子网和安全组。创建过程可能需要 10-15 分钟。建议使用 eksctl create cluster 简化操作。检查 VPC 配置以确保子网跨可用区分布。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks delete-cluster",
+    "summary": "删除指定的 EKS 集群 (Delete a specified EKS cluster)",
+    "examples": [
+      {
+        "description": "删除名为 my-cluster 的集群",
+        "code": "aws eks delete-cluster --name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "删除集群前需确保所有节点组和 Fargate 配置文件已删除，否则会报错。建议先运行 aws eks list-nodegroups 确认。删除后，相关资源（如负载均衡器）需手动清理。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks describe-cluster",
+    "summary": "查看 EKS 集群的详细信息 (Describe details of an EKS cluster)",
+    "examples": [
+      {
+        "description": "查看 my-cluster 的详细信息",
+        "code": "aws eks describe-cluster --name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回集群的 ARN、版本、端点、VPC 配置等信息。可用于调试或验证集群状态。输出为 JSON 格式，建议搭配 --query 提取特定字段。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks list-clusters",
+    "summary": "列出所有 EKS 集群 (List all EKS clusters in a region)",
+    "examples": [
+      {
+        "description": "列出 us-west-2 区域的所有集群",
+        "code": "aws eks list-clusters --region us-west-2"
+      }
+    ],
+    "notes": "返回当前区域内所有集群的名称列表，适合快速检查。跨区域需多次调用并指定 --region。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks update-cluster-version",
+    "summary": "升级 EKS 集群的 Kubernetes 版本 (Upgrade the Kubernetes version of an EKS cluster)",
+    "examples": [
+      {
+        "description": "将 my-cluster 升级到 Kubernetes 1.30",
+        "code": "aws eks update-cluster-version --name my-cluster --kubernetes-version 1.30 --region us-west-2"
+      }
+    ],
+    "notes": "升级前需确保节点组版本兼容，建议先运行 aws eks describe-cluster 检查当前版本。升级过程可能导致短时间控制平面不可用。EKS 支持的版本通常为最新 3-4 个次要版本。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks create-nodegroup",
+    "summary": "创建 EKS 集群的节点组 (Create a node group for an EKS cluster)",
+    "examples": [
+      {
+        "description": "创建名为 my-nodegroup 的节点组，使用 t3.medium 实例",
+        "code": "aws eks create-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup --subnets subnet-12345678,subnet-87654321 --node-role arn:aws:iam::123456789012:role/eks-node-role --instance-types t3.medium --scaling-config minSize=1,maxSize=3,desiredSize=2 --region us-west-2"
+      }
+    ],
+    "notes": "节点组需要 IAM 角色具有 EC2 和 EKS 相关权限。建议使用 eksctl create nodegroup 简化配置。创建后，节点会自动加入集群并运行 kubelet。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks delete-nodegroup",
+    "summary": "删除 EKS 集群的节点组 (Delete a node group from an EKS cluster)",
+    "examples": [
+      {
+        "description": "删除名为 my-nodegroup 的节点组",
+        "code": "aws eks delete-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup --region us-west-2"
+      }
+    ],
+    "notes": "删除节点组会终止所有关联 EC2 实例，建议先运行 kubectl drain 腾空节点上的 Pod。删除过程可能需要几分钟。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks list-nodegroups",
+    "summary": "列出 EKS 集群的所有节点组 (List all node groups in an EKS cluster)",
+    "examples": [
+      {
+        "description": "列出 my-cluster 的所有节点组",
+        "code": "aws eks list-nodegroups --cluster-name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回节点组名称列表，适合快速检查集群的节点组配置。搭配 aws eks describe-nodegroup 获取详细信息。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks describe-nodegroup",
+    "summary": "查看 EKS 节点组的详细信息 (Describe details of an EKS node group)",
+    "examples": [
+      {
+        "description": "查看 my-nodegroup 的详细信息",
+        "code": "aws eks describe-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup --region us-west-2"
+      }
+    ],
+    "notes": "返回节点组的实例类型、扩展配置、状态等。输出为 JSON 格式，可用于脚本自动化。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks update-kubeconfig",
+    "summary": "更新 kubeconfig 文件以连接 EKS 集群 (Update kubeconfig file to connect to an EKS cluster)",
+    "examples": [
+      {
+        "description": "为 my-cluster 生成或更新 kubeconfig",
+        "code": "aws eks update-kubeconfig --name my-cluster --region us-west-2"
+      },
+      {
+        "description": "指定 kubeconfig 文件路径",
+        "code": "aws eks update-kubeconfig --name my-cluster --region us-west-2 --kubeconfig ~/.kube/custom-config"
+      }
+    ],
+    "notes": "自动将集群的认证信息写入 ~/.kube/config，需确保 IAM 用户有 eks:DescribeCluster 权限。运行后可直接使用 kubectl 访问集群。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks list-fargate-profiles",
+    "summary": "列出 EKS 集群的 Fargate 配置文件 (List Fargate profiles for an EKS cluster)",
+    "examples": [
+      {
+        "description": "列出 my-cluster 的所有 Fargate 配置文件",
+        "code": "aws eks list-fargate-profiles --cluster-name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "Fargate 配置文件定义了哪些 Pod 在 Fargate 上运行。适合检查 Serverless 工作负载的配置。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks describe-addon",
+    "summary": "查看 EKS 插件的详细信息 (Describe details of an EKS addon)",
+    "examples": [
+      {
+        "description": "查看 vpc-cni 插件的详细信息",
+        "code": "aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --region us-west-2"
+      }
+    ],
+    "notes": "返回插件的版本、状态等信息。常用插件包括 vpc-cni、coredns、kube-proxy。建议定期检查插件版本以保持兼容性。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks update-cluster-config",
+    "summary": "更新 EKS 集群的配置 (Update configuration of an EKS cluster)",
+    "examples": [
+      {
+        "description": "更新 my-cluster 的 VPC 配置，添加新子网",
+        "code": "aws eks update-cluster-config --name my-cluster --resources-vpc-config subnetIds=subnet-12345678,subnet-87654321,securityGroupIds=sg-12345678 --region us-west-2"
+      }
+    ],
+    "notes": "可用于调整 VPC 子网、安全组或日志配置。更改可能导致短时间控制平面不可用，需谨慎操作。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks tag-resource",
+    "summary": "为 EKS 资源添加标签 (Add tags to an EKS resource)",
+    "examples": [
+      {
+        "description": "为 my-cluster 添加环境标签",
+        "code": "aws eks tag-resource --resource-arn arn:aws:eks:us-west-2:123456789012:cluster/my-cluster --tags environment=production --region us-west-2"
+      }
+    ],
+    "notes": "标签有助于资源管理、成本分配和自动化脚本。确保 ARN 正确，标签键值对符合 AWS 规范。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks list-tags-for-resource",
+    "summary": "列出 EKS 资源的标签 (List tags for an EKS resource)",
+    "examples": [
+      {
+        "description": "列出 my-cluster 的标签",
+        "code": "aws eks list-tags-for-resource --resource-arn arn:aws:eks:us-west-2:123456789012:cluster/my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回资源的标签键值对，适合审计或脚本集成。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks describe-update",
+    "summary": "查看 EKS 集群更新的状态 (Describe the status of an EKS cluster update)",
+    "examples": [
+      {
+        "description": "查看 my-cluster 的更新状态",
+        "code": "aws eks describe-update --name my-cluster --update-id <update-id> --region us-west-2"
+      }
+    ],
+    "notes": "用于跟踪集群版本升级或其他更新的进度。update-id 可从 aws eks update-cluster-version 的输出获取。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks create-fargate-profile",
+    "summary": "创建 Fargate 配置文件 (Create a Fargate profile for an EKS cluster)",
+    "examples": [
+      {
+        "description": "为 my-cluster 创建 Fargate 配置文件",
+        "code": "aws eks create-fargate-profile --cluster-name my-cluster --fargate-profile-name my-fargate --pod-execution-role-arn arn:aws:iam::123456789012:role/eks-fargate-role --subnets subnet-12345678,subnet-87654321 --region us-west-2 --selectors namespace=kube-system"
+      }
+    ],
+    "notes": "Fargate 配置文件定义哪些 Pod 在 Fargate 上运行，需指定命名空间或标签选择器。确保 IAM 角色具有必要权限。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks delete-fargate-profile",
+    "summary": "删除 Fargate 配置文件 (Delete a Fargate profile from an EKS cluster)",
+    "examples": [
+      {
+        "description": "删除 my-fargate 配置文件",
+        "code": "aws eks delete-fargate-profile --cluster-name my-cluster --fargate-profile-name my-fargate --region us-west-2"
+      }
+    ],
+    "notes": "删除后，相关 Pod 将停止运行。建议先检查受影响的工作负载。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks scale-nodegroup",
+    "summary": "调整 EKS 节点组的规模 (Scale an EKS node group)",
+    "examples": [
+      {
+        "description": "将 my-nodegroup 的期望实例数调整为 3",
+        "code": "aws eks scale-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup --scaling-config desiredSize=3 --region us-west-2"
+      }
+    ],
+    "notes": "可调整 minSize、maxSize 和 desiredSize。扩展或缩容可能需要几分钟，建议监控节点状态。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks create-addon",
+    "summary": "添加 EKS 插件 (Add an EKS addon)",
+    "examples": [
+      {
+        "description": "为 my-cluster 添加 vpc-cni 插件",
+        "code": "aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.12.0 --region us-west-2"
+      }
+    ],
+    "notes": "常见插件包括 vpc-cni、coredns、kube-proxy。确保插件版本与集群版本兼容，可通过 aws eks describe-addon-versions 查询支持的版本。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks update-addon",
+    "summary": "更新 EKS 插件版本 (Update an EKS addon version)",
+    "examples": [
+      {
+        "description": "将 vpc-cni 插件更新到 v1.13.0",
+        "code": "aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.13.0 --region us-west-2"
+      }
+    ],
+    "notes": "升级插件可能影响集群网络或功能，建议在非生产环境中测试。检查 aws eks describe-addon 查看当前版本。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks list-addons",
+    "summary": "列出 EKS 集群的所有插件 (List all addons in an EKS cluster)",
+    "examples": [
+      {
+        "description": "列出 my-cluster 的所有插件",
+        "code": "aws eks list-addons --cluster-name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回插件名称列表，适合快速检查。搭配 aws eks describe-addon 获取详细信息。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks delete-addon",
+    "summary": "删除 EKS 插件 (Delete an EKS addon)",
+    "examples": [
+      {
+        "description": "删除 vpc-cni 插件",
+        "code": "aws eks delete-addon --cluster-name my-cluster --addon-name vpc-cni --region us-west-2"
+      }
+    ],
+    "notes": "删除插件可能影响集群功能（如网络），建议谨慎操作并备份配置。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks create-access-entry",
+    "summary": "创建 IAM 用户或角色的 EKS 访问条目 (Create an access entry for an IAM user or role)",
+    "examples": [
+      {
+        "description": "为 IAM 用户创建访问条目",
+        "code": "aws eks create-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::123456789012:user/my-user --region us-west-2"
+      }
+    ],
+    "notes": "用于配置基于 IAM 的集群访问权限，需配合 aws eks associate-access-policy 使用。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks associate-access-policy",
+    "summary": "为访问条目关联权限策略 (Associate an access policy to an access entry)",
+    "examples": [
+      {
+        "description": "为 IAM 用户关联只读权限策略",
+        "code": "aws eks associate-access-policy --cluster-name my-cluster --principal-arn arn:aws:iam::123456789012:user/my-user --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy --region us-west-2"
+      }
+    ],
+    "notes": "支持的策略包括 AmazonEKSClusterAdminPolicy、AmazonEKSViewPolicy 等。确保策略与用户角色匹配。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks list-access-entries",
+    "summary": "列出 EKS 集群的访问条目 (List access entries for an EKS cluster)",
+    "examples": [
+      {
+        "description": "列出 my-cluster 的所有访问条目",
+        "code": "aws eks list-access-entries --cluster-name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回所有 IAM 用户或角色的访问条目列表，适合审计权限。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "aws eks describe-access-entry",
+    "summary": "查看 EKS 访问条目的详细信息 (Describe details of an EKS access entry)",
+    "examples": [
+      {
+        "description": "查看特定 IAM 用户的访问条目详情",
+        "code": "aws eks describe-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::123456789012:user/my-user --region us-west-2"
+      }
+    ],
+    "notes": "返回访问条目的权限策略和状态，适合调试 RBAC 问题。",
+    "shell_type": "External (`/usr/local/bin/aws`)"
+  },
+  {
+    "name": "eksctl create cluster",
+    "summary": "创建 EKS 集群和节点组 (Create an EKS cluster and node group)",
+    "examples": [
+      {
+        "description": "创建名为 my-cluster 的集群，包含 2 个 t3.medium 节点",
+        "code": "eksctl create cluster --name my-cluster --region us-west-2 --nodegroup-name my-nodes --node-type t3.medium --nodes 2"
+      }
+    ],
+    "notes": "eksctl 是管理 EKS 的首选工具，简化了集群和节点组的创建。自动配置 VPC、IAM 角色等。需安装 eksctl（/usr/local/bin/eksctl）。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl delete cluster",
+    "summary": "删除 EKS 集群 (Delete an EKS cluster)",
+    "examples": [
+      {
+        "description": "删除 my-cluster 集群",
+        "code": "eksctl delete cluster --name my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "自动清理相关资源（如节点组、VPC）。建议先确认集群中无重要工作负载。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl get cluster",
+    "summary": "列出 EKS 集群 (List EKS clusters)",
+    "examples": [
+      {
+        "description": "列出 us-west-2 区域的所有集群",
+        "code": "eksctl get cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回集群名称、版本和状态，适合快速检查。比 aws eks list-clusters 输出更友好。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl upgrade cluster",
+    "summary": "升级 EKS 集群版本 (Upgrade an EKS cluster version)",
+    "examples": [
+      {
+        "description": "将 my-cluster 升级到 Kubernetes 1.30",
+        "code": "eksctl upgrade cluster --name my-cluster --version 1.30 --region us-west-2"
+      }
+    ],
+    "notes": "自动处理控制平面升级，建议随后升级节点组（eksctl upgrade nodegroup）。升级前备份配置。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl get nodegroup",
+    "summary": "列出 EKS 集群的节点组 (List node groups in an EKS cluster)",
+    "examples": [
+      {
+        "description": "列出 my-cluster 的所有节点组",
+        "code": "eksctl get nodegroup --cluster my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "返回节点组的名称、实例类型和规模，适合检查集群配置。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl create addon",
+    "summary": "添加 EKS 插件 (Create an EKS addon)",
+    "examples": [
+      {
+        "description": "为 my-cluster 添加 coredns 插件",
+        "code": "eksctl create addon --cluster my-cluster --name coredns --version v1.9.3 --region us-west-2"
+      }
+    ],
+    "notes": "简化插件管理，确保插件版本与集群兼容。常用插件包括 coredns、kube-proxy。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl update nodegroup",
+    "summary": "更新 EKS 节点组配置 (Update an EKS node group configuration)",
+    "examples": [
+      {
+        "description": "更新 my-nodegroup 的实例类型",
+        "code": "eksctl update nodegroup --cluster my-cluster --nodegroup-name my-nodegroup --instance-types t3.large --region us-west-2"
+      }
+    ],
+    "notes": "可更改实例类型、规模等配置。更新可能导致节点替换，需确保 Pod 调度正常。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl drain nodegroup",
+    "summary": "腾空 EKS 节点组以进行维护 (Drain an EKS node group for maintenance)",
+    "examples": [
+      {
+        "description": "腾空 my-nodegroup 的节点",
+        "code": "eksctl drain nodegroup --cluster my-cluster --nodegroup-name my-nodegroup --region us-west-2"
+      }
+    ],
+    "notes": "自动执行 kubectl drain 操作，腾空节点上的 Pod，适合升级或维护场景。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "eksctl enable logging",
+    "summary": "启用 EKS 集群的控制平面日志 (Enable control plane logging for an EKS cluster)",
+    "examples": [
+      {
+        "description": "为 my-cluster 启用所有日志类型",
+        "code": "eksctl enable logging --cluster my-cluster --region us-west-2"
+      }
+    ],
+    "notes": "将日志发送到 CloudWatch，支持 api、audit、authenticator 等日志类型。需配置 CloudWatch 权限。",
+    "shell_type": "External (`/usr/local/bin/eksctl`)"
+  },
+  {
+    "name": "aliyun cs GET /clusters",
+    "summary": "列出所有 ACK 集群 (List all ACK clusters)",
+    "examples": [
+      {
+        "description": "列出当前区域的所有集群",
+        "code": "aliyun cs GET /clusters"
+      },
+      {
+        "description": "列出指定区域的集群（如 cn-hangzhou）",
+        "code": "aliyun cs GET /clusters --region cn-hangzhou"
+      }
+    ],
+    "notes": "用于查看当前账户下所有 ACK 集群的 ID、名称和状态。建议结合 --region 参数指定区域以提高查询效率。需要 RAM 权限 `cs:GetClusters`。常见错误：403 Forbidden（检查 AccessKey 权限），400 Bad Request（检查区域 ID 是否正确）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters",
+    "summary": "创建新的 ACK 托管集群 (Create a new managed ACK cluster)",
+    "examples": [
+      {
+        "description": "创建名为 my-cluster 的托管 Kubernetes 集群",
+        "code": "aliyun cs POST /clusters --body '{\"name\": \"my-cluster\", \"region_id\": \"cn-hangzhou\", \"cluster_type\": \"ManagedKubernetes\", \"vpc_id\": \"vpc-xxx\", \"vswitch_id\": \"vsw-xxx\"}'"
+      }
+    ],
+    "notes": "创建托管 Kubernetes 集群，需提供 VPC 和 VSwitch 配置。建议提前创建 VPC 和 VSwitch，并确保网络配置正确。需要 RAM 权限 `cs:CreateCluster`。常见错误：400 InvalidParameter（检查 JSON 参数格式），403 Forbidden（检查 RAM 策略）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs DELETE /clusters/<cluster-id>",
+    "summary": "删除指定 ACK 集群 (Delete a specified ACK cluster)",
+    "examples": [
+      {
+        "description": "删除 ID 为 c1234 的集群",
+        "code": "aliyun cs DELETE /clusters/c1234"
+      }
+    ],
+    "notes": "删除集群前需确保所有节点池和应用已清理，否则可能失败。需要 RAM 权限 `cs:DeleteCluster`。建议先运行 `aliyun cs GET /clusters/<cluster-id>` 检查集群状态。常见错误：409 Conflict（集群内仍有资源未释放）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>",
+    "summary": "查看指定集群的详细信息 (View details of a specified ACK cluster)",
+    "examples": [
+      {
+        "description": "查看 ID 为 c1234 的集群详情",
+        "code": "aliyun cs GET /clusters/c1234"
+      }
+    ],
+    "notes": "返回集群的详细信息，包括版本、状态、VPC 配置等。适合用于调试或验证集群配置。需要 RAM 权限 `cs:GetCluster`。常见错误：404 Not Found（检查集群 ID 是否正确）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/nodes",
+    "summary": "列出集群中的所有节点 (List all nodes in a cluster)",
+    "examples": [
+      {
+        "description": "列出 ID 为 c1234 的集群中的节点",
+        "code": "aliyun cs GET /clusters/c1234/nodes"
+      }
+    ],
+    "notes": "用于检查集群节点的运行状态、IP 地址和角色（如 Master 或 Worker）。需要 RAM 权限 `cs:GetNodes`。建议结合 --region 参数明确区域。常见错误：403 Forbidden（检查 RAM 权限）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/nodepools",
+    "summary": "创建节点池 (Create a node pool in a cluster)",
+    "examples": [
+      {
+        "description": "为集群 c1234 创建名为 np1 的节点池",
+        "code": "aliyun cs POST /clusters/c1234/nodepools --body '{\"nodepool_info\": {\"name\": \"np1\"}, \"scaling_group\": {\"instance_types\": [\"ecs.g7.large\"], \"vswitch_ids\": [\"vsw-xxx\"]}}'"
+      }
+    ],
+    "notes": "节点池用于管理一组相同配置的节点。需指定实例类型和 VSwitch。需要 RAM 权限 `cs:CreateNodePool`。常见错误：400 InvalidParameter（检查 JSON 格式或实例类型是否支持）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs DELETE /clusters/<cluster-id>/nodepools/<nodepool-id>",
+    "summary": "删除指定节点池 (Delete a specified node pool)",
+    "examples": [
+      {
+        "description": "删除集群 c1234 中的节点池 np1",
+        "code": "aliyun cs DELETE /clusters/c1234/nodepools/np1"
+      }
+    ],
+    "notes": "删除节点池前需确保节点池内无运行节点（可通过 `aliyun cs POST /clusters/<cluster-id>/nodepools/<nodepool-id>/scale` 缩容）。需要 RAM 权限 `cs:DeleteNodePool`。常见错误：409 Conflict（节点池内仍有节点）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/kubeconfig",
+    "summary": "获取集群的 kubeconfig 文件 (Retrieve kubeconfig for a cluster)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的 kubeconfig",
+        "code": "aliyun cs GET /clusters/c1234/kubeconfig > kubeconfig.yaml"
+      }
+    ],
+    "notes": "生成的 kubeconfig 文件用于 kubectl 访问集群。建议保存到 ~/.kube/config 或通过 KUBECONFIG 环境变量指定。需要 RAM 权限 `cs:GetClusterKubeConfig`。常见错误：403 Forbidden（检查 RAM 权限）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/attach",
+    "summary": "将现有 ECS 实例添加到集群 (Attach existing ECS instances to a cluster)",
+    "examples": [
+      {
+        "description": "将 ECS 实例 i-xxx 添加到集群 c1234",
+        "code": "aliyun cs POST /clusters/c1234/attach --body '{\"instances\": [\"i-xxx\"]}'"
+      }
+    ],
+    "notes": "用于将现有 ECS 实例加入 ACK 集群，需确保 ECS 实例满足集群要求（如操作系统、网络配置）。需要 RAM 权限 `cs:AttachInstances`。常见错误：400 InvalidInstance（检查 ECS 实例状态）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/user_config",
+    "summary": "获取集群用户配置 (Retrieve user configuration for a cluster)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的用户配置",
+        "code": "aliyun cs GET /clusters/c1234/user_config"
+      }
+    ],
+    "notes": "返回集群的证书、API 端点等信息，适合手动配置 kubectl 或调试。需要 RAM 权限 `cs:GetClusterUserConfig`。常见错误：404 Not Found（检查集群 ID）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/apps",
+    "summary": "部署应用到集群 (Deploy an application to a cluster)",
+    "examples": [
+      {
+        "description": "部署一个名为 my-app 的应用",
+        "code": "aliyun cs POST /clusters/c1234/apps --body '{\"app_name\": \"my-app\", \"namespace\": \"default\", \"template\": \"apiVersion: v1\\nkind: Deployment\\nmetadata:\\n  name: my-app\\nspec:\\n  replicas: 2\\n  selector:\\n    matchLabels:\\n      app: my-app\\n  template:\\n    metadata:\\n      labels:\\n        app: my-app\\n    spec:\\n      containers:\\n      - name: nginx\\n        image: nginx:latest\"}'"
+      }
+    ],
+    "notes": "通过 YAML 部署 Kubernetes 应用，需确保 YAML 格式正确。需要 RAM 权限 `cs:DeployApp`。常见错误：400 InvalidParameter（检查 YAML 语法）。建议结合 kubectl 验证部署结果。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/apps",
+    "summary": "列出集群中的应用 (List applications in a cluster)",
+    "examples": [
+      {
+        "description": "列出集群 c1234 中的所有应用",
+        "code": "aliyun cs GET /clusters/c1234/apps"
+      }
+    ],
+    "notes": "返回集群中所有应用的状态和配置。需要 RAM 权限 `cs:GetApps`。建议结合 --namespace 参数过滤特定命名空间的应用。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs DELETE /clusters/<cluster-id>/apps/<app-id>",
+    "summary": "删除集群中的应用 (Delete an application from a cluster)",
+    "examples": [
+      {
+        "description": "删除集群 c1234 中的应用 my-app",
+        "code": "aliyun cs DELETE /clusters/c1234/apps/my-app"
+      }
+    ],
+    "notes": "删除指定应用，需确保应用 ID 正确。需要 RAM 权限 `cs:DeleteApp`。常见错误：404 Not Found（检查应用 ID）。建议先运行 `aliyun cs GET /clusters/<cluster-id>/apps` 确认应用 ID。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs PUT /clusters/<cluster-id>",
+    "summary": "更新集群配置 (Update a cluster's configuration)",
+    "examples": [
+      {
+        "description": "更新集群 c1234 的配置，禁用回滚",
+        "code": "aliyun cs PUT /clusters/c1234 --body '{\"disable_rollback\": true}'"
+      }
+    ],
+    "notes": "用于修改集群的高级配置，如回滚策略或网络设置。需要 RAM 权限 `cs:UpdateCluster`。常见错误：400 InvalidParameter（检查 JSON 参数）。建议先备份集群配置。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/logs",
+    "summary": "查看集群操作日志 (View operation logs of a cluster)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的操作日志",
+        "code": "aliyun cs GET /clusters/c1234/logs"
+      }
+    ],
+    "notes": "用于调试集群操作历史，如创建、升级等事件。需要 RAM 权限 `cs:GetClusterLogs`。建议结合日志时间戳过滤关键事件。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/upgrade",
+    "summary": "升级集群版本 (Upgrade a cluster to a new version)",
+    "examples": [
+      {
+        "description": "将集群 c1234 升级到 Kubernetes 1.30",
+        "code": "aliyun cs POST /clusters/c1234/upgrade --body '{\"version\": \"1.30\"}'"
+      }
+    ],
+    "notes": "升级前需检查目标版本兼容性和集群状态。需要 RAM 权限 `cs:UpgradeCluster`。常见错误：409 Conflict（集群正在进行其他操作）。建议先运行 `aliyun cs GET /clusters/<cluster-id>` 检查当前版本。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/components",
+    "summary": "查看集群组件状态 (View status of cluster components)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的组件状态",
+        "code": "aliyun cs GET /clusters/c1234/components"
+      }
+    ],
+    "notes": "检查 Ingress 控制器、监控组件等的状态。需要 RAM 权限 `cs:GetClusterComponents`。常见错误：404 Not Found（检查集群 ID 或组件是否安装）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /serverless/clusters",
+    "summary": "创建 Serverless Kubernetes (ASK) 集群 (Create a Serverless Kubernetes cluster)",
+    "examples": [
+      {
+        "description": "创建名为 my-ask-cluster 的 ASK 集群",
+        "code": "aliyun cs POST /serverless/clusters --body '{\"name\": \"my-ask-cluster\", \"region_id\": \"cn-hangzhou\"}'"
+      }
+    ],
+    "notes": "ASK 集群无需管理节点，适合轻量级工作负载。需要 RAM 权限 `cs:CreateServerlessCluster`。常见错误：400 InvalidParameter（检查区域 ID）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /serverless/clusters",
+    "summary": "列出所有 ASK 集群 (List all ASK clusters)",
+    "examples": [
+      {
+        "description": "列出所有 ASK 集群",
+        "code": "aliyun cs GET /serverless/clusters"
+      }
+    ],
+    "notes": "返回所有 Serverless 集群的 ID 和状态。需要 RAM 权限 `cs:GetServerlessClusters`。建议结合 --region 参数过滤。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs DELETE /serverless/clusters/<cluster-id>",
+    "summary": "删除指定 ASK 集群 (Delete a specified ASK cluster)",
+    "examples": [
+      {
+        "description": "删除 ASK 集群 s1234",
+        "code": "aliyun cs DELETE /serverless/clusters/s1234"
+      }
+    ],
+    "notes": "删除前需确保集群内无运行工作负载。需要 RAM 权限 `cs:DeleteServerlessCluster`。常见错误：409 Conflict（集群内仍有资源）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /serverless/clusters/<cluster-id>/kubeconfig",
+    "summary": "获取 ASK 集群的 kubeconfig 文件 (Retrieve kubeconfig for an ASK cluster)",
+    "examples": [
+      {
+        "description": "获取 ASK 集群 s1234 的 kubeconfig",
+        "code": "aliyun cs GET /serverless/clusters/s1234/kubeconfig > kubeconfig-ask.yaml"
+      }
+    ],
+    "notes": "用于配置 kubectl 访问 ASK 集群。需要 RAM 权限 `cs:GetServerlessClusterKubeConfig`。建议验证 kubeconfig 是否有效（使用 `kubectl cluster-info`）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/nodepools/<nodepool-id>/scale",
+    "summary": "扩展或缩容节点池 (Scale a node pool)",
+    "examples": [
+      {
+        "description": "将节点池 np1 扩展到 3 个节点",
+        "code": "aliyun cs POST /clusters/c1234/nodepools/np1/scale --body '{\"count\": 3}'"
+      }
+    ],
+    "notes": "调整节点池的节点数量，需确保实例类型和配额支持。需要 RAM 权限 `cs:ScaleNodePool`。常见错误：400 InvalidParameter（检查节点数量或配额）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/nodepools/<nodepool-id>/nodes",
+    "summary": "查看节点池中的节点 (List nodes in a node pool)",
+    "examples": [
+      {
+        "description": "列出节点池 np1 中的节点",
+        "code": "aliyun cs GET /clusters/c1234/nodepools/np1/nodes"
+      }
+    ],
+    "notes": "返回节点池中节点的详细信息，如状态、IP 地址。需要 RAM 权限 `cs:GetNodePoolNodes`。常见错误：404 Not Found（检查节点池 ID）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/nodes/<node-id>/drain",
+    "summary": "腾空节点以进行维护 (Drain a node for maintenance)",
+    "examples": [
+      {
+        "description": "腾空节点 i-xxx",
+        "code": "aliyun cs POST /clusters/c1234/nodes/i-xxx/drain"
+      }
+    ],
+    "notes": "将节点上的工作负载迁移到其他节点，适合维护或升级场景。需要 RAM 权限 `cs:DrainNode`。常见错误：409 Conflict（节点上有不可迁移的 Pod）。建议结合 kubectl 验证 Pod 迁移状态。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/dashboards",
+    "summary": "获取集群监控仪表盘链接 (Retrieve cluster monitoring dashboard link)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的监控仪表盘",
+        "code": "aliyun cs GET /clusters/c1234/dashboards"
+      }
+    ],
+    "notes": "返回与阿里云 SLS 或 ARMS 集成的监控仪表盘 URL。需要 RAM 权限 `cs:GetClusterDashboards`。需确保集群已启用监控服务。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/log",
+    "summary": "配置集群日志服务 (Configure cluster logging service)",
+    "examples": [
+      {
+        "description": "为集群 c1234 配置 SLS 日志存储",
+        "code": "aliyun cs POST /clusters/c1234/log --body '{\"logstore\": \"my-logstore\"}'"
+      }
+    ],
+    "notes": "将集群日志集成到阿里云 SLS，需提前创建 Logstore。需要 RAM 权限 `cs:ConfigureClusterLog`。常见错误：400 InvalidParameter（检查 Logstore 是否存在）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/metrics",
+    "summary": "获取集群监控指标 (Retrieve cluster monitoring metrics)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的监控指标",
+        "code": "aliyun cs GET /clusters/c1234/metrics"
+      }
+    ],
+    "notes": "返回 CPU、内存等集群级指标，需配合 ARMS 或 CMS 服务。需要 RAM 权限 `cs:GetClusterMetrics`。建议结合时间范围参数过滤数据。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/components/install",
+    "summary": "安装集群组件 (Install a cluster component)",
+    "examples": [
+      {
+        "description": "为集群 c1234 安装 nginx-ingress 组件",
+        "code": "aliyun cs POST /clusters/c1234/components/install --body '{\"component\": \"nginx-ingress\"}'"
+      }
+    ],
+    "notes": "用于安装 Ingress、监控等组件，需确保组件兼容集群版本。需要 RAM 权限 `cs:InstallClusterComponent`。常见错误：409 Conflict（组件已安装）。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/policies",
+    "summary": "查看集群的 RBAC 或安全策略 (View RBAC or security policies of a cluster)",
+    "examples": [
+      {
+        "description": "获取集群 c1234 的策略信息",
+        "code": "aliyun cs GET /clusters/c1234/policies"
+      }
+    ],
+    "notes": "返回集群的 RBAC 策略或安全组配置，适合审计权限。需要 RAM 权限 `cs:GetClusterPolicies`。建议结合 kubectl 检查具体 Role 和 RoleBinding。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/backups",
+    "summary": "创建集群备份 (Create a backup of a cluster)",
+    "examples": [
+      {
+        "description": "为集群 c1234 创建备份",
+        "code": "aliyun cs POST /clusters/c1234/backups --body '{\"name\": \"backup-20250712\"}'"
+      }
+    ],
+    "notes": "备份集群配置和状态，适合灾难恢复。需要 RAM 权限 `cs:CreateClusterBackup`。常见错误：400 InvalidParameter（检查备份名称格式）。建议定期执行并验证备份有效性。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "kubectl completion",
+    "summary": "为 kubectl 设置命令行自动补全 (Set up command-line autocompletion for kubectl)",
+    "examples": [
+      {
+        "description": "为 bash 设置 kubectl 自动补全",
+        "code": "source <(kubectl completion bash)"
+      },
+      {
+        "description": "为 zsh 设置 kubectl 自动补全",
+        "code": "source <(kubectl completion zsh)"
+      },
+      {
+        "description": "将 bash 自动补全写入 ~/.bashrc 以永久生效",
+        "code": "kubectl completion bash > ~/.kubectl-completion.sh\nsource ~/.kubectl-completion.sh"
+      }
+    ],
+    "notes": "kubectl 提供内置的自动补全支持，适用于 bash、zsh、fish 等 shell。启用自动补全可显著提高命令输入效率。bash 用户需确保 bash-completion 包已安装（例如，Ubuntu/Debian: `sudo apt install bash-completion`）。zsh 用户可能需要启用 compinit。自动补全脚本无需手动修改，通常由 kubectl 动态生成。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl alpha",
+    "summary": "运行 kubectl 的实验性命令 (Run experimental kubectl commands)",
+    "examples": [
+      {
+        "description": "列出所有 alpha 命令（视版本支持）",
+        "code": "kubectl alpha --help"
+      },
+      {
+        "description": "查看 alpha 命令的特定功能（示例：调试）",
+        "code": "kubectl alpha debug --help"
+      }
+    ],
+    "notes": "kubectl alpha 命令是实验性功能，可能在未来版本中更改或移除。使用前需检查 Kubernetes 版本兼容性（例如，`kubectl version`）。某些 alpha 命令（如 debug）可能需要集群特权或特定组件支持。建议在测试环境中使用，生产环境需谨慎。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl plugin list",
+    "summary": "列出所有可用的 kubectl 插件 (List all available kubectl plugins)",
+    "examples": [
+      {
+        "description": "列出已安装的 kubectl 插件",
+        "code": "kubectl plugin list"
+      },
+      {
+        "description": "运行自定义插件（假设已安装插件 'my-plugin'）",
+        "code": "kubectl my-plugin"
+      }
+    ],
+    "notes": "kubectl 支持插件机制，允许用户扩展功能。插件是可执行文件，放置在 PATH 环境变量中，命名格式为 `kubectl-<plugin-name>`（如 `/usr/local/bin/kubectl-my-plugin`）。运行 `kubectl plugin list` 可发现已安装插件。插件开发需遵循 kubectl 插件规范，通常用 Go 或 Python 编写。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl kustomize",
+    "summary": "使用 Kustomize 渲染 Kubernetes 配置文件 (Render Kubernetes configuration files using Kustomize)",
+    "examples": [
+      {
+        "description": "渲染指定目录中的 Kustomize 配置",
+        "code": "kubectl kustomize ./kustomization-dir"
+      },
+      {
+        "description": "直接应用 Kustomize 渲染的配置",
+        "code": "kubectl kustomize ./kustomization-dir | kubectl apply -f -"
+      }
+    ],
+    "notes": "kubectl kustomize 是内置的 Kustomize 工具，用于管理 Kubernetes 配置文件，支持叠加、补丁和变量替换。推荐用于声明式配置管理。Kubernetes 1.14 及以上版本内置 Kustomize，无需单独安装。若需更复杂的功能，可使用独立 Kustomize CLI（`kustomize build`）。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl auth can-i",
+    "summary": "检查当前用户是否具有特定权限 (Check if the current user has specific permissions)",
+    "examples": [
+      {
+        "description": "检查是否可以列出命名空间中的 Pod",
+        "code": "kubectl auth can-i list pods -n default"
+      },
+      {
+        "description": "检查是否可以创建 Deployment",
+        "code": "kubectl auth can-i create deployment"
+      },
+      {
+        "description": "以特定用户身份检查权限",
+        "code": "kubectl auth can-i get pods --as=system:serviceaccount:default:my-sa"
+      }
+    ],
+    "notes": "kubectl auth can-i 用于调试 RBAC 权限，验证用户或服务账户是否具有指定操作权限。常用于排查权限相关错误（如 403 Forbidden）。支持 --as 参数模拟其他用户或服务账户，需配合 RBAC 策略使用。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl get csr",
+    "summary": "列出证书签名请求 (List Certificate Signing Requests)",
+    "examples": [
+      {
+        "description": "列出所有证书签名请求",
+        "code": "kubectl get csr"
+      },
+      {
+        "description": "查看特定 CSR 的详细信息",
+        "code": "kubectl describe csr my-csr"
+      }
+    ],
+    "notes": "CSR（Certificate Signing Request）用于管理 Kubernetes 集群中的证书请求，通常与 kubelet 或用户认证相关。管理员可通过 `kubectl certificate approve/deny` 处理 CSR。需确保集群启用了证书控制器。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl create job",
+    "summary": "创建一次性任务 (Create a one-time Job resource)",
+    "examples": [
+      {
+        "description": "从 Pod 模板创建 Job",
+        "code": "kubectl create job my-job --image=busybox -- echo 'Hello World'"
+      },
+      {
+        "description": "从 YAML 文件创建 Job",
+        "code": "kubectl create -f job.yaml"
+      }
+    ],
+    "notes": "Job 用于运行一次性任务，完成后 Pod 终止。支持 --restarts 参数设置重试次数。常用于批量处理或脚本执行。确保 Job 的 Pod 模板正确配置（如资源限制），以避免任务失败。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl create cronjob",
+    "summary": "创建定时任务 (Create a scheduled CronJob resource)",
+    "examples": [
+      {
+        "description": "创建每分钟运行的 CronJob",
+        "code": "kubectl create cronjob my-cronjob --image=busybox --schedule='*/1 * * * *' -- echo 'Hello World'"
+      },
+      {
+        "description": "从 YAML 文件创建 CronJob",
+        "code": "kubectl create -f cronjob.yaml"
+      }
+    ],
+    "notes": "CronJob 用于定时运行任务，schedule 字段使用 cron 表达式（如 `*/5 * * * *` 表示每 5 分钟）。需确保集群支持 CronJob 控制器。建议设置 concurrencyPolicy 和 failedJobsHistoryLimit 以控制任务行为。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl get hpa",
+    "summary": "列出水平 Pod 自动扩展器 (List Horizontal Pod Autoscalers)",
+    "examples": [
+      {
+        "description": "列出默认命名空间中的 HPA",
+        "code": "kubectl get hpa -n default"
+      },
+      {
+        "description": "查看所有命名空间中的 HPA",
+        "code": "kubectl get hpa --all-namespaces"
+      }
+    ],
+    "notes": "HPA（HorizontalPodAutoscaler）用于根据 CPU、内存或自定义指标自动调整 Pod 副本数。需安装 metrics-server 或 Prometheus 提供指标数据。常见错误：指标不可用时 HPA 无法工作，需检查 metrics-server 状态。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl get networkpolicy",
+    "summary": "列出网络策略 (List Network Policies)",
+    "examples": [
+      {
+        "description": "列出命名空间中的网络策略",
+        "code": "kubectl get networkpolicy -n default"
+      },
+      {
+        "description": "查看网络策略详细信息",
+        "code": "kubectl describe networkpolicy my-policy -n default"
+      }
+    ],
+    "notes": "NetworkPolicy 用于控制 Pod 之间的网络流量，需集群网络插件支持（如 Calico、Cilium）。配置时需明确 podSelector 和 ingress/egress 规则。调试时可结合 `kubectl logs` 检查 CNI 插件日志。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl create secret docker-registry",
+    "summary": "创建 Docker 注册表 Secret (Create a Secret for Docker registry authentication)",
+    "examples": [
+      {
+        "description": "创建 Docker 注册表 Secret",
+        "code": "kubectl create secret docker-registry my-reg-secret --docker-server=<registry> --docker-username=<user> --docker-password=<pass> --docker-email=<email>"
+      },
+      {
+        "description": "为特定命名空间创建 Secret",
+        "code": "kubectl create secret docker-registry my-reg-secret --docker-server=docker.io --docker-username=user --docker-password=pass --docker-email=user@example.com -n my-namespace"
+      }
+    ],
+    "notes": "用于配置私有 Docker 注册表认证（如 Docker Hub、ECR）。创建的 Secret 可在 Pod 的 imagePullSecrets 中引用。确保密码安全，建议使用 Secret 加密存储（如 Sealed Secrets）。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl create configmap",
+    "summary": "创建 ConfigMap 用于存储配置数据 (Create a ConfigMap to store configuration data)",
+    "examples": [
+      {
+        "description": "从文件创建 ConfigMap",
+        "code": "kubectl create configmap my-config --from-file=config.txt"
+      },
+      {
+        "description": "从字面量创建 ConfigMap",
+        "code": "kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2"
+      }
+    ],
+    "notes": "ConfigMap 用于存储非敏感配置数据，可挂载为 Pod 的环境变量或卷。建议使用 `kubectl apply` 管理以支持声明式更新。检查 ConfigMap 内容可用 `kubectl describe configmap`。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "kubectl create secret generic",
+    "summary": "创建通用 Secret 用于存储敏感数据 (Create a generic Secret to store sensitive data)",
+    "examples": [
+      {
+        "description": "从字面量创建 Secret",
+        "code": "kubectl create secret generic my-secret --from-literal=password=supersecret"
+      },
+      {
+        "description": "从文件创建 Secret",
+        "code": "kubectl create secret generic my-secret --from-file=secret.txt"
+      }
+    ],
+    "notes": "通用 Secret 用于存储敏感数据（如密码、API 密钥），可挂载为环境变量或卷。建议结合 RBAC 限制访问权限。Kubernetes 1.21+ 默认加密 Secret 数据，但仍需注意集群安全配置。",
+    "shell_type": "External (/usr/bin/kubectl)"
+  },
+  {
+    "name": "eksctl create iamidentitymapping",
+    "summary": "为 EKS 集群创建 IAM 身份映射 (Create an IAM identity mapping for an EKS cluster)",
+    "examples": [
+      {
+        "description": "为 IAM 用户映射 RBAC 角色",
+        "code": "eksctl create iamidentitymapping --cluster my-cluster --region us-west-2 --arn arn:aws:iam::123456789012:user/my-user --group system:masters --username my-user"
+      },
+      {
+        "description": "为 IAM 角色映射 RBAC 角色",
+        "code": "eksctl create iamidentitymapping --cluster my-cluster --region us-west-2 --arn arn:aws:iam::123456789012:role/my-role --group my-group"
+      }
+    ],
+    "notes": "用于将 AWS IAM 用户或角色映射到 Kubernetes RBAC 角色，控制集群访问权限。需确保 aws-auth ConfigMap 正确配置。运行后可通过 `kubectl describe configmap aws-auth -n kube-system` 验证映射。常见错误：IAM ARN 无效或 RBAC 组不存在。",
+    "shell_type": "External (/usr/local/bin/eksctl)"
+  },
+  {
+    "name": "eksctl get iamidentitymapping",
+    "summary": "列出 EKS 集群的 IAM 身份映射 (List IAM identity mappings for an EKS cluster)",
+    "examples": [
+      {
+        "description": "列出所有 IAM 身份映射",
+        "code": "eksctl get iamidentitymapping --cluster my-cluster --region us-west-2"
+      },
+      {
+        "description": "以 JSON 格式输出映射",
+        "code": "eksctl get iamidentitymapping --cluster my-cluster --region us-west-2 -o json"
+      }
+    ],
+    "notes": "用于查看 EKS 集群中 aws-auth ConfigMap 的 IAM 身份映射。适合调试权限问题或验证 RBAC 配置。建议定期审计映射以确保安全性。",
+    "shell_type": "External (/usr/local/bin/eksctl)"
+  },
+  {
+    "name": "aliyun cs POST /clusters/<cluster-id>/autoscaling",
+    "summary": "启用 ACK 集群的自动扩展功能 (Enable autoscaling for an ACK cluster)",
+    "examples": [
+      {
+        "description": "启用集群自动扩展",
+        "code": "aliyun cs POST /clusters/c1234/autoscaling --body '{\"enable\": true, \"min_instances\": 2, \"max_instances\": 10}'"
+      },
+      {
+        "description": "为特定节点池启用自动扩展",
+        "code": "aliyun cs POST /clusters/c1234/nodepools/np1234/autoscaling --body '{\"enable\": true, \"min_instances\": 1, \"max_instances\": 5}'"
+      }
+    ],
+    "notes": "ACK 的自动扩展基于节点池，支持根据 CPU/内存负载动态调整节点数。需配置阿里云 Auto Scaling 服务（ESS）并确保节点池支持扩展。建议设置合理的 min_instances 和 max_instances 以控制成本。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  },
+  {
+    "name": "aliyun cs GET /clusters/<cluster-id>/autoscaling",
+    "summary": "查看 ACK 集群的自动扩展状态 (Get the autoscaling status of an ACK cluster)",
+    "examples": [
+      {
+        "description": "查看集群自动扩展配置",
+        "code": "aliyun cs GET /clusters/c1234/autoscaling"
+      },
+      {
+        "description": "查看特定节点池的自动扩展状态",
+        "code": "aliyun cs GET /clusters/c1234/nodepools/np1234/autoscaling"
+      }
+    ],
+    "notes": "用于检查 ACK 集群或节点池的自动扩展配置和状态。返回信息包括是否启用、最小/最大实例数等。调试时可结合阿里云控制台查看扩展事件日志。",
+    "shell_type": "External (/usr/local/bin/aliyun)"
+  }
+]

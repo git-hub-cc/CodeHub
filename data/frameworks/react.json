@@ -1,0 +1,368 @@
+[
+  {
+    "name": "JSX 语法 (JSX Syntax)",
+    "summary": "一种 JavaScript 的语法扩展，允许在代码中编写类似 HTML 的结构 (A syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file)",
+    "examples": [
+      {
+        "description": "基础 JSX 元素",
+        "code": "const element = <h1>Hello, world!</h1>;"
+      },
+      {
+        "description": "嵌入 JavaScript 表达式 (使用花括号)",
+        "code": "const name = 'Alice';\nconst element = <h1>Hello, {name}</h1>;"
+      },
+      {
+        "description": "在属性中使用表达式",
+        "code": "const user = { avatarUrl: './avatar.png' };\nconst element = <img src={user.avatarUrl} />;"
+      },
+      {
+        "description": "使用驼峰命名法 (camelCase) 定义属性，如 className 和 onClick",
+        "code": "<div className=\"greeting\" onClick={myFunction}>Click Me</div>"
+      },
+      {
+        "description": "使用内联样式对象",
+        "code": "<h1 style={{ color: 'blue', backgroundColor: 'lightgray' }}>Styled Header</h1>"
+      },
+      {
+        "description": "JSX 注释",
+        "code": "<div>\n  {/* 这是一个注释 */}\n  <h1>Hello</h1>\n</div>"
+      }
+    ],
+    "notes": "JSX 最终会被 Babel 等工具转译为 `React.createElement()` 函数调用。一个组件返回的 JSX 必须被包裹在一个顶层元素中，如 `<div>` 或 React Fragment (`<>...</>`)。所有标签必须闭合，例如 `<img />` 或 `<div></div>`。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "函数式组件 (Functional Components)",
+    "summary": "使用纯 JavaScript 函数创建 React 组件，是现代 React 开发的首选方式 (Creating React components using plain JavaScript functions, the preferred way in modern React)",
+    "examples": [
+      {
+        "description": "最简单的函数式组件",
+        "code": "function Welcome() {\n  return <h1>Hello, World!</h1>;\n}"
+      },
+      {
+        "description": "使用 ES6 箭头函数定义组件",
+        "code": "const Greeting = () => {\n  return <h2>Good morning!</h2>;\n};"
+      },
+      {
+        "description": "接收 props 作为参数",
+        "code": "function UserAvatar(props) {\n  return <img src={props.url} alt={props.name} />;\n}"
+      },
+      {
+        "description": "使用解构赋值获取 props",
+        "code": "const UserProfile = ({ name, age }) => {\n  return <p>{name} is {age} years old.</p>;\n};"
+      }
+    ],
+    "notes": "函数式组件是现代 React 的基石，它们通常更简洁、易于测试。通过使用 React Hooks (如 `useState`, `useEffect`)，函数式组件可以拥有状态和生命周期等功能。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "类组件 (Class Components)",
+    "summary": "使用 ES6 Class 语法创建组件，是 React 早期的主要方式 (Creating components using ES6 Class syntax, the primary way in early React)",
+    "examples": [
+      {
+        "description": "基础的类组件",
+        "code": "import React from 'react';\n\nclass Welcome extends React.Component {\n  render() {\n    return <h1>Hello from a Class Component!</h1>;\n  }\n}"
+      },
+      {
+        "description": "接收 props",
+        "code": "class UserGreeting extends React.Component {\n  render() {\n    return <p>Welcome back, {this.props.name}!</p>;\n  }\n}"
+      },
+      {
+        "description": "使用 state",
+        "code": "class Counter extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { count: 0 };\n  }\n\n  render() {\n    return <p>Count: {this.state.count}</p>;\n  }\n}"
+      }
+    ],
+    "notes": "类组件必须继承自 `React.Component` 并实现 `render()` 方法。通过 `this.props` 访问属性，通过 `this.state` 和 `this.setState()` 管理状态。虽然现在推荐使用函数式组件和 Hooks，但在维护旧项目或使用错误边界等特定场景时仍会遇到类组件。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "Props (组件属性)",
+    "summary": "父组件向子组件传递数据的机制，Props 是只读的 (The mechanism for passing data from a parent component to a child component. Props are read-only)",
+    "examples": [
+      {
+        "description": "传递字符串和数字属性",
+        "code": "<UserProfile name=\"Alice\" age={30} />"
+      },
+      {
+        "description": "传递布尔值属性",
+        "code": "/* 'isLoggedIn' 值为 true */\n<Navbar isLoggedIn />\n\n/* 'showWarning' 值为 false */\n<Alert showWarning={false} />"
+      },
+      {
+        "description": "传递对象和数组",
+        "code": "const user = { name: 'Bob' };\nconst items = ['Apple', 'Banana'];\n\n<Profile data={user} />\n<ShoppingList items={items} />"
+      },
+      {
+        "description": "传递函数 (回调)",
+        "code": "const handleClick = () => alert('Button clicked!');\n\n<Button onCustomClick={handleClick} />"
+      },
+      {
+        "description": "使用 `props.children` 渲染子元素",
+        "code": "function Card(props) {\n  return <div className=\"card\">{props.children}</div>;\n}\n\n<Card>\n  <h1>Card Title</h1>\n  <p>Some content here.</p>\n</Card>"
+      }
+    ],
+    "notes": "Props (properties) 对于组件来说是外部的，由父组件控制。子组件永远不应该直接修改接收到的 props，这被称为“纯函数”原则。所有 React 组件都必须像纯函数一样，保护它们的 props 不被更改。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "条件渲染 (Conditional Rendering)",
+    "summary": "根据条件动态地渲染不同的 UI (Dynamically rendering different UI based on conditions)",
+    "examples": [
+      {
+        "description": "使用 if-else 语句",
+        "code": "function Greeting({ isLoggedIn }) {\n  if (isLoggedIn) {\n    return <h1>Welcome back!</h1>;\n  }\n  return <h1>Please sign up.</h1>;\n}"
+      },
+      {
+        "description": "使用三元运算符 (Ternary Operator)",
+        "code": "function LoginStatus({ isLoggedIn }) {\n  return (\n    <div>\n      {isLoggedIn ? <p>You are logged in.</p> : <p>Please log in.</p>}\n    </div>\n  );\n}"
+      },
+      {
+        "description": "使用逻辑与 `&&` 运算符 (短路求值)",
+        "code": "function Mailbox({ unreadMessages }) {\n  return (\n    <div>\n      {unreadMessages.length > 0 &&\n        <h2>You have {unreadMessages.length} unread messages.</h2>\n      }\n    </div>\n  );\n}"
+      },
+      {
+        "description": "返回 null 来阻止组件渲染",
+        "code": "function WarningBanner({ showWarning }) {\n  if (!showWarning) {\n    return null;\n  }\n  return <div className=\"warning\">Warning!</div>;\n}"
+      }
+    ],
+    "notes": "条件渲染在 React 中非常普遍。三元运算符和 `&&` 语法因其简洁性常被用于 JSX 内部。如果逻辑复杂，建议将渲染逻辑提取到一个单独的函数或组件中。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "列表与 Keys (Lists and Keys)",
+    "summary": "使用 `.map()` 方法将数据数组转换为元素列表，并为每个列表项提供一个稳定的 `key` (Using the `.map()` method to transform an array of data into a list of elements, and providing a stable `key` for each list item)",
+    "examples": [
+      {
+        "description": "渲染一个简单的项目列表",
+        "code": "const numbers = [1, 2, 3, 4, 5];\nconst listItems = numbers.map((number) =>\n  <li key={number.toString()}>{number}</li>\n);\n\nreturn <ul>{listItems}</ul>;"
+      },
+      {
+        "description": "将列表渲染逻辑封装在组件中",
+        "code": "function TodoList({ todos }) {\n  return (\n    <ul>\n      {todos.map(todo => \n        <li key={todo.id}>{todo.text}</li>\n      )}\n    </ul>\n  );\n}"
+      },
+      {
+        "description": "反例：不推荐使用索引作为 key (除非列表是静态的)",
+        "code": "/* 仅在列表项不会重排、新增或删除时才可接受 */\n{items.map((item, index) => \n  <li key={index}>{item.text}</li>\n)}"
+      }
+    ],
+    "notes": "`key` 是一个特殊的字符串属性，你在创建元素列表时需要包含它。Keys 帮助 React 识别哪些元素被改变、添加或删除。`key` 应该在兄弟节点中是唯一的，但不必全局唯一。最好的 `key` 是数据中能唯一标识列表项的稳定 ID。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "事件处理 (Handling Events)",
+    "summary": "响应用户的操作，如点击、输入等 (Responding to user actions like clicks, input, etc.)",
+    "examples": [
+      {
+        "description": "使用内联箭头函数处理 onClick 事件",
+        "code": "<button onClick={() => alert('Clicked!')}>Click me</button>"
+      },
+      {
+        "description": "定义事件处理器方法",
+        "code": "function MyButton() {\n  function handleClick() {\n    alert('You clicked the button.');\n  }\n\n  return <button onClick={handleClick}>I'm a button</button>;\n}"
+      },
+      {
+        "description": "处理 onChange 事件以更新状态",
+        "code": "function MyInput() {\n  const [value, setValue] = useState('');\n\n  return <input value={value} onChange={e => setValue(e.target.value)} />;\n}"
+      },
+      {
+        "description": "向事件处理器传递参数",
+        "code": "function Item({ id, name }) {\n  const handleDelete = (itemId) => {\n    alert(`Deleting item ${itemId}`);\n  };\n\n  return <button onClick={() => handleDelete(id)}>Delete {name}</button>;\n}"
+      }
+    ],
+    "notes": "React 事件的命名采用驼峰式命名法，而不是小写。与 HTML 不同，你传递一个函数作为事件处理程序，而不是一个字符串。React 事件对象（`e`）是合成事件（SyntheticEvent），它包装了浏览器的原生事件，以保证跨浏览器的一致性。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "React Fragments",
+    "summary": "允许你将多个子元素分组，而无需向 DOM 添加额外节点 (Lets you group a list of children without adding extra nodes to the DOM)",
+    "examples": [
+      {
+        "description": "使用 `React.Fragment` (长语法)",
+        "code": "import React from 'react';\n\nfunction Columns() {\n  return (\n    <React.Fragment>\n      <td>Hello</td>\n      <td>World</td>\n    </React.Fragment>\n  );\n}"
+      },
+      {
+        "description": "使用短语法 `<>...</>`",
+        "code": "function ItemList() {\n  return (\n    <>\n      <dt>Coffee</dt>\n      <dd>Black hot drink</dd>\n    </>\n  );\n}"
+      }
+    ],
+    "notes": "当你需要从一个组件返回多个元素时，Fragments 非常有用。它避免了不必要的 `<div>` 包装，保持了 DOM 结构的整洁。短语法 `<>` 不支持 `key` 或其他属性，如果需要 `key`（例如在渲染列表时），必须使用 `<React.Fragment key={item.id}>`。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "React.memo",
+    "summary": "一个高阶组件，用于优化函数式组件的性能，通过浅比较 props 避免不必要的重渲染 (A Higher-Order Component to optimize functional components by memoizing the result, preventing unnecessary re-renders with a shallow prop comparison)",
+    "examples": [
+      {
+        "description": "基础用法：包装一个组件以记忆其渲染结果",
+        "code": "import React from 'react';\n\nconst MyComponent = React.memo(function MyComponent(props) {\n  /* 只有当 props 改变时才会重新渲染 */\n  return <div>{props.text}</div>;\n});"
+      },
+      {
+        "description": "示例：避免在父组件状态更新时重渲染子组件",
+        "code": "const MemoizedChild = React.memo(({ name }) => {\n  console.log('Rendering Child...');\n  return <p>Hello, {name}</p>;\n});\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <button onClick={() => setCount(c => c + 1)}>Increment</button>\n      <p>Count: {count}</p>\n      {/* 即使 Parent 重渲染，只要 name prop 不变，MemoizedChild 就不会重渲染 */}\n      <MemoizedChild name=\"Alice\" />\n    </div>\n  );\n}"
+      }
+    ],
+    "notes": "`React.memo` 只检查 props 的变化。如果你的组件被 `React.memo` 包裹，且在其中使用了 `useState`、`useReducer` 或 `useContext`，当 state 或 context 变化时，它仍然会重新渲染。它等效于类组件中的 `PureComponent`。当传递函数作为 props 时，通常需要配合 `useCallback` 使用，以防止函数在每次渲染时都是新的引用。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "useState Hook",
+    "summary": "在函数式组件中添加和管理 state (Add and manage state in a functional component)",
+    "examples": [
+      {
+        "description": "基础用法：创建一个计数器",
+        "code": "import { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>You clicked {count} times</p>\n      <button onClick={() => setCount(count + 1)}>\n        Click me\n      </button>\n    </div>\n  );\n}"
+      },
+      {
+        "description": "处理输入框状态",
+        "code": "import { useState } from 'react';\n\nfunction NameForm() {\n  const [name, setName] = useState('');\n\n  return (\n    <input\n      type=\"text\"\n      value={name}\n      onChange={e => setName(e.target.value)}\n    />\n  );\n}"
+      },
+      {
+        "description": "State 可以是对象或数组",
+        "code": "import { useState } from 'react';\n\nfunction UserProfile() {\n  const [user, setUser] = useState({ name: 'Guest', age: 0 });\n\n  const updateUser = () => {\n    // 更新对象时，必须返回一个新对象\n    setUser(prevUser => ({ ...prevUser, name: 'Alice' }));\n  };\n\n  return <button onClick={updateUser}>Login as Alice</button>;\n}"
+      },
+      {
+        "description": "使用函数式更新，避免闭包陷阱",
+        "code": "const [count, setCount] = useState(0);\n\n// 当新状态依赖于旧状态时，推荐使用此方式\nconst increment = () => {\n  setCount(prevCount => prevCount + 1);\n};"
+      }
+    ],
+    "notes": "`useState` 是 React Hooks 中最基础也最重要的一个。它返回一个数组，第一个元素是当前的状态值，第二个元素是更新该状态的函数。状态更新函数是异步的，React 会批量处理状态更新以优化性能。当新状态依赖于前一个状态时，应使用函数式更新（例如 `setCount(c => c + 1)`）以获取最新的状态值。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "useEffect Hook",
+    "summary": "用于在函数式组件中执行副作用操作（side effects），如数据获取、设置订阅、以及手动更改 DOM 等。",
+    "notes": "# useEffect Hook\n\n## 示例\n\n### 1. 模拟 `componentDidMount`：组件挂载后执行一次\n提供一个空数组 `[]` 作为依赖项，副作用函数仅在组件首次渲染后执行一次。\n\n```javascript\nimport { useState, useEffect } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch(`https://api.example.com/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, []); // 空数组表示只在 mount 时执行\n\n  if (!user) return <p>Loading...</p>;\n  return <h1>{user.name}</h1>;\n}\n```\n\n### 2. 模拟 `componentDidUpdate`：在特定 state 或 props 变化时执行\n在依赖项数组中指定 state 或 props，当它们变化时，副作用函数会重新执行。\n\n```javascript\nuseEffect(() => {\n  // 每当 userId prop 变化时，重新获取数据\n  document.title = `User: ${userId}`;\n}, [userId]); // 依赖项数组\n```\n\n### 3. 模拟 `componentWillUnmount`：清理副作用\n从副作用函数中返回一个函数，这个返回的函数（称为清理函数）会在组件卸载前，或在下一次副作用执行前运行。\n\n```javascript\nuseEffect(() => {\n  const timerId = setInterval(() => {\n    console.log('Tick');\n  }, 1000);\n\n  // 清理函数\n  return () => {\n    clearInterval(timerId);\n    console.log('Timer cleaned up!');\n  };\n}, []);\n```\n\n### 4. 不提供依赖项数组：每次渲染后都执行\n**警告**：这通常会导致性能问题或无限循环，请谨慎使用。\n\n```javascript\nuseEffect(() => {\n  // 每次组件渲染（包括 state 或 props 变化）后都会执行\n  console.log('Component re-rendered');\n}); // 没有依赖项数组\n```\n\n## 解决的问题\n\n`useEffect` 统一了 React 函数式组件中处理副作用的方式，解决了类组件中生命周期方法分散且逻辑难以复用的问题：\n\n- **副作用管理**: 提供一个集中的地方来处理与组件渲染无关的操作，如 API 调用、DOM 操作、定时器和订阅。\n- **逻辑聚合**: 允许你将相关的副作用逻辑（如订阅和取消订阅）放在同一个 `useEffect` 内部，而不是分散在 `componentDidMount` 和 `componentWillUnmount` 中。\n- **避免冗余执行**: 通过依赖项数组，精确控制副作用的执行时机，避免不必要的重复执行，提升性能。\n- **简化代码**: 替代了 `componentDidMount`, `componentDidUpdate`, `componentWillUnmount` 等多个生命周期方法，使代码更简洁。\n\n## 核心功能与使用方法\n\n`useEffect` 接收两个参数：\n\n1.  **副作用函数 (Effect Function)**: 你想要执行的代码。这个函数可以异步执行，但 `useEffect` 本身不应该被声明为 `async`，而应在函数内部创建 `async` 函数。\n2.  **依赖项数组 (Dependency Array)**: 一个可选的数组。React 会比较数组中的每一项，只有当某一项发生变化时，才会重新执行副作用函数。\n    - **`[]`** (空数组): 副作用仅在组件第一次渲染后执行一次。\n    - **`[dep1, dep2]`**: 当 `dep1` 或 `dep2` 发生变化时，副作用会重新执行。\n    - **不提供数组**: 副作用在每次组件渲染后都会执行。\n\n## 常见问题排查\n\n### 1. 无限循环 (Infinite Loop)\n**问题**: 组件不停地重新渲染，导致浏览器卡死。\n**原因**: 在 `useEffect` 中更新了一个状态，而这个状态又被列入了该 `useEffect` 的依赖项数组中。或者在依赖项中使用了非基本类型的对象或数组，它们在每次渲染时都是新的引用。\n**解决**:\n- 确保 `useEffect` 内部的状态更新不会导致其依赖项频繁变化。\n- 对于对象或数组依赖，考虑使用 `useMemo` 或 `useCallback` 缓存它们，或者只将它们的原始值（如 `id`）作为依赖。\n\n### 2. 副作用执行时机不符合预期\n**问题**: 副作用没有在期望的 state 或 props 变化时执行，或者执行得过于频繁。\n**原因**: 依赖项数组配置错误。\n**排查**:\n- **执行太少**: 检查是否遗漏了副作用函数中使用的 state 或 props 作为依赖项。ESLint 的 `react-hooks/exhaustive-deps` 规则可以帮助发现此问题。\n- **执行太频繁**: 检查依赖项中是否有不必要的变量，或者是否有在每次渲染时都重新创建的对象或函数。\n\n### 3. 获取到过期的 State 或 Props (Stale Closure)\n**问题**: 在 `useEffect` 的异步回调（如 `setTimeout`）中访问到的 state 是旧的。\n**原因**: `useEffect` 捕获了其定义时所在渲染周期的 state。\n**解决**:\n- 将该 state 添加到依赖项数组中，确保 state 变化时 effect 重新执行。\n- 使用 `useRef` 来存储最新的值。\n- 使用函数式更新 `setState(prevState => ...)`。"
+  },
+  {
+    "name": "useContext Hook",
+    "summary": "订阅并读取 React Context，实现在组件树中跨层级共享状态，避免 props drilling (属性逐层传递)。",
+    "examples": [
+      {
+        "description": "1. 创建一个 Context",
+        "code": "import { createContext } from 'react';\n\n// 创建一个 Context 对象，可以提供一个默认值\nexport const ThemeContext = createContext('light');"
+      },
+      {
+        "description": "2. 使用 Context Provider 提供值",
+        "code": "import { ThemeContext } from './ThemeContext';\n\nfunction App() {\n  const theme = 'dark';\n  return (\n    <ThemeContext.Provider value={theme}>\n      <Toolbar />\n    </ThemeContext.Provider>\n  );\n}"
+      },
+      {
+        "description": "3. 使用 useContext Hook 消费值",
+        "code": "import { useContext } from 'react';\nimport { ThemeContext } from './ThemeContext';\n\nfunction ThemedButton() {\n  const theme = useContext(ThemeContext); // 读取 context 值\n  return <button className={theme}>I am a {theme} button</button>;\n}"
+      }
+    ],
+    "notes": "`useContext` 接收一个 `Context` 对象（`React.createContext` 的返回值）作为参数，并返回该 `Context` 的当前值。当 `Provider` 的 `value` 发生变化时，所有使用该 `Context` 的组件都会重新渲染。它是 React 内置的解决深层组件状态共享的方案。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "useReducer Hook",
+    "summary": "`useState` 的替代方案，用于管理更复杂的组件状态逻辑，特别适合状态之间有关联或下一个状态依赖于前一个状态的场景。",
+    "examples": [
+      {
+        "description": "基础用法：使用 reducer 实现计数器",
+        "code": "import { useReducer } from 'react';\n\nconst initialState = { count: 0 };\n\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'increment':\n      return { count: state.count + 1 };\n    case 'decrement':\n      return { count: state.count - 1 };\n    default:\n      throw new Error();\n  }\n}\n\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, initialState);\n\n  return (\n    <>\n      Count: {state.count}\n      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>\n      <button onClick={() => dispatch({ type: 'increment' })}>+</button>\n    </>\n  );\n}"
+      },
+      {
+        "description": "分发带 payload 的 action",
+        "code": "function reducer(state, action) {\n  switch (action.type) {\n    case 'set_value':\n      return { ...state, value: action.payload };\n    default: return state;\n  }\n}\n\n// 在组件中调用\ndispatch({ type: 'set_value', payload: 'new value' });"
+      }
+    ],
+    "notes": "`useReducer(reducer, initialState)` 返回一个包含当前 state 和 `dispatch` 方法的数组。`dispatch` 方法用于触发状态更新。它将 action 对象传递给 reducer 函数，reducer 函数根据 action 计算并返回新的 state。这有助于将状态更新逻辑从组件中分离出来，使代码更清晰、可测试。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "useRef Hook",
+    "summary": "返回一个可变的 ref 对象，其 `.current` 属性被初始化为传入的参数。它可以在多次渲染之间保持不变，且更新它不会触发组件重新渲染。",
+    "examples": [
+      {
+        "description": "访问 DOM 元素 (例如，聚焦输入框)",
+        "code": "import { useRef, useEffect } from 'react';\n\nfunction TextInputWithFocusButton() {\n  const inputEl = useRef(null);\n\n  useEffect(() => {\n    // 组件挂载后聚焦输入框\n    inputEl.current.focus();\n  }, []);\n\n  return <input ref={inputEl} type=\"text\" />;\n}"
+      },
+      {
+        "description": "存储一个不触发重渲染的可变值 (例如，定时器 ID)",
+        "code": "import { useRef, useEffect } from 'react';\n\nfunction Timer() {\n  const intervalRef = useRef();\n\n  useEffect(() => {\n    intervalRef.current = setInterval(() => console.log('tick'), 1000);\n    return () => clearInterval(intervalRef.current);\n  }, []);\n\n  return <div>Timer is running...</div>;\n}"
+      },
+      {
+        "description": "存储上一次的 state 或 prop 值",
+        "code": "function PreviousValue({ value }) {\n  const prevValueRef = useRef();\n\n  useEffect(() => {\n    prevValueRef.current = value;\n  });\n\n  const prevValue = prevValueRef.current;\n  return <p>Current: {value}, Previous: {prevValue}</p>;\n}"
+      }
+    ],
+    "notes": "`useRef` 有两个主要用途：1. 访问 DOM 节点。2. 在组件的多次渲染之间持久化一个可变值，类似类组件的实例属性。因为更新 ref 不会触发重新渲染，所以它非常适合存储那些不直接影响视图的数据。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "useCallback Hook",
+    "summary": "返回一个 memoized (记忆化) 的回调函数。用于性能优化，避免在子组件中使用 `React.memo` 时因函数重新创建而导致不必要的重渲染。",
+    "examples": [
+      {
+        "description": "基础用法：将一个稳定的回调函数传递给子组件",
+        "code": "import { useState, useCallback } from 'react';\nimport { memo } from 'react';\n\nconst ChildComponent = memo(({ onClick }) => {\n  console.log('Child re-rendered');\n  return <button onClick={onClick}>Click me</button>;\n});\n\nfunction ParentComponent() {\n  const [count, setCount] = useState(0);\n\n  const handleClick = useCallback(() => {\n    console.log('Button clicked!');\n  }, []); // 空数组表示此函数永不改变\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(c => c + 1)}>Increment</button>\n      <ChildComponent onClick={handleClick} />\n    </div>\n  );\n}"
+      },
+      {
+        "description": "当回调函数依赖于 props 或 state 时，需将其加入依赖数组",
+        "code": "const memoizedCallback = useCallback(\n  () => {\n    doSomething(a, b);\n  },\n  [a, b], // 仅当 a 或 b 变化时，才会重新创建函数\n);"
+      }
+    ],
+    "notes": "仅在 `useCallback` 的依赖项数组中的某个值发生变化时，它才会返回一个新的函数实例。这在将回调函数传递给经过优化的子组件（使用 `React.memo`）时非常有用，可以防止子组件因为父组件的渲染而进行不必要的重新渲染。不要滥用，只有在确认存在性能问题时才使用。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "useMemo Hook",
+    "summary": "返回一个 memoized (记忆化) 的值。用于性能优化，避免在每次渲染时都进行高开销的计算。",
+    "examples": [
+      {
+        "description": "避免重复计算一个昂贵的值",
+        "code": "import { useMemo } from 'react';\n\nfunction MyComponent({ list, filter }) {\n  // 仅当 list 或 filter 变化时，才会重新执行 aHeavyComputation\n  const visibleItems = useMemo(() => {\n    return aHeavyComputation(list, filter);\n  }, [list, filter]);\n\n  return <ul>{visibleItems.map(item => <li key={item.id}>{item.name}</li>)}</ul>;\n}"
+      },
+      {
+        "description": "避免子组件因对象或数组的重新创建而重渲染",
+        "code": "function Parent() {\n  // ...\n  // style 对象在每次渲染时都是新的引用\n  // const style = { color: 'blue' }; \n\n  // 使用 useMemo 缓存 style 对象\n  const style = useMemo(() => ({ color: 'blue' }), []);\n\n  return <ChildComponent style={style} />;\n}"
+      }
+    ],
+    "notes": "`useMemo` 接收一个“创建”函数和依赖项数组。它只在某个依赖项改变时才重新计算 memoized 值。这可以用于优化需要高开销计算的场景。它与 `useCallback` 类似，但 `useCallback` 返回一个记忆化的函数，而 `useMemo` 返回一个记忆化的值。",
+    "shell_type": "React (JSX/JS)"
+  },
+  {
+    "name": "Custom Hooks",
+    "summary": "一种将组件逻辑提取到可重用函数中的机制。自定义 Hook 是一个函数，其名称以 “use” 开头，函数内部可以调用其他 Hook。",
+    "notes": "# Custom Hooks\n\n## 示例\n\n### 1. 创建一个简单的 `useDocumentTitle` Hook\n这个 Hook 用于动态修改文档的标题。\n\n```javascript\nimport { useEffect } from 'react';\n\nfunction useDocumentTitle(title) {\n  useEffect(() => {\n    document.title = title;\n  }, [title]); // 仅当 title 变化时更新\n}\n```\n\n### 2. 在组件中使用自定义 Hook\n\n```javascript\nimport { useState } from 'react';\nimport { useDocumentTitle } from './useDocumentTitle';\n\nfunction TitleChanger() {\n  const [count, setCount] = useState(0);\n  useDocumentTitle(`You clicked ${count} times`);\n\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      Click me to change title\n    </button>\n  );\n}\n```\n\n### 3. 创建一个更复杂的 `useFetch` Hook\n这个 Hook 封装了数据获取、加载状态和错误处理的逻辑。\n\n```javascript\nimport { useState, useEffect } from 'react';\n\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    setLoading(true);\n    fetch(url)\n      .then(res => res.json())\n      .then(data => setData(data))\n      .catch(err => setError(err))\n      .finally(() => setLoading(false));\n  }, [url]);\n\n  return { data, loading, error };\n}\n```\n\n### 4. 在组件中使用 `useFetch` Hook\n\n```javascript\nimport { useFetch } from './useFetch';\n\nfunction UserList() {\n  const { data, loading, error } = useFetch('https://api.example.com/users');\n\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error!</p>;\n\n  return (\n    <ul>\n      {data.map(user => <li key={user.id}>{user.name}</li>)}\n    </ul>\n  );\n}\n```\n\n## 解决的问题\n\n自定义 Hook 旨在解决 React 组件中逻辑复用的问题，而无需引入复杂的模式如高阶组件（HOCs）或 Render Props。\n\n- **逻辑复用**: 将通用的有状态逻辑（如数据获取、表单处理、订阅等）从组件中抽离，方便在多个组件中复用。\n- **关注点分离**: 将复杂的逻辑与 UI 渲染代码分离，使组件本身更专注于视图呈现，代码更清晰、易于维护。\n- **避免“包装器地狱”**: 与 HOCs 不同，自定义 Hook 不会引入额外的组件层级，使组件树更扁平、更易于调试。\n\n## 核心功能与使用方法\n\n自定义 Hook 遵循两个核心规则：\n\n1.  **名称必须以 `use` 开头**: 这是 React Linter 用来识别 Hook 并检查其是否遵循 Hook 规则的约定。\n2.  **只能在函数式组件或其他自定义 Hook 中调用**: 不能在普通 JavaScript 函数、循环或条件语句中调用。\n\n设计一个自定义 Hook 时，通常需要考虑其“输入”（参数）和“输出”（返回值），使其像 React 内置 Hook 一样易于使用。\n\n## 常见问题排查\n\n### 1. 报错: \"Hooks can only be called inside the body of a function component.\"\n**问题**: 在错误的地方调用了 Hook。\n**原因**: 在普通 JS 函数、类组件、或 `if/for` 语句块中调用了 Hook。\n**解决**: 确保所有 Hook（包括自定义 Hook）都在函数式组件的顶层被调用。\n\n### 2. 自定义 Hook 的状态未在组件间共享\n**问题**: 认为在两个不同组件中使用同一个自定义 Hook 会共享状态。\n**原因**: 自定义 Hook 是复用**逻辑**，而不是复用**状态**。每次调用自定义 Hook，其内部的 `useState` 或 `useReducer` 都会创建一份独立的状态。\n**解决**: 如果需要在组件间共享状态，应使用 Context API、Redux 或其他全局状态管理库，而不是期望自定义 Hook 来实现。\n\n### 3. Hook 内部的依赖项问题\n**问题**: 自定义 Hook 内部的 `useEffect` 或 `useCallback` 的依赖项可能依赖于从组件传入的参数。\n**原因**: 如果从组件传入的函数或对象在每次渲染时都是新的，可能会导致 Hook 内部的 `useEffect` 不必要地重复执行。\n**解决**: 设计自定义 Hook 时，应在其文档中明确指出哪些参数需要是稳定的（例如，通过 `useCallback` 包装）。"
+  },
+  {
+    "name": "组件通信模式 (Component Communication)",
+    "summary": "全面总结 React 中不同组件关系下的通信方法，包括父子、子父、兄弟和跨层级通信。",
+    "notes": "# 组件通信模式\n\n## 示例与方法\n\n### 1. 父组件向子组件通信 (Props)\n最常见的通信方式。父组件通过 `props` 将数据或函数传递给子组件。\n\n```jsx\n// 父组件\nfunction Parent() {\n  return <Child name=\"Alice\" />;\n}\n\n// 子组件\nfunction Child(props) {\n  return <h1>Hello, {props.name}!</h1>;\n}\n```\n\n### 2. 子组件向父组件通信 (Callback)\n父组件将一个函数作为 prop 传递给子组件，子组件在特定时机调用该函数，并将数据作为参数传回。\n\n```jsx\n// 父组件\nfunction Parent() {\n  const [message, setMessage] = useState('');\n\n  const handleChildClick = (msg) => {\n    setMessage(msg);\n  };\n\n  return <Child onChildClick={handleChildClick} />;\n}\n\n// 子组件\nfunction Child({ onChildClick }) {\n  return <button onClick={() => onChildClick('Message from child')}>Send Message</button>;\n}\n```\n\n### 3. 兄弟组件通信 (状态提升)\n将共享的状态和状态更新函数提升到它们最近的共同父组件中，再通过 props 分发给兄弟组件。这是官方推荐的方式。\n\n```jsx\nfunction Parent() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <>\n      <Display count={count} />\n      <Controls onIncrement={() => setCount(count + 1)} />\n    </>\n  );\n}\n\n// 兄弟组件 1\nfunction Display({ count }) { return <p>Count: {count}</p>; }\n\n// 兄弟组件 2\nfunction Controls({ onIncrement }) { return <button onClick={onIncrement}>Increment</button>; }\n```\n\n### 4. 跨层级/任意组件通信 (Context API 或状态管理库)\n当组件层级很深时，使用 props 逐层传递会非常繁琐（称为“props drilling”）。此时应使用 `Context API` 或全局状态管理库。\n\n```jsx\n// 1. 创建 Context\nconst ThemeContext = React.createContext('light');\n\n// 2. 在顶层组件使用 Provider 提供值\nfunction App() {\n  return (\n    <ThemeContext.Provider value=\"dark\">\n      <Toolbar />\n    </ThemeContext.Provider>\n  );\n}\n\n// 3. 在任意深度的子组件中使用 useContext Hook 消费值\nfunction ThemedButton() {\n  const theme = useContext(ThemeContext);\n  return <button className={theme}>I am a {theme} button</button>;\n}\n```\n\n## 解决的问题\n\n- **数据流管理**：为不同场景下的组件间数据交换提供了清晰、可维护的模式。\n- **避免 Props Drilling**：通过 `Context API` 解决了深层组件嵌套时 props 需要层层传递的痛点。\n- **状态解耦**：通过“状态提升”，将共享状态从具体组件中解耦出来，由父组件统一管理。\n\n## 核心概念\n- **单向数据流**: React 的核心原则，数据总是从父组件流向子组件。\n- **状态提升 (Lifting State Up)**: 将多个组件需要共享的状态移动到它们最近的共同祖先组件中。\n- **Context**: 提供了一种无需手动传递 props 即可在组件树中共享数据的方式。\n\n## 常见问题排查\n\n- **Props 没有更新**：确认父组件的 state 是否真的发生了变化，并触发了重渲染。`React.memo` 可能阻止了子组件的更新，检查其依赖是否正确。\n- **回调函数未触发**：检查 `onClick` 等事件处理器是否正确绑定了从 props 接收到的回调函数。\n- **Context 的值未更新**：确保 `Provider` 的 `value` 属性绑定到了一个 state。如果 `value` 是一个常量，它将永远不会改变。"
+  },
+  {
+    "name": "组件生命周期 (Component Lifecycle)",
+    "summary": "对比类组件的生命周期方法与函数式组件中 `useEffect` Hook 的等效实现，帮助理解和管理副作用。",
+    "notes": "# 组件生命周期\n\n在现代 React 中，我们主要使用函数式组件和 Hooks。`useEffect` Hook 统一了类组件中多个生命周期方法的功能。\n\n## 生命周期阶段与 Hooks 对照\n\n### 1. 挂载 (Mounting)\n组件实例被创建并插入 DOM 中。\n\n- **类组件**: `constructor()`, `render()`, `componentDidMount()`\n- **函数式组件等效实现**: \n  - **`constructor`**: 函数式组件本身就是构造函数，可以在组件顶层初始化状态 (`useState`)。\n  - **`componentDidMount`**: 使用 `useEffect` 并传入一个空依赖数组 `[]`。\n\n```jsx\nuseEffect(() => {\n  // 仅在组件首次挂载后执行\n  console.log('Component has mounted!');\n}, []);\n```\n\n### 2. 更新 (Updating)\n组件的 props 或 state 发生变化，触发重渲染。\n\n- **类组件**: `render()`, `componentDidUpdate(prevProps, prevState)`\n- **函数式组件等效实现**: \n  - **`componentDidUpdate`**: 使用 `useEffect` 并提供一个依赖项数组。当数组中的任何值发生变化时，effect 将重新执行。\n\n```jsx\nuseEffect(() => {\n  // 仅在 someProp 或 someState 变化后执行\n  console.log('Prop or state has updated!');\n}, [someProp, someState]);\n```\n\n### 3. 卸载 (Unmounting)\n组件从 DOM 中被移除。\n\n- **类组件**: `componentWillUnmount()`\n- **函数式组件等效实现**: \n  - **`componentWillUnmount`**: 从 `useEffect` 的副作用函数中返回一个“清理函数”。\n\n```jsx\nuseEffect(() => {\n  const timerId = setInterval(() => {\n    console.log('Tick');\n  }, 1000);\n\n  // 返回的这个函数就是清理函数\n  return () => {\n    clearInterval(timerId);\n    console.log('Timer cleaned up on unmount.');\n  };\n}, []); // 空数组确保清理函数只在卸载时执行一次\n```\n\n## 解决的问题\n\n- **副作用管理**：提供了在组件生命周期的特定时间点执行操作（如 API 请求、订阅、DOM 操作）的标准方式。\n- **资源清理**：确保在组件销毁时能清理掉定时器、事件监听器或订阅，防止内存泄漏。\n- **逻辑聚合**：`useEffect` 允许将相关的设置和清理逻辑放在一起，比类组件中分散的 `componentDidMount` 和 `componentWillUnmount` 更清晰。\n\n## 核心概念\n\n- **挂载 (Mounting)**: 组件首次出现在屏幕上。\n- **更新 (Updating)**: 组件因 props 或 state 变化而重新渲染。\n- **卸载 (Unmounting)**: 组件从屏幕上消失。\n- **副作用 (Side Effect)**: 任何影响到组件外部的操作，如修改 DOM、获取数据等。\n- **清理函数 (Cleanup Function)**: `useEffect` 返回的函数，用于清理副作用。\n\n## 常见问题排查\n\n- **useEffect 无限循环**：见 `useEffect` Hook 的常见问题排查。\n- **清理函数未按预期执行**：清理函数在**下一次 effect 执行前**或**组件卸载时**执行。如果依赖项数组不正确，可能导致清理时机不符合预期。"
+  },
+  {
+    "name": "React 状态管理 (State Management)",
+    "summary": "探讨 React 应用中状态管理的策略，从组件局部状态到全局状态，对比 Context API 与 Redux/Zustand 等库的优劣。",
+    "notes": "# React 状态管理\n\n选择合适的状态管理方案对于构建可维护、可扩展的 React 应用至关重要。\n\n## 状态管理方案\n\n### 1. 局部状态 (Local State)\n- **工具**: `useState`, `useReducer`\n- **适用场景**: 状态仅被单个组件或其少数子组件使用。例如：表单输入、UI 元素的开关状态。\n- **优点**: 简单、直观，无需额外配置。\n- **示例**:\n```jsx\nfunction Toggle() {\n  const [isOn, setIsOn] = useState(false);\n  return <button onClick={() => setIsOn(!isOn)}>{isOn ? 'ON' : 'OFF'}</button>;\n}\n```\n\n### 2. 跨组件状态 (Cross-Component State)\n- **工具**: React Context API (`createContext` + `useContext`)\n- **适用场景**: 需要在深层嵌套的组件间共享状态，以避免“props drilling”。例如：主题、用户认证信息、语言设置。\n- **优点**: React 内置，无需第三方库，适合中低频更新的全局状态。\n- **缺点**: 当 Provider 的 `value` 变化时，所有消费该 Context 的组件都会重渲染，可能导致性能问题。\n- **示例**: (见“组件通信模式”中的 Context 示例)\n\n### 3. 全局/应用级状态 (Global/App-level State)\n- **工具**: Redux, Zustand, Recoil, MobX 等。\n- **适用场景**: \n  - 复杂、庞大的应用状态，多个不相关组件需要共享和修改状态。\n  - 状态更新逻辑复杂，需要可预测、可调试的模式。\n  - 需要中间件（如 Redux Thunk/Saga）处理异步操作。\n- **优点**: \n  - **性能优化**: 只有真正依赖变化状态的组件才会重渲染。\n  - **可预测性**: 遵循严格的更新模式（如 Redux 的单向数据流）。\n  - **强大的生态和开发者工具** (如 Redux DevTools)。\n- **示例 (Zustand - 一种流行的简化方案)**:\n```jsx\nimport create from 'zustand';\n\n// 1. 创建 store\nconst useStore = create(set => ({\n  bears: 0,\n  increasePopulation: () => set(state => ({ bears: state.bears + 1 })),\n  removeAllBears: () => set({ bears: 0 })\n}));\n\n// 2. 在组件中使用\nfunction BearCounter() {\n  const bears = useStore(state => state.bears);\n  return <h1>{bears} around here ...</h1>;\n}\n```\n\n## 如何选择？\n\n- **从局部状态开始**: 始终优先考虑使用 `useState`。\n- **状态需要共享时，提升它**: 如果多个兄弟组件需要共享状态，使用“状态提升”。\n- **“状态提升”变得繁琐时，使用 Context**: 如果状态需要穿透很多层级，`Context API` 是一个好选择。\n- **Context 导致性能问题或状态逻辑复杂时，引入全局状态库**: 当应用变得庞大，全局状态更新频繁，或者需要更强大的工具时，再考虑 Redux 或 Zustand。\n\n## 解决的问题\n- **状态来源混乱**: 提供单一可信数据源（Single Source of Truth），避免状态散落在各处导致不一致。\n- **Prop Drilling**: 解决 props 必须穿透多层组件才能到达目标组件的问题。\n- **组件紧耦合**: 使组件可以独立地从全局 Store 中获取数据，而无需关心数据源自哪个父组件。\n\n## 常见问题排查\n\n- **Context 导致不必要的重渲染**: 这是 Context API 最常见的问题。解决方法包括：\n  - 将 Provider 尽可能地放在组件树的深处，只包裹需要它的组件。\n  - 将 state 和 dispatch 函数拆分到不同的 Context 中，避免仅使用 dispatch 的组件因 state 变化而重渲染。\n- **Redux 的样板代码过多**: 这是 Redux 的一个经典批评。可以考虑使用 `Redux Toolkit`，它极大地简化了 Redux 的配置和使用。"
+  },
+  {
+    "name": "React 路由 (React Router)",
+    "summary": "使用 `react-router-dom` 库实现单页应用（SPA）的客户端路由，支持动态路由、嵌套路由和声明式导航。",
+    "notes": "# React 路由 (react-router-dom)\n\n`react-router-dom` 是 React 生态中最流行的路由库，用于构建单页应用。\n\n## 示例与核心组件\n\n**依赖安装**: `npm install react-router-dom`\n\n### 1. 基础设置\n在应用的入口文件（如 `index.js` 或 `App.js`）中，使用 `BrowserRouter` 包裹整个应用，并定义路由规则。\n\n```jsx\nimport { BrowserRouter, Routes, Route, Link } from 'react-router-dom';\n\nfunction App() {\n  return (\n    <BrowserRouter>\n      <nav>\n        <Link to=\"/\">Home</Link> | <Link to=\"/about\">About</Link>\n      </nav>\n      <Routes>\n        <Route path=\"/\" element={<Home />} />\n        <Route path=\"/about\" element={<About />} />\n      </Routes>\n    </BrowserRouter>\n  );\n}\n```\n\n### 2. 导航 (Navigation)\n- **`<Link>` 组件**: 用于创建声明式的导航链接，它会渲染成一个 `<a>` 标签，但不会引起页面刷新。\n- **`useNavigate` Hook**: 用于在函数组件中以编程方式进行导航。\n\n```jsx\nimport { useNavigate } from 'react-router-dom';\n\nfunction LoginButton() {\n  let navigate = useNavigate();\n\n  function handleLogin() {\n    // 登录成功后跳转到 dashboard\n    navigate('/dashboard');\n  }\n\n  return <button onClick={handleLogin}>Login</button>;\n}\n```\n\n### 3. 路由参数 (Route Parameters)\n用于匹配动态的 URL 段，例如用户 ID。\n\n```jsx\n// 路由定义\n<Route path=\"/users/:userId\" element={<UserProfile />} />\n\n// 在 UserProfile 组件中获取参数\nimport { useParams } from 'react-router-dom';\n\nfunction UserProfile() {\n  let { userId } = useParams();\n  return <div>User ID: {userId}</div>;\n}\n```\n\n### 4. 嵌套路由 (Nested Routes) 和 `<Outlet />`\n用于构建具有层级关系的 UI 布局，如侧边栏导航和主内容区。\n\n```jsx\n<Routes>\n  <Route path=\"/dashboard\" element={<Dashboard />}>\n    <Route path=\"messages\" element={<DashboardMessages />} />\n    <Route path=\"tasks\" element={<DashboardTasks />} />\n  </Route>\n</Routes>\n\n// 在 Dashboard 组件内部，<Outlet /> 会渲染匹配到的子路由\nfunction Dashboard() {\n  return (\n    <div>\n      <h1>Dashboard</h1>\n      <Outlet />\n    </div>\n  );\n}\n```\n\n## 解决的问题\n- **单页应用导航**: 在不重新加载整个页面的情况下，根据 URL 的变化更新视图，提供了流畅的用户体验。\n- **URL 与 UI 同步**: 保持浏览器地址栏的 URL 与当前展示的 UI 状态同步，支持浏览器的前进、后退和书签功能。\n- **模块化和代码分割**: 路由可以与 `React.lazy` 结合，实现基于路由的代码分割，按需加载组件，优化初始加载性能。\n\n## 核心概念\n- **`<BrowserRouter>`**: 使用 HTML5 History API (pushState, replaceState) 来保持 UI 与 URL 的同步。\n- **`<Routes>`**: 路由容器，其子元素只能是 `<Route>`。\n- **`<Route>`**: 定义 URL 路径 (`path`) 与要渲染的组件 (`element`) 之间的映射。\n- **`<Link>`**: 声明式导航组件。\n- **`useNavigate`, `useParams`, `useLocation`**: 核心 Hooks，分别用于导航、获取路由参数和获取当前位置信息。\n- **`<Outlet>`**: 在嵌套路由中用作子路由的占位符。\n\n## 常见问题排查\n\n- **点击 Link 没反应或整页刷新**: \n  - 确保 `<Link>` 组件在 `<BrowserRouter>` 的包裹之内。\n  - 不要错误地使用 `<a>` 标签的 `href` 属性，应使用 `<Link>` 的 `to` 属性。\n- **路由 Hooks (如 `useNavigate`) 报错**: 确保调用这些 Hooks 的组件位于 `<BrowserRouter>` 的子树中。\n- **404/Not Found 页面**: 定义一个匹配所有路径的路由作为“兜底”路由。\n  ```jsx\n  <Route path=\"*\" element={<NotFound />} />\n  ```\n- **受保护的路由 (Private Routes)**: 如何实现需要登录才能访问的页面？\n  - 创建一个包装组件，检查用户是否登录。如果已登录，渲染子组件（或 `<Outlet />`）；否则，使用 `<Navigate to=\"/login\" />` 组件重定向到登录页。"
+  },
+  {
+    "name": "React 表单处理 (Forms)",
+    "summary": "探讨在 React 中处理表单的两种主要模式：受控组件和非受控组件，并介绍使用 `react-hook-form` 等库简化表单开发。",
+    "notes": "# React 表单处理\n\n处理 HTML 表单是 Web 开发的核心任务之一。React 提供了灵活的方式来处理表单输入。\n\n## 核心模式\n\n### 1. 受控组件 (Controlled Components)\n**这是 React 官方推荐的模式。** 表单元素（如 `<input>`, `<textarea>`）的值由 React 的 state 控制。\n\n- **原理**: \n  1. 使用 `useState` 为每个输入框创建一个状态。\n  2. 将该状态作为 `value` prop 绑定到输入框。\n  3. 通过 `onChange` 事件处理器来更新状态。\n- **优点**: \n  - **单一数据源**: React state 是唯一的数据来源，使得状态管理清晰、可预测。\n  - **即时验证**: 可以在用户输入时立即进行验证或格式化。\n- **缺点**: 每个输入框都需要一个 state 和一个事件处理器，代码量相对较多。\n\n- **示例**:\n```jsx\nfunction ControlledForm() {\n  const [name, setName] = useState('');\n\n  const handleSubmit = (event) => {\n    alert('A name was submitted: ' + name);\n    event.preventDefault();\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Name:\n        <input \n          type=\"text\" \n          value={name} \n          onChange={(e) => setName(e.target.value)} \n        />\n      </label>\n      <input type=\"submit\" value=\"Submit\" />\n    </form>\n  );\n}\n```\n\n### 2. 非受控组件 (Uncontrolled Components)\n表单数据由 DOM 自身处理。你需要时，通过 `ref` 从 DOM 中“拉取”数据。\n\n- **原理**: 使用 `useRef` Hook 创建一个 ref，并将其附加到 DOM 元素上。在需要时（如表单提交时）通过 `ref.current.value` 读取值。\n- **优点**: 代码更少，更接近传统 HTML 表单，集成第三方非 React 库时可能更简单。\n- **缺点**: 数据不是实时同步的，难以实现即时验证。\n\n- **示例**:\n```jsx\nfunction UncontrolledForm() {\n  const inputRef = useRef(null);\n\n  const handleSubmit = (event) => {\n    alert('A name was submitted: ' + inputRef.current.value);\n    event.preventDefault();\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Name:\n        <input type=\"text\" ref={inputRef} />\n      </label>\n      <input type=\"submit\" value=\"Submit\" />\n    </form>\n  );\n}\n```\n\n### 3. 使用表单库 (Form Libraries)\n对于复杂的表单（包含大量字段、复杂验证逻辑、异步提交等），手动管理会变得非常困难。推荐使用 `react-hook-form` 或 `Formik` 等库。\n\n- **优点**: \n  - **性能高**: `react-hook-form` 通过非受控方式管理字段，减少不必要的重渲染。\n  - **功能强大**: 内置验证、错误处理、表单状态管理等功能。\n  - **代码简洁**: Hooks API 使得代码量大大减少。\n\n- **示例 (react-hook-form)**:\n```jsx\nimport { useForm } from 'react-hook-form';\n\nfunction MyForm() {\n  const { register, handleSubmit, formState: { errors } } = useForm();\n\n  const onSubmit = (data) => console.log(data);\n\n  return (\n    <form onSubmit={handleSubmit(onSubmit)}>\n      <input {...register('firstName', { required: true })} />\n      {errors.firstName && <p>First name is required.</p>}\n\n      <input {...register('lastName')} />\n      <input type=\"submit\" />\n    </form>\n  );\n}\n```\n\n## 解决的问题\n- **用户输入捕获**: 提供标准化的方式来获取和管理用户的输入数据。\n- **表单状态管理**: 解决表单字段值、验证状态、提交状态等复杂状态的管理问题。\n- **数据验证**: 方便地在客户端对用户输入进行验证，提供即时反馈。\n\n## 常见问题排查\n\n- **输入框在每次输入后失去焦点**: \n  - **原因**: 通常发生在受控组件中，如果组件在 `onChange` 中不必要地重新创建了输入框 DOM，就可能导致此问题。例如，在 `render` 方法中定义了一个组件。\n  - **解决**: 确保输入框在重渲染前后是同一个组件实例，不要在渲染函数内部动态创建组件。\n- **如何处理多输入框**: \n  - **解决**: 可以使用一个对象 state 来管理所有输入框的值，并通过 `name` 属性来区分和更新字段。\n  ```jsx\n  const [formState, setFormState] = useState({ firstName: '', lastName: '' });\n  const handleChange = (e) => {\n    const { name, value } = e.target;\n    setFormState(prev => ({ ...prev, [name]: value }));\n  }\n  ```\n- **checkbox 和 radio 的 `value` vs `checked`**: 对于 `checkbox` 和 `radio` 按钮，你应该控制 `checked` 属性而不是 `value`。"
+  },
+  {
+    "name": "React 性能优化 (Performance)",
+    "summary": "总结 React 应用中常见的性能瓶颈及优化技巧，如避免不必要的重渲染、代码分割和列表虚拟化。",
+    "notes": "# React 性能优化\n\n虽然 React 本身很快，但在大型应用中，不当的使用方式仍然可能导致性能问题。优化的核心在于**减少不必要的渲染**和**减小初始包体积**。\n\n## 核心优化技巧\n\n### 1. 使用 `React.memo` 避免不必要的组件渲染\n`React.memo` 是一个高阶组件（HOC），用于包裹函数式组件。如果一个组件的 props 没有变化，`React.memo` 会跳过这次渲染，直接复用上次的渲染结果。\n\n- **适用场景**: 组件在 props 不变的情况下频繁重渲染，特别是渲染开销较大的组件。\n\n```jsx\nconst MyComponent = React.memo(function MyComponent(props) {\n  /* 仅在 props 变化时才会重渲染 */\n  console.log('MyComponent re-rendered');\n  return <div>{props.data}</div>;\n});\n```\n\n### 2. 使用 `useCallback` 和 `useMemo` 稳定 Props\n当向 `React.memo` 包裹的子组件传递函数或对象作为 props 时，即使内容没变，由于每次渲染都会创建新的引用，仍会触发子组件重渲染。`useCallback` 和 `useMemo` 可以解决此问题。\n\n- **`useCallback`**: 缓存函数引用。\n- **`useMemo`**: 缓存计算结果（可以是任何值，如对象、数组）。\n\n```jsx\nfunction Parent() {\n  const [count, setCount] = useState(0);\n\n  // 使用 useCallback 缓存回调函数\n  const handleClick = useCallback(() => {\n    console.log('Button clicked!');\n  }, []); // 空依赖数组表示函数永不改变\n\n  return <MemoizedChild onClick={handleClick} />;\n}\n\nconst MemoizedChild = React.memo(Child);\n```\n\n### 3. 代码分割 (Code Splitting) with `React.lazy` 和 `Suspense`\n对于单页应用，所有代码默认会打包进一个文件，导致初始加载时间过长。代码分割可以将代码拆分成多个小包，按需加载。\n\n- **`React.lazy`**: 允许你像渲染普通组件一样渲染一个动态导入的组件。\n- **`Suspense`**: 在懒加载组件下载完成前，显示一个“加载中”的 UI（fallback）。\n\n```jsx\nimport React, { Suspense, lazy } from 'react';\n\n// 使用 React.lazy 动态导入组件\nconst OtherComponent = lazy(() => import('./OtherComponent'));\n\nfunction MyApp() {\n  return (\n    <div>\n      <Suspense fallback={<div>Loading...</div>}>\n        <OtherComponent />\n      </Suspense>\n    </div>\n  );\n}\n```\n\n### 4. 列表虚拟化 (Windowing)\n当渲染一个非常长的列表（成百上千项）时，一次性渲染所有 DOM 节点会严重影响性能。列表虚拟化技术只渲染在视口内可见的列表项。\n\n- **推荐库**: `react-window`, `react-virtualized`。\n\n### 5. 使用 React Profiler 定位性能瓶颈\nReact 开发者工具提供了一个 Profiler，可以录制应用的渲染过程，直观地看到哪些组件渲染耗时最长、哪些组件被不必要地重渲染了。\n\n## 解决的问题\n- **UI 卡顿和响应慢**: 减少了因大量计算或 DOM 操作导致的渲染阻塞。\n- **应用初始加载时间长**: 通过代码分割，减小了主包体积，加快了首页加载速度。\n- **内存占用高**: 列表虚拟化避免了因渲染大量 DOM 节点而导致的内存问题。\n\n## 注意事项\n- **不要过早优化**: 在遇到实际性能问题前，不要盲目地应用所有优化技巧。过度的 `useMemo` 和 `useCallback` 反而会增加代码复杂性和微小的性能开销。\n- **`key` 属性的重要性**: 在渲染列表时，为每个列表项提供一个稳定且唯一的 `key` prop，这是 React 高效更新列表的基础。\n- **测量是关键**: 在进行任何优化之前和之后，都应该使用 Profiler 进行测量，以验证优化的效果。\n\n## 常见问题排查\n- **`React.memo` 不生效**: \n  - **原因**: 传递给组件的某个 prop（通常是函数或对象）在每次父组件渲染时都是一个新的引用。\n  - **解决**: 使用 `useCallback` 或 `useMemo` 缓存该 prop。\n- **优化后性能反而变差**: \n  - **原因**: 可能是在不必要的地方使用了 `useMemo` 或 `useCallback`。这些 Hooks 本身也有计算成本，只应在收益大于成本时使用。\n  - **解决**: 移除不当的优化，只针对通过 Profiler 发现的瓶颈进行优化。"
+  },
+  {
+    "name": "错误处理 (Error Boundaries)",
+    "summary": "使用错误边界（Error Boundaries）来捕获和处理其子组件树在渲染期间发生的 JavaScript 错误，并渲染降级 UI。",
+    "notes": "# 错误处理 (Error Boundaries)\n\n错误边界是一种特殊的 React 组件，它可以捕获其子组件树中任何位置的 JavaScript 错误，记录这些错误，并显示一个备用的 UI，而不是让整个组件树崩溃。\n\n## 如何创建错误边界\n\n错误边界**必须是类组件**，并定义以下一个或两个生命周期方法：\n\n- **`static getDerivedStateFromError(error)`**: 在子孙组件抛出错误后调用。它应该返回一个对象来更新 state，从而在下一次渲染中显示降级 UI。\n- **`componentDidCatch(error, errorInfo)`**: 同样在错误发生后调用。它用于执行副作用，如记录错误到外部服务。\n\n### 示例：\n```jsx\nimport React, { Component } from 'react';\n\nclass ErrorBoundary extends Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false };\n  }\n\n  static getDerivedStateFromError(error) {\n    // 更新 state，以便下一次渲染可以显示降级 UI\n    return { hasError: true };\n  }\n\n  componentDidCatch(error, errorInfo) {\n    // 你也可以将错误日志上报给服务器\n    console.error(\"Uncaught error:\", error, errorInfo);\n  }\n\n  render() {\n    if (this.state.hasError) {\n      // 你可以渲染任何自定义的降级 UI\n      return <h1>Something went wrong.</h1>;\n    }\n\n    return this.props.children;\n  }\n}\n```\n\n## 如何使用错误边界\n\n创建好错误边界组件后，像普通组件一样使用它，包裹住你认为可能会出错的组件部分。\n\n```jsx\n<ErrorBoundary>\n  <MyRiskyComponent />\n</ErrorBoundary>\n```\n\n你可以将它放在应用的不同层级：\n- 包裹整个应用，提供一个全局的错误页面。\n- 包裹独立的组件模块（如侧边栏、小部件），使得一部分 UI 的错误不会影响到其他部分。\n\n## 解决的问题\n- **防止整个应用崩溃**: 在 React 16 之前，渲染期间的一个未捕获错误会导致整个 React 组件树被卸载。错误边界解决了这个问题，它将错误隔离在局部，保证应用的其他部分仍然可以正常交互。\n- **提供优雅的降级体验**: 相比于向用户展示一个空白页面或损坏的 UI，错误边界允许你显示一个友好的错误信息或备用内容。\n- **集中的错误监控**: 提供一个集中的地方（`componentDidCatch`）来捕获和上报 UI 渲染错误。\n\n## 核心概念与限制\n\n**错误边界可以捕获的错误**:\n- 渲染期间的错误（在 `render` 方法中）。\n- 生命周期方法中的错误。\n- 子组件构造函数中的错误。\n\n**错误边界无法捕获的错误**:\n- **事件处理器 (Event handlers)**: 事件处理器中的错误不会在渲染期间发生。你需要使用普通的 `try...catch` 来处理它们。\n  ```jsx\n  function MyButton() {\n    const handleClick = () => {\n      try {\n        // do something that might throw\n      } catch (error) {\n        // handle error\n      }\n    };\n    return <button onClick={handleClick}>Click Me</button>;\n  }\n  ```\n- **异步代码**: 如 `setTimeout` 或 `Promise` 中的回调错误。\n- **服务端渲染 (SSR)** 中的错误。\n- **错误边界自身**抛出的错误。\n\n## 函数式组件中的替代方案\n\nReact Hooks 目前没有提供一个原生的错误边界 Hook。因此，错误边界仍然需要是类组件。\n\n如果你希望在函数式组件中使用类似的功能，可以使用第三方库，如 `react-error-boundary`，它提供了一个 `<ErrorBoundary>` 组件和一个 `useErrorHandler` Hook，使用起来更符合 Hooks 的思维模式。\n\n## 常见问题排查\n\n- **我的错误边界没有捕获到错误**: \n  - **原因**: 检查错误是否发生在上述“无法捕获”的场景中（如事件处理器、异步代码）。\n  - **解决**: 对这些场景使用 `try...catch`。错误边界只用于处理渲染错误。\n- **开发模式下仍然看到错误覆盖层**: 这是正常的。即使错误被错误边界捕获，React 在开发模式下仍然会在控制台打印错误，并显示一个全屏的错误覆盖层，以便开发者能立即注意到问题。在生产构建中，这个覆盖层不会出现，用户将看到你定义的降级 UI。"
+  },
+  {
+    "name": "Portals",
+    "summary": "允许你将一个子组件渲染到父组件 DOM 层次结构之外的一个 DOM 节点中，常用于实现模态框、提示框等。",
+    "notes": "# Portals\n\nPortals 提供了一种一流的方式，可以将子节点渲染到存在于父组件 DOM 层次结构之外的 DOM 节点中。\n\n## 语法\n\n```jsx\nimport ReactDOM from 'react-dom';\n\nReactDOM.createPortal(child, container)\n```\n- **`child`**: 任何可渲染的 React 子元素，如一个元素、字符串或 fragment。\n- **`container`**: 一个真实存在的 DOM 元素。\n\n## 示例：创建一个模态框 (Modal)\n\n这是一个典型的使用场景，因为模态框需要在视觉上覆盖整个页面，将其置于 `body` 的直接子节点下可以避免被父组件的 `z-index` 或 `overflow` 样式影响。\n\n**1. 在 `public/index.html` 中添加一个挂载点**:\n\n```html\n<body>\n  <noscript>You need to enable JavaScript to run this app.</noscript>\n  <div id=\"root\"></div>\n  <!-- Portal 的挂载点 -->\n  <div id=\"modal-root\"></div>\n</body>\n```\n\n**2. 创建 `Modal` 组件**:\n\n```jsx\nimport React from 'react';\nimport ReactDOM from 'react-dom';\n\nconst modalRoot = document.getElementById('modal-root');\n\nfunction Modal({ children }) {\n  // 创建一个 div 元素来包裹模态框内容\n  const el = document.createElement('div');\n\n  React.useEffect(() => {\n    // 组件挂载时，将 el 添加到 modal-root\n    modalRoot.appendChild(el);\n\n    // 组件卸载时，清理 el\n    return () => {\n      modalRoot.removeChild(el);\n    };\n  }, [el]);\n\n  // 使用 createPortal 将 children 渲染到 el 中\n  return ReactDOM.createPortal(children, el);\n}\n```\n\n**3. 使用 `Modal` 组件**:\n\n```jsx\nfunction App() {\n  const [showModal, setShowModal] = React.useState(false);\n\n  return (\n    <div>\n      <button onClick={() => setShowModal(true)}>Show Modal</button>\n      {showModal && (\n        <Modal>\n          <div className=\"modal-content\">\n            <h2>I'm a modal!</h2>\n            <button onClick={() => setShowModal(false)}>Close</button>\n          </div>\n        </Modal>\n      )}\n    </div>\n  );\n}\n```\n\n## 解决的问题\n- **CSS 堆叠上下文 (Stacking Context)**: 当父组件的 CSS 属性（如 `transform`, `opacity`, 或 `z-index`）创建了一个新的堆叠上下文时，子组件的 `z-index` 无法超越父组件。Portal 可以将子组件“传送”到顶层，从而摆脱父组件的 CSS 限制，轻松实现全局覆盖效果。\n- **`overflow: hidden` 问题**: 如果父组件设置了 `overflow: hidden`，子组件的任何部分都无法超出父组件的边界。Portal 可以让模态框或提示框“逃逸”出这个限制。\n- **DOM 结构清晰**: 保持了组件在 React 树中的逻辑结构，同时在物理 DOM 中实现了灵活的布局。\n\n## 核心特性：事件冒泡\n\n一个非常重要的特性是，即使 Portal 的内容被渲染到了 DOM 树的其他位置，**事件仍然会按照 React 树的结构向上冒泡**。\n\n例如，如果在 Portal 内部的一个按钮被点击，这个事件会冒泡到包含该 Portal 的父组件。这意味着你可以像处理普通子组件一样，在父组件中捕获和处理来自 Portal 内容的事件。\n\n```jsx\nfunction Parent() {\n  // 这个 onClick 处理器可以捕获到 Modal 内部按钮的点击事件！\n  const handleClick = () => {\n    console.log('Event bubbled up to Parent!');\n  };\n\n  return (\n    <div onClick={handleClick}>\n      <Modal>\n        <button>Click me</button>\n      </Modal>\n    </div>\n  );\n}\n```\n\n## 常见问题排查\n- **“Target container is not a DOM element” 错误**: \n  - **原因**: `ReactDOM.createPortal` 的第二个参数 `container` 在执行时不是一个有效的 DOM 节点（可能是 `null`）。\n  - **解决**: 确保 Portal 挂载点（如 `#modal-root`）在你的 HTML 文件中确实存在，并且在执行 `document.getElementById` 时它已经被浏览器解析。通常将 Portal 的逻辑放在 `useEffect` 中可以确保 DOM 已经准备好。\n- **服务端渲染 (SSR)**: 在服务端，`container` DOM 节点是不存在的。你需要进行条件判断，只在客户端执行 Portal 逻辑。\n  ```jsx\n  const [isMounted, setIsMounted] = useState(false);\n\n  useEffect(() => {\n    setIsMounted(true);\n    return () => setIsMounted(false);\n  }, []);\n\n  return isMounted \n    ? ReactDOM.createPortal(children, document.getElementById('portal-root')) \n    : null;\n  ```"
+  }
+]

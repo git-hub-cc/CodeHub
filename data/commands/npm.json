@@ -1,0 +1,2646 @@
+[
+  {
+    "name": "npm init",
+    "summary": "初始化 Node.js 项目，创建 package.json 文件 (Initialize a Node.js project, creating a package.json file)",
+    "examples": [
+      {
+        "description": "交互式初始化项目，提示输入项目信息",
+        "code": "npm init"
+      },
+      {
+        "description": "快速初始化，使用默认配置生成 package.json",
+        "code": "npm init -y"
+      },
+      {
+        "description": "初始化并指定工作空间（monorepo）",
+        "code": "npm init -w ./packages/my-package"
+      }
+    ],
+    "notes": "npm init 是创建 Node.js 项目的第一步，生成 package.json 文件，用于管理项目元数据和依赖。使用 -y 选项可跳过交互式提示，快速生成默认配置。npm 7+ 支持工作空间，适合 monorepo 项目。建议在初始化后检查 package.json 是否正确反映项目需求。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn init",
+    "summary": "初始化 Node.js 项目，创建 package.json 文件 (Initialize a Node.js project, creating a package.json file)",
+    "examples": [
+      {
+        "description": "交互式初始化，提示输入项目信息",
+        "code": "yarn init"
+      },
+      {
+        "description": "快速初始化，使用默认配置",
+        "code": "yarn init -y"
+      },
+      {
+        "description": "初始化并启用工作空间（monorepo）",
+        "code": "yarn init -w"
+      }
+    ],
+    "notes": "yarn init 与 npm init 功能类似，但使用 Yarn 的配置逻辑，生成 package.json 和 yarn.lock 文件。Yarn 的初始化过程更快速，且支持工作空间管理，适合大型项目。建议在初始化后检查 yarn.lock 以确保依赖版本一致。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm init",
+    "summary": "初始化 Node.js 项目，创建 package.json 文件 (Initialize a Node.js project, creating a package.json file)",
+    "examples": [
+      {
+        "description": "快速初始化，使用默认配置",
+        "code": "pnpm init"
+      },
+      {
+        "description": "初始化并自动检测工作空间",
+        "code": "pnpm init (在包含 pnpm-workspace.yaml 的目录下)"
+      }
+    ],
+    "notes": "pnpm init 功能类似 npm init，生成 package.json 和 pnpm-lock.yaml 文件。pnpm 使用高效的硬链接机制，节省磁盘空间。自动检测 pnpm-workspace.yaml 以支持 monorepo 项目。建议初始化后配置 pnpm-workspace.yaml 以明确工作空间范围。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install",
+    "summary": "安装项目的所有依赖 (Install all dependencies for a project)",
+    "examples": [
+      {
+        "description": "根据 package.json 安装所有依赖",
+        "code": "npm install"
+      },
+      {
+        "description": "安装依赖并忽略 lock 文件",
+        "code": "npm install --no-package-lock"
+      },
+      {
+        "description": "安装依赖并使用生产模式（跳过 devDependencies）",
+        "code": "npm install --production"
+      }
+    ],
+    "notes": "npm install 根据 package.json 和 package-lock.json 安装依赖，生成 node_modules 目录。--production 选项仅安装生产依赖，适合部署环境。建议定期运行 npm ci 以确保严格的依赖版本一致性。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn install",
+    "summary": "安装项目的所有依赖 (Install all dependencies for a project)",
+    "examples": [
+      {
+        "description": "根据 package.json 和 yarn.lock 安装依赖",
+        "code": "yarn install"
+      },
+      {
+        "description": "强制重新安装所有依赖",
+        "code": "yarn install --force"
+      },
+      {
+        "description": "安装并锁定 yarn.lock 文件",
+        "code": "yarn install --frozen-lockfile"
+      }
+    ],
+    "notes": "yarn install 比 npm install 速度更快，且生成 yarn.lock 文件以锁定依赖版本。--frozen-lockfile 确保严格遵循 lock 文件，适合 CI/CD 环境。Yarn 的缓存机制可加速重复安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm install",
+    "summary": "安装项目的所有依赖 (Install all dependencies for a project)",
+    "examples": [
+      {
+        "description": "根据 package.json 和 pnpm-lock.yaml 安装依赖",
+        "code": "pnpm install"
+      },
+      {
+        "description": "安装并锁定 lock 文件",
+        "code": "pnpm install --frozen-lockfile"
+      },
+      {
+        "description": "仅安装生产依赖",
+        "code": "pnpm install --prod"
+      }
+    ],
+    "notes": "pnpm install 使用硬链接机制，节省磁盘空间，生成 pnpm-lock.yaml 文件。--frozen-lockfile 确保 CI/CD 环境的一致性。pnpm 的 store 机制需要定期清理（pnpm store prune）。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install <pkg>",
+    "summary": "安装指定的生产依赖 (Install a specific package as a production dependency)",
+    "examples": [
+      {
+        "description": "安装 express 作为生产依赖",
+        "code": "npm install express"
+      },
+      {
+        "description": "安装特定版本的 lodash",
+        "code": "npm install lodash@4.17.21"
+      },
+      {
+        "description": "安装并保存精确版本到 package.json",
+        "code": "npm install express --save-exact"
+      }
+    ],
+    "notes": "npm install <pkg> 默认将包添加到 package.json 的 dependencies 字段（自 npm 5.0+）。--save-exact 确保版本号精确，避免 ^ 或 ~ 范围。建议在安装后检查 package.json 和 package-lock.json。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add <pkg>",
+    "summary": "安装指定的生产依赖 (Install a specific package as a production dependency)",
+    "examples": [
+      {
+        "description": "安装 express 作为生产依赖",
+        "code": "yarn add express"
+      },
+      {
+        "description": "安装特定版本的 lodash",
+        "code": "yarn add lodash@4.17.21"
+      },
+      {
+        "description": "安装并锁定精确版本",
+        "code": "yarn add express --exact"
+      }
+    ],
+    "notes": "yarn add 等效于 npm install <pkg>，自动更新 package.json 和 yarn.lock。--exact 确保精确版本号。Yarn 的依赖解析速度快，适合快速迭代项目。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add <pkg>",
+    "summary": "安装指定的生产依赖 (Install a specific package as a production dependency)",
+    "examples": [
+      {
+        "description": "安装 express 作为生产依赖",
+        "code": "pnpm add express"
+      },
+      {
+        "description": "安装特定版本的 lodash",
+        "code": "pnpm add lodash@4.17.21"
+      },
+      {
+        "description": "安装并锁定精确版本",
+        "code": "pnpm add express --save-exact"
+      }
+    ],
+    "notes": "pnpm add 将包添加到 package.json 的 dependencies，并更新 pnpm-lock.yaml。使用硬链接机制，节省磁盘空间。--save-exact 确保版本号精确，适合生产环境。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install <pkg> --save-dev",
+    "summary": "安装指定的开发依赖 (Install a specific package as a development dependency)",
+    "examples": [
+      {
+        "description": "安装 jest 作为开发依赖",
+        "code": "npm install jest --save-dev"
+      },
+      {
+        "description": "安装特定版本的 typescript",
+        "code": "npm install typescript@5.4.5 --save-dev"
+      },
+      {
+        "description": "安装并保存精确版本",
+        "code": "npm install eslint --save-dev --save-exact"
+      }
+    ],
+    "notes": "开发依赖存储在 package.json 的 devDependencies 字段，适用于测试、构建等工具。--save-dev 不会影响生产环境的依赖。建议定期检查 devDependencies 是否必要。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add <pkg> --dev",
+    "summary": "安装指定的开发依赖 (Install a specific package as a development dependency)",
+    "examples": [
+      {
+        "description": "安装 jest 作为开发依赖",
+        "code": "yarn add jest --dev"
+      },
+      {
+        "description": "安装特定版本的 typescript",
+        "code": "yarn add typescript@5.4.5 --dev"
+      },
+      {
+        "description": "安装并锁定精确版本",
+        "code": "yarn add eslint --dev --exact"
+      }
+    ],
+    "notes": "yarn add --dev 等效于 npm install --save-dev，添加依赖到 devDependencies。Yarn 的依赖安装速度快，适合开发环境。建议检查 yarn.lock 以确保版本一致。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add <pkg> --save-dev",
+    "summary": "安装指定的开发依赖 (Install a specific package as a development dependency)",
+    "examples": [
+      {
+        "description": "安装 jest 作为开发依赖",
+        "code": "pnpm add jest --save-dev"
+      },
+      {
+        "description": "安装特定版本的 typescript",
+        "code": "pnpm add typescript@5.4.5 --save-dev"
+      },
+      {
+        "description": "安装并锁定精确版本",
+        "code": "pnpm add eslint --save-dev --save-exact"
+      }
+    ],
+    "notes": "pnpm add --save-dev 将包添加到 devDependencies，使用硬链接机制节省空间。适合测试和构建工具的安装。建议定期运行 pnpm prune 清理无用依赖。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install <pkg> --save-optional",
+    "summary": "安装指定的可选依赖 (Install a specific package as an optional dependency)",
+    "examples": [
+      {
+        "description": "安装 fsevents 作为可选依赖",
+        "code": "npm install fsevents --save-optional"
+      },
+      {
+        "description": "安装特定版本的 chokidar",
+        "code": "npm install chokidar@3.5.3 --save-optional"
+      }
+    ],
+    "notes": "可选依赖存储在 package.json 的 optionalDependencies 字段，适用于非必须的依赖（如特定平台的模块）。如果安装失败，不会导致整体安装失败。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add <pkg> --optional",
+    "summary": "安装指定的可选依赖 (Install a specific package as an optional dependency)",
+    "examples": [
+      {
+        "description": "安装 fsevents 作为可选依赖",
+        "code": "yarn add fsevents --optional"
+      },
+      {
+        "description": "安装特定版本的 chokidar",
+        "code": "yarn add chokidar@3.5.3 --optional"
+      }
+    ],
+    "notes": "yarn add --optional 将包添加到 optionalDependencies，适合特定平台的依赖。Yarn 的错误处理机制允许忽略可选依赖的安装失败。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add <pkg> --save-optional",
+    "summary": "安装指定的可选依赖 (Install a specific package as an optional dependency)",
+    "examples": [
+      {
+        "description": "安装 fsevents 作为可选依赖",
+        "code": "pnpm add fsevents --save-optional"
+      },
+      {
+        "description": "安装特定版本的 chokidar",
+        "code": "pnpm add chokidar@3.5.3 --save-optional"
+      }
+    ],
+    "notes": "pnpm add --save-optional 将包添加到 optionalDependencies，使用硬链接机制。适合跨平台项目中非必须的依赖。建议检查 pnpm-lock.yaml 是否正确记录。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install -g <pkg>",
+    "summary": "全局安装依赖 (Install a package globally)",
+    "examples": [
+      {
+        "description": "全局安装 create-react-app",
+        "code": "npm install -g create-react-app"
+      },
+      {
+        "description": "全局安装特定版本的 eslint",
+        "code": "npm install -g eslint@8.50.0"
+      }
+    ],
+    "notes": "全局安装将包安装到系统范围（如 ~/.npm-global），适合 CLI 工具。需确保全局路径在环境变量 PATH 中。可能需要 sudo 权限（Linux/Mac）。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn global add <pkg>",
+    "summary": "全局安装依赖 (Install a package globally)",
+    "examples": [
+      {
+        "description": "全局安装 create-react-app",
+        "code": "yarn global add create-react-app"
+      },
+      {
+        "description": "全局安装特定版本的 eslint",
+        "code": "yarn global add eslint@8.50.0"
+      }
+    ],
+    "notes": "yarn global add 将包安装到 ~/.yarn/bin，需确保该路径在 PATH 中。Yarn 的全局安装管理更简洁，但可能需要手动配置环境变量。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add -g <pkg>",
+    "summary": "全局安装依赖 (Install a package globally)",
+    "examples": [
+      {
+        "description": "全局安装 create-react-app",
+        "code": "pnpm add -g create-react-app"
+      },
+      {
+        "description": "全局安装特定版本的 eslint",
+        "code": "pnpm add -g eslint@8.50.0"
+      }
+    ],
+    "notes": "pnpm add -g 将包安装到 ~/pnpm-global，需配置 PATH 环境变量。pnpm 的全局安装与本地安装共享 store，节省空间。可能需要 sudo 权限。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install <pkg>@<version>",
+    "summary": "安装指定版本的依赖 (Install a specific version of a package)",
+    "examples": [
+      {
+        "description": "安装 express 的 4.18.2 版本",
+        "code": "npm install express@4.18.2"
+      },
+      {
+        "description": "安装 lodash 作为开发依赖的特定版本",
+        "code": "npm install lodash@4.17.21 --save-dev"
+      }
+    ],
+    "notes": "指定版本安装可确保依赖的确定性，适合修复兼容性问题。建议结合 --save-exact 使用以锁定版本号。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add <pkg>@<version>",
+    "summary": "安装指定版本的依赖 (Install a specific version of a package)",
+    "examples": [
+      {
+        "description": "安装 express 的 4.18.2 版本",
+        "code": "yarn add express@4.18.2"
+      },
+      {
+        "description": "安装 lodash 作为开发依赖的特定版本",
+        "code": "yarn add lodash@4.17.21 --dev"
+      }
+    ],
+    "notes": "yarn add <pkg>@<version> 自动更新 yarn.lock，确保版本一致。Yarn 的版本解析速度快，适合快速验证特定版本。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add <pkg>@<version>",
+    "summary": "安装指定版本的依赖 (Install a specific version of a package)",
+    "examples": [
+      {
+        "description": "安装 express 的 4.18.2 版本",
+        "code": "pnpm add express@4.18.2"
+      },
+      {
+        "description": "安装 lodash 作为开发依赖的特定版本",
+        "code": "pnpm add lodash@4.17.21 --save-dev"
+      }
+    ],
+    "notes": "pnpm add <pkg>@<version> 更新 pnpm-lock.yaml，使用硬链接机制。适合需要精确控制依赖版本的大型项目。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install ./local-pkg",
+    "summary": "安装本地包作为依赖 (Install a local package as a dependency)",
+    "examples": [
+      {
+        "description": "安装本地文件夹中的包",
+        "code": "npm install ./my-local-package"
+      },
+      {
+        "description": "安装本地包并作为开发依赖",
+        "code": "npm install ./my-local-package --save-dev"
+      }
+    ],
+    "notes": "用于安装本地开发的包，路径可以是相对或绝对路径。常用于 monorepo 或调试本地模块。安装后会在 package.json 中记录 file: 协议路径。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add ./local-pkg",
+    "summary": "安装本地包作为依赖 (Install a local package as a dependency)",
+    "examples": [
+      {
+        "description": "安装本地文件夹中的包",
+        "code": "yarn add ./my-local-package"
+      },
+      {
+        "description": "安装本地包并作为开发依赖",
+        "code": "yarn add ./my-local-package --dev"
+      }
+    ],
+    "notes": "yarn add ./local-pkg 将本地包添加到 package.json 和 yarn.lock。适合 monorepo 项目或测试本地模块。Yarn 的符号链接机制简化本地包管理。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add ./local-pkg",
+    "summary": "安装本地包作为依赖 (Install a local package as a dependency)",
+    "examples": [
+      {
+        "description": "安装本地文件夹中的包",
+        "code": "pnpm add ./my-local-package"
+      },
+      {
+        "description": "安装本地包并作为开发依赖",
+        "code": "pnpm add ./my-local-package --save-dev"
+      }
+    ],
+    "notes": "pnpm add ./local-pkg 使用硬链接机制，添加本地包到 package.json 和 pnpm-lock.yaml。适合 monorepo 开发，需确保本地包的 package.json 正确。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install <user>/<repo>",
+    "summary": "从 Git 仓库安装依赖 (Install a package from a Git repository)",
+    "examples": [
+      {
+        "description": "从 GitHub 安装 express",
+        "code": "npm install expressjs/express"
+      },
+      {
+        "description": "安装指定分支的包",
+        "code": "npm install user/repo#dev-branch"
+      }
+    ],
+    "notes": "支持从 GitHub、GitLab 等仓库直接安装依赖，适合使用未发布到 npm 的代码。需确保仓库包含有效的 package.json。支持 #branch 或 #commit 指定版本。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add <user>/<repo>",
+    "summary": "从 Git 仓库安装依赖 (Install a package from a Git repository)",
+    "examples": [
+      {
+        "description": "从 GitHub 安装 express",
+        "code": "yarn add expressjs/express"
+      },
+      {
+        "description": "安装指定分支的包",
+        "code": "yarn add user/repo#dev-branch"
+      }
+    ],
+    "notes": "yarn add <user>/<repo> 支持直接从 Git 仓库安装，更新 yarn.lock。适合快速测试实验性代码。需确保网络连接稳定以拉取仓库。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add <user>/<repo>",
+    "summary": "从 Git 仓库安装依赖 (Install a package from a Git repository)",
+    "examples": [
+      {
+        "description": "从 GitHub 安装 express",
+        "code": "pnpm add expressjs/express"
+      },
+      {
+        "description": "安装指定分支的包",
+        "code": "pnpm add user/repo#dev-branch"
+      }
+    ],
+    "notes": "pnpm add <user>/<repo> 将 Git 仓库包添加到 pnpm-lock.yaml，使用硬链接存储。适合 monorepo 或测试未发布代码。需验证仓库的 package.json。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install <pkg> --save-exact",
+    "summary": "安装依赖并锁定精确版本 (Install a package with an exact version)",
+    "examples": [
+      {
+        "description": "安装 express 并锁定精确版本",
+        "code": "npm install express --save-exact"
+      },
+      {
+        "description": "安装开发依赖并锁定版本",
+        "code": "npm install jest --save-dev --save-exact"
+      }
+    ],
+    "notes": "使用 --save-exact 确保 package.json 中记录精确版本号（无 ^ 或 ~），适合生产环境以避免版本漂移。建议结合 package-lock.json 使用。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn add <pkg> --exact",
+    "summary": "安装依赖并锁定精确版本 (Install a package with an exact version)",
+    "examples": [
+      {
+        "description": "安装 express 并锁定精确版本",
+        "code": "yarn add express --exact"
+      },
+      {
+        "description": "安装开发依赖并锁定版本",
+        "code": "yarn add jest --dev --exact"
+      }
+    ],
+    "notes": "yarn add --exact 锁定版本号，更新 yarn.lock。适合需要严格版本控制的项目。Yarn 的精确版本管理与 npm 类似，但解析更快。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm add <pkg> --save-exact",
+    "summary": "安装依赖并锁定精确版本 (Install a package with an exact version)",
+    "examples": [
+      {
+        "description": "安装 express 并锁定精确版本",
+        "code": "pnpm add express --save-exact"
+      },
+      {
+        "description": "安装开发依赖并锁定版本",
+        "code": "pnpm add jest --save-dev --save-exact"
+      }
+    ],
+    "notes": "pnpm add --save-exact 锁定版本号，更新 pnpm-lock.yaml。硬链接机制减少磁盘占用。建议用于需要确定性构建的项目。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm install --offline",
+    "summary": "使用本地缓存安装依赖（离线模式） (Install dependencies using local cache in offline mode)",
+    "examples": [
+      {
+        "description": "离线安装所有依赖",
+        "code": "npm install --offline"
+      },
+      {
+        "description": "离线安装特定包",
+        "code": "npm install express --offline"
+      }
+    ],
+    "notes": "离线模式使用 npm 缓存（~/.npm），适合无网络环境。需确保缓存中已包含所需依赖。建议先运行 npm install --prefer-offline 检查缓存完整性。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn install --offline",
+    "summary": "使用本地缓存安装依赖（离线模式） (Install dependencies using local cache in offline mode)",
+    "examples": [
+      {
+        "description": "离线安装所有依赖",
+        "code": "yarn install --offline"
+      },
+      {
+        "description": "离线安装特定包",
+        "code": "yarn add express --offline"
+      }
+    ],
+    "notes": "yarn install --offline 使用本地缓存（~/.cache/yarn），适合离线环境。Yarn 的缓存管理高效，但需确保缓存包含所有依赖。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm install --offline",
+    "summary": "使用本地缓存安装依赖（离线模式） (Install dependencies using local cache in offline mode)",
+    "examples": [
+      {
+        "description": "离线安装所有依赖",
+        "code": "pnpm install --offline"
+      },
+      {
+        "description": "离线安装特定包",
+        "code": "pnpm add express --offline"
+      }
+    ],
+    "notes": "pnpm install --offline 使用 pnpm store（~/.pnpm-store），通过硬链接机制高效利用缓存。需运行 pnpm store status 检查缓存完整性。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm run",
+    "summary": "运行 package.json 中定义的脚本 (Run scripts defined in package.json)",
+    "examples": [
+      {
+        "description": "运行 package.json 中的 build 脚本",
+        "code": "npm run build"
+      },
+      {
+        "description": "运行 lint 脚本检查代码 obe代码",
+        "code": "npm run lint"
+      },
+      {
+        "description": "列出 package.json 中定义的所有脚本",
+        "code": "npm run"
+      }
+    ],
+    "notes": "npm run 执行 package.json 中 scripts 字段定义的命令，常用于构建、测试、启动服务器等任务。如果不指定脚本名，npm run 会列出所有可用脚本。需要确保 package.json 中已定义对应的脚本。Yarn 和 pnpm 提供类似的 run 命令，yarn 支持直接使用 `yarn <script>` 省略 run，pnpm 的语法与 npm 类似。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn run",
+    "summary": "运行 package.json 中定义的脚本 (Run scripts defined in package.json)",
+    "examples": [
+      {
+        "description": "运行 package.json 中的 build 脚本",
+        "code": "yarn build"
+      },
+      {
+        "description": "运行 test 脚本执行测试",
+        "code": "yarn test"
+      },
+      {
+        "description": "列出所有可用脚本",
+        "code": "yarn run"
+      }
+    ],
+    "notes": "yarn run 与 npm run 功能相同，但语法更简洁，直接使用 `yarn <script>` 即可运行脚本。Yarn 的性能通常优于 npm，尤其在大型项目中。确保 package.json 中 scripts 字段已正确配置。需要安装 yarn：`sudo apt install yarn` (Ubuntu/Debian) 或 `sudo dnf install yarn` (CentOS/Red Hat).",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm run",
+    "summary": "运行 package.json 中定义的脚本 (Run scripts defined in package.json)",
+    "examples": [
+      {
+        "description": "运行 package.json 中的 start 脚本",
+        "code": "pnpm start"
+      },
+      {
+        "description": "运行 build 脚本并传递参数",
+        "code": "pnpm build"
+      },
+      {
+        "description": "列出所有可用脚本",
+        "code": "pnpm run"
+      }
+    ],
+    "notes": "pnpm run 与 npm run 功能一致，支持直接使用 `pnpm <script>` 运行脚本。pnpm 通过硬链接机制优化磁盘空间，适合大型项目。确保 pnpm 已安装：`sudo npm install -g pnpm` 或 `sudo dnf install pnpm`. 运行前需确保 package.json 中 scripts 字段定义正确。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm start",
+    "summary": "运行 package.json 中的 start 脚本 (Run the start script defined in package.json)",
+    "examples": [
+      {
+        "description": "启动 Node.js 服务器",
+        "code": "npm start"
+      },
+      {
+        "description": "启动 React 或其他前端项目开发服务器",
+        "code": "npm start"
+      }
+    ],
+    "notes": "npm start 是 `npm run start` 的快捷方式，通常用于启动开发服务器（如 Node.js、React、Vue 项目）。如果 package.json 中未定义 start 脚本，npm 会尝试运行 `node server.js`。Yarn 和 pnpm 的 start 命令功能相同。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn start",
+    "summary": "运行 package.json 中的 start 脚本 (Run the start script defined in package.json)",
+    "examples": [
+      {
+        "description": "启动 Express 服务器",
+        "code": "yarn start"
+      },
+      {
+        "description": "启动 Vite 开发服务器",
+        "code": "yarn start"
+      }
+    ],
+    "notes": "yarn start 等效于 `yarn run start`，用于启动项目开发环境。Yarn 的执行速度通常比 npm 快。需确保 package.json 中已定义 start 脚本。安装 yarn：`sudo apt install yarn` (Ubuntu/Debian) 或 `sudo dnf install yarn` (CentOS/Red Hat).",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm start",
+    "summary": "运行 package.json 中的 start 脚本 (Run the start script defined in package.json)",
+    "examples": [
+      {
+        "description": "启动 Next.js 开发服务器",
+        "code": "pnpm start"
+      },
+      {
+        "description": "启动本地 Web 服务器",
+        "code": "pnpm start"
+      }
+    ],
+    "notes": "pnpm start 等效于 `pnpm run start`，用于启动开发环境。pnpm 的硬链接机制减少磁盘占用，适合复杂项目。需确保 pnpm 已安装：`sudo npm install -g pnpm`.",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm test",
+    "summary": "运行 package.json 中的 test 脚本 (Run the test script defined in package.json)",
+    "examples": [
+      {
+        "description": "运行 Jest 测试套件",
+        "code": "npm test"
+      },
+      {
+        "description": "运行 Mocha 测试",
+        "code": "npm test"
+      }
+    ],
+    "notes": "npm test 是 `npm run test` 的快捷方式，用于执行测试脚本（如 Jest、Mocha、Vitest）。如果 package.json 中未定义 test 脚本，npm 会输出提示但不执行任何操作。Yarn 和 pnpm 的 test 命令功能类似。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn test",
+    "summary": "运行 package.json 中的 test 脚本 (Run the test script defined in package.json)",
+    "examples": [
+      {
+        "description": "运行所有单元测试",
+        "code": "yarn test"
+      },
+      {
+        "description": "运行特定测试文件",
+        "code": "yarn test path/to/test.spec.js"
+      }
+    ],
+    "notes": "yarn test 等效于 `yarn run test`，用于执行测试套件。Yarn 的依赖解析速度快，适合大型测试套件。需确保 package.json 中已定义 test 脚本。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm test",
+    "summary": "运行 package.json 中的 test 脚本 (Run the test script defined in package.json)",
+    "examples": [
+      {
+        "description": "运行 Vitest 测试",
+        "code": "pnpm test"
+      },
+      {
+        "description": "运行测试并生成覆盖率报告",
+        "code": "pnpm test -- --coverage"
+      }
+    ],
+    "notes": "pnpm test 等效于 `pnpm run test`，用于运行测试脚本。pnpm 的高效依赖管理减少测试环境搭建时间。需安装 pnpm 并确保 package.json 中定义了 test 脚本。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm run build",
+    "summary": "运行 package.json 中的 build 脚本 (Run the build script defined in package.json)",
+    "examples": [
+      {
+        "description": "构建生产环境的 Web 应用",
+        "code": "npm run build"
+      },
+      {
+        "description": "构建 TypeScript 项目",
+        "code": "npm run build"
+      }
+    ],
+    "notes": "npm run build 用于生成生产环境的构建产物（如静态文件、打包后的 JavaScript）。需在 package.json 中定义 build 脚本，常见于 Webpack、Rollup、Vite 等工具。Yarn 和 pnpm 的 build 命令功能相同。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn build",
+    "summary": "运行 package.json 中的 build 脚本 (Run the build script defined in package.json)",
+    "examples": [
+      {
+        "description": "使用 Webpack 构建前端项目",
+        "code": "yarn build"
+      },
+      {
+        "description": "构建生产环境的 React 应用",
+        "code": "yarn build"
+      }
+    ],
+    "notes": "yarn build 等效于 `yarn run build`，用于生成生产环境的构建产物。Yarn 的并行执行能力提升构建速度。需确保 package.json 中已定义 build 脚本。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm build",
+    "summary": "运行 package.json 中的 build 脚本 (Run the build script defined in package.json)",
+    "examples": [
+      {
+        "description": "构建 Vue 应用",
+        "code": "pnpm build"
+      },
+      {
+        "description": "构建并压缩输出文件",
+        "code": "pnpm build"
+      }
+    ],
+    "notes": "pnpm build 等效于 `pnpm run build`，用于生成生产环境的构建产物。pnpm 的高效依赖管理减少构建时间。需确保 package.json 中定义了 build 脚本。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm run <script> -- <args>",
+    "summary": "运行脚本并传递参数 (Run a script with additional arguments)",
+    "examples": [
+      {
+        "description": "运行 build 脚本并传递生产环境参数",
+        "code": "npm run build -- --prod"
+      },
+      {
+        "description": "运行 test 脚本并指定测试文件",
+        "code": "npm run test -- --file test.spec.js"
+      },
+      {
+        "description": "运行 start 脚本并指定端口",
+        "code": "npm run start -- --port 8080"
+      }
+    ],
+    "notes": "npm run <script> -- <args> 允许向脚本传递额外参数，参数通过 `--` 分隔以避免被 npm 解析。常用于自定义构建或测试行为。Yarn 和 pnpm 的参数传递更直接，无需 `--` 分隔符。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn <script> <args>",
+    "summary": "运行脚本并传递参数 (Run a script with additional arguments)",
+    "examples": [
+      {
+        "description": "运行 build 脚本并启用生产模式",
+        "code": "yarn build --prod"
+      },
+      {
+        "description": "运行 test 脚本并指定测试套件",
+        "code": "yarn test --file test.spec.js"
+      }
+    ],
+    "notes": "yarn <script> <args> 直接传递参数，无需额外的 `--` 分隔符，语法更简洁。常用于配置构建或测试选项。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm <script> <args>",
+    "summary": "运行脚本并传递参数 (Run a script with additional arguments)",
+    "examples": [
+      {
+        "description": "运行 start 脚本并指定端口",
+        "code": "pnpm start --port 3000"
+      },
+      {
+        "description": "运行 build 脚本并启用压缩",
+        "code": "pnpm build --minify"
+      }
+    ],
+    "notes": "pnpm <script> <args> 与 yarn 类似，直接传递参数，语法简洁。pnpm 的高效依赖解析适合快速执行复杂脚本。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm uninstall",
+    "summary": "卸载项目中的依赖 (Remove a dependency from the project)",
+    "examples": [
+      {
+        "description": "卸载 lodash 依赖",
+        "code": "npm uninstall lodash"
+      },
+      {
+        "description": "卸载多个依赖",
+        "code": "npm uninstall eslint prettier"
+      }
+    ],
+    "notes": "npm uninstall 从 package.json 和 node_modules 中移除指定的依赖。会同时更新 package-lock.json。Yarn 和 pnpm 的卸载命令功能类似，pnpm 的硬链接机制可能使卸载速度更快。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn remove",
+    "summary": "卸载项目中的依赖 (Remove a dependency from the project)",
+    "examples": [
+      {
+        "description": "移除 axios 依赖",
+        "code": "yarn remove axios"
+      },
+      {
+        "description": "移除多个开发依赖",
+        "code": "yarn remove jest eslint --dev"
+      }
+    ],
+    "notes": "yarn remove 等效于 npm uninstall，移除依赖并更新 yarn.lock 文件。Yarn 的依赖解析速度快，适合快速清理项目。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm remove",
+    "summary": "卸载项目中的依赖 (Remove a dependency from the project)",
+    "examples": [
+      {
+        "description": "移除 react 依赖",
+        "code": "pnpm remove react"
+      },
+      {
+        "description": "移除开发依赖 typescript",
+        "code": "pnpm remove typescript --save-dev"
+      }
+    ],
+    "notes": "pnpm remove 移除依赖并更新 pnpm-lock.yaml 文件。pnpm 的硬链接机制减少磁盘操作，卸载效率高。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm uninstall -g",
+    "summary": "卸载全局安装的包 (Remove a globally installed package)",
+    "examples": [
+      {
+        "description": "卸载全局安装的 create-react-app",
+        "code": "npm uninstall -g create-react-app"
+      },
+      {
+        "description": "卸载全局安装的 typescript",
+        "code": "npm uninstall -g typescript"
+      }
+    ],
+    "notes": "npm uninstall -g 从全局环境中移除包，通常安装在 ~/.npm-global 或系统全局目录。需确保有足够权限（如 sudo）。Yarn 和 pnpm 的全局卸载命令类似。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn global remove",
+    "summary": "卸载全局安装的包 (Remove a globally installed package)",
+    "examples": [
+      {
+        "description": "移除全局安装的 vue-cli",
+        "code": "yarn global remove @vue/cli"
+      },
+      {
+        "description": "移除全局安装的 eslint",
+        "code": "yarn global remove eslint"
+      }
+    ],
+    "notes": "yarn global remove 移除全局包，安装路径通常为 ~/.yarn/bin。需配置环境变量以确保全局命令可用。Yarn 的全局管理简单高效。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm remove -g",
+    "summary": "卸载全局安装的包 (Remove a globally installed package)",
+    "examples": [
+      {
+        "description": "移除全局安装的 pnpm",
+        "code": "pnpm remove -g pnpm"
+      },
+      {
+        "description": "移除全局安装的 typescript",
+        "code": "pnpm remove -g typescript"
+      }
+    ],
+    "notes": "pnpm remove -g 移除全局包，安装路径通常为 ~/pnpm-global。需确保全局路径已添加到环境变量。pnpm 的全局卸载效率高。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm update",
+    "summary": "更新所有依赖到最新兼容版本 (Update all dependencies to the latest compatible version)",
+    "examples": [
+      {
+        "description": "更新所有项目依赖",
+        "code": "npm update"
+      },
+      {
+        "description": "更新全局依赖",
+        "code": "npm update -g"
+      }
+    ],
+    "notes": "npm update 根据 package.json 中的版本范围更新依赖，并更新 package-lock.json。不会升级超出范围的版本（如 ^1.0.0 不会升级到 2.0.0）。Yarn 和 pnpm 的 update 命令类似。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn upgrade",
+    "summary": "更新所有依赖到最新兼容版本 (Update all dependencies to the latest compatible version)",
+    "examples": [
+      {
+        "description": "更新所有项目依赖",
+        "code": "yarn upgrade"
+      },
+      {
+        "description": "更新全局依赖",
+        "code": "yarn global upgrade"
+      }
+    ],
+    "notes": "yarn upgrade 更新依赖并更新 yarn.lock 文件，速度快且支持并行下载。需确保 yarn 已安装。升级范围受 package.json 的版本约束限制。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm update",
+    "summary": "更新所有依赖到最新兼容版本 (Update all dependencies to the latest compatible version)",
+    "examples": [
+      {
+        "description": "更新所有项目依赖",
+        "code": "pnpm update"
+      },
+      {
+        "description": "更新全局依赖",
+        "code": "pnpm update -g"
+      }
+    ],
+    "notes": "pnpm update 更新依赖并更新 pnpm-lock.yaml，硬链接机制减少磁盘操作。需确保 pnpm 已安装。更新范围受 package.json 约束。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm update <pkg>",
+    "summary": "更新特定依赖到最新兼容版本 (Update a specific dependency to the latest compatible version)",
+    "examples": [
+      {
+        "description": "更新 lodash 依赖",
+        "code": "npm update lodash"
+      },
+      {
+        "description": "更新多个特定依赖",
+        "code": "npm update react react-dom"
+      }
+    ],
+    "notes": "npm update <pkg> 仅更新指定的依赖，保持 package.json 的版本范围约束。Yarn 和 pnpm 的类似命令更高效。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn upgrade <pkg>",
+    "summary": "更新特定依赖到最新兼容版本 (Update a specific dependency to the latest compatible version)",
+    "examples": [
+      {
+        "description": "更新 axios 依赖",
+        "code": "yarn upgrade axios"
+      },
+      {
+        "description": "更新特定开发依赖",
+        "code": "yarn upgrade eslint --dev"
+      }
+    ],
+    "notes": "yarn upgrade <pkg> 更新指定依赖并更新 yarn.lock，速度快且可靠。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm update <pkg>",
+    "summary": "更新特定依赖到最新兼容版本 (Update a specific dependency to the latest compatible version)",
+    "examples": [
+      {
+        "description": "更新 vue 依赖",
+        "code": "pnpm update vue"
+      },
+      {
+        "description": "更新开发依赖 typescript",
+        "code": "pnpm update typescript --save-dev"
+      }
+    ],
+    "notes": "pnpm update <pkg> 更新指定依赖并更新 pnpm-lock.yaml，效率高。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm outdated",
+    "summary": "检查项目中过期的依赖 (Check for outdated dependencies in the project)",
+    "examples": [
+      {
+        "description": "列出所有过期依赖",
+        "code": "npm outdated"
+      },
+      {
+        "description": "检查全局依赖是否过期",
+        "code": "npm outdated -g"
+      }
+    ],
+    "notes": "npm outdated 显示 package.json 中定义的依赖与最新版本的对比，红色表示需手动更新版本范围。Yarn 和 pnpm 的 outdated 命令提供类似功能。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn outdated",
+    "summary": "检查项目中过期的依赖 (Check for outdated dependencies in the project)",
+    "examples": [
+      {
+        "description": "列出所有过期依赖",
+        "code": "yarn outdated"
+      },
+      {
+        "description": "检查特定依赖是否过期",
+        "code": "yarn outdated lodash"
+      }
+    ],
+    "notes": "yarn outdated 显示过期依赖，输出清晰且支持过滤特定包。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm outdated",
+    "summary": "检查项目中过期的依赖 (Check for outdated dependencies in the project)",
+    "examples": [
+      {
+        "description": "列出所有过期依赖",
+        "code": "pnpm outdated"
+      },
+      {
+        "description": "检查特定依赖是否过期",
+        "code": "pnpm outdated react"
+      }
+    ],
+    "notes": "pnpm outdated 显示过期依赖，效率高且输出格式清晰。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm list",
+    "summary": "列出项目中安装的依赖树 (List installed dependencies in a tree view)",
+    "examples": [
+      {
+        "description": "列出所有项目依赖",
+        "code": "npm list"
+      },
+      {
+        "description": "列出特定依赖的树",
+        "code": "npm list lodash"
+      }
+    ],
+    "notes": "npm list 显示依赖树，包含版本和层级关系。输出可能较长，建议结合 --depth=0 限制层级。Yarn 和 pnpm 的 list 命令功能类似。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn list",
+    "summary": "列出项目中安装的依赖树 (List installed dependencies in a tree view)",
+    "examples": [
+      {
+        "description": "列出所有项目依赖",
+        "code": "yarn list"
+      },
+      {
+        "description": "限制依赖树深度",
+        "code": "yarn list --depth=0"
+      }
+    ],
+    "notes": "yarn list 显示依赖树，速度快且支持深度控制。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm list",
+    "summary": "列出项目中安装的依赖树 (List installed dependencies in a tree view)",
+    "examples": [
+      {
+        "description": "列出所有项目依赖",
+        "code": "pnpm list"
+      },
+      {
+        "description": "列出特定依赖的树",
+        "code": "pnpm list react"
+      }
+    ],
+    "notes": "pnpm list 显示依赖树，硬链接机制减少输出冗余。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm list -g",
+    "summary": "列出全局安装的依赖树 (List globally installed dependencies in a tree view)",
+    "examples": [
+      {
+        "description": "列出所有全局依赖",
+        "code": "npm list -g"
+      },
+      {
+        "description": "列出特定全局依赖的树",
+        "code": "npm list -g typescript"
+      }
+    ],
+    "notes": "npm list -g 显示全局安装的依赖树，通常位于 ~/.npm-global。需确保有足够权限。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn global list",
+    "summary": "列出全局安装的依赖树 (List globally installed dependencies in a tree view)",
+    "examples": [
+      {
+        "description": "列出所有全局依赖",
+        "code": "yarn global list"
+      },
+      {
+        "description": "列出特定全局依赖",
+        "code": "yarn global list eslint"
+      }
+    ],
+    "notes": "yarn global list 显示全局依赖树，路径通常为 ~/.yarn/bin。需配置环境变量。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm list -g",
+    "summary": "列出全局安装的依赖树 (List globally installed dependencies in a tree view)",
+    "examples": [
+      {
+        "description": "列出所有全局依赖",
+        "code": "pnpm list -g"
+      },
+      {
+        "description": "列出特定全局依赖",
+        "code": "pnpm list -g pnpm"
+      }
+    ],
+    "notes": "pnpm list -g 显示全局依赖树，路径通常为 ~/pnpm-global。需确保全局路径在环境变量中。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm info",
+    "summary": "查看包的详细信息 (View detailed information about a package)",
+    "examples": [
+      {
+        "description": "查看 lodash 包的详细信息",
+        "code": "npm info lodash"
+      },
+      {
+        "description": "查看特定版本的包信息",
+        "code": "npm info lodash@4.17.21"
+      }
+    ],
+    "notes": "npm info 显示包的版本、描述、依赖、发布者等信息，适合在安装前验证包详情。Yarn 和 pnpm 的 info 命令功能类似。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn info",
+    "summary": "查看包的详细信息 (View detailed information about a package)",
+    "examples": [
+      {
+        "description": "查看 axios 包的详细信息",
+        "code": "yarn info axios"
+      },
+      {
+        "description": "查看特定版本的包信息",
+        "code": "yarn info axios@0.21.1"
+      }
+    ],
+    "notes": "yarn info 显示包的详细信息，输出格式清晰。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm info",
+    "summary": "查看包的详细信息 (View detailed information about a package)",
+    "examples": [
+      {
+        "description": "查看 vue 包的详细信息",
+        "code": "pnpm info vue"
+      },
+      {
+        "description": "查看特定版本的包信息",
+        "code": "pnpm info vue@3.2.0"
+      }
+    ],
+    "notes": "pnpm info 显示包的详细信息，效率高且支持快速查询。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm prune",
+    "summary": "移除 package.json 中未列出的依赖 (Remove dependencies not listed in package.json)",
+    "examples": [
+      {
+        "description": "清理未使用的依赖",
+        "code": "npm prune"
+      },
+      {
+        "description": "清理生产环境中的未使用依赖",
+        "code": "npm prune --production"
+      }
+    ],
+    "notes": "npm prune 删除 node_modules 中未在 package.json 中声明的依赖，保持项目整洁。Yarn 和 pnpm 的类似命令功能一致。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn autoclean",
+    "summary": "清理项目中不必要的依赖文件 (Clean unnecessary files from dependencies)",
+    "examples": [
+      {
+        "description": "清理未使用的依赖文件",
+        "code": "yarn autoclean"
+      },
+      {
+        "description": "强制清理并重新安装",
+        "code": "yarn autoclean --force"
+      }
+    ],
+    "notes": "yarn autoclean 清理依赖中的冗余文件（如文档、测试文件），需 .yarnclean 文件定义清理规则。Yarn 的清理效率高。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm prune",
+    "summary": "移除 package.json 中未列出的依赖 (Remove dependencies not listed in package.json)",
+    "examples": [
+      {
+        "description": "清理未使用的依赖",
+        "code": "pnpm prune"
+      },
+      {
+        "description": "清理生产环境中的未使用依赖",
+        "code": "pnpm prune --prod"
+      }
+    ],
+    "notes": "pnpm prune 清理未使用的依赖，硬链接机制减少磁盘操作。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm ci",
+    "summary": "根据 package-lock.json 精确安装依赖 (Install dependencies exactly as specified in package-lock.json)",
+    "examples": [
+      {
+        "description": "根据 package-lock.json 安装依赖",
+        "code": "npm ci"
+      },
+      {
+        "description": "清理 node_modules 后重新安装",
+        "code": "rm -rf node_modules && npm ci"
+      }
+    ],
+    "notes": "npm ci 严格按照 package-lock.json 安装依赖，适合 CI/CD 环境，确保一致性。比 npm install 更快但不更新 lock 文件。Yarn 和 pnpm 的类似命令支持锁文件精确安装。",
+    "shell_type": "External (/usr/bin/npm)"
+  },
+  {
+    "name": "yarn install --frozen-lockfile",
+    "summary": "根据 yarn.lock 精确安装依赖 (Install dependencies exactly as specified in yarn.lock)",
+    "examples": [
+      {
+        "description": "根据 yarn.lock 安装依赖",
+        "code": "yarn install --frozen-lockfile"
+      },
+      {
+        "description": "清理并精确安装",
+        "code": "rm -rf node_modules && yarn install --frozen-lockfile"
+      }
+    ],
+    "notes": "yarn install --frozen-lockfile 严格按照 yarn.lock 安装，适合 CI/CD 环境。Yarn 的并行安装速度快。需确保 yarn 已安装。",
+    "shell_type": "External (/usr/bin/yarn)"
+  },
+  {
+    "name": "pnpm install --frozen-lockfile",
+    "summary": "根据 pnpm-lock.yaml 精确安装依赖 (Install dependencies exactly as specified in pnpm-lock.yaml)",
+    "examples": [
+      {
+        "description": "根据 pnpm-lock.yaml 安装依赖",
+        "code": "pnpm install --frozen-lockfile"
+      },
+      {
+        "description": "清理并精确安装",
+        "code": "rm -rf node_modules && pnpm install --frozen-lockfile"
+      }
+    ],
+    "notes": "pnpm install --frozen-lockfile 严格按照 pnpm-lock.yaml 安装，硬链接机制提高效率。适合 CI/CD 环境。需确保 pnpm 已安装。",
+    "shell_type": "External (/usr/bin/pnpm)"
+  },
+  {
+    "name": "npm cache clean",
+    "summary": "清理 npm 缓存目录 (Clears the npm cache directory)",
+    "examples": [
+      {
+        "description": "强制清理整个 npm 缓存",
+        "code": "npm cache clean --force"
+      },
+      {
+        "description": "清理缓存（旧版 npm，需指定目录）",
+        "code": "npm cache clean"
+      }
+    ],
+    "notes": "此命令用于清理 npm 的缓存文件（通常位于 `~/.npm`），以解决依赖安装问题或释放磁盘空间。`--force` 是 npm 5.0+ 所需的标志，否则命令可能不执行清理。建议在遇到 'corrupted cache' 错误时使用。yarn 和 pnpm 有类似的缓存清理机制，但路径和管理方式不同。注意：频繁清理可能导致离线安装失败。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn cache clean",
+    "summary": "清理 yarn 缓存目录 (Clears the yarn cache directory)",
+    "examples": [
+      {
+        "description": "清理所有 yarn 缓存",
+        "code": "yarn cache clean"
+      },
+      {
+        "description": "清理特定包的缓存",
+        "code": "yarn cache clean <pkg>"
+      }
+    ],
+    "notes": "yarn 的缓存通常存储在 `~/.yarn` 或全局配置的缓存目录中。此命令删除缓存的包文件以节省空间，适用于调试依赖问题或清理旧版本。相比 npm，yarn 的缓存清理更轻量且不需要 `--force` 标志。建议在升级 yarn 或遇到安装异常时运行。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm store prune",
+    "summary": "清理 pnpm 存储中未使用的包 (Removes unused packages from the pnpm store)",
+    "examples": [
+      {
+        "description": "清理 pnpm 存储中未引用的包",
+        "code": "pnpm store prune"
+      },
+      {
+        "description": "检查存储状态后清理",
+        "code": "pnpm store status && pnpm store prune"
+      }
+    ],
+    "notes": "pnpm 使用全局存储（通常在 `~/.pnpm-store`）通过硬链接管理依赖，`store prune` 删除未被项目引用的包，优化磁盘空间。与 npm 和 yarn 的缓存清理不同，pnpm 的存储机制更高效，但需要定期清理以避免存储膨胀。建议在项目依赖变更后运行。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm cache verify",
+    "summary": "验证 npm 缓存的完整性 (Verifies the integrity of the npm cache)",
+    "examples": [
+      {
+        "description": "验证并修复缓存问题",
+        "code": "npm cache verify"
+      },
+      {
+        "description": "结合清理缓存以确保一致性",
+        "code": "npm cache verify && npm cache clean --force"
+      }
+    ],
+    "notes": "此命令检查 npm 缓存（`~/.npm`）中的文件完整性，修复损坏的索引或元数据。适用于调试依赖安装失败（如 'sha1 mismatch'）或缓存相关错误。yarn 和 pnpm 无直接等效命令，但 pnpm 的 `store status` 可部分替代。建议在运行 `npm install` 失败时尝试。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "npm config get cache",
+    "summary": "显示 npm 缓存目录路径 (Displays the npm cache directory path)",
+    "examples": [
+      {
+        "description": "查看当前缓存路径",
+        "code": "npm config get cache"
+      },
+      {
+        "description": "结合 ls 查看缓存内容",
+        "code": "ls -lh $(npm config get cache)"
+      }
+    ],
+    "notes": "此命令返回遵照返回 npm 的缓存目录路径（通常是 `~/.npm`）。了解缓存位置有助于手动检查或清理缓存文件。yarn 使用 `yarn cache dir`，pnpm 使用 `pnpm store path` 获取类似信息。建议在调试缓存问题或自定义缓存路径时使用。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn cache dir",
+    "summary": "显示 yarn 缓存目录路径 (Displays the yarn cache directory path)",
+    "examples": [
+      {
+        "description": "查看 yarn 缓存路径",
+        "code": "yarn cache dir"
+      },
+      {
+        "description": "查看缓存路径并列出内容",
+        "code": "ls -lh $(yarn cache dir)"
+      }
+    ],
+    "notes": "返回 yarn 的全局缓存目录（通常是 `~/.yarn`）。此命令用于定位缓存文件以进行清理或检查。与 npm 的缓存路径不同，yarn 的缓存更结构化，易于管理。建议在清理缓存或迁移项目时使用。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm store path",
+    "summary": "显示 pnpm 全局存储路径 (Displays the pnpm global store path)",
+    "examples": [
+      {
+        "description": "查看 pnpm 存储路径",
+        "code": "pnpm store path"
+      },
+      {
+        "description": "查看存储路径并检查内容",
+        "code": "ls -lh $(pnpm store path)"
+      }
+    ],
+    "notes": "pnpm 的全局存储（通常在 `~/.pnpm-store`）保存所有项目的依赖，通过硬链接实现高效存储。此命令帮助定位存储路径以进行管理或清理。建议在磁盘空间不足或调试存储问题时使用。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm login",
+    "summary": "登录 npm registry 以发布包 (Logs in to the npm registry for publishing packages)",
+    "examples": [
+      {
+        "description": "登录默认 npm registry",
+        "code": "npm login"
+      },
+      {
+        "description": "登录自定义 registry",
+        "code": "npm login --registry https://my-custom-registry.com"
+      },
+      {
+        "description": "使用作用域登录（如 @myorg）",
+        "code": "npm login --scope @myorg"
+      }
+    ],
+    "notes": "登录 npm registry 以获取发布包的权限，需提供用户名、密码和邮箱。支持自定义 registry（如内部私有 registry）或作用域包（如 `@myorg/pkg`）。登录后，凭证保存在 `~/.npmrc` 中。yarn 和 pnpm 的登录命令类似，但可能需要额外配置 registry。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn login",
+    "summary": "登录 yarn 的 npm registry 以发布包 (Logs in to the npm registry for yarn package publishing)",
+    "examples": [
+      {
+        "description": "登录默认 npm registry",
+        "code": "yarn login"
+      },
+      {
+        "description": "登录自定义 registry",
+        "code": "yarn login --registry https://my-custom-registry.com"
+      }
+    ],
+    "notes": "功能与 `npm login` 类似，用于登录 npm registry 以发布包。凭证存储在 `~/.npmrc` 中（与 npm 共享）。yarn 的登录流程更简洁，但不支持作用域参数。建议在发布 yarn 管理的包前运行。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm login",
+    "summary": "登录 pnpm 的 npm registry 以发布包 (Logs in to the npm registry for pnpm package publishing)",
+    "examples": [
+      {
+        "description": "登录默认 npm registry",
+        "code": "pnpm login"
+      },
+      {
+        "description": "登录自定义 registry",
+        "code": "pnpm login --registry https://my-custom-registry.com"
+      }
+    ],
+    "notes": "与 `npm login` 类似，用于登录 npm registry 以发布包。pnpm 同样将凭证存储在 `~/.npmrc` 中。建议在发布 pnpm 管理的包或使用私有 registry 时运行。注意：确保 registry 配置与 pnpm 的存储机制兼容。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm logout",
+    "summary": "登出 npm registry (Logs out from the npm registry)",
+    "examples": [
+      {
+        "description": "登出默认 npm registry",
+        "code": "npm logout"
+      },
+      {
+        "description": "登出自定义 registry",
+        "code": "npm logout --registry https://my-custom-registry.com"
+      }
+    ],
+    "notes": "从 npm registry 登出，删除 `~/.npmrc` 中的对应凭证。适用于需要切换账户或清除登录状态的场景。yarn 和 pnpm 的登出命令功能类似。建议在发布包后或遇到权限问题时使用。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn logout",
+    "summary": "登出 yarn 的 npm registry (Logs out from the npm registry for yarn)",
+    "examples": [
+      {
+        "description": "登出默认 npm registry",
+        "code": "yarn logout"
+      },
+      {
+        "description": "登出自定义 registry",
+        "code": "yarn logout --registry https://my-custom-registry.com"
+      }
+    ],
+    "notes": "删除 yarn 的 npm registry 凭证，功能与 `npm logout` 一致。适用于清理登录状态或切换 registry。注意：登出后可能需要重新登录以发布包。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm logout",
+    "summary": "登出 pnpm 的 npm registry (Logs out from the npm registry for pnpm)",
+    "examples": [
+      {
+        "description": "登出默认 npm registry",
+        "code": "pnpm logout"
+      },
+      {
+        "description": "登出自定义 registry",
+        "code": "pnpm logout --registry https://my-custom-registry.com"
+      }
+    ],
+    "notes": "功能与 `npm logout` 类似，删除 `~/.npmrc` 中的 pnpm 登录凭证。适用于需要清除登录状态或切换账户的场景。建议在发布流程异常时检查登录状态。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm publish",
+    "summary": "发布包到 npm registry (Publishes a package to the npm registry)",
+    "examples": [
+      {
+        "description": "发布当前项目到默认 registry",
+        "code": "npm publish"
+      },
+      {
+        "description": "发布到自定义 registry",
+        "code": "npm publish --registry https://my-custom-registry.com"
+      },
+      {
+        "description": "发布公开包（默认私有包需明确指定）",
+        "code": "npm publish --access public"
+      },
+      {
+        "description": "发布带有特定标签的包（如 beta 版）",
+        "code": "npm publish --tag beta"
+      }
+    ],
+    "notes": "将 package.json 指定的包发布到 npm registry。需先登录 (`npm login`)，并确保包名和版本号唯一。`--access public` 用于发布公开包（默认作用域包为私有，需付费）。`--tag` 允许发布非默认版本（如 beta）。yarn 和 pnpm 的发布命令类似，但需确保 lock 文件一致。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn publish",
+    "summary": "发布包到 npm registry (Publishes a package to the npm registry for yarn)",
+    "examples": [
+      {
+        "description": "发布当前项目到默认 registry",
+        "code": "yarn publish"
+      },
+      {
+        "description": "发布到自定义 registry",
+        "code": "yarn publish --registry https://my-custom-registry.com"
+      },
+      {
+        "description": "发布带有标签的包",
+        "code": "yarn publish --tag beta"
+      }
+    ],
+    "notes": "功能与 `npm publish` 类似，发布 yarn 管理的包到 npm registry。需确保 `yarn login` 已完成。yarn 会自动更新 `yarn.lock` 文件。建议在发布前运行 `yarn install` 检查依赖完整性。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm publish",
+    "summary": "发布包到 npm registry (Publishes a package to the npm registry for pnpm)",
+    "examples": [
+      {
+        "description": "发布当前项目到默认 registry",
+        "code": "pnpm publish"
+      },
+      {
+        "description": "发布到自定义 registry",
+        "code": "pnpm publish --registry https://my-custom-registry.com"
+      },
+      {
+        "description": "发布公开包",
+        "code": "pnpm publish --access public"
+      }
+    ],
+    "notes": "与 `npm publish` 类似，发布 pnpm 管理的包。需先运行 `pnpm login`。pnpm 的存储机制可能需要额外检查 `pnpm-lock.yaml` 的一致性。建议在发布前使用 `pnpm install --frozen-lockfile` 验证依赖。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm unpublish",
+    "summary": "从 npm registry 移除已发布的包版本 (Removes a published package version from the npm registry)",
+    "examples": [
+      {
+        "description": "移除特定版本的包",
+        "code": "npm unpublish <pkg>@<version>"
+      },
+      {
+        "description": "移除整个包",
+        "code": "npm unpublish <pkg> --force"
+      }
+    ],
+    "notes": "从 npm registry 删除已发布的包或特定版本。需登录且有包的拥有权限。npm 官方对 unpublish 有严格限制（通常 72 小时内可删除，之后需联系支持）。yarn 和 pnpm 无等效命令，需使用 npm 命令。建议谨慎操作，避免破坏依赖链。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "npm version patch",
+    "summary": "更新 package.json 的补丁版本号 (Increments the patch version in package.json)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 1.0.1",
+        "code": "npm version patch"
+      },
+      {
+        "description": "更新版本并创建 git 提交和标签",
+        "code": "npm version patch -m \"Bump to %s\""
+      }
+    ],
+    "notes": "自动更新 package.json 中的版本号（补丁版本，如 1.0.0 → 1.0.1），并可创建 git 提交和标签。需确保 git 仓库干净（无未提交更改）。yarn 和 pnpm 的类似命令功能一致，但 yarn 默认不创建 git 标签。建议在发布前运行以确保版本一致。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn version --patch",
+    "summary": "更新 yarn 项目的补丁版本号 (Increments the patch version for yarn projects)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 1.0.1",
+        "code": "yarn version --patch"
+      },
+      {
+        "description": "更新版本并指定提交信息",
+        "code": "yarn version --patch --message \"Release %s\""
+      }
+    ],
+    "notes": "与 `npm version patch` 类似，更新 package.json 的补丁版本号。yarn 不会自动创建 git 标签，需手动运行 `git tag`。建议在 monorepo 项目中结合 `yarn workspace` 使用。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm version patch",
+    "summary": "更新 pnpm 项目的补丁版本号 (Increments the patch version for pnpm projects)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 1.0.1",
+        "code": "pnpm version patch"
+      },
+      {
+        "description": "更新版本并创建 git 提交",
+        "code": "pnpm version patch -m \"Bump to %s\""
+      }
+    ],
+    "notes": "功能与 `npm version patch` 一致，更新 package.json 的补丁版本号。pnpm 支持 monorepo，可结合 `--filter` 指定包。建议在发布前运行 `pnpm install --frozen-lockfile` 验证依赖。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm version minor",
+    "summary": "更新 package.json 的次要版本号 (Increments the minor version in package.json)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 1.1.0",
+        "code": "npm version minor"
+      },
+      {
+        "description": "更新版本并创建 git 提交和标签",
+        "code": "npm version minor -m \"Bump to %s\""
+      }
+    ],
+    "notes": "更新次要版本号（1.0.0 → 1.1.0），用于添加新功能但保持向后兼容。自动创建 git 提交和标签。yarn 和 pnpm 的类似命令功能一致，但 yarn 默认不创建标签。建议在功能更新后运行。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn version --minor",
+    "summary": "更新 yarn 项目的次要版本号 (Increments the minor version for yarn projects)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 1.1.0",
+        "code": "yarn version --minor"
+      },
+      {
+        "description": "更新版本并指定提交信息",
+        "code": "yarn version --minor --message \"Release %s\""
+      }
+    ],
+    "notes": "与 `npm version minor` 类似，更新次要版本号。yarn 不自动创建 git 标签，需手动添加。适合 monorepo 项目，建议结合 `yarn workspace` 使用。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm version minor",
+    "summary": "更新 pnpm 项目的次要版本号 (Increments the minor version for pnpm projects)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 1.1.0",
+        "code": "pnpm version minor"
+      },
+      {
+        "description": "更新版本并创建 git 提交",
+        "code": "pnpm version minor -m \"Bump to %s\""
+      }
+    ],
+    "notes": "功能与 `npm version minor` 一致，更新次要版本号。pnpm 支持 monorepo，可结合 `--filter` 指定包。建议在发布前运行 `pnpm install --frozen-lockfile`。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm version major",
+    "summary": "更新 package.json 的主要版本号 (Increments the major version in package.json)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 2.0.0",
+        "code": "npm version major"
+      },
+      {
+        "description": "更新版本并创建 git 提交和标签",
+        "code": "npm version major -m \"Bump to %s\""
+      }
+    ],
+    "notes": "更新主要版本号（1.0.0 → 2.0.0），用于破坏性变更。自动创建 git 提交和标签。yarn 和 pnpm 的类似命令功能一致，但 yarn 默认不创建标签。建议在重大更新前运行测试并通知用户。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn version --major",
+    "summary": "更新 yarn 项目的主要版本号 (Increments the major version for yarn projects)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 2.0.0",
+        "code": "yarn version --major"
+      },
+      {
+        "description": "更新版本并指定提交信息",
+        "code": "yarn version --major --message \"Release %s\""
+      }
+    ],
+    "notes": "与 `npm version major` 类似，更新主要版本号。yarn 不自动创建 git 标签，需手动添加。建议在 monorepo 中结合 `yarn workspace` 使用。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm version major",
+    "summary": "更新 pnpm 项目的主要版本号 (Increments the major version for pnpm projects)",
+    "examples": [
+      {
+        "description": "将版本从 1.0.0 更新到 2.0.0",
+        "code": "pnpm version major"
+      },
+      {
+        "description": "更新版本并创建 git 提交",
+        "code": "pnpm version major -m \"Bump to %s\""
+      }
+    ],
+    "notes": "功能与 `npm version major` 一致，更新主要版本号。pnpm 支持 monorepo，可结合 `--filter` 指定包。建议在发布前运行全面测试以确保兼容性。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm config get registry",
+    "summary": "查看当前 npm registry 配置 (View the current npm registry configuration)",
+    "examples": [
+      {
+        "description": "查看当前使用的 registry URL",
+        "code": "npm config get registry"
+      },
+      {
+        "description": "查看全局配置的 registry",
+        "code": "npm config get registry --global"
+      },
+      {
+        "description": "查看特定项目的 registry 配置",
+        "code": "npm config get registry --local"
+      }
+    ],
+    "notes": "此命令用于检查当前 npm 使用的包注册表（registry），默认是 https://registry.npmjs.org/。可以通过 --global 查看全局配置，或 --local 查看项目级配置。常用于调试依赖安装问题或确认是否使用镜像（如淘宝镜像）。yarn 和 pnpm 有类似命令，但 yarn 的输出格式更简洁，pnpm 支持更细粒度的配置查询。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn config get registry",
+    "summary": "查看当前 yarn registry 配置 (View the current yarn registry configuration)",
+    "examples": [
+      {
+        "description": "查看当前 yarn registry URL",
+        "code": "yarn config get registry"
+      },
+      {
+        "description": "查看全局 yarn registry 配置",
+        "code": "yarn config get registry --global"
+      }
+    ],
+    "notes": "与 npm 的等效命令类似，用于检查 yarn 的包注册表配置。yarn 的配置查询速度通常更快，且输出更简洁。建议在切换 registry（如使用私有仓库）后使用此命令验证配置是否生效。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm config get registry",
+    "summary": "查看当前 pnpm registry 配置 (View the current pnpm registry configuration)",
+    "examples": [
+      {
+        "description": "查看当前 pnpm registry URL",
+        "code": "pnpm config get registry"
+      },
+      {
+        "description": "查看全局 pnpm registry 配置",
+        "code": "pnpm config get registry --global"
+      },
+      {
+        "description": "查看特定项目的 registry 配置",
+        "code": "pnpm config get registry --local"
+      }
+    ],
+    "notes": "pnpm 的 registry 查询命令与 npm 类似，支持全局和项目级配置查看。由于 pnpm 使用硬链接机制，正确的 registry 配置对确保依赖下载正确至关重要。常用于确认是否切换到加速镜像（如 https://registry.npmmirror.com/）。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm config set registry",
+    "summary": "设置 npm registry URL (Set the npm registry URL)",
+    "examples": [
+      {
+        "description": "设置 npm 使用官方 registry",
+        "code": "npm config set registry https://registry.npmjs.org/"
+      },
+      {
+        "description": "设置 npm 使用淘宝镜像",
+        "code": "npm config set registry https://registry.npmmirror.com/"
+      },
+      {
+        "description": "设置全局 registry 配置",
+        "code": "npm config set registry https://registry.npmjs.org/ --global"
+      },
+      {
+        "description": "设置项目级 registry 配置",
+        "code": "npm config set registry https://custom.registry.com/ --local"
+      }
+    ],
+    "notes": "此命令用于更改 npm 下载依赖的 registry，常用于加速下载（如使用淘宝镜像）或指向私有仓库。全局配置修改 ~/.npmrc 文件，项目级配置修改项目目录下的 .npmrc 文件。注意：设置错误 registry 可能导致依赖安装失败。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn config set registry",
+    "summary": "设置 yarn registry URL (Set the yarn registry URL)",
+    "examples": [
+      {
+        "description": "设置 yarn 使用官方 registry",
+        "code": "yarn config set registry https://registry.npmjs.org/"
+      },
+      {
+        "description": "设置 yarn 使用淘宝镜像",
+        "code": "yarn config set registry https://registry.npmmirror.com/"
+      },
+      {
+        "description": "设置全局 registry 配置",
+        "code": "yarn config set registry https://registry.npmjs.org/ --global"
+      }
+    ],
+    "notes": "与 npm 等效，yarn 的 registry 设置修改 ~/.yarnrc 或项目目录的 .yarnrc 文件。yarn 的配置系统更简洁，适合快速切换 registry。建议在设置后使用 `yarn config get registry` 验证。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm config set registry",
+    "summary": "设置 pnpm registry URL (Set the pnpm registry URL)",
+    "examples": [
+      {
+        "description": "设置 pnpm 使用官方 registry",
+        "code": "pnpm config set registry https://registry.npmjs.org/"
+      },
+      {
+        "description": "设置 pnpm 使用淘宝镜像",
+        "code": "pnpm config set registry https://registry.npmmirror.com/"
+      },
+      {
+        "description": "设置全局 registry 配置",
+        "code": "pnpm config set registry https://registry.npmjs.org/ --global"
+      },
+      {
+        "description": "设置项目级 registry 配置",
+        "code": "pnpm config set registry https://custom.registry.com/ --local"
+      }
+    ],
+    "notes": "pnpm 的 registry 设置修改 ~/.pnpmrc 或项目目录的 .pnpmrc 文件。由于 pnpm 的 store 机制，registry 切换后可能需要清理 store（使用 `pnpm store prune`）。建议验证 registry 设置以避免依赖下载问题。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm config list",
+    "summary": "列出所有 npm 配置 (List all npm configuration settings)",
+    "examples": [
+      {
+        "description": "列出当前所有配置",
+        "code": "npm config list"
+      },
+      {
+        "description": "列出全局配置",
+        "code": "npm config list --global"
+      },
+      {
+        "description": "以 JSON 格式输出配置",
+        "code": "npm config list --json"
+      }
+    ],
+    "notes": "显示 npm 的所有配置项，包括 registry、cache 路径、代理设置等。输出包含用户配置（~/.npmrc）、项目配置（.npmrc）和默认配置。--json 选项适合脚本解析。常用于调试配置问题。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn config list",
+    "summary": "列出所有 yarn 配置 (List all yarn configuration settings)",
+    "examples": [
+      {
+        "description": "列出当前所有配置",
+        "code": "yarn config list"
+      },
+      {
+        "description": "列出全局配置",
+        "code": "yarn config list --global"
+      }
+    ],
+    "notes": "与 npm 等效，显示 yarn 的所有配置项，输出更简洁，适合快速检查。yarn 的配置存储在 ~/.yarnrc 或项目目录的 .yarnrc 中。常用于验证 registry 或缓存设置。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm config list",
+    "summary": "列出所有 pnpm 配置 (List all pnpm configuration settings)",
+    "examples": [
+      {
+        "description": "列出当前所有配置",
+        "code": "pnpm config list"
+      },
+      {
+        "description": "列出全局配置",
+        "code": "pnpm config list --global"
+      },
+      {
+        "description": "列出项目级配置",
+        "code": "pnpm config list --local"
+      }
+    ],
+    "notes": "显示 pnpm 的所有配置项，包括 store 路径、registry 等。pnpm 的配置系统支持细粒度控制，适合 monorepo 项目。输出清晰，适合排查配置相关问题。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm config edit",
+    "summary": "编辑 npm 用户配置文件 (Edit the npm user configuration file)",
+    "examples": [
+      {
+        "description": "打开全局 .npmrc 文件进行编辑",
+        "code": "npm config edit"
+      },
+      {
+        "description": "打开项目级 .npmrc 文件进行编辑",
+        "code": "npm config edit --local"
+      }
+    ],
+    "notes": "此命令打开 ~/.npmrc（全局）或项目目录的 .npmrc 文件，使用默认编辑器（由 $EDITOR 环境变量决定，默认为 vi/vim）。适合手动调整复杂配置，如代理、签名密钥等。yarn 和 pnpm 不支持直接编辑配置文件的命令，需手动编辑 .yarnrc 或 .pnpmrc。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "npx",
+    "summary": "执行 npm 包的二进制命令 (Execute binaries from npm packages)",
+    "examples": [
+      {
+        "description": "运行未全局安装的 create-react-app",
+        "code": "npx create-react-app my-app"
+      },
+      {
+        "description": "运行特定版本的包",
+        "code": "npx eslint@8.0.0 --version"
+      },
+      {
+        "description": "执行本地 node_modules 中的二进制命令",
+        "code": "npx jest"
+      },
+      {
+        "description": "运行临时安装的包并清理",
+        "code": "npx -p cowsay cowsay 'Hello!'"
+      }
+    ],
+    "notes": "npx 是 npm 5.2+ 引入的工具，允许运行未全局安装的包或本地 node_modules 中的二进制命令，无需手动安装。适合一次性任务或调试。yarn 和 pnpm 提供类似功能，但语法略有不同（如 yarn 无需 npx 前缀）。",
+    "shell_type": "External (`/usr/bin/npx`)"
+  },
+  {
+    "name": "yarn <pkg>",
+    "summary": "执行 yarn 包的二进制命令 (Execute binaries from yarn packages)",
+    "examples": [
+      {
+        "description": "运行本地 node_modules 中的 jest",
+        "code": "yarn jest"
+      },
+      {
+        "description": "运行特定版本的 eslint",
+        "code": "yarn eslint@8.0.0 --version"
+      },
+      {
+        "description": "运行 create-react-app",
+        "code": "yarn create react-app my-app"
+      }
+    ],
+    "notes": "yarn 无需单独的 npx 工具，直接通过 `yarn <pkg>` 执行包的二进制命令，自动查找 node_modules 或安装临时包。比 npm 的 npx 语法更简洁，但功能类似。适合快速运行测试、构建工具等。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm <pkg>",
+    "summary": "执行 pnpm 包的二进制命令 (Execute binaries from pnpm packages)",
+    "examples": [
+      {
+        "description": "运行本地 node_modules 中的 jest",
+        "code": "pnpm jest"
+      },
+      {
+        "description": "运行特定版本的 eslint",
+        "code": "pnpm eslint@8.0.0 --version"
+      },
+      {
+        "description": "运行 create-react-app",
+        "code": "pnpm create react-app my-app"
+      }
+    ],
+    "notes": "pnpm 的二进制执行方式与 yarn 类似，自动查找 node_modules 或临时安装包。得益于 pnpm 的 store 机制，临时安装的包占用磁盘空间更少。适合快速运行 CLI 工具。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm exec",
+    "summary": "交互式执行 npm 包的二进制命令 (Interactively execute binaries from npm packages)",
+    "examples": [
+      {
+        "description": "运行 create-react-app",
+        "code": "npm exec create-react-app my-app"
+      },
+      {
+        "description": "运行特定版本的 eslint",
+        "code": "npm exec -- eslint@8.0.0 --version"
+      },
+      {
+        "description": "运行本地 jest 并传递参数",
+        "code": "npm exec -- jest --watch"
+      }
+    ],
+    "notes": "npm exec 是 npx 的替代命令，功能类似但更灵活，支持交互式运行和参数传递。适合需要动态输入参数的场景。yarn 和 pnpm 的等效功能直接通过 `yarn <pkg>` 或 `pnpm <pkg>` 实现。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "npm audit",
+    "summary": "检查依赖中的安全漏洞 (Scan dependencies for security vulnerabilities)",
+    "examples": [
+      {
+        "description": "扫描项目依赖中的安全问题",
+        "code": "npm audit"
+      },
+      {
+        "description": "以 JSON 格式输出审计报告",
+        "code": "npm audit --json"
+      },
+      {
+        "description": "仅检查生产依赖的漏洞",
+        "code": "npm audit --production"
+      }
+    ],
+    "notes": "检查 package.json 和 lock 文件中的依赖，报告已知的安全漏洞。需要联网访问 npm 安全数据库。yarn 和 pnpm 提供类似功能，但 yarn 的 audit 命令可能需要额外安装（如 yarn-audit-fix）。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn audit",
+    "summary": "检查依赖中的安全漏洞 (Scan dependencies for security vulnerabilities)",
+    "examples": [
+      {
+        "description": "扫描项目依赖中的安全问题",
+        "code": "yarn audit"
+      },
+      {
+        "description": "以 JSON 格式输出审计报告",
+        "code": "yarn audit --json"
+      }
+    ],
+    "notes": "功能与 npm audit 类似，检查 yarn.lock 中的依赖漏洞。输出简洁，但可能需要额外插件（如 yarn-audit-fix）来修复漏洞。建议定期运行以确保项目安全。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm audit",
+    "summary": "检查依赖中的安全漏洞 (Scan dependencies for security vulnerabilities)",
+    "examples": [
+      {
+        "description": "扫描项目依赖中的安全问题",
+        "code": "pnpm audit"
+      },
+      {
+        "description": "以 JSON 格式输出审计报告",
+        "code": "pnpm audit --json"
+      },
+      {
+        "description": "仅检查生产依赖的漏洞",
+        "code": "pnpm audit --prod"
+      }
+    ],
+    "notes": "检查 pnpm-lock.yaml 中的依赖漏洞，与 npm/yarn 类似。pnpm 的审计速度较快，得益于其 store 机制。建议在 CI 流程中集成此命令。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm audit fix",
+    "summary": "自动修复依赖中的安全漏洞 (Automatically fix dependency vulnerabilities)",
+    "examples": [
+      {
+        "description": "修复所有可修复的漏洞",
+        "code": "npm audit fix"
+      },
+      {
+        "description": "强制修复，即使需要破坏性更新",
+        "code": "npm audit fix --force"
+      },
+      {
+        "description": "仅修复生产依赖的漏洞",
+        "code": "npm audit fix --production"
+      }
+    ],
+    "notes": "尝试自动更新有漏洞的依赖到安全版本，修改 package.json 和 lock 文件。--force 可能导致破坏性更新（major 版本变化），需谨慎使用。yarn 和 pnpm 的修复功能可能需要额外配置。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn audit --fix",
+    "summary": "自动修复依赖中的安全漏洞 (Automatically fix dependency vulnerabilities)",
+    "examples": [
+      {
+        "description": "修复所有可修复的漏洞",
+        "code": "yarn audit --fix"
+      },
+      {
+        "description": "以 JSON 格式输出修复详情",
+        "code": "yarn audit --fix --json"
+      }
+    ],
+    "notes": "需要安装 yarn-audit-fix 插件（`yarn add yarn-audit-fix --dev`）才能使用此命令。修复过程更新 yarn.lock 文件，可能不如 npm audit fix 成熟。建议修复后运行 `yarn audit` 验证。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm audit --fix",
+    "summary": "自动修复依赖中的安全漏洞 (Automatically fix dependency vulnerabilities)",
+    "examples": [
+      {
+        "description": "修复所有可修复的漏洞",
+        "code": "pnpm audit --fix"
+      },
+      {
+        "description": "仅修复生产依赖的漏洞",
+        "code": "pnpm audit --fix --prod"
+      },
+      {
+        "description": "以 JSON 格式输出修复详情",
+        "code": "pnpm audit --fix --json"
+      }
+    ],
+    "notes": "自动修复 pnpm-lock.yaml 中的依赖漏洞，效率高且磁盘占用低。修复后建议重新运行 `pnpm audit` 检查结果。--prod 选项限制修复范围，适合生产环境。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm dedupe",
+    "summary": "优化依赖树以减少重复 (Optimize the dependency tree to reduce duplicates)",
+    "examples": [
+      {
+        "description": "优化当前项目的依赖树",
+        "code": "npm dedupe"
+      },
+      {
+        "description": "在安装时自动执行去重",
+        "code": "npm install --dedupe"
+      }
+    ],
+    "notes": "扫描 node_modules，合并重复的依赖以减少磁盘占用和依赖冲突。适合在依赖树复杂时运行。pnpm 由于其硬链接机制，天生减少重复依赖，dedupe 效果不明显。yarn 和 pnpm 也有类似功能。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn dedupe",
+    "summary": "优化依赖树以减少重复 (Optimize the dependency tree to reduce duplicates)",
+    "examples": [
+      {
+        "description": "优化当前项目的依赖树",
+        "code": "yarn dedupe"
+      },
+      {
+        "description": "使用最高版本策略去重",
+        "code": "yarn dedupe --strategy highest"
+      }
+    ],
+    "notes": "yarn 2+ 引入的命令，优化 yarn.lock 和 node_modules，减少重复依赖。--strategy 选项允许指定去重策略（如 highest 选择最高版本）。适合 monorepo 或大型项目。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm dedupe",
+    "summary": "优化依赖树以减少重复 (Optimize the dependency tree to reduce duplicates)",
+    "examples": [
+      {
+        "description": "优化当前项目的依赖树",
+        "code": "pnpm dedupe"
+      },
+      {
+        "description": "在安装时自动执行去重",
+        "code": "pnpm install --dedupe"
+      }
+    ],
+    "notes": "pnpm 的 dedupe 命令优化 pnpm-lock.yaml 和 store，效果因 pnpm 的硬链接机制已较少重复依赖而有限。适合在依赖更新后清理冗余。运行后可结合 `pnpm store prune` 进一步优化。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm init -w",
+    "summary": "初始化工作空间（Initialize a workspace in a monorepo）",
+    "examples": [
+      {
+        "description": "在 packages 子目录下初始化一个新工作空间",
+        "code": "npm init -w ./packages/my-package"
+      },
+      {
+        "description": "为现有项目添加工作空间并生成 package.json",
+        "code": "npm init -w ./packages/api -y"
+      }
+    ],
+    "notes": "npm 7+ 支持工作空间（workspaces），用于管理 monorepo 项目。`init -w` 在指定目录创建新的 package.json，适合多包项目结构。需在根 package.json 中添加 `\"workspaces\": [\"packages/*\"]` 配置。yarn 和 pnpm 也支持类似功能，但语法不同。确保工作空间路径正确，否则会报错。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn init -w",
+    "summary": "初始化工作空间（Initialize a workspace in a monorepo）",
+    "examples": [
+      {
+        "description": "初始化工作空间并启用 monorepo 支持",
+        "code": "yarn init -w"
+      },
+      {
+        "description": "为特定工作空间初始化 package.json",
+        "code": "yarn init -w ./packages/my-package -y"
+      }
+    ],
+    "notes": "yarn 的工作空间功能专为 monorepo 设计，初始化后需在根 package.json 配置 `\"workspaces\": [\"packages/*\"]`。相比 npm，yarn 的工作空间管理更简洁，集成度高。确保 yarn 版本为 1.x 或 Berry（2.x+）。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm init",
+    "summary": "初始化工作空间（Initialize a workspace in a monorepo）",
+    "examples": [
+      {
+        "description": "初始化项目并自动检测工作空间",
+        "code": "pnpm init"
+      },
+      {
+        "description": "为特定工作空间初始化 package.json",
+        "code": "pnpm init -y --filter ./packages/my-package"
+      }
+    ],
+    "notes": "pnpm 自动检测 package.json 中的 `\"workspaces\": [\"packages/*\"]` 配置，无需显式 `-w` 参数。pnpm 的硬链接机制使工作空间依赖管理高效，适合大型 monorepo 项目。确保 `pnpm-lock.yaml` 存在以锁定依赖。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm install (workspace)",
+    "summary": "安装工作空间所有依赖（Install all dependencies for workspaces）",
+    "examples": [
+      {
+        "description": "安装根目录及所有工作空间的依赖",
+        "code": "npm install"
+      },
+      {
+        "description": "为特定工作空间安装依赖",
+        "code": "npm install -w my-package"
+      }
+    ],
+    "notes": "在 monorepo 中，`npm install` 会根据根 package.json 的 `workspaces` 配置安装所有子包依赖。使用 `-w <pkg>` 可针对特定工作空间操作。确保工作空间路径在 `workspaces` 字段中正确定义，否则可能导致安装失败。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn install (workspace)",
+    "summary": "安装工作空间所有依赖（Install all dependencies for workspaces）",
+    "examples": [
+      {
+        "description": "安装所有工作空间的依赖",
+        "code": "yarn install"
+      },
+      {
+        "description": "安装并锁定依赖版本",
+        "code": "yarn install --frozen-lockfile"
+      }
+    ],
+    "notes": "yarn 的 `install` 命令自动处理 monorepo 中的所有工作空间依赖，依赖 `yarn.lock` 确保一致性。`--frozen-lockfile` 防止 lock 文件更新，适合 CI/CD 环境。yarn 的工作空间管理比 npm 更直观。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm install (workspace)",
+    "summary": "安装工作空间所有依赖（Install all dependencies for workspaces）",
+    "examples": [
+      {
+        "description": "安装所有工作空间的依赖",
+        "code": "pnpm install"
+      },
+      {
+        "description": "为特定工作空间安装依赖",
+        "code": "pnpm install --filter my-package"
+      }
+    ],
+    "notes": "pnpm 的安装命令利用硬链接机制，显著减少磁盘占用，适合大型 monorepo。`--filter` 选项支持复杂的工作空间选择（如 `my-package...` 表示包含依赖的包）。确保 `pnpm-lock.yaml` 存在以保持一致性。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm run -w",
+    "summary": "在特定工作空间运行脚本（Run a script in a specific workspace）",
+    "examples": [
+      {
+        "description": "在 my-package 工作空间运行构建脚本",
+        "code": "npm run build -w my-package"
+      },
+      {
+        "description": "在 my-package 工作空间运行测试脚本",
+        "code": "npm run test -w my-package"
+      },
+      {
+        "description": "在多个工作空间运行同一脚本",
+        "code": "npm run build -w package1 -w package2"
+      }
+    ],
+    "notes": "npm 的 `-w` 选项用于在 monorepo 中针对特定工作空间运行 package.json 中定义的脚本。需确保工作空间名称与 package.json 中的 `name` 字段匹配，并在根 package.json 中配置 `\"workspaces\": [\"packages/*\"]`。常用于模块化开发、测试或构建流程。支持多个 `-w` 指定多个工作空间。运行前确认脚本在目标工作空间的 package.json 中已定义，否则会报错。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn workspace",
+    "summary": "在特定工作空间运行脚本（Run a script in a specific workspace）",
+    "examples": [
+      {
+        "description": "在 my-package 运行构建脚本",
+        "code": "yarn workspace my-package build"
+      },
+      {
+        "description": "在特定工作空间运行测试脚本",
+        "code": "yarn workspace my-package test"
+      }
+    ],
+    "notes": "yarn 的 `workspace` 命令用于在 monorepo 中运行特定包的脚本，语法简洁直观。需要确保根 package.json 已配置 `workspaces` 字段。适合模块化的构建和测试流程。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm -r --filter",
+    "summary": "在特定工作空间运行脚本（Run a script in a specific workspace）",
+    "examples": [
+      {
+        "description": "在 my-package 运行构建脚本",
+        "code": "pnpm -r --filter my-package build"
+      },
+      {
+        "description": "运行所有依赖 my-package 的工作空间的测试脚本",
+        "code": "pnpm -r --filter my-package... test"
+      }
+    ],
+    "notes": "pnpm 的 `-r --filter` 提供灵活的工作空间选择，支持通配符和依赖关系（如 `...` 表示包含依赖）。高效且适合复杂 monorepo 场景。确保 `pnpm-lock.yaml` 存在以避免依赖冲突。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm install -w <pkg>",
+    "summary": "为特定工作空间安装依赖（Install a dependency for a specific workspace）",
+    "examples": [
+      {
+        "description": "为 my-package 安装 lodash 作为生产依赖",
+        "code": "npm install lodash -w my-package"
+      },
+      {
+        "description": "为 my-package 安装 jest 作为开发依赖",
+        "code": "npm install jest --save-dev -w my-package"
+      }
+    ],
+    "notes": "在 monorepo 中，`-w <pkg>` 指定为某个工作空间安装依赖，仅更新该工作空间的 package.json 和 lock 文件。确保工作空间名称正确，避免影响其他包。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn workspace add",
+    "summary": "为特定工作空间安装依赖（Add a dependency to a specific workspace）",
+    "examples": [
+      {
+        "description": "为 my-package 添加 lodash 依赖",
+        "code": "yarn workspace my-package add lodash"
+      },
+      {
+        "description": "为 my-package 添加 jest 开发依赖",
+        "code": "yarn workspace my-package add jest --dev"
+      }
+    ],
+    "notes": "yarn 的 `workspace add` 命令为指定工作空间添加依赖，更新 `yarn.lock` 和工作空间的 package.json。语法简洁，适合 monorepo 依赖管理。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm add --filter",
+    "summary": "为特定工作空间安装依赖（Add a dependency to a specific workspace）",
+    "examples": [
+      {
+        "description": "为 my-package 添加 lodash 依赖",
+        "code": "pnpm add lodash --filter my-package"
+      },
+      {
+        "description": "为 my-package 添加 jest 开发依赖",
+        "code": "pnpm add jest --save-dev --filter my-package"
+      }
+    ],
+    "notes": "pnpm 的 `--filter` 选项支持精确或模糊匹配工作空间，高效管理 monorepo 依赖。硬链接机制确保磁盘空间占用最小化。需确保 `pnpm-lock.yaml` 一致。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm view",
+    "summary": "查看包的元数据信息（View metadata information for a package）",
+    "examples": [
+      {
+        "description": "查看 lodash 包的详细信息",
+        "code": "npm view lodash"
+      },
+      {
+        "description": "查看 lodash 最新版本号",
+        "code": "npm view lodash version"
+      },
+      {
+        "description": "查看 lodash 的 README",
+        "code": "npm view lodash readme"
+      }
+    ],
+    "notes": "npm view 提供包的元数据，如版本、依赖、发布日期等，常用于验证包信息或调试依赖问题。支持字段过滤（如 `version`、`readme`）。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn info",
+    "summary": "查看包的元数据信息（View metadata information for a package）",
+    "examples": [
+      {
+        "description": "查看 lodash 包的详细信息",
+        "code": "yarn info lodash"
+      },
+      {
+        "description": "查看 lodash 的版本信息",
+        "code": "yarn info lodash --json | grep version"
+      }
+    ],
+    "notes": "yarn info 提供与 npm view 类似的功能，显示包的元数据。支持 `--json` 输出结构化数据，适合脚本处理。常用于检查包版本或依赖关系。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm info",
+    "summary": "查看包的元数据信息（View metadata information for a package）",
+    "examples": [
+      {
+        "description": "查看 lodash 包的详细信息",
+        "code": "pnpm info lodash"
+      },
+      {
+        "description": "查看 lodash 的最新版本",
+        "code": "pnpm info lodash version"
+      }
+    ],
+    "notes": "pnpm info 功能与 npm view 类似，查询包的元数据。输出简洁，支持字段过滤，适合快速验证包信息。需连接 registry。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm root",
+    "summary": "显示 node_modules 的路径（Show the path to node_modules）",
+    "examples": [
+      {
+        "description": "显示当前项目的 node_modules 路径",
+        "code": "npm root"
+      },
+      {
+        "description": "显示全局 node_modules 路径",
+        "code": "npm root -g"
+      }
+    ],
+    "notes": "npm root 返回当前项目或全局 node_modules 目录的路径，适合调试依赖安装位置或环境配置问题。全局路径通常为 `~/.npm-global/lib/node_modules`。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn global dir",
+    "summary": "显示全局 node_modules 或 yarn 缓存路径（Show the path to global node_modules or yarn cache）",
+    "examples": [
+      {
+        "description": "显示全局 node_modules 路径",
+        "code": "yarn global dir"
+      },
+      {
+        "description": "显示 yarn 缓存路径",
+        "code": "yarn cache dir"
+      }
+    ],
+    "notes": "yarn global dir 显示全局安装的包路径，通常为 `~/.yarn/global/node_modules`。`yarn cache dir` 显示缓存路径，适合清理或调试。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm root",
+    "summary": "显示 node_modules 或 pnpm store 路径（Show the path to node_modules or pnpm store）",
+    "examples": [
+      {
+        "description": "显示当前项目的 node_modules 路径",
+        "code": "pnpm root"
+      },
+      {
+        "description": "显示全局 node_modules 路径",
+        "code": "pnpm root -g"
+      },
+      {
+        "description": "显示 pnpm store 路径",
+        "code": "pnpm store path"
+      }
+    ],
+    "notes": "pnpm root 显示 node_modules 路径，`-g` 显示全局路径（如 `~/pnpm-global/5`）。`pnpm store path` 显示硬链接存储路径，适合管理磁盘空间。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm doctor",
+    "summary": "检查 npm 配置和环境问题（Check for issues with npm configuration and environment）",
+    "examples": [
+      {
+        "description": "运行诊断检查 registry、权限等",
+        "code": "npm doctor"
+      },
+      {
+        "description": "检查并尝试修复问题",
+        "code": "npm doctor --fix"
+      }
+    ],
+    "notes": "npm doctor 检查 registry 连通性、权限、缓存等常见问题，提供修复建议。适合调试安装失败或配置错误。yarn 和 pnpm 无类似命令。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "npm help",
+    "summary": "显示命令帮助信息（Display help for a command）",
+    "examples": [
+      {
+        "description": "查看 npm install 命令的帮助",
+        "code": "npm help install"
+      },
+      {
+        "description": "打开 npm 完整帮助文档",
+        "code": "npm help"
+      }
+    ],
+    "notes": "npm help 提供指定命令的详细文档或打开完整帮助页面。适合快速查询命令用法或选项。输出基于本地安装的 npm 版本。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn help",
+    "summary": "显示命令帮助信息（Display help for a command）",
+    "examples": [
+      {
+        "description": "查看 yarn add 命令的帮助",
+        "code": "yarn help add"
+      },
+      {
+        "description": "显示 yarn 所有命令的帮助",
+        "code": "yarn help"
+      }
+    ],
+    "notes": "yarn help 显示指定命令的用法或列出所有可用命令。文档简洁，适合快速参考。支持 `--help` 别名。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm help",
+    "summary": "显示命令帮助信息（Display help for a command）",
+    "examples": [
+      {
+        "description": "查看 pnpm add 命令的帮助",
+        "code": "pnpm help add"
+      },
+      {
+        "description": "显示 pnpm 所有命令的帮助",
+        "code": "pnpm help"
+      }
+    ],
+    "notes": "pnpm help 提供命令用法或完整命令列表，文档清晰且支持 `--help` 别名。适合快速查询 pnpm 功能。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm install --verbose",
+    "summary": "以详细日志模式安装依赖（Install dependencies with verbose logging）",
+    "examples": [
+      {
+        "description": "安装所有依赖并显示详细日志",
+        "code": "npm install --verbose"
+      },
+      {
+        "description": "安装特定包并输出详细日志",
+        "code": "npm install lodash --verbose"
+      }
+    ],
+    "notes": "npm install --verbose 显示详细的安装过程日志，包括网络请求和文件操作。适合调试安装失败或网络问题。日志量较大，建议定向输出到文件（如 `npm install --verbose > log.txt`）。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn install --verbose",
+    "summary": "以详细日志模式安装依赖（Install dependencies with verbose logging）",
+    "examples": [
+      {
+        "description": "安装所有依赖并显示详细日志",
+        "code": "yarn install --verbose"
+      },
+      {
+        "description": "安装并输出详细日志到文件",
+        "code": "yarn install --verbose > yarn.log"
+      }
+    ],
+    "notes": "yarn --verbose 提供安装过程中的详细日志，适合排查依赖解析或网络问题。输出内容较 npm 更简洁，但仍建议重定向到文件以便分析。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm install --reporter=ndjson",
+    "summary": "以结构化日志模式安装依赖（Install dependencies with structured logging）",
+    "examples": [
+      {
+        "description": "安装依赖并输出 NDJSON 格式日志",
+        "code": "pnpm install --reporter=ndjson"
+      },
+      {
+        "description": "安装特定包并保存日志到文件",
+        "code": "pnpm install lodash --reporter=ndjson > pnpm.log"
+      }
+    ],
+    "notes": "pnpm 的 `--reporter=ndjson` 输出 NDJSON 格式的结构化日志，便于脚本解析或调试。相比 npm/yarn 的 verbose 模式，NDJSON 更适合自动化处理。推荐结合 `jq` 工具分析日志。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  },
+  {
+    "name": "npm install --force",
+    "summary": "强制重新安装所有依赖（Force reinstall all dependencies）",
+    "examples": [
+      {
+        "description": "强制重新安装所有依赖",
+        "code": "npm install --force"
+      },
+      {
+        "description": "强制安装特定包，忽略缓存",
+        "code": "npm install lodash --force"
+      }
+    ],
+    "notes": "npm install --force 忽略缓存和 lock 文件差异，强制重新下载和安装依赖。适合解决依赖冲突或缓存损坏问题，但可能导致 lock 文件更新，需谨慎使用。",
+    "shell_type": "External (`/usr/bin/npm`)"
+  },
+  {
+    "name": "yarn install --force",
+    "summary": "强制重新安装所有依赖（Force reinstall all dependencies）",
+    "examples": [
+      {
+        "description": "强制重新安装所有依赖",
+        "code": "yarn install --force"
+      },
+      {
+        "description": "强制安装特定包",
+        "code": "yarn add lodash --force"
+      }
+    ],
+    "notes": "yarn install --force 忽略 yarn.lock 和缓存，强制重新解析和安装依赖。适合修复损坏的依赖树，但可能导致版本变更，需检查 yarn.lock。",
+    "shell_type": "External (`/usr/bin/yarn`)"
+  },
+  {
+    "name": "pnpm install --force",
+    "summary": "强制重新安装所有依赖（Force reinstall all dependencies）",
+    "examples": [
+      {
+        "description": "强制重新安装所有依赖",
+        "code": "pnpm install --force"
+      },
+      {
+        "description": "强制安装特定包，忽略缓存",
+        "code": "pnpm add lodash --force"
+      }
+    ],
+    "notes": "pnpm install --force 忽略 pnpm-lock.yaml 和 store 缓存，强制重新安装。适合修复依赖问题，但可能导致 lock 文件更新。pnpm 的硬链接机制使强制安装仍高效。",
+    "shell_type": "External (`/usr/bin/pnpm`)"
+  }
+]

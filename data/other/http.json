@@ -1,0 +1,307 @@
+
+[
+  {
+    "name": "HTTP Message Structure",
+    "summary": "HTTP 请求和响应报文的基本构成，是客户端与服务器通信的基础 (Basic structure of HTTP request and response messages, forming the foundation of client-server communication)",
+    "examples": [
+      {
+        "description": "典型的 HTTP GET 请求报文示例 (Example of a typical HTTP GET Request Message)",
+        "code": "GET /index.html HTTP/1.1\nHost: www.example.com\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\nAccept-Encoding: gzip, deflate, br\nAccept-Language: en-US,en;q=0.5\nConnection: keep-alive\nCookie: sessionid=abcdef123456\n\n"
+      },
+      {
+        "description": "典型的 HTTP 200 OK 响应报文示例 (Example of a typical HTTP 200 OK Response Message)",
+        "code": "HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nContent-Length: 1234\nDate: Tue, 04 Apr 2023 10:30:00 GMT\nServer: Apache/2.4.41 (Ubuntu)\nLast-Modified: Mon, 03 Apr 2023 15:00:00 GMT\nCache-Control: max-age=3600, public\nETag: \"a1b2c3d4e5f6g7h8\"\n\n<!DOCTYPE html>\n<html>\n<head><title>Welcome</title></head>\n<body><h1>Hello, World!</h1></body>\n</html>"
+      },
+      {
+        "description": "POST 请求报文，包含 JSON 数据 (POST Request Message with JSON body)",
+        "code": "POST /api/users HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\nContent-Length: 50\n\n{\"name\": \"John Doe\", \"email\": \"john.doe@example.com\"}"
+      }
+    ],
+    "notes": "HTTP 报文由起始行、头部、空行和可选的报文主体组成。请求报文包含请求行，响应报文包含状态行。头部字段提供关于报文或其主体的元数据。空行用于分隔头部和主体。报文主体则包含实际传输的数据。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP Request Methods (Verbs)",
+    "summary": "客户端希望服务器对指定资源执行的动作类型 (The type of action the client wishes to perform on a specified resource by the server)",
+    "examples": [
+      {
+        "description": "GET: 从服务器获取资源。安全且幂等。(GET: Retrieve a resource from the server. Safe and idempotent.)",
+        "code": "GET /articles/123 HTTP/1.1"
+      },
+      {
+        "description": "POST: 向服务器提交数据，通常用于创建新资源。(POST: Submit data to the server, typically used for creating new resources.)",
+        "code": "POST /users HTTP/1.1\nContent-Type: application/json\n\n{\"username\": \"newuser\"}"
+      },
+      {
+        "description": "PUT: 完全替换/更新指定资源。(PUT: Completely replace/update a specified resource.)",
+        "code": "PUT /articles/123 HTTP/1.1\nContent-Type: text/plain\n\nNew article content."
+      },
+      {
+        "description": "DELETE: 请求删除指定资源。(DELETE: Request deletion of a specified resource.)",
+        "code": "DELETE /articles/123 HTTP/1.1"
+      },
+      {
+        "description": "HEAD: 与 GET 类似，但只返回响应头部，没有响应体。用于获取资源元数据。(HEAD: Similar to GET, but only returns response headers, no body. Used for retrieving resource metadata.)",
+        "code": "HEAD /large-file.zip HTTP/1.1"
+      },
+      {
+        "description": "OPTIONS: 询问目标资源支持的通信选项，常用于 CORS 预检请求。(OPTIONS: Query the communication options supported by the target resource, often used for CORS preflight requests.)",
+        "code": "OPTIONS /api/data HTTP/1.1"
+      },
+      {
+        "description": "PATCH: 对资源进行局部修改。(PATCH: Apply partial modifications to a resource.)",
+        "code": "PATCH /articles/123 HTTP/1.1\nContent-Type: application/json\n\n{\"title\": \"Updated Title\"}"
+      }
+    ],
+    "notes": "理解请求方法的“安全性”和“幂等性”至关重要。安全的请求不会对服务器状态造成改变（如 GET, HEAD），幂等请求重复执行多次与执行一次效果相同（如 GET, PUT, DELETE）。POST 不安全也不幂等，每次执行都可能产生不同的结果（如创建多个资源）。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP Status Codes (Response Status)",
+    "summary": "服务器响应请求的结果状态，指示请求是否成功、失败或需要进一步操作 (The status of the server's response to a request, indicating success, failure, or requiring further action)",
+    "examples": [
+      {
+        "description": "200 OK: 请求成功。(200 OK: The request has succeeded.)",
+        "code": "HTTP/1.1 200 OK"
+      },
+      {
+        "description": "201 Created: 请求成功，并创建了新资源。(201 Created: The request has succeeded and a new resource has been created.)",
+        "code": "HTTP/1.1 201 Created"
+      },
+      {
+        "description": "204 No Content: 请求成功，但响应报文不含实体的主体部分。(204 No Content: The request has succeeded but no response body is returned.)",
+        "code": "HTTP/1.1 204 No Content"
+      },
+      {
+        "description": "301 Moved Permanently: 资源已被永久移动到新位置。(301 Moved Permanently: The resource has been permanently moved to a new location.)",
+        "code": "HTTP/1.1 301 Moved Permanently\nLocation: https://www.newexample.com/index.html"
+      },
+      {
+        "description": "302 Found: 资源临时移动到新位置。(302 Found: The resource has been temporarily moved to a new location.)",
+        "code": "HTTP/1.1 302 Found\nLocation: https://www.temp.com/resource"
+      },
+      {
+        "description": "304 Not Modified: 资源未修改，客户端可使用缓存副本。(304 Not Modified: The resource has not been modified, client can use cached copy.)",
+        "code": "HTTP/1.1 304 Not Modified"
+      },
+      {
+        "description": "400 Bad Request: 服务器无法理解客户端的请求，通常是请求语法错误。(400 Bad Request: The server cannot understand the client's request, usually due to malformed syntax.)",
+        "code": "HTTP/1.1 400 Bad Request"
+      },
+      {
+        "description": "401 Unauthorized: 请求需要用户身份认证。(401 Unauthorized: The request requires user authentication.)",
+        "code": "HTTP/1.1 401 Unauthorized\nWWW-Authenticate: Basic realm=\"Restricted Area\""
+      },
+      {
+        "description": "403 Forbidden: 服务器理解请求，但拒绝执行（权限不足）。(403 Forbidden: The server understood the request but refuses to authorize it.)",
+        "code": "HTTP/1.1 403 Forbidden"
+      },
+      {
+        "description": "404 Not Found: 服务器上未找到请求的资源。(404 Not Found: The requested resource could not be found on the server.)",
+        "code": "HTTP/1.1 404 Not Found"
+      },
+      {
+        "description": "405 Method Not Allowed: 请求方法不被目标资源支持。(405 Method Not Allowed: The request method is not supported by the target resource.)",
+        "code": "HTTP/1.1 405 Method Not Allowed"
+      },
+      {
+        "description": "500 Internal Server Error: 服务器在处理请求时发生内部错误。(500 Internal Server Error: The server encountered an unexpected condition that prevented it from fulfilling the request.)",
+        "code": "HTTP/1.1 500 Internal Server Error"
+      },
+      {
+        "description": "502 Bad Gateway: 网关或代理服务器从上游服务器收到无效响应。(502 Bad Gateway: The server, while acting as a gateway or proxy, received an invalid response from an upstream server.)",
+        "code": "HTTP/1.1 502 Bad Gateway"
+      },
+      {
+        "description": "503 Service Unavailable: 服务器暂时过载或维护，无法处理请求。(503 Service Unavailable: The server is currently unable to handle the request due to temporary overload or scheduled maintenance.)",
+        "code": "HTTP/1.1 503 Service Unavailable"
+      }
+    ],
+    "notes": "状态码分为五类：1xx (信息)、2xx (成功)、3xx (重定向)、4xx (客户端错误)、5xx (服务器错误)。熟悉这些代码对于调试和构建健壮的 Web 应用至关重要。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "Common HTTP Headers",
+    "summary": "在 HTTP 请求和响应中传递元数据的关键字段，实现各种通信功能 (Key fields in HTTP requests and responses that carry metadata, enabling various communication functionalities)",
+    "examples": [
+      {
+        "description": "请求头部 - Host: 指定目标服务器的域名和端口。(Request Header - Host: Specifies the domain name and port of the target server.)",
+        "code": "Host: www.example.com"
+      },
+      {
+        "description": "请求头部 - User-Agent: 标识发起请求的用户代理软件。(Request Header - User-Agent: Identifies the user-agent software initiating the request.)",
+        "code": "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/100.0.4896.127"
+      },
+      {
+        "description": "请求头部 - Accept: 客户端可接受的媒体类型。(Request Header - Accept: Media types acceptable for the response.)",
+        "code": "Accept: text/html,application/json"
+      },
+      {
+        "description": "请求头部 - Authorization: 包含客户端身份验证凭据。(Request Header - Authorization: Contains client authentication credentials.)",
+        "code": "Authorization: Bearer eyJhbGciOiJIUzI1Ni..."
+      },
+      {
+        "description": "请求头部 - Cookie: 客户端发送给服务器的 Cookie。(Request Header - Cookie: Cookies sent by the client to the server.)",
+        "code": "Cookie: sessionid=abcdef; csrftoken=ghijkl"
+      },
+      {
+        "description": "响应头部 - Content-Type: 报文主体中的媒体类型。(Response Header - Content-Type: The media type of the message body.)",
+        "code": "Content-Type: application/json; charset=UTF-8"
+      },
+      {
+        "description": "响应头部 - Content-Length: 报文主体的字节长度。(Response Header - Content-Length: The length of the message body in bytes.)",
+        "code": "Content-Length: 1024"
+      },
+      {
+        "description": "响应头部 - Set-Cookie: 服务器设置一个 Cookie 给客户端。(Response Header - Set-Cookie: The server sets a cookie for the client.)",
+        "code": "Set-Cookie: sessionid=abcdef123; HttpOnly; Secure; Max-Age=3600"
+      },
+      {
+        "description": "通用头部 - Cache-Control: 指定请求/响应的缓存机制。(General Header - Cache-Control: Specifies caching mechanisms for requests/responses.)",
+        "code": "Cache-Control: no-cache, no-store, must-revalidate"
+      },
+      {
+        "description": "响应头部 - Location: 用于重定向，指示资源的新 URI。(Response Header - Location: Used for redirection, indicating the new URI of the resource.)",
+        "code": "Location: /new/path/to/resource"
+      },
+      {
+        "description": "响应头部 - Access-Control-Allow-Origin: CORS 响应头，指定允许访问资源的域。(Response Header - Access-Control-Allow-Origin: CORS response header, specifying domains allowed to access the resource.)",
+        "code": "Access-Control-Allow-Origin: https://www.frontend.com"
+      },
+      {
+        "description": "安全头部 - Strict-Transport-Security (HSTS): 强制客户端后续通过 HTTPS 访问。(Security Header - Strict-Transport-Security (HSTS): Forces clients to use HTTPS for subsequent access.)",
+        "code": "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"
+      }
+    ],
+    "notes": "HTTP 头部是 HTTP 协议的精髓，它们定义了客户端和服务器如何通信、如何管理缓存、如何进行认证以及如何处理跨域请求等。掌握常用头部对于理解和优化 Web 应用性能至关重要。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP Version Evolution (HTTP/1.x, HTTP/2, HTTP/3)",
+    "summary": "HTTP 协议从初版到现代的演进，旨在提升性能和效率 (The evolution of the HTTP protocol from its initial versions to modern ones, aiming to improve performance and efficiency)",
+    "examples": [
+      {
+        "description": "HTTP/1.0: 短连接，每个请求-响应一对一TCP连接。 (HTTP/1.0: Short-lived connections, one-to-one TCP connection for each request-response.)",
+        "code": "GET /page HTTP/1.0\n# ... response ...\n# TCP connection closes"
+      },
+      {
+        "description": "HTTP/1.1: 引入长连接（Keep-Alive），连接复用；管道化。(HTTP/1.1: Introduced persistent connections (Keep-Alive), connection reuse; pipelining.)",
+        "code": "GET /page1 HTTP/1.1\nGET /page2 HTTP/1.1\n# ... responses arrive in order over same TCP connection ...\nConnection: keep-alive"
+      },
+      {
+        "description": "HTTP/2: 二进制分帧、多路复用、头部压缩、服务器推送。解决队头阻塞。(HTTP/2: Binary framing, multiplexing, header compression, server push. Addresses head-of-line blocking.)",
+        "code": "Binary framing: Requests and responses are broken into frames.\nMultiplexing: Multiple requests/responses concurrently over a single TCP connection.\nHeader compression: HPACK reduces header overhead.\nServer Push: Server can proactively send resources client will likely need."
+      },
+      {
+        "description": "HTTP/3: 基于 QUIC 协议 (UDP)，彻底解决队头阻塞，0-RTT/1-RTT 连接，连接迁移。(HTTP/3: Based on QUIC protocol (UDP), completely solves head-of-line blocking, 0-RTT/1-RTT connection setup, connection migration.)",
+        "code": "QUIC: New transport layer protocol over UDP.\nNo Head-of-Line Blocking at TCP level: Streams are independent.\nFaster Connection Setup: 0-RTT or 1-RTT handshake.\nConnection Migration: Seamless transition between network types (Wi-Fi to 4G)."
+      }
+    ],
+    "notes": "HTTP/1.x 存在队头阻塞问题，HTTP/2 通过多路复用缓解了此问题但底层 TCP 仍有阻塞。HTTP/3 引入 QUIC 协议，基于 UDP 并彻底解决了传输层队头阻塞，同时提供更快的连接建立和连接迁移能力。",
+    "shell_type": "Conceptual / Illustrative"
+  },
+  {
+    "name": "HTTPS (HTTP Secure)",
+    "summary": "HTTP over TLS/SSL，通过加密、身份认证和数据完整性提供安全的Web通信 (HTTP over TLS/SSL, providing secure web communication through encryption, authentication, and data integrity)",
+    "examples": [
+      {
+        "description": "HTTPS URL 示例 (Example of an HTTPS URL)",
+        "code": "https://secure.example.com/login"
+      },
+      {
+        "description": "TLS/SSL 握手的主要阶段 (Key stages of a TLS/SSL Handshake)",
+        "code": "1. Client Hello (Client offers supported cipher suites)\n2. Server Hello (Server chooses cipher, sends certificate)\n3. Client verifies certificate, generates pre-master secret\n4. Client sends encrypted pre-master secret to server\n5. Server decrypts, both derive session keys\n6. Encrypted application data exchange begins"
+      },
+      {
+        "description": "强制 HTTPS 的响应头部 (Response header to enforce HTTPS)",
+        "code": "Strict-Transport-Security: max-age=31536000; includeSubDomains"
+      }
+    ],
+    "notes": "HTTPS 在 HTTP 和 TCP 层之间加入了 TLS/SSL 层，提供数据加密、服务器身份认证和消息完整性验证。TLS 握手是建立安全连接的关键步骤，涉及非对称加密（证书）和对称加密（会话密钥）的结合使用。启用 HTTPS 是现代 Web 开发的强制性要求。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP Caching",
+    "summary": "利用客户端和代理服务器的缓存机制，减少对原始服务器的请求，提升网站性能和用户体验 (Leveraging client and proxy server caching mechanisms to reduce requests to the origin server, improving website performance and user experience)",
+    "examples": [
+      {
+        "description": "强缓存：Expires 头部 (Strong Caching: Expires Header)",
+        "code": "Expires: Tue, 04 Apr 2023 11:30:00 GMT\nCache-Control: max-age=3600, public"
+      },
+      {
+        "description": "协商缓存：Last-Modified / If-Modified-Since 头部 (Negotiated Caching: Last-Modified / If-Modified-Since Headers)",
+        "code": "# Server Response\nLast-Modified: Mon, 03 Apr 2023 15:00:00 GMT\n\n# Client Request (after cache expiration)\nIf-Modified-Since: Mon, 03 Apr 2023 15:00:00 GMT"
+      },
+      {
+        "description": "协商缓存：ETag / If-None-Match 头部 (Negotiated Caching: ETag / If-None-Match Headers)",
+        "code": "# Server Response\nETag: \"abcdef123456\"\n\n# Client Request (after cache expiration)\nIf-None-Match: \"abcdef123456\""
+      },
+      {
+        "description": "客户端使用缓存，服务器返回 304 Not Modified (Client uses cache, server returns 304 Not Modified)",
+        "code": "HTTP/1.1 304 Not Modified"
+      }
+    ],
+    "notes": "缓存分为强缓存和协商缓存。强缓存通过 `Expires` 或 `Cache-Control: max-age` 直接判断是否使用缓存，不与服务器通信。协商缓存则通过 `Last-Modified/If-Modified-Since` 或 `ETag/If-None-Match` 与服务器验证资源是否更新，若未更新则返回 304 状态码，指示客户端使用本地缓存。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP Cookies & Session Management",
+    "summary": "通过服务器设置并由客户端存储的小段数据（Cookie），在无状态的HTTP协议上实现会话状态的维护 (Small pieces of data (Cookies) set by the server and stored by the client, used to maintain session state over the stateless HTTP protocol)",
+    "examples": [
+      {
+        "description": "服务器设置 Cookie (Server setting a Cookie)",
+        "code": "Set-Cookie: sessionid=xyz123abc; Path=/; Expires=Wed, 05 Apr 2024 10:30:00 GMT; HttpOnly; Secure; SameSite=Lax"
+      },
+      {
+        "description": "客户端发送 Cookie (Client sending Cookies)",
+        "code": "Cookie: sessionid=xyz123abc; username=johndoe"
+      },
+      {
+        "description": "Cookie 常用属性及其含义 (Common Cookie attributes and their meanings)",
+        "code": "Path: Cookie 有效的路径\nDomain: Cookie 有效的域名\nExpires/Max-Age: Cookie 的有效期\nSecure: 只在 HTTPS 连接中发送\nHttpOnly: 阻止 JavaScript 访问 Cookie，防止 XSS 攻击\nSameSite: 限制第三方 Cookie 的发送，防止 CSRF 攻击"
+      }
+    ],
+    "notes": "HTTP 本身是无状态的，这意味着服务器不会记住之前的请求。Cookie 是解决这个问题的核心机制。它们由服务器通过 `Set-Cookie` 头部发送给客户端，客户端在后续请求中通过 `Cookie` 头部将其传回。会话 (Session) 通常是服务器端维护的数据结构，其 ID 通过 Cookie 传递给客户端。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP CORS (Cross-Origin Resource Sharing)",
+    "summary": "跨域资源共享机制，允许浏览器安全地从不同源（域、协议、端口）的服务器请求资源 (Cross-Origin Resource Sharing mechanism, allowing browsers to securely request resources from different origins (domain, protocol, port) on servers)",
+    "examples": [
+      {
+        "description": "同源策略 (Same-Origin Policy): 默认安全限制 (Default security restriction)",
+        "code": "Origin: https://www.example.com\n# 试图访问 http://api.anothersite.com 会被浏览器阻止，除非目标服务器允许 CORS"
+      },
+      {
+        "description": "简单请求 (Simple Request): 不触发预检请求 (Does not trigger a preflight request)",
+        "code": "# Request Header\nOrigin: https://www.frontend.com\n\n# Response Header\nAccess-Control-Allow-Origin: https://www.frontend.com"
+      },
+      {
+        "description": "预检请求 (Preflight Request - OPTIONS): 在复杂请求前发送，询问服务器是否允许 (Sent before complex requests, asking the server for permission)",
+        "code": "# Preflight Request\nOPTIONS /api/data HTTP/1.1\nOrigin: https://www.frontend.com\nAccess-Control-Request-Method: PUT\nAccess-Control-Request-Headers: Content-Type, Authorization\n\n# Server Response to Preflight\nHTTP/1.1 200 OK\nAccess-Control-Allow-Origin: https://www.frontend.com\nAccess-Control-Allow-Methods: GET, POST, PUT, DELETE\nAccess-Control-Allow-Headers: Content-Type, Authorization\nAccess-Control-Max-Age: 86400"
+      }
+    ],
+    "notes": "同源策略是浏览器的一项安全限制，阻止网页加载来自不同源的资源。CORS 是一种机制，通过在服务器响应中添加 `Access-Control-Allow-Origin` 等头部，明确允许来自特定源的请求。复杂请求（如 PUT/DELETE、带自定义头部的请求）会先发送一个 OPTIONS 预检请求以确认服务器支持。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "HTTP Authentication",
+    "summary": "用于验证客户端身份，确保只有授权用户才能访问受保护资源的机制 (Mechanisms for verifying client identity, ensuring only authorized users can access protected resources)",
+    "examples": [
+      {
+        "description": "HTTP Basic 认证 (HTTP Basic Authentication)",
+        "code": "# Server Response (Requesting authentication)\nWWW-Authenticate: Basic realm=\"Restricted Area\"\n\n# Client Request (Providing credentials)\nAuthorization: Basic YWRtaW46cGFzc3dvcmQ= (base64_encode(username:password))"
+      },
+      {
+        "description": "Bearer Token 认证 (常用于 OAuth2.0 和 JWT) (Bearer Token Authentication (commonly used with OAuth2.0 and JWT))",
+        "code": "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      },
+      {
+        "description": "使用 API Key 进行认证 (Authentication using API Key)",
+        "code": "X-API-Key: YOUR_API_KEY_HERE\n# 或者作为查询参数: GET /api/resource?apiKey=YOUR_API_KEY_HERE"
+      }
+    ],
+    "notes": "常见的 HTTP 认证方式包括 Basic 认证（不安全，用户名密码明文传输）、Digest 认证（较 Basic 安全但复杂）、以及更现代的基于 Token 的认证（如 Bearer Token，JWT）。Bearer Token 认证通常涉及客户端先通过登录获取一个 Token，然后在后续请求中携带此 Token 进行身份验证。",
+    "shell_type": "Conceptual"
+  }
+]

@@ -1,0 +1,1978 @@
+[
+  {
+    "name": "git init",
+    "summary": "初始化新的 Git 仓库 (Initialize a new Git repository)",
+    "examples": [
+      {
+        "description": "在当前目录初始化一个新的 Git 仓库",
+        "code": "git init"
+      },
+      {
+        "description": "在指定目录 'my_project' 初始化一个新的 Git 仓库",
+        "code": "git init my_project"
+      }
+    ],
+    "notes": "此命令会在当前目录（或指定目录）创建一个名为 `.git` 的子目录。这个 `.git` 目录包含了 Git 仓库的所有必要文件，例如对象数据库、索引、配置和引用。通常是开始新项目的第一步。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git clone",
+    "summary": "克隆一个远程仓库到本地 (Clone a remote repository into a new directory)",
+    "examples": [
+      {
+        "description": "克隆远程仓库到当前目录下的一个新目录（目录名默认为仓库名）",
+        "code": "git clone https://github.com/user/repo.git"
+      },
+      {
+        "description": "克隆远程仓库到指定目录 'my_local_repo'",
+        "code": "git clone git@github.com:user/repo.git my_local_repo"
+      },
+      {
+        "description": "只克隆指定分支 'develop'，不下载其他分支的历史",
+        "code": "git clone -b develop https://github.com/user/repo.git"
+      },
+      {
+        "description": "只克隆最近一次提交（浅克隆），减少下载量，适用于大型仓库",
+        "code": "git clone --depth 1 https://github.com/user/repo.git"
+      }
+    ],
+    "notes": "克隆操作会创建一个本地仓库副本，包含远程仓库的所有历史记录（除非使用了 `--depth`）。它会自动设置名为 `origin` 的远程跟踪，指向被克隆的仓库。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git status",
+    "summary": "查看工作区和暂存区的状态 (Show the working tree status)",
+    "examples": [
+      {
+        "description": "查看当前仓库的详细状态，显示已修改、已暂存、未跟踪的文件",
+        "code": "git status"
+      },
+      {
+        "description": "以简洁模式显示状态，更适合脚本解析或快速概览",
+        "code": "git status -s"
+      }
+    ],
+    "notes": "这个命令是日常 Git 工作流中最常用的命令之一，它能清晰地告诉你工作区和暂存区有哪些变化，以及这些变化处于哪种状态（修改、暂存、未跟踪等），帮助你决定下一步操作。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git add",
+    "summary": "将文件内容添加到暂存区 (Add file contents to the index)",
+    "examples": [
+      {
+        "description": "添加单个文件到暂存区",
+        "code": "git add index.html"
+      },
+      {
+        "description": "添加当前目录所有已修改和新增的文件到暂存区（不包括删除的文件）",
+        "code": "git add ."
+      },
+      {
+        "description": "添加所有已跟踪（tracked）的已修改和已删除的文件到暂存区（不包括新文件）",
+        "code": "git add -u"
+      },
+      {
+        "description": "添加所有已修改、已新增和已删除的文件到暂存区（最全面的添加方式）",
+        "code": "git add -A"
+      },
+      {
+        "description": "交互式添加，允许你选择性地暂存文件或文件块（chunks）",
+        "code": "git add -p"
+      }
+    ],
+    "notes": "`git add` 是将工作区更改提交到本地仓库的第一步。文件必须先被 `add` 到暂存区，才能通过 `git commit` 命令提交。`git add -p` 在需要细粒度控制提交内容时非常有用。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git rm",
+    "summary": "从工作区和暂存区删除文件 (Remove files from the working tree and from the index)",
+    "examples": [
+      {
+        "description": "删除文件 `file.txt`，并从 Git 跟踪中移除（同时删除工作区和暂存区的文件）",
+        "code": "git rm file.txt"
+      },
+      {
+        "description": "仅从暂存区删除 `sensitive_data.txt`，但保留工作区中的文件（取消跟踪）",
+        "code": "git rm --cached sensitive_data.txt"
+      },
+      {
+        "description": "递归删除目录 `logs/` 及其所有内容",
+        "code": "git rm -r logs/"
+      }
+    ],
+    "notes": "`git rm` 会将删除操作记录到暂存区，你需要后续执行 `git commit` 来将此删除记录正式保存到仓库历史中。`--cached` 参数在不小心将敏感文件添加到仓库后，想取消跟踪但又不想删除本地文件时非常有用。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git mv",
+    "summary": "移动或重命名文件/目录 (Move or rename a file, a directory, or a symlink)",
+    "examples": [
+      {
+        "description": "将 `old_name.txt` 重命名为 `new_name.txt`",
+        "code": "git mv old_name.txt new_name.txt"
+      },
+      {
+        "description": "将 `docs/README.md` 移动到当前目录",
+        "code": "git mv docs/README.md ./README.md"
+      }
+    ],
+    "notes": "`git mv` 实际上是 Git 对 `mv` 命令、`git rm` 和 `git add` 的封装，它能更好地让 Git 识别文件是“被移动”而不是“被删除并新增”，从而保持提交历史的清晰。执行后，你需要 `git commit` 来保存这些更改。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git commit",
+    "summary": "记录更改到仓库 (Record changes to the repository)",
+    "examples": [
+      {
+        "description": "提交暂存区的所有内容，并附上提交信息",
+        "code": "git commit -m \"feat: Add user authentication module\""
+      },
+      {
+        "description": "跳过暂存区，直接将所有已跟踪且已修改/删除的文件提交",
+        "code": "git commit -am \"fix: Resolve login redirection issue\""
+      },
+      {
+        "description": "修改上次提交（可以修改提交信息，或将当前暂存区的内容并入上次提交）",
+        "code": "git commit --amend -m \"refactor: Improve UI responsiveness (typo fixed)\""
+      },
+      {
+        "description": "创建一个空提交（没有文件变动），常用于触发CI/CD流水线或标记特殊事件",
+        "code": "git commit --allow-empty -m \"chore: Trigger build for CI/CD setup\""
+      }
+    ],
+    "notes": "每次 `git commit` 都会在本地仓库中创建一个新的快照。良好的提交信息（清晰、简洁、遵循规范）对于项目的版本历史和团队协作至关重要。`--amend` 仅用于修改本地尚未推送到远程的提交。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git diff",
+    "summary": "显示提交之间、提交和工作区之间等的差异 (Show changes between commits, commit and working tree, etc.)",
+    "examples": [
+      {
+        "description": "查看工作区与暂存区之间的差异（即你尚未 `git add` 的修改）",
+        "code": "git diff"
+      },
+      {
+        "description": "查看暂存区与上次提交之间的差异（即你已 `git add` 但尚未 `git commit` 的修改）",
+        "code": "git diff --staged"
+      },
+      {
+        "description": "查看工作区与上次提交（HEAD）之间的所有差异",
+        "code": "git diff HEAD"
+      },
+      {
+        "description": "查看两次指定提交之间的差异",
+        "code": "git diff <commit-id-1> <commit-id-2>"
+      },
+      {
+        "description": "查看两个分支最新提交之间的差异",
+        "code": "git diff feature-branch..main"
+      },
+      {
+        "description": "查看特定文件 `src/app.js` 在工作区与上次提交之间的差异",
+        "code": "git diff src/app.js"
+      }
+    ],
+    "notes": "这是一个非常强大的分析工具，能够帮助你理解代码的精确变更。它显示了哪些行被添加、哪些被删除、哪些被修改。理解不同的 `git diff` 参数对于有效使用 Git 至关重要。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git log",
+    "summary": "显示提交日志 (Show commit logs)",
+    "examples": [
+      {
+        "description": "显示完整的提交历史，按时间倒序排列",
+        "code": "git log"
+      },
+      {
+        "description": "以简洁的单行格式显示提交历史，包含提交ID和提交信息",
+        "code": "git log --oneline"
+      },
+      {
+        "description": "显示所有分支（包括远程分支）的提交历史，并以图形方式展示分支合并和分叉",
+        "code": "git log --graph --oneline --all"
+      },
+      {
+        "description": "显示最近3次提交的详细内容（包括代码差异）",
+        "code": "git log -p -n 3"
+      },
+      {
+        "description": "显示由特定作者提交的所有记录",
+        "code": "git log --author=\"John Doe\""
+      },
+      {
+        "description": "显示提交信息中包含特定字符串的记录",
+        "code": "git log --grep=\"bugfix\""
+      },
+      {
+        "description": "显示特定文件 `path/to/file.txt` 的所有修改历史",
+        "code": "git log -- follow -- path/to/file.txt"
+      }
+    ],
+    "notes": "`git log` 是理解项目演进的关键命令。通过不同的参数，你可以过滤、格式化和可视化提交历史，方便代码审查、问题追溯或理解新功能引入过程。`--follow` 参数对于追踪文件重命名后的历史非常重要。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git show",
+    "summary": "显示各种类型的对象 (Show various types of objects)",
+    "examples": [
+      {
+        "description": "显示最新提交（HEAD）的详细信息和变更内容",
+        "code": "git show HEAD"
+      },
+      {
+        "description": "显示指定提交 `a1b2c3d` 的详细信息和变更内容",
+        "code": "git show a1b2c3d"
+      },
+      {
+        "description": "显示指定标签 `v1.0.0` 所指向的提交的详细信息",
+        "code": "git show v1.0.0"
+      },
+      {
+        "description": "显示特定文件 `path/to/file.txt` 在最新提交中的内容",
+        "code": "git show HEAD:path/to/file.txt"
+      }
+    ],
+    "notes": "`git show` 用于查看 Git 内部对象的原始数据。它常用来查看某次提交的具体变更内容，或者某个标签所代表的版本细节。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git blame",
+    "summary": "显示文件每一行的最新修改提交和作者 (Show what revision and author last modified each line of a file)",
+    "examples": [
+      {
+        "description": "查看 `my_script.py` 文件中每一行的最后修改者和提交信息",
+        "code": "git blame my_script.py"
+      },
+      {
+        "description": "从指定提交 `a1b2c3d` 开始，查看 `docs/README.md` 的责任历史",
+        "code": "git blame a1b2c3d -- docs/README.md"
+      }
+    ],
+    "notes": "此命令有助于理解代码的来源和历史，对于代码审查、问题调试或团队协作中追溯特定代码行的负责人非常有用。",
+    "shell_type": "External (`/usr/bin/git`)"
+  },
+  {
+    "name": "git branch",
+    "summary": "管理本地分支 (Manage local branches)",
+    "examples": [
+      {
+        "description": "列出所有本地分支，当前分支前有 '*' 标记",
+        "code": "git branch"
+      },
+      {
+        "description": "列出所有本地和远程跟踪分支",
+        "code": "git branch -a"
+      },
+      {
+        "description": "列出所有远程跟踪分支",
+        "code": "git branch -r"
+      },
+      {
+        "description": "创建一个名为 'new-feature' 的新分支，基于当前分支",
+        "code": "git branch new-feature"
+      },
+      {
+        "description": "创建一个新分支 'bugfix'，并使其指向 'main' 分支的最新提交",
+        "code": "git branch bugfix main"
+      },
+      {
+        "description": "创建一个新分支 'hotfix'，并使其指向指定提交 'abcdefg' (或 HEAD~2 等相对引用)",
+        "code": "git branch hotfix abcdefg"
+      },
+      {
+        "description": "删除已合并的本地分支 'old-feature'",
+        "code": "git branch -d old-feature"
+      },
+      {
+        "description": "强制删除本地分支 'unmerged-feature' (即使它包含未合并的更改)",
+        "code": "git branch -D unmerged-feature"
+      },
+      {
+        "description": "重命名当前分支为 'renamed-branch'",
+        "code": "git branch -m renamed-branch"
+      },
+      {
+        "description": "重命名分支 'old-name' 为 'new-name'",
+        "code": "git branch -m old-name new-name"
+      }
+    ],
+    "notes": "分支是 Git 的核心功能之一，允许开发者并行工作而不会互相干扰。`git branch` 命令用于创建、删除和列出分支。通常，在创建新功能或修复bug时会创建新分支。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git checkout / git switch",
+    "summary": "切换分支或恢复文件 (Switch branches or restore files)",
+    "examples": [
+      {
+        "description": "切换到现有分支 'dev'",
+        "code": "git checkout dev"
+      },
+      {
+        "description": "创建新分支 'new-feature' 并立即切换到该分支",
+        "code": "git checkout -b new-feature"
+      },
+      {
+        "description": "创建新分支 'hotfix' 并从 'main' 分支的最新提交开始",
+        "code": "git checkout -b hotfix main"
+      },
+      {
+        "description": "切换回上一个分支 (类似于 `cd -`)",
+        "code": "git checkout -"
+      },
+      {
+        "description": "废弃工作区对 'config.ini' 的修改，恢复到上次提交的状态（不影响暂存区）",
+        "code": "git checkout config.ini"
+      },
+      {
+        "description": "废弃工作区对所有文件的修改，恢复到上次提交的状态",
+        "code": "git checkout ."
+      },
+      {
+        "description": "(Git 2.23+ 推荐) 切换到现有分支 'main'",
+        "code": "git switch main"
+      },
+      {
+        "description": "(Git 2.23+ 推荐) 创建新分支 'feature-x' 并立即切换到该分支",
+        "code": "git switch -c feature-x"
+      }
+    ],
+    "notes": "`git checkout` 是一个多功能命令，但其作用模糊。Git 2.23+ 引入了 `git switch` 用于切换分支，`git restore` 用于恢复文件，使得命令意图更明确。建议优先使用 `git switch` 和 `git restore`。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git merge",
+    "summary": "将指定分支的更改合并到当前分支 (Join two or more development histories together)",
+    "examples": [
+      {
+        "description": "将 'feature/login' 分支的更改合并到当前分支 (通常是 'main' 或 'dev')",
+        "code": "git merge feature/login"
+      },
+      {
+        "description": "在合并冲突时中止合并操作，恢复到合并前的状态",
+        "code": "git merge --abort"
+      },
+      {
+        "description": "解决合并冲突后，继续合并操作",
+        "code": "git merge --continue"
+      },
+      {
+        "description": "进行 squash 合并：将指定分支的所有提交压缩成一个单独的提交，然后合并到当前分支",
+        "code": "git merge --squash feature/new-design"
+      },
+      {
+        "description": "禁用快进合并 (fast-forward)，强制创建一个新的合并提交，即使可以快进",
+        "code": "git merge --no-ff feature/bugfix"
+      }
+    ],
+    "notes": "合并是 Git 中整合不同分支工作的主要方式。当出现冲突时，需要手动解决。`--no-ff` 在合并重要功能分支时很有用，因为它会保留一个明确的合并提交历史。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git rebase",
+    "summary": "将当前分支的提交重新应用到另一个分支的顶部 (Reapply commits on top of another base tip)",
+    "examples": [
+      {
+        "description": "将当前分支的提交应用到 'main' 分支的最新提交之上",
+        "code": "git rebase main"
+      },
+      {
+        "description": "在 rebase 冲突时中止操作",
+        "code": "git rebase --abort"
+      },
+      {
+        "description": "解决 rebase 冲突后，继续 rebase 操作",
+        "code": "git rebase --continue"
+      },
+      {
+        "description": "交互式 rebase，可以修改、合并、删除、重排最近的 3 个提交",
+        "code": "git rebase -i HEAD~3"
+      },
+      {
+        "description": "跳过当前有问题的 rebase 提交",
+        "code": "git rebase --skip"
+      }
+    ],
+    "notes": "Rebase 会改写提交历史，使项目历史看起来更线性、更整洁。但切记：**不要对已推送到公共仓库的提交进行 rebase**，因为这会改变共享的历史，给其他协作者带来问题。Rebase 主要用于整理自己的本地分支提交，再合并到主分支。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git cherry-pick",
+    "summary": "将指定的一个或多个提交应用到当前分支 (Apply the changes introduced by some existing commits)",
+    "examples": [
+      {
+        "description": "将指定提交 'abcdefg' 的更改应用到当前分支",
+        "code": "git cherry-pick abcdefg"
+      },
+      {
+        "description": "将多个提交按顺序应用到当前分支",
+        "code": "git cherry-pick commitA commitB commitC"
+      },
+      {
+        "description": "在 cherry-pick 过程中遇到冲突时，中止操作",
+        "code": "git cherry-pick --abort"
+      },
+      {
+        "description": "在 cherry-pick 冲突解决后，继续操作",
+        "code": "git cherry-pick --continue"
+      },
+      {
+        "description": "应用提交时不自动生成新的提交，只将更改应用到工作区和暂存区",
+        "code": "git cherry-pick -n abcdefg"
+      }
+    ],
+    "notes": "Cherry-pick 适用于将特定提交从一个分支挑选出来应用到另一个分支，而不需要合并整个分支。例如，将一个bugfix从开发分支复制到生产分支。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git remote",
+    "summary": "管理远程仓库连接 (Manage set of tracked repositories)",
+    "examples": [
+      {
+        "description": "列出已配置的远程仓库短名称",
+        "code": "git remote"
+      },
+      {
+        "description": "列出已配置的远程仓库短名称及其URL",
+        "code": "git remote -v"
+      },
+      {
+        "description": "添加一个名为 'upstream' 的远程仓库，并指定其URL",
+        "code": "git remote add upstream https://github.com/original/repo.git"
+      },
+      {
+        "description": "重命名远程仓库 'origin' 为 'main_remote'",
+        "code": "git remote rename origin main_remote"
+      },
+      {
+        "description": "移除名为 'old-remote' 的远程仓库",
+        "code": "git remote remove old-remote"
+      },
+      {
+        "description": "显示远程仓库 'origin' 的详细信息",
+        "code": "git remote show origin"
+      }
+    ],
+    "notes": "`git remote` 命令管理本地仓库与远程仓库之间的连接。通常，当你 `git clone` 一个仓库时，会自动添加一个名为 `origin` 的远程仓库。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git fetch",
+    "summary": "从远程仓库下载对象和引用 (Download objects and refs from another repository)",
+    "examples": [
+      {
+        "description": "从所有已配置的远程仓库下载所有分支和标签的最新更改",
+        "code": "git fetch --all"
+      },
+      {
+        "description": "从远程仓库 'origin' 下载所有分支的最新更改，但不合并",
+        "code": "git fetch origin"
+      },
+      {
+        "description": "从远程仓库 'origin' 下载 'main' 分支的最新更改",
+        "code": "git fetch origin main"
+      },
+      {
+        "description": "清理本地已不存在的远程跟踪分支",
+        "code": "git fetch --prune"
+      }
+    ],
+    "notes": "`git fetch` 只是将远程仓库的最新状态下载到本地的远程跟踪分支（如 `origin/main`），它不会改变你的工作区和当前分支。这允许你在合并之前查看远程的更改。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git pull",
+    "summary": "从远程仓库拉取并集成 (Fetch from and integrate with another repository or a local branch)",
+    "examples": [
+      {
+        "description": "从默认远程仓库（通常是 'origin'）的当前跟踪分支拉取并合并更改",
+        "code": "git pull"
+      },
+      {
+        "description": "从远程仓库 'origin' 拉取 'main' 分支的更改并合并到当前分支",
+        "code": "git pull origin main"
+      },
+      {
+        "description": "使用 rebase 模式而非 merge 模式来拉取并应用更改",
+        "code": "git pull --rebase"
+      }
+    ],
+    "notes": "`git pull` 是 `git fetch` 和 `git merge` 的组合命令。默认情况下，它会抓取远程分支并将其合并到当前分支。使用 `--rebase` 选项可以保持提交历史的线性，避免不必要的合并提交。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git push",
+    "summary": "将本地分支推送到远程仓库 (Update remote refs along with associated objects)",
+    "examples": [
+      {
+        "description": "将当前分支推送到其上游远程分支 (如果已设置)",
+        "code": "git push"
+      },
+      {
+        "description": "将本地 'main' 分支推送到远程仓库 'origin' 的 'main' 分支",
+        "code": "git push origin main"
+      },
+      {
+        "description": "将本地 'feature/abc' 分支推送到远程仓库 'origin'，并设置其为跟踪分支",
+        "code": "git push -u origin feature/abc"
+      },
+      {
+        "description": "强制推送，覆盖远程分支的历史。**慎用！** 这会抹去远程已有的提交历史。",
+        "code": "git push --force origin main"
+      },
+      {
+        "description": "删除远程仓库 'origin' 上的 'old-branch'",
+        "code": "git push origin --delete old-branch"
+      },
+      {
+        "description": "推送所有本地标签到远程仓库",
+        "code": "git push --tags"
+      }
+    ],
+    "notes": "将本地提交共享给团队成员的关键命令。`--force` 选项非常危险，除非你非常清楚你在做什么，并且已经与团队成员沟通好，否则不要使用。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git remote prune / git fetch --prune",
+    "summary": "清理本地已不存在的远程跟踪分支 (Delete stale remote-tracking branches)",
+    "examples": [
+      {
+        "description": "清理远程仓库 'origin' 中本地已不存在的远程跟踪分支",
+        "code": "git remote prune origin"
+      },
+      {
+        "description": "在执行 fetch 操作的同时，清理所有远程跟踪分支 (推荐方式)",
+        "code": "git fetch --prune"
+      }
+    ],
+    "notes": "当远程仓库中的分支被删除后，本地的远程跟踪分支（如 `origin/feature-x`）仍然会保留。这些命令用于清除这些过时的本地引用，保持本地仓库的整洁。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git restore",
+    "summary": "恢复工作区或暂存区的文件 (Restore working tree files)",
+    "examples": [
+      {
+        "description": "丢弃工作区对 'index.html' 的所有修改，恢复到最近一次提交或暂存区的状态",
+        "code": "git restore index.html"
+      },
+      {
+        "description": "将 'src/app.js' 从暂存区移回工作区 (取消暂存)",
+        "code": "git restore --staged src/app.js"
+      },
+      {
+        "description": "将 'style.css' 恢复到指定提交 'abcdefg' 的版本，同时更新工作区和暂存区",
+        "code": "git restore --source=abcdefg style.css"
+      },
+      {
+        "description": "丢弃工作区所有未提交的修改",
+        "code": "git restore ."
+      }
+    ],
+    "notes": "这是 Git 2.23+ 引入的命令，旨在更清晰地分离“切换分支”和“恢复文件”的操作。它比 `git checkout` 在文件恢复方面更安全，因为它不会切换 HEAD 指针。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git reset",
+    "summary": "重置 HEAD 指针及分支状态 (Reset current HEAD to the specified state)",
+    "examples": [
+      {
+        "description": "将 HEAD 和当前分支指针移回上一次提交，但保留工作区和暂存区的修改 (默认模式 --mixed)",
+        "code": "git reset HEAD~1"
+      },
+      {
+        "description": "将 HEAD 和当前分支指针移回指定提交 'abcdefg'，同时丢弃工作区和暂存区的所有修改。**数据丢失风险高！**",
+        "code": "git reset --hard abcdefg"
+      },
+      {
+        "description": "将 HEAD 和当前分支指针移回上一次提交，但保留工作区和暂存区不变 (修改仍存在，且已暂存)",
+        "code": "git reset --soft HEAD~1"
+      },
+      {
+        "description": "将 HEAD 和当前分支指针移回指定提交，同时取消暂存区的所有修改，但保留工作区",
+        "code": "git reset --mixed abcdefg"
+      },
+      {
+        "description": "取消暂存所有文件 (常用，将所有已 `git add` 的文件退回到未暂存状态)",
+        "code": "git reset"
+      }
+    ],
+    "notes": "`git reset` 是一个强大的撤销工具，可以回溯提交历史。不同模式 (`--hard`, `--soft`, `--mixed`) 决定了它对工作区和暂存区的影响。`--hard` 会丢弃数据，使用时务必小心，因为它会永久性地删除提交。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git revert",
+    "summary": "创建新的提交来撤销指定提交 (Revert some existing commits)",
+    "examples": [
+      {
+        "description": "创建一个新的提交，其内容是撤销最近一次提交的更改",
+        "code": "git revert HEAD"
+      },
+      {
+        "description": "创建一个新的提交，其内容是撤销指定提交 'abcdefg' 的更改",
+        "code": "git revert abcdefg"
+      },
+      {
+        "description": "撤销多个提交，并生成一个合并的撤销提交",
+        "code": "git revert commitA..commitB"
+      },
+      {
+        "description": "在 revert 过程中遇到冲突时，中止操作",
+        "code": "git revert --abort"
+      },
+      {
+        "description": "在 revert 冲突解决后，继续操作",
+        "code": "git revert --continue"
+      }
+    ],
+    "notes": "`git revert` 是撤销更改的“安全”方式，因为它不会改写历史，而是创建一个新的提交来“取消”之前的更改。这使得它非常适合在公共分支上撤销已共享的提交，因为它不会破坏其他人的历史。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git reflog",
+    "summary": "查看 HEAD 和分支的引用日志 (Manage reflog information)",
+    "examples": [
+      {
+        "description": "显示 HEAD 的引用日志，包括所有 Git 操作的记录",
+        "code": "git reflog"
+      },
+      {
+        "description": "显示详细的引用日志，包括提交信息",
+        "code": "git reflog show"
+      },
+      {
+        "description": "显示特定分支的引用日志 (例如 'main' 分支)",
+        "code": "git reflog show main"
+      }
+    ],
+    "notes": "`git reflog` 是一个“安全网”，它记录了你仓库中 HEAD 和分支指针的所有移动历史，包括重置、rebase、合并等。即使你丢失了某个提交（例如使用 `git reset --hard`），只要它还在 reflog 中，你就可以通过 `git reset` 或 `git cherry-pick` 找回它。这是恢复“丢失”提交的救命稻草。",
+    "shell_type": "Git"
+  },
+  {
+    "name": "git stash",
+    "summary": "暂存当前未提交的修改，以便稍后恢复 (Temporarily shelves changes made to your working copy)",
+    "examples": [
+      {
+        "description": "保存当前工作区和暂存区的所有修改，并清空它们",
+        "code": "git stash"
+      },
+      {
+        "description": "保存修改并添加描述信息",
+        "code": "git stash save \"WIP: implementing login feature\""
+      },
+      {
+        "description": "列出所有暂存记录",
+        "code": "git stash list"
+      },
+      {
+        "description": "应用最近的暂存（默认 stash@{0}）并从栈中移除该记录",
+        "code": "git stash pop"
+      },
+      {
+        "description": "应用指定的暂存（例如 stash@{1}），但不从栈中移除",
+        "code": "git stash apply stash@{1}"
+      },
+      {
+        "description": "从栈中删除指定的暂存记录",
+        "code": "git stash drop stash@{0}"
+      },
+      {
+        "description": "显示最近一次暂存的详细差异（类似于 git diff）",
+        "code": "git stash show -p"
+      }
+    ],
+    "notes": "`git stash` 是一个非常有用的命令，它允许你在不提交当前工作进度的前提下，保存工作目录和暂存区的状态，并将其清空。这对于需要快速切换分支来处理紧急任务，或在工作到一半时需要更新主分支代码的情况非常有用。`pop` 操作会在应用暂存后将其从列表中移除，而 `apply` 则会保留，方便你多次应用同一暂存。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git tag",
+    "summary": "创建、列出、删除或验证标签对象 (Create, list, delete or verify a tag object)",
+    "examples": [
+      {
+        "description": "列出所有本地标签",
+        "code": "git tag"
+      },
+      {
+        "description": "创建轻量标签（只包含标签名和指向的提交ID）",
+        "code": "git tag v1.0.0"
+      },
+      {
+        "description": "创建附注标签（推荐，包含标签名、作者、日期、信息），常用于发布版本",
+        "code": "git tag -a v1.0.0 -m \"Release version 1.0.0, first stable public release.\""
+      },
+      {
+        "description": "删除本地标签",
+        "code": "git tag --delete v0.9.0"
+      },
+      {
+        "description": "查看标签的详细信息及其指向的提交内容",
+        "code": "git show v1.0.0"
+      }
+    ],
+    "notes": "Git 标签用于标记仓库历史中的重要节点，通常是发布版本或里程碑。附注标签 (annotated tag) 是一种完整的 Git 对象，包含标签创建者、日期、信息等，并可被加密签名验证，因此更适合用于正式发布。轻量标签 (lightweight tag) 只是一个指向特定提交的指针。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git push --tags",
+    "summary": "将所有本地标签推送到远程仓库 (Push all local tags to the remote repository)",
+    "examples": [
+      {
+        "description": "将所有本地标签推送到名为 'origin' 的远程仓库",
+        "code": "git push origin --tags"
+      }
+    ],
+    "notes": "默认情况下，`git push` 命令不会推送标签。如果你的本地仓库有新创建的标签，并且希望它们也出现在远程仓库上，你需要明确使用 `--tags` 选项。这通常在你发布新版本后，将版本标签同步到远程时使用。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git config",
+    "summary": "获取和设置仓库或全局选项 (Get and set repository or global options)",
+    "examples": [
+      {
+        "description": "设置全局用户名（提交时显示）",
+        "code": "git config --global user.name \"Your Name\""
+      },
+      {
+        "description": "设置全局用户邮箱（提交时显示）",
+        "code": "git config --global user.email \"your@example.com\""
+      },
+      {
+        "description": "列出所有 Git 配置（从系统到本地）",
+        "code": "git config --list"
+      },
+      {
+        "description": "设置全局默认文本编辑器",
+        "code": "git config --global core.editor \"vim\""
+      },
+      {
+        "description": "为 `git checkout` 命令设置别名 `co`",
+        "code": "git config --global alias.co checkout"
+      },
+      {
+        "description": "查看当前仓库的远程 'origin' 的 URL",
+        "code": "git config remote.origin.url"
+      }
+    ],
+    "notes": "`git config` 命令用于配置 Git 的行为。配置项可以应用于三个级别：\n- **系统级别 (`--system`):** 影响所有用户和所有仓库，配置文件通常在 `/etc/gitconfig`。\n- **全局级别 (`--global`):** 影响当前用户的所有仓库，配置文件在用户主目录下的 `~/.gitconfig` 或 `~/.config/git/config`。\n- **本地级别 (默认):** 仅影响当前仓库，配置文件在 `.git/config`。\n当存在相同配置项时，本地配置会覆盖全局配置，全局配置会覆盖系统配置。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git bisect",
+    "summary": "通过二分查找定位引入 bug 的提交 (Find by binary search the commit that introduced a bug)",
+    "examples": [
+      {
+        "description": "开始二分查找过程",
+        "code": "git bisect start"
+      },
+      {
+        "description": "标记当前提交是“坏”的（包含 bug）",
+        "code": "git bisect bad"
+      },
+      {
+        "description": "标记指定提交是“好”的（没有 bug），通常是已知的稳定版本",
+        "code": "git bisect good <commit-id>"
+      },
+      {
+        "description": "结束二分查找过程，回到最初的分支和状态",
+        "code": "git bisect reset"
+      },
+      {
+        "description": "自动执行测试脚本来标记提交的好坏（如果脚本返回0则为好，非0为坏）",
+        "code": "git bisect run ./run_tests.sh"
+      }
+    ],
+    "notes": "`git bisect` 是一个强大的调试工具。当你知道某个 bug 在特定提交范围（例如，在 `commit A` 之后出现，在 `commit B` 之前不存在）内被引入，但不知道具体是哪个提交时，它会通过自动的二分查找，帮你快速定位到引入 bug 的那个提交。你只需告诉 Git 哪些提交是“好”的，哪些是“坏”的，Git 就会自动为你切换到中间的提交，让你进行测试。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git worktree",
+    "summary": "管理多个工作树 (Manage multiple working trees)",
+    "examples": [
+      {
+        "description": "为当前仓库创建一个新的工作树，指向新的分支或现有分支",
+        "code": "git worktree add ../hotfix-branch hotfix/critical-fix"
+      },
+      {
+        "description": "列出所有已关联的工作树",
+        "code": "git worktree list"
+      },
+      {
+        "description": "删除指定的工作树（目录必须为空或不存在）",
+        "code": "git worktree remove ../hotfix-branch"
+      },
+      {
+        "description": "清理不再有效的（已删除的）工作树条目",
+        "code": "git worktree prune"
+      }
+    ],
+    "notes": "`git worktree` 允许你在同一个 Git 仓库下拥有多个工作目录。每个工作目录都关联一个不同的分支，这意味着你可以在不切换分支和不使用 `git stash` 的情况下，同时在多个分支上进行开发、测试或修复。例如，你可以同时在 `main` 分支上开发新功能，并在一个单独的工作树中快速切换到 `hotfix` 分支修复紧急 bug。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git submodule",
+    "summary": "管理子模块 (Manage submodules)",
+    "examples": [
+      {
+        "description": "添加一个子模块（通常是另一个Git仓库）到当前仓库的指定路径",
+        "code": "git submodule add https://github.com/example/library lib/mylib"
+      },
+      {
+        "description": "初始化并更新所有子模块，包括嵌套子模块",
+        "code": "git submodule update --init --recursive"
+      },
+      {
+        "description": "更新所有子模块到其远程跟踪分支的最新版本",
+        "code": "git submodule update --remote"
+      },
+      {
+        "description": "检查子模块的状态",
+        "code": "git submodule status"
+      },
+      {
+        "description": "取消子模块的注册（需要手动删除目录和 .gitmodules 条目）",
+        "code": "git submodule deinit lib/mylib"
+      },
+      {
+        "description": "从仓库中删除子模块（需要先 deinit 并手动删除目录）",
+        "code": "git rm lib/mylib"
+      }
+    ],
+    "notes": "Git Submodule 允许你将一个 Git 仓库作为另一个 Git 仓库的子目录进行嵌套。这对于管理外部依赖库或将大型项目拆分为独立且可复用的组件非常有用。每个子模块都是一个独立的 Git 仓库，拥有自己的提交历史。当克隆包含子模块的仓库时，需要额外的 `git submodule update --init --recursive` 命令来获取子模块的内容。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git clean",
+    "summary": "从工作区中移除未跟踪的文件 (Remove untracked files from working tree)",
+    "examples": [
+      {
+        "description": "空运行：显示将要被删除的未跟踪文件和目录，不实际执行删除",
+        "code": "git clean -fdn"
+      },
+      {
+        "description": "强制删除工作区中所有未跟踪的文件",
+        "code": "git clean -f"
+      },
+      {
+        "description": "强制删除工作区中所有未跟踪的文件和目录",
+        "code": "git clean -fd"
+      },
+      {
+        "description": "强制删除所有未跟踪的文件和目录，包括那些被 `.gitignore` 忽略的文件",
+        "code": "git clean -xfd"
+      }
+    ],
+    "notes": "`git clean` 是一个清理工作区非常强大的命令，它会删除那些没有被 Git 跟踪的文件和目录（即未添加到暂存区或提交历史中的文件）。**此操作是永久性的，被删除的文件无法通过 Git 恢复，请务必谨慎使用！在执行实际删除操作前，强烈建议先使用 `-n` (或 `--dry-run`) 选项进行模拟运行，以确认将要删除的内容。**",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": "git grep",
+    "summary": "在 Git 跟踪的文件中查找匹配模式的行 (Print lines matching a pattern)",
+    "examples": [
+      {
+        "description": "在当前仓库中所有被跟踪的文件中查找包含“TODO”的行",
+        "code": "git grep \"TODO\""
+      },
+      {
+        "description": "在所有 `.js` 文件中查找包含“function”的文件名（只列出文件名）",
+        "code": "git grep -l \"function\" -- '*.js'"
+      },
+      {
+        "description": "统计 `src/` 目录下包含“error”的行数",
+        "code": "git grep -c \"error\" src/"
+      },
+      {
+        "description": "查找包含“pattern1”或“pattern2”的行",
+        "code": "git grep -e \"pattern1\" --or -e \"pattern2\""
+      },
+      {
+        "description": "在特定提交（例如上一个提交）中查找模式",
+        "code": "git grep \"deprecated\" HEAD~1"
+      }
+    ],
+    "notes": "`git grep` 是 Git 内置的高效搜索工具，比普通的 `grep` 命令在 Git 仓库中更快、更智能，因为它能利用 Git 的索引和对象数据库。它可以搜索已跟踪的文件、特定提交中的文件，并且支持多种选项来过滤和格式化输出。是开发者进行代码审计、查找特定字符串或重构代码时的利器。",
+    "shell_type": "Built-in (part of Git)"
+  },
+  {
+    "name": ".gitignore",
+    "summary": "配置 Git 忽略特定文件或目录 (Configuration file for Git to ignore specified files or directories)",
+    "examples": [
+      {
+        "description": "在 `.gitignore` 文件中添加以下规则示例：",
+        "code": "```\n# 忽略所有以 .log 结尾的文件\n*.log\n\n# 忽略整个 build 目录及其内容\nbuild/\n\n# 忽略一个名为 my_secret_config.ini 的特定文件\nmy_secret_config.ini\n\n# 忽略 node_modules 目录及其所有内容\nnode_modules/\n\n# 但不忽略 node_modules/important.js （感叹号表示例外）\n!node_modules/important.js\n\n# 忽略所有以 temp 开头的文件，但如果是 tmp.txt 则不忽略\ntemp*\n!tmp.txt\n\n# 忽略所有 .DS_Store 文件，无论在哪个子目录\n**/.DS_Store\n```"
+      }
+    ],
+    "notes": "`.gitignore` 是一个文本文件，通常放置在 Git 仓库的根目录或子目录中，用于指定 Git 在版本控制中应该忽略哪些文件或目录。这些被忽略的文件不会出现在 `git status` 的“Untracked files”列表中，也不会被添加到暂存区或提交。请注意，`.gitignore` 只对未跟踪的文件有效。如果文件已经被 Git 跟踪并提交，即使后来将其添加到 `.gitignore`，Git 也不会忽略它。你需要使用 `git rm --cached <file>` 先将其从 Git 索引中移除，然后再添加忽略规则。",
+    "shell_type": "Configuration File (integral to Git workflow)"
+  },
+  {
+    "name": "gh auth login",
+    "summary": "登录 GitHub 账户 (Authenticate gh with your GitHub account)",
+    "examples": [
+      {
+        "description": "以交互式方式登录 GitHub.com",
+        "code": "gh auth login"
+      },
+      {
+        "description": "指定登录到 GitHub Enterprise Server 实例",
+        "code": "gh auth login --hostname your-ghe-instance.com"
+      },
+      {
+        "description": "通过 SSH 密钥进行认证 (通常用于 Git 操作)",
+        "code": "gh auth login --web --git-protocol ssh"
+      }
+    ],
+    "notes": "这是使用 `gh` 命令的第一步。它会引导你通过浏览器或粘贴令牌的方式完成认证。一旦认证成功，`gh` 就可以访问你的 GitHub 资源。默认认证到 GitHub.com。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh auth status",
+    "summary": "查看 gh 的认证状态 (View gh authentication status)",
+    "examples": [
+      {
+        "description": "显示当前认证账户的状态",
+        "code": "gh auth status"
+      },
+      {
+        "description": "显示指定 GitHub Enterprise Server 的认证状态",
+        "code": "gh auth status --hostname your-ghe-instance.com"
+      }
+    ],
+    "notes": "用于快速检查你是否已登录、登录到哪个账户以及认证令牌的权限范围，有助于调试认证问题。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh repo create",
+    "summary": "在 GitHub 上创建一个新仓库 (Create a new repository on GitHub)",
+    "examples": [
+      {
+        "description": "交互式创建新仓库，提示输入名称、描述等",
+        "code": "gh repo create"
+      },
+      {
+        "description": "创建公共仓库，包含描述和许可证",
+        "code": "gh repo create my-new-project --public --description \"A demo project\" --license mit"
+      },
+      {
+        "description": "创建私有仓库并初始化 README",
+        "code": "gh repo create new-private-repo --private --add-readme"
+      },
+      {
+        "description": "基于模板仓库创建新仓库",
+        "code": "gh repo create my-project-from-template --template owner/template-repo"
+      }
+    ],
+    "notes": "此命令极大简化了在 GitHub 上创建新仓库的流程，无需离开终端。它还可以在创建后自动帮你设置本地 Git 仓库的远程URL。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh repo clone",
+    "summary": "克隆 GitHub 仓库到本地 (Clone a GitHub repository locally)",
+    "examples": [
+      {
+        "description": "克隆当前用户下的仓库",
+        "code": "gh repo clone my-repo"
+      },
+      {
+        "description": "克隆指定用户/组织下的仓库",
+        "code": "gh repo clone octocat/Spoon-Knife"
+      },
+      {
+        "description": "克隆仓库并指定本地目录名",
+        "code": "gh repo clone octocat/hello-world my-local-repo"
+      }
+    ],
+    "notes": "此命令是 `git clone` 的一个便捷封装，专门用于克隆 GitHub 上的仓库，可以省略完整的 Git URL，提高效率。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh repo view",
+    "summary": "在浏览器中打开 GitHub 仓库页面 (View a GitHub repository in your browser)",
+    "examples": [
+      {
+        "description": "在浏览器中打开当前 Git 仓库的 GitHub 页面",
+        "code": "gh repo view"
+      },
+      {
+        "description": "在浏览器中打开指定 GitHub 仓库的页面",
+        "code": "gh repo view octocat/Spoon-Knife"
+      },
+      {
+        "description": "在命令行中显示仓库的详细信息，而不是打开浏览器",
+        "code": "gh repo view --json name,description,url"
+      }
+    ],
+    "notes": "一个非常方便的命令，可以快速跳转到 GitHub 上的仓库页面，节省了手动复制粘贴 URL 的时间。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh repo fork",
+    "summary": "Fork 当前或指定 GitHub 仓库 (Fork a GitHub repository)",
+    "examples": [
+      {
+        "description": "Fork 当前仓库到你的账户下",
+        "code": "gh repo fork"
+      },
+      {
+        "description": "Fork 仓库并添加为本地 Git 远程 (例如 'upstream')",
+        "code": "gh repo fork --remote"
+      },
+      {
+        "description": "Fork 指定的仓库",
+        "code": "gh repo fork octocat/Spoon-Knife"
+      }
+    ],
+    "notes": "简化了开源项目贡献的起始步骤。`--remote` 选项尤其有用，它会自动帮你设置好与上游仓库的连接。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr create",
+    "summary": "创建新的拉取请求 (Create a new pull request)",
+    "examples": [
+      {
+        "description": "交互式创建拉取请求，会提示标题和描述",
+        "code": "gh pr create"
+      },
+      {
+        "description": "创建带有标题和描述的拉取请求",
+        "code": "gh pr create --title \"Fix: Login button alignment\" --body \"Details of the fix...\""
+      },
+      {
+        "description": "从文件读取拉取请求描述，并指定基础分支",
+        "code": "gh pr create --file pr_description.md --base main"
+      },
+      {
+        "description": "创建草稿拉取请求",
+        "code": "gh pr create --draft"
+      }
+    ],
+    "notes": "这是 `gh` 最常用的功能之一，让你可以在完成本地开发后，直接从命令行创建拉取请求，而无需打开浏览器。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr list",
+    "summary": "列出仓库的拉取请求 (List pull requests in a repository)",
+    "examples": [
+      {
+        "description": "列出所有打开的拉取请求",
+        "code": "gh pr list"
+      },
+      {
+        "description": "列出所有已关闭的拉取请求",
+        "code": "gh pr list --state closed"
+      },
+      {
+        "description": "列出由当前用户创建的拉取请求",
+        "code": "gh pr list --author @me"
+      },
+      {
+        "description": "根据标签过滤拉取请求",
+        "code": "gh pr list --label bug,feature"
+      }
+    ],
+    "notes": "方便你快速浏览当前仓库的拉取请求状态，支持多种过滤条件，帮助你找到特定的 PR。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr view",
+    "summary": "查看拉取请求详情 (View the details of a pull request)",
+    "examples": [
+      {
+        "description": "查看最新创建的拉取请求的详细信息",
+        "code": "gh pr view"
+      },
+      {
+        "description": "查看指定编号的拉取请求详细信息",
+        "code": "gh pr view 123"
+      },
+      {
+        "description": "在浏览器中打开指定拉取请求页面",
+        "code": "gh pr view 123 --web"
+      },
+      {
+        "description": "显示拉取请求的 JSON 格式数据",
+        "code": "gh pr view 123 --json title,state,author,mergeStateStatus"
+      }
+    ],
+    "notes": "这个命令提供了 PR 的完整概述，包括标题、描述、文件变更、评论等，所有信息都在终端中显示，或者可以快速跳转到网页。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr checkout",
+    "summary": "切换到拉取请求的本地分支 (Check out a pull request in a local branch)",
+    "examples": [
+      {
+        "description": "切换到指定拉取请求的本地分支，分支名为 `pr/<NUMBER>`",
+        "code": "gh pr checkout 123"
+      },
+      {
+        "description": "切换到指定拉取请求的本地分支，并指定本地分支名称",
+        "code": "gh pr checkout 123 --branch feature/pr-123"
+      }
+    ],
+    "notes": "非常实用的功能，让你无需手动添加远程仓库、fetch 或创建分支，就能轻松地在本地查看和测试别人的拉取请求。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr merge",
+    "summary": "合并拉取请求 (Merge a pull request)",
+    "examples": [
+      {
+        "description": "合并当前分支关联的拉取请求 (默认 squash and merge)",
+        "code": "gh pr merge"
+      },
+      {
+        "description": "合并指定拉取请求，使用 'merge' 策略",
+        "code": "gh pr merge 123 --merge"
+      },
+      {
+        "description": "合并指定拉取请求，使用 'squash and merge' 策略并删除源分支",
+        "code": "gh pr merge 123 --squash --delete-branch"
+      },
+      {
+        "description": "合并指定拉取请求，使用 'rebase and merge' 策略",
+        "code": "gh pr merge 123 --rebase"
+      }
+    ],
+    "notes": "允许你直接从命令行完成拉取请求的合并操作，支持 GitHub 上常用的合并策略（Merge commit, Squash and merge, Rebase and merge）。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr close",
+    "summary": "关闭拉取请求 (Close a pull request)",
+    "examples": [
+      {
+        "description": "关闭指定编号的拉取请求",
+        "code": "gh pr close 123"
+      },
+      {
+        "description": "关闭当前分支关联的拉取请求",
+        "code": "gh pr close"
+      },
+      {
+        "description": "关闭拉取请求并添加关闭理由",
+        "code": "gh pr close 123 --comment \"不再需要此功能\""
+      }
+    ],
+    "notes": "用于关闭不再需要或不再相关的拉取请求。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr reopen",
+    "summary": "重新打开拉取请求 (Reopen a pull request)",
+    "examples": [
+      {
+        "description": "重新打开指定编号的拉取请求",
+        "code": "gh pr reopen 123"
+      },
+      {
+        "description": "重新打开当前分支关联的拉取请求",
+        "code": "gh pr reopen"
+      }
+    ],
+    "notes": "用于重新激活之前被关闭的拉取请求。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr diff",
+    "summary": "显示拉取请求的变更 (View changes in a pull request)",
+    "examples": [
+      {
+        "description": "显示指定编号拉取请求的所有文件变更",
+        "code": "gh pr diff 123"
+      },
+      {
+        "description": "以特定格式显示变更 (如 `patch`)",
+        "code": "gh pr diff 123 --patch"
+      }
+    ],
+    "notes": "直接在终端中查看拉取请求引入的代码变更，类似于 `git diff`，但直接针对 PR。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh pr review",
+    "summary": "提交拉取请求审查 (Submit a pull request review)",
+    "examples": [
+      {
+        "description": "批准一个拉取请求",
+        "code": "gh pr review 123 --approve"
+      },
+      {
+        "description": "批准一个拉取请求并添加评论",
+        "code": "gh pr review 123 --approve -b \"Looks good, ready to merge!\""
+      },
+      {
+        "description": "请求修改",
+        "code": "gh pr review 123 --request-changes -b \"Needs more tests for edge cases.\""
+      },
+      {
+        "description": "添加普通评论",
+        "code": "gh pr review 123 --comment -b \"Consider refactoring this section.\""
+      }
+    ],
+    "notes": "允许你直接从命令行对拉取请求进行审查，无论是批准、请求修改还是添加普通评论，提高了审查效率。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh issue create",
+    "summary": "创建新的问题 (Create a new issue)",
+    "examples": [
+      {
+        "description": "交互式创建问题，提示输入标题和描述",
+        "code": "gh issue create"
+      },
+      {
+        "description": "创建带有标题、描述和标签的问题",
+        "code": "gh issue create --title \"Bug: User profile not saving\" --body \"Steps to reproduce: ...\" --label bug,backend"
+      },
+      {
+        "description": "分配问题给用户，并设置里程碑",
+        "code": "gh issue create --title \"Feature: Dark mode\" --assignee @me --milestone \"Sprint 2\""
+      }
+    ],
+    "notes": "与 `gh pr create` 类似，简化了问题创建流程，方便在终端中快速记录 bug、功能请求或任务。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh issue list",
+    "summary": "列出仓库的问题 (List issues in a repository)",
+    "examples": [
+      {
+        "description": "列出所有打开的问题",
+        "code": "gh issue list"
+      },
+      {
+        "description": "列出所有已关闭的问题",
+        "code": "gh issue list --state closed"
+      },
+      {
+        "description": "列出分配给当前用户的问题",
+        "code": "gh issue list --assignee @me"
+      },
+      {
+        "description": "根据多个标签过滤问题",
+        "code": "gh issue list --label feature,enhancement"
+      }
+    ],
+    "notes": "方便你快速浏览和筛选问题列表，是项目管理中常用的命令。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh issue view",
+    "summary": "查看问题详情 (View the details of an issue)",
+    "examples": [
+      {
+        "description": "查看最新创建的问题的详细信息",
+        "code": "gh issue view"
+      },
+      {
+        "description": "查看指定编号的问题详细信息",
+        "code": "gh issue view 456"
+      },
+      {
+        "description": "在浏览器中打开指定问题页面",
+        "code": "gh issue view 456 --web"
+      }
+    ],
+    "notes": "在终端中获取问题的完整信息，包括描述、评论、标签等，无需打开网页。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh issue close",
+    "summary": "关闭问题 (Close an issue)",
+    "examples": [
+      {
+        "description": "关闭指定编号的问题",
+        "code": "gh issue close 456"
+      },
+      {
+        "description": "关闭问题并添加关闭理由",
+        "code": "gh issue close 456 --reason completed --comment \"问题已修复，测试通过。\""
+      }
+    ],
+    "notes": "用于关闭已解决或不再相关的问题。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh issue reopen",
+    "summary": "重新打开问题 (Reopen an issue)",
+    "examples": [
+      {
+        "description": "重新打开指定编号的问题",
+        "code": "gh issue reopen 456"
+      }
+    ],
+    "notes": "用于重新激活之前被关闭的问题。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh run list",
+    "summary": "列出 GitHub Actions 工作流运行 (List GitHub Actions workflow runs)",
+    "examples": [
+      {
+        "description": "列出所有工作流运行",
+        "code": "gh run list"
+      },
+      {
+        "description": "列出特定分支上的工作流运行",
+        "code": "gh run list --branch main"
+      },
+      {
+        "description": "列出失败的工作流运行",
+        "code": "gh run list --status failure"
+      },
+      {
+        "description": "列出特定工作流的工作流运行 (通过工作流名称或文件名)",
+        "code": "gh run list --workflow \"CI/CD Pipeline\""
+      }
+    ],
+    "notes": "方便你从命令行监控 GitHub Actions 的执行情况，快速查看哪些工作流通过或失败。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh run view",
+    "summary": "查看工作流运行详情和日志 (View the details and logs of a workflow run)",
+    "examples": [
+      {
+        "description": "查看最新一次工作流运行的详情",
+        "code": "gh run view"
+      },
+      {
+        "description": "查看指定工作流运行的详情",
+        "code": "gh run view 1234567890"
+      },
+      {
+        "description": "查看指定工作流运行的完整日志",
+        "code": "gh run view 1234567890 --log"
+      },
+      {
+        "description": "查看指定工作流运行中特定作业的日志",
+        "code": "gh run view 1234567890 --job \"build\""
+      }
+    ],
+    "notes": "深入了解工作流运行的每一步状态和详细输出，对于调试 CI/CD 问题至关重要。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh run rerun",
+    "summary": "重新运行工作流 (Rerun a workflow run)",
+    "examples": [
+      {
+        "description": "重新运行最新一次工作流 (如果它失败了)",
+        "code": "gh run rerun"
+      },
+      {
+        "description": "重新运行指定ID的工作流",
+        "code": "gh run rerun 1234567890"
+      },
+      {
+        "description": "重新运行失败的作业",
+        "code": "gh run rerun 1234567890 --failed"
+      }
+    ],
+    "notes": "当工作流因临时问题失败时，无需进入 GitHub 页面即可快速重试。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh release create",
+    "summary": "创建新的 GitHub 发布 (Create a new GitHub release)",
+    "examples": [
+      {
+        "description": "创建新的发布，并自动生成标签和发行说明草稿",
+        "code": "gh release create v1.0.0"
+      },
+      {
+        "description": "创建带有标题、发行说明并上传二进制资产的发布",
+        "code": "gh release create v1.0.0 --title \"First Stable Release\" --notes \"Initial public release.\" dist/my_app.zip"
+      },
+      {
+        "description": "创建预发布 (prerelease)",
+        "code": "gh release create v1.1.0-beta --prerelease"
+      },
+      {
+        "description": "创建发布并从文件加载发行说明",
+        "code": "gh release create v1.2.0 --notes-file RELEASE_NOTES.md"
+      }
+    ],
+    "notes": "自动化了 GitHub 发布流程，对于持续集成和持续部署非常有帮助。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh release list",
+    "summary": "列出所有 GitHub 发布 (List releases in a repository)",
+    "examples": [
+      {
+        "description": "列出仓库中的所有发布",
+        "code": "gh release list"
+      },
+      {
+        "description": "列出指定数量的最新发布",
+        "code": "gh release list --limit 5"
+      }
+    ],
+    "notes": "快速查看项目的发布历史。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh gist create",
+    "summary": "创建新的 Gist (Create a new Gist)",
+    "examples": [
+      {
+        "description": "创建公共 Gist，内容来自文件",
+        "code": "gh gist create my_script.sh --public -d \"Useful bash script\""
+      },
+      {
+        "description": "创建私有 Gist，内容直接输入 (Ctrl+D 结束)",
+        "code": "gh gist create --private -d \"My private note\"\nHello, Gist!\nThis is a test.\n^D (Ctrl+D)"
+      },
+      {
+        "description": "创建多文件 Gist",
+        "code": "gh gist create file1.txt file2.md"
+      }
+    ],
+    "notes": "Gist 是 GitHub 提供的代码片段共享服务。这个命令让你可以在命令行创建 Gist，方便快速分享代码或笔记。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh codespace",
+    "summary": "管理 GitHub Codespaces (Manage GitHub Codespaces)",
+    "examples": [
+      {
+        "description": "列出所有 Codespaces",
+        "code": "gh codespace list"
+      },
+      {
+        "description": "创建一个新的 Codespace",
+        "code": "gh codespace create"
+      },
+      {
+        "description": "创建一个指定仓库和分支的 Codespace",
+        "code": "gh codespace create -r my-repo -b feature/new-dev"
+      },
+      {
+        "description": "停止一个 Codespace (通过名称或 ID)",
+        "code": "gh codespace stop my-codespace-name"
+      },
+      {
+        "description": "删除一个 Codespace",
+        "code": "gh codespace delete my-codespace-name"
+      },
+      {
+        "description": "打开 Codespace 的 SSH 连接",
+        "code": "gh codespace ssh my-codespace-name"
+      },
+      {
+        "description": "在浏览器中打开 Codespace",
+        "code": "gh codespace view my-codespace-name --web"
+      }
+    ],
+    "notes": "GitHub Codespaces 提供了一个云端的开发环境。`gh codespace` 命令让你可以在本地终端管理这些云端环境，例如创建、停止、删除或连接到它们。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "gh alias set",
+    "summary": "设置 gh 命令别名 (Set gh command aliases)",
+    "examples": [
+      {
+        "description": "设置 'prl' 为 'pr list' 的别名",
+        "code": "gh alias set prl 'pr list'"
+      },
+      {
+        "description": "设置一个带参数的复杂别名",
+        "code": "gh alias set issue-new 'issue create --label bug,enhancement'"
+      },
+      {
+        "description": "显示所有已设置的别名",
+        "code": "gh alias list"
+      },
+      {
+        "description": "删除一个别名",
+        "code": "gh alias delete prl"
+      }
+    ],
+    "notes": "类似于 Git 别名，`gh alias` 允许你创建自定义的快捷命令，提高工作效率。",
+    "shell_type": "External (`/usr/bin/gh`)"
+  },
+  {
+    "name": "glab auth login",
+    "summary": "登录 GitLab 账户 (Log in to a GitLab account)",
+    "examples": [
+      {
+        "description": "登录到默认的 gitlab.com 实例",
+        "code": "glab auth login"
+      },
+      {
+        "description": "登录到指定的 GitLab 实例 (如自建 GitLab)",
+        "code": "glab auth login --hostname gitlab.example.com"
+      },
+      {
+        "description": "通过指定个人访问令牌 (PAT) 进行登录 (非交互式)",
+        "code": "echo \"YOUR_PAT\" | glab auth login --hostname gitlab.com --stdin"
+      }
+    ],
+    "notes": "这是使用 `glab` 命令的第一步。通常会引导用户通过浏览器进行认证，并存储个人访问令牌（PAT）以供后续命令使用。建议使用默认的浏览器流程进行认证，而非直接在命令行中输入 PAT。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab auth status",
+    "summary": "查看当前 GitLab 登录状态和配置 (View current GitLab login status and configuration)",
+    "examples": [
+      {
+        "description": "查看当前活动 GitLab 实例的认证状态",
+        "code": "glab auth status"
+      }
+    ],
+    "notes": "用于验证当前会话是否已成功登录到 GitLab，并显示配置的 GitLab 实例（hostname）和认证用户。在调试认证问题时非常有用。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab project create",
+    "summary": "在 GitLab 上创建一个新项目 (Create a new project on GitLab)",
+    "examples": [
+      {
+        "description": "创建一个名为 'my-new-project' 的公共项目",
+        "code": "glab project create my-new-project --public --description \"My awesome new project for docs\""
+      },
+      {
+        "description": "创建一个私有项目并将其初始化为一个 Git 仓库",
+        "code": "glab project create --name my-private-repo --private --initialize-with-readme"
+      },
+      {
+        "description": "在指定的组下创建项目",
+        "code": "glab project create team-a/project-x"
+      }
+    ],
+    "notes": "允许用户直接在命令行创建新的 GitLab 项目。可以指定项目的可见性（公开、私有、内部）、描述、是否初始化 README 文件等。这在自动化创建项目或快速开始新项目时非常方便。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab project clone <owner/project>",
+    "summary": "克隆 GitLab 上的项目 (Clone a project from GitLab)",
+    "examples": [
+      {
+        "description": "克隆 'gitlab-org' 命名空间下的 'gitlab-foss' 项目",
+        "code": "glab project clone gitlab-org/gitlab-foss"
+      },
+      {
+        "description": "克隆项目到指定目录",
+        "code": "glab project clone my-group/my-project my-local-dir"
+      }
+    ],
+    "notes": "这是 `git clone` 命令的一个 `glab` 快捷方式。它会自动解析 GitLab 项目路径并执行克隆操作，省去了手动复制 URL 的步骤。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab project view",
+    "summary": "在浏览器中打开当前项目的 GitLab 页面 (Open the GitLab page of the current project in a browser)",
+    "examples": [
+      {
+        "description": "在默认浏览器中打开当前 Git 仓库对应的 GitLab 项目页面",
+        "code": "glab project view"
+      },
+      {
+        "description": "指定要在浏览器中打开的项目页面 (非当前目录的项目)",
+        "code": "glab project view gitlab-org/gitlab-runner"
+      }
+    ],
+    "notes": "提供了一种快速跳转到当前 Git 仓库对应的 GitLab 项目页面的方式，方便查看详细信息、配置或进行 Web 端操作。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr create",
+    "summary": "创建一个新的合并请求 (Merge Request) (Create a new Merge Request)",
+    "examples": [
+      {
+        "description": "从当前分支创建合并请求，指定标题和描述",
+        "code": "glab mr create --title \"Feat: Add user profiles\" --description \"This MR introduces user profile management.\""
+      },
+      {
+        "description": "指定目标分支、添加标签和里程碑",
+        "code": "glab mr create --target-branch main --label feature,backend --milestone v1.0"
+      },
+      {
+        "description": "指定为草稿/WIP 状态的合并请求",
+        "code": "glab mr create --title \"WIP: In progress feature\" --draft"
+      }
+    ],
+    "notes": "用于从本地分支创建一个新的合并请求。可以灵活指定标题、描述、目标分支、标签、里程碑、指派负责人、审批人等。这是团队协作中非常常用的命令。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr list",
+    "summary": "列出当前项目的合并请求 (List merge requests for the current project)",
+    "examples": [
+      {
+        "description": "列出所有未关闭的合并请求",
+        "code": "glab mr list"
+      },
+      {
+        "description": "列出所有已打开且指派给当前用户的合并请求",
+        "code": "glab mr list --state opened --assignee @me"
+      },
+      {
+        "description": "列出特定标签的合并请求",
+        "code": "glab mr list --label bugfix"
+      }
+    ],
+    "notes": "提供了丰富的过滤选项，可以按状态（opened, closed, merged, all）、作者、分配者、标签、里程碑、目标分支等条件筛选合并请求，方便快速查找和管理。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr view <number>",
+    "summary": "查看指定合并请求的详细信息 (View details of a specific Merge Request)",
+    "examples": [
+      {
+        "description": "查看编号为 789 的合并请求的详细信息",
+        "code": "glab mr view 789"
+      },
+      {
+        "description": "在浏览器中打开编号为 789 的合并请求页面",
+        "code": "glab mr view 789 --web"
+      },
+      {
+        "description": "查看合并请求的更改内容 (diff)",
+        "code": "glab mr view 789 --diff"
+      }
+    ],
+    "notes": "显示合并请求的标题、描述、状态、流水线状态、评论、文件变更等详细信息。`--web` 选项可在浏览器中打开合并请求页面，进行更直观的审查。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr checkout <number>",
+    "summary": "切换到指定合并请求的本地分支 (Checkout the local branch of a specific Merge Request)",
+    "examples": [
+      {
+        "description": "切换到编号为 789 的合并请求的源分支",
+        "code": "glab mr checkout 789"
+      },
+      {
+        "description": "切换并创建本地分支，并设置为远程跟踪分支",
+        "code": "glab mr checkout 789 --set-upstream"
+      }
+    ],
+    "notes": "方便开发者快速切换到合并请求的源分支，进行代码审查、本地测试或添加额外提交。如果本地不存在该分支，`glab` 会自动从远程拉取并创建。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr merge <number> [flags]",
+    "summary": "合并指定的合并请求 (Merge a specific Merge Request)",
+    "examples": [
+      {
+        "description": "合并编号为 789 的合并请求",
+        "code": "glab mr merge 789"
+      },
+      {
+        "description": "合并并 Squash 提交，同时删除源分支",
+        "code": "glab mr merge 789 --squash-on-merge --remove-source-branch"
+      },
+      {
+        "description": "合并并配置合并提交消息",
+        "code": "glab mr merge 789 --message \"Feature/User-Profiles: Implemented all features\""
+      }
+    ],
+    "notes": "在命令行完成合并操作，可以配置 squash 提交、删除源分支、设置合并提交消息等。这对于自动化 CI/CD 流程或快速合并已批准的 MR 非常有用。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr close <number>",
+    "summary": "关闭合并请求 (Close a Merge Request)",
+    "examples": [
+      {
+        "description": "关闭编号为 789 的合并请求",
+        "code": "glab mr close 789"
+      }
+    ],
+    "notes": "将指定合并请求的状态从 'opened' 更改为 'closed'。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr reopen <number>",
+    "summary": "重新打开已关闭的合并请求 (Reopen a closed Merge Request)",
+    "examples": [
+      {
+        "description": "重新打开编号为 789 的合并请求",
+        "code": "glab mr reopen 789"
+      }
+    ],
+    "notes": "将指定合并请求的状态从 'closed' 更改为 'opened'。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab mr update <number> [flags]",
+    "summary": "更新合并请求的属性 (Update attributes of a Merge Request)",
+    "examples": [
+      {
+        "description": "更新编号为 789 的合并请求的标题和描述",
+        "code": "glab mr update 789 --title \"Updated Title\" --description \"New description text.\""
+      },
+      {
+        "description": "为合并请求添加或移除标签，并指派给另一个用户",
+        "code": "glab mr update 789 --add-label bug,critical --remove-label review --assignee @another_user"
+      }
+    ],
+    "notes": "允许修改合并请求的标题、描述、标签、负责人、里程碑、保密状态等。这在合并请求创建后需要调整其属性时非常有用。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab issue create",
+    "summary": "创建一个新的问题 (Issue) (Create a new Issue)",
+    "examples": [
+      {
+        "description": "创建一个名为 'Bug: Search not working' 的问题",
+        "code": "glab issue create --title \"Bug: Search not working\""
+      },
+      {
+        "description": "创建带有描述、标签和指派人的问题",
+        "code": "glab issue create --title \"Feature Request: Dark Mode\" --description \"Users want dark mode.\" --label enhancement,frontend --assignee @me"
+      }
+    ],
+    "notes": "命令行创建新问题，可指定标题、描述、标签、负责人、里程碑、指派给谁等。方便缺陷报告或需求收集。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab issue list",
+    "summary": "列出当前项目的问题 (List issues for the current project)",
+    "examples": [
+      {
+        "description": "列出所有未关闭的问题",
+        "code": "glab issue list"
+      },
+      {
+        "description": "列出所有已打开且指派给当前用户的问题",
+        "code": "glab issue list --state opened --assignee @me"
+      },
+      {
+        "description": "列出特定标签的问题",
+        "code": "glab issue list --label bug"
+      }
+    ],
+    "notes": "提供了丰富的过滤选项，可以按状态（opened, closed, all）、作者、分配者、标签、里程碑等条件筛选问题，方便快速查找和管理。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab issue view <number>",
+    "summary": "查看指定问题的详细信息 (View details of a specific Issue)",
+    "examples": [
+      {
+        "description": "查看编号为 101 的问题详细信息",
+        "code": "glab issue view 101"
+      },
+      {
+        "description": "在浏览器中打开编号为 101 的问题页面",
+        "code": "glab issue view 101 --web"
+      }
+    ],
+    "notes": "显示问题的标题、描述、状态、评论、活动日志等详细信息。`--web` 选项可在浏览器中打开问题页面。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab issue close <number>",
+    "summary": "关闭问题 (Close an Issue)",
+    "examples": [
+      {
+        "description": "关闭编号为 101 的问题",
+        "code": "glab issue close 101"
+      }
+    ],
+    "notes": "将指定问题的状态从 'opened' 更改为 'closed'。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab issue reopen <number>",
+    "summary": "重新打开已关闭的问题 (Reopen a closed Issue)",
+    "examples": [
+      {
+        "description": "重新打开编号为 101 的问题",
+        "code": "glab issue reopen 101"
+      }
+    ],
+    "notes": "将指定问题的状态从 'closed' 更改为 'opened'。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab ci list / glab pipeline list",
+    "summary": "列出项目的所有 CI/CD 流水线 (List all CI/CD pipelines for a project)",
+    "examples": [
+      {
+        "description": "列出所有流水线",
+        "code": "glab ci list"
+      },
+      {
+        "description": "列出主分支上失败的流水线",
+        "code": "glab pipeline list --status failed --branch main"
+      }
+    ],
+    "notes": "`glab ci` 和 `glab pipeline` 是等价的，都用于列出项目的 CI/CD 流水线。可以按状态（如 running, passed, failed）、分支、用户名等进行过滤。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab ci view <id> / glab pipeline view <id>",
+    "summary": "查看特定 CI/CD 流水线的详细信息 (View details of a specific CI/CD pipeline)",
+    "examples": [
+      {
+        "description": "查看 ID 为 12345 的流水线详情",
+        "code": "glab ci view 12345"
+      },
+      {
+        "description": "查看流水线详情并显示其包含的作业",
+        "code": "glab pipeline view 12345 --jobs"
+      },
+      {
+        "description": "在浏览器中打开流水线页面",
+        "code": "glab ci view 12345 --web"
+      }
+    ],
+    "notes": "显示流水线的阶段、作业状态、持续时间、提交信息等详细信息。这对于理解流水线执行过程和调试问题非常有帮助。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab ci run / glab pipeline run",
+    "summary": "手动触发一个 CI/CD 流水线 (Manually trigger a CI/CD pipeline)",
+    "examples": [
+      {
+        "description": "触发默认分支的流水线",
+        "code": "glab ci run"
+      },
+      {
+        "description": "触发指定分支的流水线",
+        "code": "glab pipeline run --branch develop"
+      },
+      {
+        "description": "触发带有特定变量的流水线",
+        "code": "glab ci run --variable DEBUG=true"
+      }
+    ],
+    "notes": "允许用户手动触发 CI/CD 流水线，可选地指定分支或标签，以及传递自定义 CI/CD 变量。常用于测试新的 CI/CD 配置或执行维护任务。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab job list <pipeline-id>",
+    "summary": "列出指定流水线中的所有作业 (List all jobs within a specific pipeline)",
+    "examples": [
+      {
+        "description": "列出 ID 为 12345 的流水线中的所有作业",
+        "code": "glab job list 12345"
+      },
+      {
+        "description": "列出指定流水线中失败的作业",
+        "code": "glab job list 12345 --status failed"
+      }
+    ],
+    "notes": "用于查看特定流水线下的所有作业（job）及其状态。这对于深入了解流水线中的每个步骤的执行情况很有用。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab job logs <job-id>",
+    "summary": "查看 CI/CD 作业的日志输出 (View log output of a CI/CD job)",
+    "examples": [
+      {
+        "description": "查看 ID 为 98765 的作业日志",
+        "code": "glab job logs 98765"
+      },
+      {
+        "description": "实时跟踪作业日志",
+        "code": "glab job logs 98765 --tail"
+      }
+    ],
+    "notes": "对于调试 CI/CD 作业或了解作业执行细节非常有用的命令。可以查看整个日志或实时跟踪日志输出。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab pipeline retry <id>",
+    "summary": "重试失败或被取消的流水线 (Retry a failed or canceled pipeline)",
+    "examples": [
+      {
+        "description": "重试 ID 为 12345 的流水线",
+        "code": "glab pipeline retry 12345"
+      }
+    ],
+    "notes": "用于重新运行之前失败或被取消的整个流水线，而无需重新提交代码。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab pipeline cancel <id>",
+    "summary": "取消正在运行的流水线 (Cancel a running pipeline)",
+    "examples": [
+      {
+        "description": "取消 ID 为 12345 的流水线",
+        "code": "glab pipeline cancel 12345"
+      }
+    ],
+    "notes": "用于停止正在运行的流水线。在流水线因错误卡住或不再需要继续运行时非常有用。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab release create <tag>",
+    "summary": "创建一个新的 GitLab 发布 (Create a new GitLab Release)",
+    "examples": [
+      {
+        "description": "为 v1.0.0 标签创建一个新的发布",
+        "code": "glab release create v1.0.0 --name \"First Stable Release\" --description \"Initial public release notes.\""
+      },
+      {
+        "description": "创建一个包含外部资产链接的发布",
+        "code": "glab release create v1.1.0 --name \"Bugfix Release\" --assets-link \"name:AppInstaller,url:https://example.com/app.exe,type:other,filepath:app.exe\""
+      }
+    ],
+    "notes": "用于创建与特定 Git 标签关联的发布。可以包含发布名称、描述、发布说明文件以及附加的资产链接，方便用户下载编译后的二进制文件或文档。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab release list",
+    "summary": "列出项目的所有发布 (List all releases for a project)",
+    "examples": [
+      {
+        "description": "列出当前项目的所有发布",
+        "code": "glab release list"
+      }
+    ],
+    "notes": "用于查看项目的所有历史发布，包括标签、发布名称和创建日期。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab variable set <key> <value>",
+    "summary": "为项目或组设置 CI/CD 变量 (Set CI/CD variables for a project or group)",
+    "examples": [
+      {
+        "description": "设置一个普通的 CI/CD 变量",
+        "code": "glab variable set MY_VAR \"my_value\""
+      },
+      {
+        "description": "设置一个受保护的变量，仅在受保护分支或标签的流水线中可用",
+        "code": "glab variable set DB_PASSWORD \"secret_pass\" --protected=true"
+      },
+      {
+        "description": "设置一个受保护且仅对特定环境（如生产环境）可用的变量",
+        "code": "glab variable set API_KEY \"prod_key\" --protected=true --scope=production"
+      }
+    ],
+    "notes": "用于在命令行管理 GitLab CI/CD 变量，包括设置其值、保护状态和作用域。这对于自动化 CI/CD 变量管理非常有用，尤其是在敏感信息需要保密时。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab variable list",
+    "summary": "列出项目的 CI/CD 变量 (List CI/CD variables for a project)",
+    "examples": [
+      {
+        "description": "列出当前项目的所有 CI/CD 变量",
+        "code": "glab variable list"
+      }
+    ],
+    "notes": "显示当前项目或组的所有 CI/CD 变量的名称和属性（如是否受保护、作用域）。变量值默认不显示以保护敏感信息。",
+    "shell_type": "External (`glab` executable)"
+  },
+  {
+    "name": "glab snippet create <file>",
+    "summary": "创建代码片段 (Create a code snippet)",
+    "examples": [
+      {
+        "description": "从文件 'my_script.sh' 创建一个公共代码片段",
+        "code": "glab snippet create my_script.sh --title \"My Utility Script\" --description \"A handy script.\" --public"
+      },
+      {
+        "description": "直接从标准输入创建私有代码片段",
+        "code": "echo \"#!/bin/bash\\nls -l\" | glab snippet create --title \"List Files\" --private --stdin"
+      }
+    ],
+    "notes": "允许用户直接从命令行创建和管理 GitLab 代码片段（snippets）。可以指定标题、描述、可见性（公开、内部、私有）以及上传文件内容。",
+    "shell_type": "External (`glab` executable)"
+  }
+]

@@ -1,0 +1,1390 @@
+[
+  {
+    "name": "mvn clean",
+    "summary": "清除项目构建产物 (Cleans up the project build output)",
+    "examples": [
+      {
+        "description": "删除项目根目录下生成的所有文件和目录，主要是 `target/` 目录。",
+        "code": "mvn clean"
+      }
+    ],
+    "notes": "这个命令是Maven构建生命周期中的一个独立阶段。它用于清理上一次构建留下的文件，确保下一次构建从一个干净的状态开始，这对于避免旧的或错误的文件干扰新构建至关重要。特别是在遇到奇怪的构建问题时，`clean` 往往是第一步的排查手段。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn compile",
+    "summary": "编译项目主源代码 (Compiles the project's main source code)",
+    "examples": [
+      {
+        "description": "编译 `src/main/java` 目录下的所有Java源文件到 `target/classes` 目录。",
+        "code": "mvn compile"
+      }
+    ],
+    "notes": "这是Maven标准生命周期的一部分。`compile` 阶段会编译项目的主源代码，如果存在编译错误，构建会失败并显示错误信息。它通常是其他更高级构建阶段（如 `package`、`install`）的先决条件。只执行 `compile` 不会运行测试或打包。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn test",
+    "summary": "运行项目中的单元测试 (Runs the unit tests of the project)",
+    "examples": [
+      {
+        "description": "编译测试源代码，然后运行 `src/test/java` 目录下的所有单元测试。",
+        "code": "mvn test"
+      }
+    ],
+    "notes": "这是Maven标准生命周期的一部分，在 `compile` 阶段之后执行。它会编译 `src/test/java` 目录下的测试代码，并使用配置的测试框架（如JUnit、TestNG）运行这些测试。测试失败会导致构建失败。测试报告通常生成在 `target/surefire-reports` 目录下。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn package",
+    "summary": "将编译好的代码打包成可分发的格式 (Packages the compiled code into a distributable format)",
+    "examples": [
+      {
+        "description": "根据 `pom.xml` 中 `<packaging>` 的配置，将项目打包成 JAR、WAR 或其他格式，生成的文件通常在 `target/` 目录下。",
+        "code": "mvn package"
+      },
+      {
+        "description": "示例：打包为 `my-app-1.0.jar` 或 `my-webapp-1.0.war`。",
+        "code": "mvn package"
+      }
+    ],
+    "notes": "这是Maven标准生命周期的一部分，在 `test` 阶段之后执行。`package` 会执行 `compile` 和 `test` 阶段。它是将项目产出物（Artifact）创建出来的核心命令，例如，一个库项目会生成 `.jar` 文件，一个Web项目会生成 `.war` 文件。这个命令只会将产物放在 `target` 目录，不会将其安装到本地仓库或部署到远程。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn verify",
+    "summary": "对集成测试结果执行检查 (Performs any checks on the results of integration tests)",
+    "examples": [
+      {
+        "description": "在运行集成测试后，执行相关的检查任务，以确保质量达标。",
+        "code": "mvn verify"
+      }
+    ],
+    "notes": "这是Maven标准生命周期的一部分，在 `package` 阶段之后执行，通常用于运行集成测试（由Maven Failsafe Plugin管理）。`verify` 阶段会确保在集成测试过程中，项目满足了所有的质量检查标准。它会执行 `compile`、`test`、`package` 等所有前置阶段。与 `test` 阶段侧重单元测试不同，`verify` 和其关联的插件更多关注集成测试和质量门禁。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn install",
+    "summary": "将打包好的文件安装到本地Maven仓库 (Installs the packaged file into the local Maven repository)",
+    "examples": [
+      {
+        "description": "将项目打包产物（如JAR或WAR文件）以及其POM文件复制到本地Maven仓库 (`~/.m2/repository`)，供其他本地项目引用。",
+        "code": "mvn install"
+      }
+    ],
+    "notes": "这是Maven标准生命周期的一部分，在 `verify` 阶段之后执行。`install` 命令会执行 `compile`、`test`、`package` 和 `verify` 等所有前置阶段。它是日常开发中最常用的命令之一，因为它可以将当前项目的构建产物共享给本地其他Maven项目使用，无需发布到远程仓库。当你在一个多模块项目中，子模块之间有依赖关系时，通常需要 `install` 父模块或依赖模块。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn deploy",
+    "summary": "将最终的包复制到远程仓库 (Copies the final package to the remote repository)",
+    "examples": [
+      {
+        "description": "将项目打包产物（JAR/WAR）和POM文件部署到远程Maven仓库，供其他开发者或持续集成系统使用。需要 `pom.xml` 中配置 `<distributionManagement>`。",
+        "code": "mvn deploy"
+      }
+    ],
+    "notes": "这是Maven标准生命周期的一部分，在 `install` 阶段之后执行。`deploy` 命令会执行 `compile`、`test`、`package`、`verify` 和 `install` 等所有前置阶段。它主要用于将项目发布到公司内部的私服（如Nexus、Artifactory）或公共Maven仓库。执行此命令前，通常需要配置远程仓库的URL和认证信息。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn clean install",
+    "summary": "最常用组合：清理并安装项目到本地仓库 (Most common combination: Clean and install the project to the local repository)",
+    "examples": [
+      {
+        "description": "执行 `clean` 阶段（删除 `target` 目录），然后执行 `install` 阶段（包括编译、测试、打包，并安装到本地仓库）。",
+        "code": "mvn clean install"
+      }
+    ],
+    "notes": "这是日常Java/Maven项目开发中 **最常用的命令**。它确保你的构建从一个干净的状态开始，并且将最新的构建产物放置在你的本地Maven仓库中，以便其他项目或子模块能够找到并依赖它。当你在多模块项目根目录执行此命令时，它会按模块依赖顺序构建所有子模块。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn clean package",
+    "summary": "常用组合：清理并打包项目 (Common combination: Clean and package the project)",
+    "examples": [
+      {
+        "description": "执行 `clean` 阶段，然后执行 `package` 阶段（包括编译、测试，并生成最终的打包文件在 `target` 目录）。",
+        "code": "mvn clean package"
+      }
+    ],
+    "notes": "这个命令是 `mvn clean install` 的轻量级版本，它不会将产物安装到本地仓库。如果你只是想生成一个可执行的JAR/WAR文件或一个库文件用于发布，而不需要将它安装到本地供其他本地项目立即使用，那么 `clean package` 是一个很好的选择。在CI/CD流水线中，如果后续步骤直接处理 `target` 目录下的文件，也常用此命令。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn clean deploy",
+    "summary": "常用组合：清理并部署项目到远程仓库 (Common combination: Clean and deploy the project to the remote repository)",
+    "examples": [
+      {
+        "description": "执行 `clean` 阶段，然后执行 `deploy` 阶段（包括编译、测试、打包、安装到本地仓库，并最终部署到远程仓库）。",
+        "code": "mvn clean deploy"
+      }
+    ],
+    "notes": "这个命令用于将项目的最终版本发布到远程共享仓库。在发布生产版本或SNAPSHOT版本到私服时非常重要。请确保你的Maven `settings.xml` 或项目 `pom.xml` 中正确配置了远程仓库的认证信息和URL。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn install -DskipTests",
+    "summary": "跳过所有单元测试进行构建和安装 (Build and install skipping all unit tests)",
+    "examples": [
+      {
+        "description": "执行 `install` 阶段（编译、打包、安装到本地仓库），但跳过所有单元测试的运行。",
+        "code": "mvn install -DskipTests"
+      },
+      {
+        "description": "清理后跳过测试并安装。",
+        "code": "mvn clean install -DskipTests"
+      }
+    ],
+    "notes": "这个命令 **非常常用**，特别是在开发过程中需要快速验证代码变动，或在CI/CD环境中测试阶段已经通过，后续只是想快速打包或部署时。`-DskipTests` 是一个Maven属性，用于控制Maven Surefire Plugin（负责单元测试）和Maven Failsafe Plugin（负责集成测试）的行为。请注意，它会完全跳过测试执行，而不是仅仅跳过测试失败。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn package -Dmaven.test.skip=true",
+    "summary": "跳过所有单元测试进行构建和打包 (Build and package skipping all unit tests)",
+    "examples": [
+      {
+        "description": "执行 `package` 阶段（编译、打包），但跳过所有单元测试的运行。",
+        "code": "mvn package -Dmaven.test.skip=true"
+      },
+      {
+        "description": "清理后跳过测试并打包。",
+        "code": "mvn clean package -Dmaven.test.skip=true"
+      }
+    ],
+    "notes": "功能上与 `mvn -DskipTests` 类似，也是用来跳过单元测试。`-Dmaven.test.skip=true` 是Maven的另一个属性，其效果与 `-DskipTests` 基本相同，都会导致Surefire和Failsafe插件跳过测试阶段。在某些旧版本的Maven或插件中，这两个属性的行为可能略有差异，但现在通常可以互换使用。",
+    "shell_type": "External (`/usr/bin/mvn`)"
+  },
+  {
+    "name": "mvn test -Dtest",
+    "summary": "运行指定的单元测试类 (Run a specific unit test class)",
+    "examples": [
+      {
+        "description": "只运行名为 'UserServiceTest' 的测试类",
+        "code": "mvn test -Dtest=UserServiceTest"
+      },
+      {
+        "description": "只运行位于 'com.example.service' 包下的 'UserServiceTest' 类",
+        "code": "mvn test -Dtest=com.example.service.UserServiceTest"
+      },
+      {
+        "description": "同时运行多个测试类 (使用逗号分隔)",
+        "code": "mvn test -Dtest=UserServiceTest,ProductServiceTest"
+      }
+    ],
+    "notes": "此命令用于精确控制运行哪些单元测试，对于调试或验证特定功能非常有用。`-Dtest` 后面跟的是测试类的简单名称（不含 `.java` 后缀），或者其完整的包名加类名。Maven 使用 Surefire 插件来执行单元测试。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn test -Dtest#method",
+    "summary": "运行指定测试类中的特定方法 (Run a specific method within a test class)",
+    "examples": [
+      {
+        "description": "只运行 'UserServiceTest' 类中的 'testUserCreation' 方法",
+        "code": "mvn test -Dtest=UserServiceTest#testUserCreation"
+      },
+      {
+        "description": "运行指定包下类中的方法",
+        "code": "mvn test -Dtest=com.example.service.UserServiceTest#testUserUpdate"
+      }
+    ],
+    "notes": "当您只想验证测试类中的某个具体测试用例时，这个命令极其方便。它允许您跳过其他不相关的测试方法，从而节省时间。同样由 Surefire 插件处理。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn test -Dtest=glob",
+    "summary": "运行匹配通配符模式的测试类 (Run test classes matching a wildcard pattern)",
+    "examples": [
+      {
+        "description": "运行所有以 'ServiceTest' 结尾的测试类",
+        "code": "mvn test -Dtest=*ServiceTest"
+      },
+      {
+        "description": "运行所有以 'IT' 开头但包含 'Integration' 的测试类",
+        "code": "mvn test -Dtest=IT*Integration*"
+      }
+    ],
+    "notes": "`-Dtest` 参数支持使用通配符（`*` 和 `?`）来匹配一组测试类。这对于运行某个模块下所有相关测试，或根据命名约定运行特定类型的测试（如所有集成测试）非常有用。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn failsafe:integration-test",
+    "summary": "执行集成测试 (Execute integration tests)",
+    "examples": [
+      {
+        "description": "运行项目的集成测试",
+        "code": "mvn failsafe:integration-test"
+      },
+      {
+        "description": "只运行指定名称的集成测试类",
+        "code": "mvn failsafe:integration-test -Dit.test=MyIntegrationTest"
+      }
+    ],
+    "notes": "Maven Failsafe Plugin 是专门用于运行集成测试的插件。与 Surefire Plugin 不同，Failsafe 通常在 `package` 阶段之后和 `verify` 阶段之前执行，确保在打包后对实际构建产物进行测试。集成测试通常需要外部资源（如数据库、消息队列）的支持。通常，集成测试类名会以 `IT` 或 `ITCase` 结尾（默认配置）。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn failsafe:verify",
+    "summary": "验证集成测试结果 (Verify the results of integration tests)",
+    "examples": [
+      {
+        "description": "验证之前运行的集成测试结果",
+        "code": "mvn failsafe:verify"
+      }
+    ],
+    "notes": "此命令通常在 `mvn failsafe:integration-test` 之后立即执行，或者作为 Maven `verify` 生命周期阶段的一部分自动触发。它的作用是检查 Failsafe Plugin 生成的测试报告，如果存在失败的集成测试，则会导致构建失败。在 CI/CD 流水线中，`mvn verify` 是一个关键步骤，确保部署前所有集成测试都通过。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn spring-boot:run",
+    "summary": "运行 Spring Boot 应用程序 (Run a Spring Boot application)",
+    "examples": [
+      {
+        "description": "启动 Spring Boot 应用程序",
+        "code": "mvn spring-boot:run"
+      },
+      {
+        "description": "传递JVM参数给应用程序 (例如设置内存)",
+        "code": "mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-Xmx512m -Xms256m\""
+      },
+      {
+        "description": "传递程序参数给应用程序 (例如设置端口)",
+        "code": "mvn spring-boot:run -Dspring-boot.run.arguments=\"--server.port=8081\""
+      }
+    ],
+    "notes": "这是 Spring Boot 项目开发者最常用的命令之一。它利用 Spring Boot Maven Plugin 提供的 `run` 目标，直接从源代码启动应用程序，无需先编译打包。它会自动处理类路径、加载Spring上下文等，极大简化了开发和调试过程。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn exec:java",
+    "summary": "通过 exec 插件运行 Java 主类 (Run a Java main class using the exec plugin)",
+    "examples": [
+      {
+        "description": "运行指定的主类 (需要配置 pom.xml)",
+        "code": "mvn exec:java"
+      },
+      {
+        "description": "在命令行直接指定主类和 JVM 参数",
+        "code": "mvn exec:java -Dexec.mainClass=\"com.example.MyApp\" -Dexec.args=\"arg1 arg2\" -Dexec.jvmArgs=\"-Xmx512m\""
+      }
+    ],
+    "notes": "Maven Exec Plugin 允许您在 Maven 构建生命周期之外执行 Java 类。当您需要运行一个非 Web 应用的普通 Java 应用程序，或者需要自定义 JVM 参数、程序参数时，此插件非常有用。通常，您需要在 `pom.xml` 中配置 `<build><plugins><plugin><groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId><configuration><mainClass>...</mainClass></configuration></plugin></plugins></build>` 来使用它。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn exec:exec",
+    "summary": "通过 exec 插件执行任意命令行 (Execute arbitrary commands using the exec plugin)",
+    "examples": [
+      {
+        "description": "执行一个Shell命令 (需要配置 pom.xml)",
+        "code": "mvn exec:exec"
+      },
+      {
+        "description": "在命令行指定执行命令",
+        "code": "mvn exec:exec -Dexec.command=\"echo\" -Dexec.args=\"Hello, Maven!\""
+      }
+    ],
+    "notes": "`exec:exec` 目标比 `exec:java` 更通用，它允许您执行任何可执行程序或脚本，而不仅仅是 Java 类。这使得它在执行一些外部工具、脚本或构建前的预处理/构建后的清理任务时非常灵活。例如，您可以用它来运行一个Python脚本、Node.js脚本或任何系统命令。使用时需注意安全性，因为它可以执行任意命令。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn jetty:run",
+    "summary": "运行基于 Jetty 的 Web 应用程序 (Run a web application using Jetty)",
+    "examples": [
+      {
+        "description": "启动 Jetty 服务器并部署 Web 应用",
+        "code": "mvn jetty:run"
+      },
+      {
+        "description": "指定端口启动 Jetty",
+        "code": "mvn jetty:run -Djetty.port=9090"
+      }
+    ],
+    "notes": "对于传统的 Java EE 或 Servlet 规范的 Web 项目，Jetty Maven Plugin 提供了一个快速启动内嵌 Jetty 服务器来运行应用程序的方式，非常适合开发调试。在 `pom.xml` 中配置该插件后即可使用。随着 Spring Boot 等内嵌容器框架的普及，直接使用该命令的场景相对减少，但在维护老项目或特定场景下仍有其用武之地。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn tomcat7:run",
+    "summary": "运行基于 Tomcat 7 的 Web 应用程序 (Run a web application using Tomcat 7)",
+    "examples": [
+      {
+        "description": "启动 Tomcat 7 服务器并部署 Web 应用",
+        "code": "mvn tomcat7:run"
+      },
+      {
+        "description": "指定上下文路径",
+        "code": "mvn tomcat7:run -Dmaven.tomcat.url=http://localhost:8080/mywebapp"
+      }
+    ],
+    "notes": "与 Jetty 插件类似，Apache Tomcat Maven Plugin (这里的例子是针对 Tomcat 7) 允许开发者直接从 Maven 启动一个内嵌的 Tomcat 服务器来部署和运行 Web 应用程序。这对于快速测试 Web 应用的功能非常方便。请注意，根据您使用的 Tomcat 版本，插件的 `artifactId` 可能会有所不同（例如 `tomcat8-maven-plugin`, `tomcat9-maven-plugin`）。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn dependency:tree",
+    "summary": "显示项目的依赖树 (Display the project's dependency tree)",
+    "examples": [
+      {
+        "description": "显示完整的依赖树",
+        "code": "mvn dependency:tree"
+      },
+      {
+        "description": "以图形化形式显示依赖树 (需要 Graphviz)",
+        "code": "mvn dependency:tree -DoutputType=graphml -DoutputFile=dependencies.graphml"
+      },
+      {
+        "description": "只显示指定 groupId 的依赖",
+        "code": "mvn dependency:tree -Dincludes=org.springframework:*"
+      },
+      {
+        "description": "排除指定 groupId 的依赖",
+        "code": "mvn dependency:tree -Dexcludes=junit:*"
+      }
+    ],
+    "notes": "这是 Maven 开发者诊断依赖问题（如版本冲突、重复依赖、传递性依赖）的**第一利器**。它能清晰地展示项目所有直接和间接依赖的层级关系，以及哪些依赖被仲裁（conflict resolution）掉了。理解依赖树是解决 `ClassNotFoundException` 或 `NoSuchMethodError` 等运行时错误的关键。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn dependency:analyze",
+    "summary": "分析项目的依赖使用情况 (Analyze project dependencies usage)",
+    "examples": [
+      {
+        "description": "分析依赖，找出未使用或未声明的依赖",
+        "code": "mvn dependency:analyze"
+      }
+    ],
+    "notes": "Dependency Analyzer 插件用于帮助清理项目的 `pom.xml`。它可以识别两种主要问题：\n1. **Used undeclared dependencies:** 项目中实际使用了某个依赖，但它没有在 `pom.xml` 中明确声明（通常是通过传递性依赖引入）。虽然代码能跑，但这不是一个好的实践，因为传递性依赖的版本可能发生变化。\n2. **Unused declared dependencies:** 某个依赖在 `pom.xml` 中声明了，但项目中并没有实际使用它。这会导致构建产物膨胀。\n此命令有助于保持 `pom.xml` 的整洁和高效。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn dependency:list",
+    "summary": "列出项目的依赖列表 (List project dependencies)",
+    "examples": [
+      {
+        "description": "列出所有依赖，不以树状结构显示",
+        "code": "mvn dependency:list"
+      }
+    ],
+    "notes": "与 `dependency:tree` 相比，`dependency:list` 提供了更简洁的平面列表形式，通常用于快速查看项目所依赖的所有构件及其版本，而不关心它们之间的传递性关系。对于只需要一个简单的依赖清单的场景非常方便。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn help:effective-pom",
+    "summary": "显示项目最终生效的 POM 文件内容 (Display the effective POM of the project)",
+    "examples": [
+      {
+        "description": "打印当前项目的生效 POM",
+        "code": "mvn help:effective-pom"
+      },
+      {
+        "description": "将生效 POM 输出到文件",
+        "code": "mvn help:effective-pom -Doutput=effective-pom.xml"
+      }
+    ],
+    "notes": "这是一个**非常重要且常用**的诊断命令。Maven 项目的最终 POM 是由当前 `pom.xml`、其父 POM、激活的 profiles、插件的管理配置等多个来源合并而成的。当您遇到构建行为与预期不符（例如，插件版本错误、依赖范围问题等）时，查看生效 POM 可以帮助您准确了解 Maven 实际是如何解释和应用您的配置的。它揭示了所有隐式或继承的配置。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn help:active-profiles",
+    "summary": "显示当前激活的 Maven Profile (Display the active Maven profiles)",
+    "examples": [
+      {
+        "description": "列出当前构建中所有激活的 Profile",
+        "code": "mvn help:active-profiles"
+      }
+    ],
+    "notes": "Maven Profiles 允许您根据不同的环境（如开发、测试、生产）或构建目标（如构建特定模块、启用特定功能）定制构建行为。此命令可以帮助您快速确认哪些 Profile 在当前构建中是活跃的，从而理解为何某些配置（如特定的依赖、插件或资源过滤）被应用或未被应用。在调试与 Profile 相关的构建问题时非常有用。",
+    "shell_type": "External (`mvn`)"
+  },
+  {
+    "name": "mvn versions:display-dependency-updates",
+    "summary": "列出项目所有依赖中可用的更新版本 (Lists available updates for project dependencies)",
+    "examples": [
+      {
+        "description": "显示所有可更新的依赖",
+        "code": "mvn versions:display-dependency-updates"
+      }
+    ],
+    "notes": "这个命令是 Maven Versions Plugin 提供的一个目标。它会检查 `pom.xml` 中声明的依赖，并与配置的 Maven 仓库中的最新版本进行比较，列出可以更新的依赖。这对于保持项目依赖的最新状态非常有用，尤其是在跟踪安全漏洞或获取新功能时。它会区分可用的新版本是次要更新 (minor updates) 还是主要更新 (major updates)。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn versions:display-plugin-updates",
+    "summary": "列出项目所有插件中可用的更新版本 (Lists available updates for project plugins)",
+    "examples": [
+      {
+        "description": "显示所有可更新的插件",
+        "code": "mvn versions:display-plugin-updates"
+      }
+    ],
+    "notes": "与 `display-dependency-updates` 类似，此命令也是 Maven Versions Plugin 的目标，但它针对的是 `pom.xml` 中配置的 Maven 插件。这有助于确保您的构建工具链保持最新，并获得插件的性能改进或新功能。它也会区分次要和主要更新。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn versions:use-latest-versions",
+    "summary": "慎用：自动将POM中的依赖版本更新到最新 (CAUTION: Automatically updates dependency versions in POM to their latest)",
+    "examples": [
+      {
+        "description": "更新所有依赖到最新版本 (请在执行前备份 POM 或使用版本控制)",
+        "code": "mvn versions:use-latest-versions"
+      },
+      {
+        "description": "更新指定依赖到最新版本",
+        "code": "mvn versions:use-latest-versions -Dincludes=com.example:my-artifact"
+      }
+    ],
+    "notes": "**警告：** 这是一个非常强大的命令，它会直接修改 `pom.xml` 文件，将依赖版本更新到最新的非 SNAPSHOT 版本。虽然方便，但**不推荐在没有版本控制和代码审查的情况下使用**，因为它可能引入不兼容的API更改，导致构建失败或运行时错误。通常只在严格控制的环境或特定测试场景中使用。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn help:describe -Dplugin=clean",
+    "summary": "显示指定Maven插件的详细信息 (Displays detailed information about a specified Maven plugin)",
+    "examples": [
+      {
+        "description": "查看 'clean' 插件的详细信息及其目标",
+        "code": "mvn help:describe -Dplugin=clean"
+      },
+      {
+        "description": "查看特定版本的插件信息",
+        "code": "mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin:3.8.1"
+      }
+    ],
+    "notes": "这个命令是 `maven-help-plugin` 提供的一个目标，用于获取关于特定 Maven 插件的文档。它会列出插件的所有目标 (goals) 及其描述，以及每个目标可以接受的参数。当你需要了解某个插件的功能或其可用配置时，这是一个非常方便的工具，无需查阅外部文档。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin -Dgoal=compile",
+    "summary": "显示Maven插件特定目标的详细信息 (Displays detailed information about a specific goal of a Maven plugin)",
+    "examples": [
+      {
+        "description": "查看 'compiler' 插件的 'compile' 目标的详细信息和参数",
+        "code": "mvn help:describe -Dplugin=org.apache.maven.plugins:maven-compiler-plugin -Dgoal=compile"
+      }
+    ],
+    "notes": "这是 `help:describe` 命令的更具体用法，用于深入了解插件的某个具体目标。它会显示该目标的描述、默认值、是否必需以及它接受的所有参数及其类型。这对于配置插件或调试与插件目标相关的问题非常有帮助。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn archetype:generate",
+    "summary": "基于Archetype（项目模板）创建一个新的Maven项目 (Creates a new Maven project from an archetype (project template))",
+    "examples": [
+      {
+        "description": "交互式生成项目 (会提示选择 Archetype 并输入 GAV)",
+        "code": "mvn archetype:generate"
+      },
+      {
+        "description": "非交互式生成一个快速启动项目 (指定 GAV 和 Archetype)",
+        "code": "mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false"
+      }
+    ],
+    "notes": "这是创建 Maven 项目的官方方式。Archetype 是一个项目骨架，它提供了一个初始的项目结构、`pom.xml` 和示例代码。对于快速启动新项目或根据特定标准创建项目（如 Spring Boot 官方 Archetype）非常有用。在交互模式下，它会引导你选择 Archetype 和输入项目的 `groupId`、`artifactId`、`version`。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn eclipse:eclipse",
+    "summary": "生成Eclipse项目文件，以便将Maven项目导入Eclipse (Generates Eclipse project files for importing a Maven project)",
+    "examples": [
+      {
+        "description": "为当前Maven项目生成Eclipse配置",
+        "code": "mvn eclipse:eclipse"
+      },
+      {
+        "description": "生成时包含JavaDoc和源码",
+        "code": "mvn eclipse:eclipse -DdownloadSources=true -DdownloadJavadocs=true"
+      }
+    ],
+    "notes": "这个命令使用 `maven-eclipse-plugin` 来生成 Eclipse IDE 所需的 `.project`, `.classpath` 和 `.settings` 文件夹。**在现代 Eclipse 版本（如 Eclipse IDE for Enterprise Java Developers）中，通常不需要手动运行此命令**，因为它们内置了对 Maven 项目的良好支持，可以直接通过 'Import > Existing Maven Projects' 导入。但对于旧版 Eclipse 或特定场景仍有其用途。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn idea:idea",
+    "summary": "生成IntelliJ IDEA项目文件，以便将Maven项目导入IDEA (Generates IntelliJ IDEA project files for importing a Maven project)",
+    "examples": [
+      {
+        "description": "为当前Maven项目生成IntelliJ IDEA配置",
+        "code": "mvn idea:idea"
+      }
+    ],
+    "notes": "这个命令使用 `maven-idea-plugin` 来生成 IntelliJ IDEA 所需的 `.iml` 文件和 `.ipr`/`.iws` 文件。**与 Eclipse 类似，现代 IntelliJ IDEA 对 Maven 项目的支持非常出色**，通常可以直接 'Open' 或 'Import' `pom.xml` 文件，IDEA 会自动识别并配置项目。因此，这个命令在日常开发中已很少使用。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn wrapper:wrapper",
+    "summary": "为项目生成Maven Wrapper脚本，推荐在项目中配置 (Generates Maven Wrapper scripts for the project, highly recommended for project setup)",
+    "examples": [
+      {
+        "description": "为当前项目生成Maven Wrapper",
+        "code": "mvn wrapper:wrapper"
+      },
+      {
+        "description": "指定特定Maven版本生成Wrapper",
+        "code": "mvn wrapper:wrapper -Dmaven=3.8.6"
+      }
+    ],
+    "notes": "**强烈推荐在所有 Maven 项目中配置 Maven Wrapper。** 它会在项目根目录下生成 `mvnw` (Linux/macOS) 和 `mvnw.cmd` (Windows) 脚本。团队成员或 CI/CD 环境可以直接使用这些脚本 (`./mvnw clean install`)，而无需全局安装特定版本的 Maven。这确保了所有人都使用相同版本的 Maven 来构建项目，从而避免了“在我机器上能跑”的问题。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn install -pl moduleA",
+    "summary": "在多模块项目中，只构建并安装指定的子模块 (In a multi-module project, builds and installs only specified child modules)",
+    "examples": [
+      {
+        "description": "只构建并安装名为 'moduleA' 的子模块",
+        "code": "mvn install -pl moduleA"
+      },
+      {
+        "description": "构建并安装 'moduleA' 和 'moduleB' 两个子模块",
+        "code": "mvn install -pl moduleA,moduleB"
+      },
+      {
+        "description": "通过 Artifact ID 指定模块 (适用于名称冲突或更明确的指定)",
+        "code": "mvn install -pl :moduleA"
+      }
+    ],
+    "notes": "当处理大型多模块 Maven 项目时，这个命令非常有用。`--projects` (或 `-pl`) 选项允许您选择性地构建特定的子模块，而不是构建整个项目。这可以显著加快开发周期，因为您只需关注当前正在开发的模块。`-pl :artifactId` 语法在模块名称可能不唯一或需要更明确指定时很有用。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn install -pl moduleA -am",
+    "summary": "在多模块项目中，构建并安装指定子模块及其所有依赖的模块 (In a multi-module project, builds and installs a specified child module and all modules it depends on)",
+    "examples": [
+      {
+        "description": "构建并安装 'moduleA' 及其所有依赖的模块 ('Also Make')",
+        "code": "mvn install -pl moduleA -am"
+      }
+    ],
+    "notes": "这个命令结合了 `-pl` 和 `-am` (Also Make) 选项。它不仅构建指定的模块 (`moduleA`)，还会自动识别并构建 `moduleA` 在当前多模块项目内部依赖的所有其他模块。这确保了 `moduleA` 在构建时，其所需的所有内部依赖都已正确构建并安装到本地仓库，避免了因依赖未构建而导致的失败。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn install -am",
+    "summary": "在多模块项目中，构建并安装所有模块，确保依赖的模块首先构建 (In a multi-module project, builds and installs all modules, ensuring dependent modules are built first)",
+    "examples": [
+      {
+        "description": "构建所有模块及其依赖的模块",
+        "code": "mvn install -am"
+      }
+    ],
+    "notes": "当您在多模块项目的根目录执行此命令时，Maven 会根据模块之间的依赖关系自动确定正确的构建顺序，并逐个构建和安装所有模块。这相当于执行了整个多模块项目的完整构建，同时确保了依赖链的正确性。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn install -rf moduleA",
+    "summary": "在多模块项目中，从指定模块开始重新构建 (In a multi-module project, resumes the build from a specified module)",
+    "examples": [
+      {
+        "description": "如果构建在 'moduleA' 失败，从 'moduleA' 重新开始构建",
+        "code": "mvn install -rf moduleA"
+      }
+    ],
+    "notes": "`--resume-from` (或 `-rf`) 选项在大型多模块项目构建失败时非常有用。如果构建在某个模块（例如 `moduleA`）处中断，您可以使用此命令让 Maven 从 `moduleA` 及其后续所有依赖的模块开始重新构建，而不是从头开始，从而节省时间。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -D<property>=<value>",
+    "summary": "设置Maven系统属性，可在POM或插件配置中使用 (Sets a Maven system property, usable in POM or plugin configurations)",
+    "examples": [
+      {
+        "description": "跳过测试和生成Javadoc",
+        "code": "mvn clean install -DskipTests -Dmaven.javadoc.skip=true"
+      },
+      {
+        "description": "设置自定义属性，如 'build.timestamp'",
+        "code": "mvn package -Dbuild.timestamp=$(date +%Y%m%d%H%M%S)"
+      }
+    ],
+    "notes": "这是 Maven 中最常用的命令行参数之一。您可以使用 `-D` 前缀设置任何系统属性。这些属性可以在 `pom.xml` 中通过 `${property.name}` 引用，或者由 Maven 插件读取。它对于定制构建行为（如开启/关闭某个特性、传递配置值等）至关重要。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -P<profile_name>",
+    "summary": "激活一个或多个Maven Profile (Activates one or more Maven Profiles)",
+    "examples": [
+      {
+        "description": "激活名为 'dev' 的Profile",
+        "code": "mvn clean install -Pdev"
+      },
+      {
+        "description": "同时激活 'dev' 和 'integration-test' 两个Profile",
+        "code": "mvn clean install -Pdev,integration-test"
+      }
+    ],
+    "notes": "Maven Profile 允许您根据不同的环境或目的定制构建行为（例如开发环境、测试环境、生产环境）。Profile 通常在 `pom.xml` 中定义，可以包含不同的插件配置、依赖、属性等。通过 `-P` 选项，您可以选择性地激活这些预定义的 Profile，从而改变构建的行为。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -U 或 --update-snapshots",
+    "summary": "强制更新Snapshots依赖 (Forces update of SNAPSHOT dependencies)",
+    "examples": [
+      {
+        "description": "强制更新所有SNAPSHOT依赖并构建",
+        "code": "mvn -U clean install"
+      }
+    ],
+    "notes": "当您的项目依赖于其他正在积极开发中的项目（通常其版本号包含 `-SNAPSHOT` 后缀）时，这些 SNAPSHOT 依赖可能经常更新。默认情况下，Maven 会缓存 SNAPSHOT 依赖一段时间。使用 `-U` 或 `--update-snapshots` 可以强制 Maven 连接远程仓库，检查并下载这些 SNAPSHOT 依赖的最新版本，这在多项目协作或 CI/CD 环境中非常重要。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -B 或 --batch-mode",
+    "summary": "以非交互模式运行Maven (Runs Maven in non-interactive (batch) mode)",
+    "examples": [
+      {
+        "description": "以非交互模式执行构建",
+        "code": "mvn -B clean install"
+      }
+    ],
+    "notes": "在 CI/CD 流水线或其他自动化脚本中，您不希望 Maven 提示用户输入。`-B` 或 `--batch-mode` 选项强制 Maven 以非交互方式运行，禁止任何用户交互，并 suppresses some non-essential output (like progress bars).",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -T 1C 或 --threads 1C",
+    "summary": "指定并发构建的线程数 (Specifies the number of threads for parallel build)",
+    "examples": [
+      {
+        "description": "使用2个CPU核心进行并发构建",
+        "code": "mvn -T 2C clean install"
+      },
+      {
+        "description": "使用1.5倍CPU核心数进行并发构建",
+        "code": "mvn -T 1.5C clean install"
+      },
+      {
+        "description": "使用固定数量的线程进行并发构建",
+        "code": "mvn -T 4 clean install"
+      }
+    ],
+    "notes": "这个选项用于并行执行多模块项目中的构建任务，可以显著加快构建速度。`C` 表示使用CPU核心数，`F` (如 `1F`) 表示每个模块一个线程，`N` (如 `4`) 表示固定线程数。`1C` 意味着使用一个CPU核心来并行构建，`1.5C` 意味着使用1.5倍的CPU核心数。并非所有项目都能从并行构建中受益，且可能引入并发问题，需要根据项目特性进行尝试。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -o 或 --offline",
+    "summary": "以离线模式运行Maven，不连接远程仓库 (Runs Maven in offline mode, avoiding remote repository connections)",
+    "examples": [
+      {
+        "description": "离线模式下构建项目",
+        "code": "mvn -o clean install"
+      }
+    ],
+    "notes": "当您的网络连接受限或您希望完全依赖本地 Maven 仓库中的依赖时，可以使用此选项。Maven 将不会尝试从远程仓库下载任何依赖或插件，只使用本地已有的文件。如果本地仓库缺少所需依赖，构建将失败。这对于在没有网络的环境中工作，或者确保构建可重复性（只使用已缓存的依赖）非常有用。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -q 或 --quiet",
+    "summary": "以静默模式运行Maven，只输出错误信息 (Runs Maven in quiet mode, suppressing most output)",
+    "examples": [
+      {
+        "description": "静默模式下构建项目",
+        "code": "mvn -q clean install"
+      }
+    ],
+    "notes": "此选项将 Maven 的输出降到最低，只显示错误信息。这在 CI/CD 流水线中非常有用，可以减少日志量，使其更容易发现真正的错误。但在开发阶段，您可能更希望看到详细的构建输出。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -X 或 --debug",
+    "summary": "以调试模式运行Maven，提供非常详细的输出 (Runs Maven in debug mode, providing highly detailed output)",
+    "examples": [
+      {
+        "description": "以调试模式构建项目，用于排查问题",
+        "code": "mvn -X clean install"
+      }
+    ],
+    "notes": "**排查构建问题时不可或缺的命令。** `-X` 或 `--debug` 选项会使 Maven 输出大量的内部信息，包括插件参数、生命周期事件、依赖解析过程等。当构建失败且常规错误信息不足以定位问题时，调试模式的详细日志能够提供关键线索。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn -e 或 --errors",
+    "summary": "只显示错误信息和堆栈轨迹 (Displays only error messages and stack traces)",
+    "examples": [
+      {
+        "description": "只显示错误信息，快速查看问题",
+        "code": "mvn -e clean install"
+      }
+    ],
+    "notes": "这是介于默认输出和 `-X` 调试模式之间的一个折中选项。它会显示所有的错误信息以及导致错误的堆栈轨迹，但不会像 `-X` 那样输出大量的非错误信息。对于快速诊断构建失败的原因，这是一个很好的选择。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvn --version 或 -v",
+    "summary": "显示Maven版本信息 (Displays Maven version information)",
+    "examples": [
+      {
+        "description": "显示当前安装的Maven版本和Java版本",
+        "code": "mvn --version"
+      }
+    ],
+    "notes": "一个简单的命令，用于快速检查当前系统上安装的 Maven 版本和 Java 运行时环境（JRE）信息。在配置环境或排查版本兼容性问题时非常有用。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvnDebug",
+    "summary": "启动Maven并等待远程调试器连接 (Starts Maven and waits for a remote debugger connection)",
+    "examples": [
+      {
+        "description": "启动Maven并在默认端口8000等待调试器连接",
+        "code": "mvnDebug clean install"
+      }
+    ],
+    "notes": "这个命令是 Maven 提供的一个特殊脚本，用于以调试模式启动 Maven 进程。它会在执行 Maven 任务之前暂停，等待一个远程调试器（如 IntelliJ IDEA 或 Eclipse 中的 'Remote JVM Debug' 配置）连接到默认端口 8000。这允许您逐步调试 Maven 构建过程，包括自定义插件或复杂的生命周期问题。",
+    "shell_type": "External"
+  },
+  {
+    "name": "mvnd",
+    "summary": "Maven Daemon：使用Maven守护进程加速构建 (Maven Daemon: Accelerates builds using a long-running background process)",
+    "examples": [
+      {
+        "description": "使用Maven Daemon进行构建 (代替 'mvn')",
+        "code": "mvnd clean install"
+      }
+    ],
+    "notes": "`mvnd` 是一个独立的工具，它为 Maven 提供了一个守护进程 (daemon)，类似于 Gradle Daemon。首次运行 `mvnd` 会启动一个后台进程，后续的 `mvnd` 命令会连接到这个守护进程，避免了每次都启动新的 JVM 进程的开销，从而显著加快了连续构建的速度。需要单独安装 `mvnd`。对于频繁进行本地构建的开发者来说，这是一个强大的性能优化工具。",
+    "shell_type": "External"
+  },
+  {
+    "name": "./gradlew clean",
+    "summary": "清理项目构建产物 (Cleans the project's build outputs)",
+    "examples": [
+      {
+        "description": "执行清理任务",
+        "code": "./gradlew clean"
+      }
+    ],
+    "notes": "该命令会删除 `build` 目录及其所有内容。在执行新的构建之前，运行 `clean` 是一个良好的习惯，以确保构建从一个干净的状态开始，避免旧的构建产物干扰。在多模块项目中，它会清理所有子模块的 `build` 目录。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew build",
+    "summary": "执行项目的所有默认构建任务，包括编译、测试、打包 (Executes all default build tasks for the project, including compile, test, and package)",
+    "examples": [
+      {
+        "description": "构建整个项目",
+        "code": "./gradlew build"
+      },
+      {
+        "description": "构建并跳过测试 (常用)",
+        "code": "./gradlew build -x test"
+      }
+    ],
+    "notes": "这是Gradle中最常用的命令之一，它会触发 `assemble` 和 `check` 任务。`assemble` 负责编译和打包，`check` 负责运行测试和执行代码质量检查。成功后，通常会在 `build/libs` 或 `build/distributions` 目录下找到构建产物。如果项目配置了其他构建任务，它们也可能作为 `build` 任务的依赖而被执行。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew assemble",
+    "summary": "编译并打包所有可分发的产物，但不运行测试 (Compiles and packages all distributable artifacts, but does not run tests)",
+    "examples": [
+      {
+        "description": "只打包，不运行测试",
+        "code": "./gradlew assemble"
+      }
+    ],
+    "notes": "当您只需要生成 JAR/WAR 文件或任何其他可分发的产物而不需要执行耗时的测试时，可以使用此命令。它是 `build` 任务的一个子集，通常用于快速生成可部署的文件。在多模块项目中，`assemble` 会为所有适用的子模块创建产物。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew compileJava",
+    "summary": "只编译 Java 源代码 (Compiles only Java source code)",
+    "examples": [
+      {
+        "description": "仅编译Java代码",
+        "code": "./gradlew compileJava"
+      }
+    ],
+    "notes": "这是一个非常底层的任务，属于Java插件的内置任务。它只会编译 `src/main/java` 目录下的Java源文件。通常只在调试构建过程、验证代码语法是否正确或进行增量编译时直接调用，因为它不会生成任何可执行的包，也不会运行测试。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew jar",
+    "summary": "将项目打包为 JAR 文件 (Packages the project into a JAR file)",
+    "examples": [
+      {
+        "description": "生成JAR文件",
+        "code": "./gradlew jar"
+      }
+    ],
+    "notes": "此任务由Java插件提供，用于创建标准的Java存档（JAR）文件。它是 `assemble` 任务的一部分。如果您只关心生成 JAR 文件而不涉及其他构建步骤（如运行测试），可以直接调用此任务。生成的 JAR 文件通常位于 `build/libs` 目录下，命名格式通常为 `[projectName]-[version].jar`。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew war",
+    "summary": "将项目打包为 WAR 文件 (针对 Web 应用) (Packages the project into a WAR file, specifically for web applications)",
+    "examples": [
+      {
+        "description": "生成WAR文件",
+        "code": "./gradlew war"
+      }
+    ],
+    "notes": "此任务由WAR插件提供，用于创建Web存档（WAR）文件，适用于传统的 Java Web 应用程序（如部署到Tomcat, Jetty等Servlet容器）。它也是 `assemble` 任务的一部分。生成的 WAR 文件通常位于 `build/libs` 目录下。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew install",
+    "summary": "(通过 `maven-publish` 插件) 将打包好的文件发布到本地 Maven 仓库 (Publishes packaged artifacts to the local Maven repository, usually via `maven-publish` plugin)",
+    "examples": [
+      {
+        "description": "发布到本地Maven仓库",
+        "code": "./gradlew install"
+      }
+    ],
+    "notes": "这个任务并非Gradle的内置任务，而是通常由 `maven-publish` 插件（或旧的 `maven` 插件）提供。其行为类似于 Maven 的 `install` 命令。它会将项目的构建产物（如 JAR、WAR、POM 等）发布到本地 Maven 仓库 (`~/.m2/repository`)，以便其他本地 Maven 或 Gradle 项目可以引用它们。在Gradle 7.x+，推荐使用更明确的 `publishToMavenLocal` 任务名称（如果插件版本支持）。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew publish",
+    "summary": "(通常由 `maven-publish` 或 `ivy-publish` 插件) 将打包好的文件发布到远程仓库 (Publishes packaged artifacts to a remote repository, usually via `maven-publish` or `ivy-publish` plugins)",
+    "examples": [
+      {
+        "description": "发布到远程仓库",
+        "code": "./gradlew publish"
+      }
+    ],
+    "notes": "此任务通常由发布插件（如 `maven-publish` 用于发布到Maven兼容仓库，或 `ivy-publish` 用于发布到Ivy兼容仓库）提供。它用于将项目的构建产物部署到远程的共享仓库（如 Nexus, Artifactory 等）。执行此命令需要正确配置 `publishing` 块中的仓库URL、凭据等信息。这是项目发布和共享的关键步骤。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew clean build",
+    "summary": "常用组合：先清理项目，再执行完整的构建过程 (Common combination: First cleans the project, then performs a full build)",
+    "examples": [
+      {
+        "description": "执行清理并完整构建",
+        "code": "./gradlew clean build"
+      }
+    ],
+    "notes": "这是Gradle开发中最常用的命令之一。它首先执行 `clean` 任务以删除所有先前的构建产物，然后执行 `build` 任务来编译、测试和打包项目。这确保了每次构建都从一个干净、确定的状态开始，从而保证了构建的纯净性和可重复性。在CI/CD环境中，这是推荐的标准构建命令。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew test",
+    "summary": "运行所有单元测试 (Runs all unit tests)",
+    "examples": [
+      {
+        "description": "运行所有测试",
+        "code": "./gradlew test"
+      }
+    ],
+    "notes": "此命令会执行项目中所有被 Gradle 的 `Java` 插件（或其他语言插件）识别为单元测试的测试类。测试报告通常生成在 `build/reports/tests/test` 目录下（HTML格式）以及 `build/test-results/test` 目录下（XML和二进制格式）。如果任何测试失败，`test` 任务将失败，并阻止后续的构建任务执行（除非后续任务被明确配置为允许失败）。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew build -x test",
+    "summary": "构建项目但跳过运行单元测试 (Builds the project but skips running unit tests)",
+    "examples": [
+      {
+        "description": "快速构建，跳过测试",
+        "code": "./gradlew build -x test"
+      }
+    ],
+    "notes": "`-x` (exclude) 参数用于排除一个或多个任务。当您需要快速构建、打包或部署项目而不需要等待所有测试完成时，此命令非常有用。这在本地开发中进行快速迭代、验证代码变更或在CI/CD管道的特定阶段（如生成快照版本）时经常使用。它的功能与Maven的 `-DskipTests` 参数类似。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew test --tests \"*MyTestClass\"",
+    "summary": "只运行指定类名（支持通配符）的测试 (Runs only tests matching the specified class name (supports wildcards))",
+    "examples": [
+      {
+        "description": "运行特定测试类",
+        "code": "./gradlew test --tests \"com.example.MyServiceTest\""
+      },
+      {
+        "description": "运行以特定前缀开头的测试类",
+        "code": "./gradlew test --tests \"*ServiceTest\""
+      },
+      {
+        "description": "运行包含特定字符串的测试类",
+        "code": "./gradlew test --tests \"*Controller*Test\""
+      }
+    ],
+    "notes": "当您只修改了部分代码并希望快速验证相关的测试时，这个命令能大大节省时间。Gradle的 `--tests` 选项支持通配符 `*` （匹配任意字符序列）和 `?` （匹配单个字符）。这种方式比运行所有测试更具针对性。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew test --tests \"*MyTestClass.myTestMethod\"",
+    "summary": "只运行指定类中的指定方法 (Runs only a specific method within a specified test class)",
+    "examples": [
+      {
+        "description": "运行特定测试方法",
+        "code": "./gradlew test --tests \"com.example.MyServiceTest.testMethodA\""
+      },
+      {
+        "description": "运行指定类中所有以特定前缀开头的方法",
+        "code": "./gradlew test --tests \"com.example.MyServiceTest.test*\""
+      }
+    ],
+    "notes": "这是比运行整个测试类更精细的控制，在调试某个特定测试用例时特别有用。您可以使用完全限定的方法名，也可以结合通配符来匹配多个方法。这种能力在需要快速隔离和调试单个测试失败原因时显得尤为强大。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew check",
+    "summary": "运行所有检查任务，包括测试、代码质量工具等 (Runs all checking tasks, including tests and code quality tools)",
+    "examples": [
+      {
+        "description": "执行所有检查",
+        "code": "./gradlew check"
+      }
+    ],
+    "notes": "此任务是 `build` 任务的一部分（`build` 任务会依赖 `check`）。它通常涵盖单元测试、集成测试以及项目中配置的所有代码质量检查工具，如 Checkstyle、PMD、FindBugs/SpotBugs 等。`check` 任务旨在验证项目的质量和合规性。如果任何检查失败，`check` 任务将失败，并阻止构建成功。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew jacocoTestReport",
+    "summary": "(如果配置了 JaCoCo 插件) 生成代码覆盖率报告 (Generates code coverage report if JaCoCo plugin is configured)",
+    "examples": [
+      {
+        "description": "生成代码覆盖率报告",
+        "code": "./gradlew jacocoTestReport"
+      }
+    ],
+    "notes": "此命令需要项目中应用并正确配置 JaCoCo Gradle 插件。它会在运行测试后收集代码覆盖率数据，并生成HTML、XML或CSV格式的报告，通常位于 `build/reports/jacoco/test` 目录下。该报告对于评估测试的质量和代码覆盖率至关重要，有助于识别测试不足的区域。通常此任务会依赖 `test` 任务。",
+    "shell_type": "External (`./gradlew` script)"
+  },
+  {
+    "name": "./gradlew bootRun",
+    "summary": "运行 Spring Boot 应用程序 (Run a Spring Boot application)",
+    "examples": [
+      {
+        "description": "启动 Spring Boot 应用 (最常用)",
+        "code": "./gradlew bootRun"
+      },
+      {
+        "description": "以特定 Spring Profile 启动应用",
+        "code": "./gradlew bootRun --args='--spring.profiles.active=dev'"
+      },
+      {
+        "description": "开启远程调试，应用将在指定端口等待连接",
+        "code": "./gradlew bootRun --debug-jvm"
+      },
+      {
+        "description": "跳过构建（如果已是最新状态），直接运行",
+        "code": "./gradlew bootRun -x build"
+      }
+    ],
+    "notes": "这是 Spring Boot 项目中最常用的命令之一，它会编译项目，然后使用 Spring Boot Maven/Gradle 插件启动内嵌的Web服务器（如Tomcat, Jetty, Undertow）。它支持热重载，方便开发阶段快速迭代。需要确保项目中应用了 `org.springframework.boot` 的 Gradle 插件。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew run",
+    "summary": "运行 Java 应用程序的主类 (Run the main class of a Java application)",
+    "examples": [
+      {
+        "description": "启动已配置主类的 Java 应用",
+        "code": "./gradlew run"
+      },
+      {
+        "description": "向应用程序传递命令行参数 (参数需在 `--args=` 之后)",
+        "code": "./gradlew run --args='arg1 arg2'"
+      }
+    ],
+    "notes": "此命令通常与 `application` 插件一起使用，用于运行非 Spring Boot 的普通 Java 应用程序。需要在 `build.gradle` 中配置 `mainClass` 属性。它会在单独的JVM中运行应用，适合于命令行工具或桌面应用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew tasks",
+    "summary": "列出项目中可用的所有任务 (List all available tasks in the project)",
+    "examples": [
+      {
+        "description": "列出所有主要任务，按类别分组",
+        "code": "./gradlew tasks"
+      }
+    ],
+    "notes": "一个非常实用的命令，可以帮助你了解当前项目支持哪些构建操作。任务通常按功能（如Build tasks, Verification tasks, Other tasks等）分组。对于初次接触的项目，这是了解其构建能力的最佳起点。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew tasks --all",
+    "summary": "列出所有任务，包括内部和不常用的任务 (List all tasks, including internal and less commonly used ones)",
+    "examples": [
+      {
+        "description": "列出所有任务，包括内部辅助任务",
+        "code": "./gradlew tasks --all"
+      }
+    ],
+    "notes": "比 `./gradlew tasks` 提供更详细的任务列表，会显示一些通常隐藏的任务，例如由插件自动生成的内部任务。对于深入了解Gradle构建过程或调试复杂的构建问题时非常有用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew dependencies",
+    "summary": "显示项目的依赖树 (Display the dependency tree of the project)",
+    "examples": [
+      {
+        "description": "显示所有配置的依赖树 (最常用)",
+        "code": "./gradlew dependencies"
+      },
+      {
+        "description": "只显示特定配置（如 `implementation`）的依赖树",
+        "code": "./gradlew dependencies --configuration implementation"
+      },
+      {
+        "description": "以详细模式显示依赖树，包括依赖来源和版本冲突解决信息",
+        "code": "./gradlew dependencies --configuration runtimeClasspath --scan"
+      }
+    ],
+    "notes": "这是Gradle中排查依赖冲突、分析依赖关系和了解实际引入了哪些库的利器。它会清晰地展示每个依赖项以及它的传递性依赖。在遇到 `ClassNotFoundException` 或版本冲突问题时，此命令是首选的诊断工具。其输出比 Maven 的 `dependency:tree` 更易读。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew properties",
+    "summary": "列出项目的所有属性 (List all properties of the project)",
+    "examples": [
+      {
+        "description": "显示项目的所有默认和自定义属性",
+        "code": "./gradlew properties"
+      }
+    ],
+    "notes": "用于查看当前项目的各种属性，包括Gradle内置属性、插件定义的属性以及在 `gradle.properties` 或命令行中定义的自定义属性。在脚本调试或理解构建上下文时非常有用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew help --task build",
+    "summary": "获取特定任务的帮助信息 (Get help information for a specific task)",
+    "examples": [
+      {
+        "description": "获取 `build` 任务的详细帮助",
+        "code": "./gradlew help --task build"
+      },
+      {
+        "description": "获取 `bootRun` 任务的帮助",
+        "code": "./gradlew help --task bootRun"
+      }
+    ],
+    "notes": "如果你不确定某个任务的具体用法或它支持哪些选项，可以使用此命令来获取详细的说明。这对于学习新的插件或自定义任务非常有用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew outgoingVariants",
+    "summary": "列出项目可发布的制品和它们的特性 (List the project's publishable artifacts and their capabilities)",
+    "examples": [
+      {
+        "description": "列出项目生成的所有可以发布的变体",
+        "code": "./gradlew outgoingVariants"
+      }
+    ],
+    "notes": "这是一个相对高级的命令，主要用于理解 Gradle 的模块元数据（Module Metadata）和可发布构件（publishable artifacts）。当你使用 `maven-publish` 或其他发布插件，并需要精确控制哪些构件被发布、它们包含哪些属性时，此命令可以帮助你检查配置是否正确。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "gradle wrapper",
+    "summary": "生成 Gradle Wrapper 脚本 (Generate Gradle Wrapper scripts)",
+    "examples": [
+      {
+        "description": "在当前项目中生成 Gradle Wrapper",
+        "code": "gradle wrapper"
+      },
+      {
+        "description": "生成指定 Gradle 版本的 Wrapper (推荐)",
+        "code": "gradle wrapper --gradle-version 8.8"
+      }
+    ],
+    "notes": "**强烈推荐在所有 Gradle 项目中使用此命令。** 它会在项目根目录生成 `gradlew` (Linux/macOS) 和 `gradlew.bat` (Windows) 脚本，以及 `gradle/wrapper` 目录。这些脚本允许用户在没有全局安装 Gradle 的情况下运行构建，并确保所有开发人员和CI/CD环境都使用 **相同且预期的 Gradle 版本** 进行构建，从而避免“在我机器上能跑”的问题。",
+    "shell_type": "External (`gradle`)"
+  },
+  {
+    "name": "gradle wrapper --gradle-version <version>",
+    "summary": "更新或生成指定版本的 Gradle Wrapper (Update or generate Gradle Wrapper to a specific version)",
+    "examples": [
+      {
+        "description": "将项目的 Gradle Wrapper 更新到 8.8 版本",
+        "code": "gradle wrapper --gradle-version 8.8"
+      },
+      {
+        "description": "指定 distribution URL (例如，当使用自定义 Gradle 版本时)",
+        "code": "gradle wrapper --gradle-version 8.8 --distribution-type all"
+      }
+    ],
+    "notes": "当你想升级或降级项目中使用的 Gradle 版本时，使用此命令最为方便。它会修改 `gradle-wrapper.properties` 文件，并在下次执行 `./gradlew` 时自动下载指定版本的 Gradle 发行版。`--distribution-type all` 通常用于开发环境，会下载包含源代码和文档的完整发行版。",
+    "shell_type": "External (`gradle`)"
+  },
+  {
+    "name": "gradle init",
+    "summary": "初始化一个新的 Gradle 项目 (Initialize a new Gradle project)",
+    "examples": [
+      {
+        "description": "在当前目录创建一个新的空 Gradle 项目",
+        "code": "gradle init"
+      },
+      {
+        "description": "创建一个新的 Java 应用程序项目 (会有交互式提示)",
+        "code": "gradle init --type java-application"
+      },
+      {
+        "description": "创建一个新的 Kotlin JVM 库项目 (无需交互)",
+        "code": "gradle init --type kotlin-library --dsl kotlin"
+      }
+    ],
+    "notes": "类似于 Maven 的 `archetype:generate`，`gradle init` 提供了一个快速启动新 Gradle 项目的途径。它会引导你选择项目类型（如 `java-application`, `java-library`, `kotlin-application` 等）、DSL（Groovy 或 Kotlin）以及是否生成构建脚本的示例代码。",
+    "shell_type": "External (`gradle`)"
+  },
+  {
+    "name": "./gradlew --no-daemon build",
+    "summary": "禁用 Gradle 守护进程来执行构建 (Execute a build without using the Gradle Daemon)",
+    "examples": [
+      {
+        "description": "不使用守护进程执行 `build` 任务",
+        "code": "./gradlew --no-daemon build"
+      }
+    ],
+    "notes": "默认情况下，Gradle 会启动一个后台守护进程来执行构建，以提高后续构建的速度（避免重复启动JVM）。但在某些情况下，例如在CI/CD环境中（每次构建都是全新的环境），或者当守护进程出现问题（如内存泄漏、僵尸进程）时，你可以使用此选项来禁用它。禁用后，每次构建都会从头启动一个JVM。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --stop",
+    "summary": "停止所有正在运行的 Gradle 守护进程 (Stop all running Gradle Daemons)",
+    "examples": [
+      {
+        "description": "停止所有活跃的 Gradle 守护进程",
+        "code": "./gradlew --stop"
+      }
+    ],
+    "notes": "如果发现 Gradle 守护进程占用了过多内存，或者你希望强制关闭它们以清理环境（例如，升级Gradle版本后），可以使用此命令。它会关闭所有当前正在运行的 Gradle 守护进程。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --refresh-dependencies",
+    "summary": "强制刷新所有依赖，忽略本地缓存 (Force refresh of all dependencies, ignoring local cache)",
+    "examples": [
+      {
+        "description": "强制从远程仓库检查并下载所有依赖的最新版本",
+        "code": "./gradlew build --refresh-dependencies"
+      }
+    ],
+    "notes": "当你在项目中使用了 SNAPSHOT 版本的依赖，并且上游仓库发布了新的 SNAPSHOT 版本但版本号没有改变时，Gradle 的本地缓存可能不会自动更新。使用 `--refresh-dependencies` 可以强制 Gradle 重新检查所有依赖的远程仓库，确保你使用的是最新的依赖。这对于解决因依赖缓存导致的问题非常有用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --build-cache",
+    "summary": "尝试使用构建缓存来加速构建 (Attempt to use the build cache for faster builds)",
+    "examples": [
+      {
+        "description": "启用构建缓存进行构建",
+        "code": "./gradlew build --build-cache"
+      }
+    ],
+    "notes": "Gradle 构建缓存可以重用之前构建的输出，即使是在不同的机器上。例如，如果你在 CI/CD 管道中进行了构建，或者在本地进行了清理构建，Gradle 可能会从缓存中获取已经计算过的任务结果，从而大大加快后续构建的速度。你可以配置本地缓存或远程共享缓存。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew cleanBuildCache",
+    "summary": "清理 Gradle 的构建缓存 (Clean Gradle's build cache)",
+    "examples": [
+      {
+        "description": "删除本地构建缓存中的所有条目",
+        "code": "./gradlew cleanBuildCache"
+      }
+    ],
+    "notes": "用于清理本地构建缓存。当你遇到构建缓存可能导致的问题时，或者希望释放磁盘空间时，可以使用此命令。这不会影响 Gradle 的依赖缓存 (`.gradle/caches`)。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --configuration-cache",
+    "summary": "启用配置缓存 (Enable the configuration cache)",
+    "examples": [
+      {
+        "description": "启用配置缓存进行构建",
+        "code": "./gradlew build --configuration-cache"
+      }
+    ],
+    "notes": "配置缓存是 Gradle 4.x 引入的一项实验性功能（在后续版本中逐渐稳定），它缓存了构建的配置阶段结果。对于大型多模块项目，配置阶段可能非常耗时。启用配置缓存后，Gradle 可以跳过重复的配置解析，显著加快后续构建的速度。但需要注意，某些构建脚本可能不兼容配置缓存，需要进行调整。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --continuous",
+    "summary": "持续构建：监听文件变化并自动重新执行任务 (Continuous Build: Watches for file changes and re-executes tasks automatically)",
+    "examples": [
+      {
+        "description": "监听文件变化并自动运行 'build' 任务",
+        "code": "./gradlew build --continuous"
+      },
+      {
+        "description": "缩写形式，与 '--continuous' 效果相同",
+        "code": "./gradlew -t build"
+      },
+      {
+        "description": "监听文件变化并自动运行 Spring Boot 应用",
+        "code": "./gradlew bootRun --continuous"
+      }
+    ],
+    "notes": "这是提高开发效率的强大功能。当源代码、资源文件或构建脚本发生变化时，Gradle 会自动重新运行指定的任务。对于前端开发（如 Live Reload）或快速迭代后端功能非常有用，省去了手动重复执行命令的步骤。它会一直运行，直到你按下 Ctrl+C 终止。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --stacktrace",
+    "summary": "显示完整的错误堆栈信息 (Show full error stacktrace)",
+    "examples": [
+      {
+        "description": "执行构建并显示详细错误堆栈",
+        "code": "./gradlew build --stacktrace"
+      },
+      {
+        "description": "缩写形式，与 '--stacktrace' 效果相同",
+        "code": "./gradlew -s build"
+      }
+    ],
+    "notes": "当构建失败时，此选项会提供详细的Java堆栈跟踪，这对于诊断问题至关重要。它能指出错误发生的具体代码位置和调用链，是排查构建失败、插件配置错误或运行时异常的必备工具。与 `--debug` 相比，它更侧重于错误本身的追踪。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --debug",
+    "summary": "显示最详细的调试日志输出 (Show most detailed debug log output)",
+    "examples": [
+      {
+        "description": "执行构建并显示所有调试信息",
+        "code": "./gradlew build --debug"
+      },
+      {
+        "description": "缩写形式，与 '--debug' 效果相同",
+        "code": "./gradlew -d build"
+      }
+    ],
+    "notes": "提供 Gradle 执行的极其详细的日志，包括任务执行、依赖解析、缓存决策等所有内部细节。当你需要深入了解 Gradle 内部工作机制，或者排查非常难以定位的构建问题时，这个选项非常有用。输出量巨大，通常只在问题诊断时使用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --info",
+    "summary": "显示信息级别的日志输出 (Show info-level log output)",
+    "examples": [
+      {
+        "description": "执行构建并显示信息级别的日志",
+        "code": "./gradlew build --info"
+      },
+      {
+        "description": "缩写形式，与 '--info' 效果相同",
+        "code": "./gradlew -i build"
+      }
+    ],
+    "notes": "比默认输出更详细，但比 `debug` 模式简洁。它会显示任务的执行顺序、下载依赖、配置信息等重要步骤。日常开发中，当你需要更多关于构建过程的信息，但又不想被 `debug` 级别的海量日志淹没时，这个选项很有用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --quiet",
+    "summary": "静默模式，只输出错误信息 (Quiet mode, only show error output)",
+    "examples": [
+      {
+        "description": "执行构建并只输出错误信息",
+        "code": "./gradlew build --quiet"
+      },
+      {
+        "description": "缩写形式，与 '--quiet' 效果相同",
+        "code": "./gradlew -q build"
+      }
+    ],
+    "notes": "最小化输出，通常只显示错误信息。在自动化脚本或CI/CD环境中非常有用，可以减少日志噪音，只在构建失败时提供关键信息。如果构建成功，可能不会有任何输出。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "JVM远程调试参数",
+    "summary": "为Gradle启动的JVM进程配置远程调试 (Configure remote debugging for JVM processes started by Gradle)",
+    "examples": [
+      {
+        "description": "启动Spring Boot应用并允许远程调试",
+        "code": "./gradlew bootRun -Dorg.gradle.jvmargs=\"-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005\""
+      },
+      {
+        "description": "为所有Gradle任务JVM进程设置JVM参数",
+        "code": "GRADLE_OPTS=\"-Xmx2048m -Dmy.property=value\" ./gradlew build"
+      }
+    ],
+    "notes": "`Dorg.gradle.jvmargs` 是 Gradle 的一个系统属性，用于将额外的 JVM 参数传递给 Gradle 执行任务时启动的 JVM 进程（如运行 Spring Boot 应用或测试）。这对于在 IDE 中连接调试器到正在运行的 Gradle 进程非常关键。`suspend=n` 表示应用程序会立即启动，等待调试器连接；`suspend=y` 表示应用程序会暂停，直到调试器连接。端口 `5005` 是常用的调试端口。",
+    "shell_type": "External (`./gradlew` with JVM arguments)"
+  },
+  {
+    "name": "./gradlew --scan",
+    "summary": "生成一个Gradle构建扫描报告 (Generate a Gradle Build Scan report)",
+    "examples": [
+      {
+        "description": "生成一个构建扫描报告并获取链接",
+        "code": "./gradlew build --scan"
+      }
+    ],
+    "notes": "这是一个由 Gradle 公司提供的强大分析工具。当你运行此命令并同意条款后，Gradle 会生成一个包含构建所有详细信息的报告，并上传到一个服务，然后提供一个URL。这个报告包含任务执行时间、依赖解析、环境变量、缓存命中情况等，对于诊断性能问题、构建失败原因或与团队共享构建结果非常有用。需要联网。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --parallel",
+    "summary": "并行执行任务 (Execute tasks in parallel)",
+    "examples": [
+      {
+        "description": "并行构建项目中的所有子模块和任务",
+        "code": "./gradlew build --parallel"
+      }
+    ],
+    "notes": "如果你的项目是多模块项目，或者任务之间没有严格的顺序依赖，使用此选项可以显著加快构建速度。Gradle 会尝试同时运行多个任务，充分利用多核CPU。但并非所有任务都能并行执行，Gradle 会自动处理任务依赖关系。过度使用并行可能导致内存消耗增加。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --profile",
+    "summary": "生成构建的性能分析报告 (Generate a build performance profile report)",
+    "examples": [
+      {
+        "description": "执行构建并生成性能报告",
+        "code": "./gradlew build --profile"
+      }
+    ],
+    "notes": "此命令会在构建结束后在 `build/reports/profile` 目录下生成一个详细的HTML报告，展示构建各个阶段和任务的耗时。它有助于识别构建中的性能瓶颈，例如哪些任务或配置阶段耗时最长，从而优化构建脚本。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --write-locks",
+    "summary": "重新生成依赖锁定文件 (Re-generates dependency lock files)",
+    "examples": [
+      {
+        "description": "重新生成所有配置的依赖锁定文件",
+        "code": "./gradlew --write-locks"
+      }
+    ],
+    "notes": "当项目启用依赖锁定 (`dependencyFencings`) 时，Gradle 会生成一个 `.lockfile` 文件来固定依赖的版本，确保每次构建都使用相同的依赖版本。此命令会根据当前的依赖解析结果更新这些锁定文件。通常在更新依赖版本或首次设置依赖锁定后使用。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --refresh-lockfile",
+    "summary": "刷新现有依赖锁定文件 (Refreshes existing dependency lock files)",
+    "examples": [
+      {
+        "description": "刷新依赖锁定文件，但不解析新的依赖版本",
+        "code": "./gradlew --refresh-lockfile"
+      }
+    ],
+    "notes": "与 `--write-locks` 不同，`--refresh-lockfile` 不会根据最新的可用版本来更新锁定文件，它只是确保锁定文件是最新和有效的，基于当前配置的依赖。它主要用于验证和修复可能已损坏的锁定文件，而不是升级依赖。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --offline",
+    "summary": "离线模式：不尝试下载任何依赖 (Offline mode: Do not attempt to download any dependencies)",
+    "examples": [
+      {
+        "description": "离线构建项目",
+        "code": "./gradlew build --offline"
+      }
+    ],
+    "notes": "强制 Gradle 只使用本地缓存中的依赖。如果本地缓存中缺少任何所需的依赖，构建将会失败。这在没有网络连接或为了确保构建不依赖外部网络时非常有用，例如在封闭的CI/CD环境中进行测试。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew -P<property>=<value>",
+    "summary": "设置 Gradle 项目属性 (Set Gradle project properties)",
+    "examples": [
+      {
+        "description": "设置一个名为 'myProperty' 的项目属性",
+        "code": "./gradlew build -PmyProperty=value"
+      },
+      {
+        "description": "在构建时激活一个特定的 Profile (如果配置)",
+        "code": "./gradlew build -PbuildProfile=production"
+      }
+    ],
+    "notes": "允许从命令行向 Gradle 构建脚本传递自定义属性。这些属性可以在 `build.gradle` 或 `gradle.properties` 文件中被引用，用于动态调整构建行为，例如切换环境配置、启用/禁用特定功能等。与 Maven 的 `-D` 选项类似。",
+    "shell_type": "External (`./gradlew`)"
+  },
+  {
+    "name": "./gradlew --include-build",
+    "summary": "包含另一个独立的Gradle构建到当前构建中 (Include another standalone Gradle build into the current build)",
+    "examples": [
+      {
+        "description": "将位于相对路径 'libs/my-lib' 的构建包含进来",
+        "code": "./gradlew build --include-build libs/my-lib"
+      },
+      {
+        "description": "使用符号链接或绝对路径包含",
+        "code": "./gradlew build --include-build /path/to/another/project"
+      }
+    ],
+    "notes": "Gradle 复合构建（Composite Builds）的功能，允许你将多个独立的 Gradle 项目作为“包含的构建”连接到当前项目中。这对于管理大型的单体仓库（monorepo）或在本地开发时依赖尚未发布的库版本非常有用。它允许包含的构建中的项目被当前构建中的项目所依赖，就像它们是同一个多项目构建的一部分一样。",
+    "shell_type": "External (`./gradlew`)"
+  }
+]

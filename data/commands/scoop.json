@@ -1,0 +1,214 @@
+[
+  {
+    "name": "scoop install",
+    "summary": "安装指定的应用程序或工具 (Install a specified application or tool)",
+    "examples": [
+      {
+        "description": "安装单个应用程序 (例如：git)",
+        "code": "scoop install git"
+      },
+      {
+        "description": "安装多个应用程序",
+        "code": "scoop install 7zip git python"
+      },
+      {
+        "description": "从特定 bucket 安装应用程序 (例如：extras bucket 中的 vlc)",
+        "code": "scoop install extras/vlc"
+      },
+      {
+        "description": "安装指定版本的应用程序 (例如：python 3.8)",
+        "code": "scoop install python@3.8"
+      },
+      {
+        "description": "安装来自自定义 URL 的应用程序清单",
+        "code": "scoop install https://gist.github.com/lukesampson/6446567/raw/hello.json"
+      }
+    ],
+    "notes": "这是 Scoop 最常用的命令，用于安装应用程序到用户的 Scoop 目录（默认位于 `~/scoop`）。Scoop 会自动解析并安装应用程序的依赖项，无需管理员权限，避免 UAC 提示。安装的应用程序通过 shim 添加到 PATH，方便命令行调用。可以通过指定 bucket 或版本来精确安装，也支持直接从 URL 安装自定义 JSON 清单。优先从默认的 `main` bucket 查找应用程序，除非指定其他 bucket（如 `extras`）。建议在安装前运行 `scoop update` 以确保 bucket 信息最新。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop update",
+    "summary": "更新 Scoop 核心程序、bucket 仓库或已安装的应用程序 (Update Scoop core, bucket repositories, or installed applications)",
+    "examples": [
+      {
+        "description": "更新 Scoop 核心程序和所有 bucket 仓库",
+        "code": "scoop update"
+      },
+      {
+        "description": "更新所有已安装的应用程序到最新版本",
+        "code": "scoop update *"
+      },
+      {
+        "description": "更新特定应用程序 (例如：git)",
+        "code": "scoop update git"
+      },
+      {
+        "description": "在 PowerShell 7 中并行更新 bucket",
+        "code": "scoop update --parallel"
+      }
+    ],
+    "notes": "`scoop update` 是一个多功能命令，用于保持 Scoop 和应用程序的最新状态。运行不带参数的 `scoop update` 会更新 Scoop 核心程序和所有已配置的 bucket 仓库（通过 `git pull`）。运行 `scoop update *` 或指定应用名称会更新应用程序到最新版本，基于其 JSON 清单中的 `checkver` 属性。建议定期运行 `scoop update` 以确保 bucket 元数据最新，特别是在运行 `scoop status` 或 `scoop install` 之前。PowerShell 7 支持并行 bucket 同步以提高性能。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop uninstall",
+    "summary": "卸载指定的应用程序 (Uninstall a specified application)",
+    "examples": [
+      {
+        "description": "卸载单个应用程序 (例如：git)",
+        "code": "scoop uninstall git"
+      },
+      {
+        "description": "卸载应用程序并清理持久数据",
+        "code": "scoop uninstall git --purge"
+      }
+    ],
+    "notes": "此命令从 Scoop 环境中移除指定的应用程序，包括其文件和 PATH 中的 shim。默认情况下，应用程序的持久数据（位于 `~/scoop/persist/<app>`）会保留，使用 `--purge` 选项可以一并删除。卸载过程会执行清单中定义的 `pre_uninstall` 和 `post_uninstall` 脚本（如有）。确保在卸载前检查依赖关系，以免影响其他应用程序。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop list",
+    "summary": "列出当前安装的应用程序 (List currently installed applications)",
+    "examples": [
+      {
+        "description": "列出所有已安装的应用程序",
+        "code": "scoop list"
+      },
+      {
+        "description": "列出特定 bucket 的已安装应用程序",
+        "code": "scoop list --bucket extras"
+      }
+    ],
+    "notes": "此命令显示当前 Scoop 环境中所有已安装的应用程序，包括其名称、版本和来源 bucket。输出有助于检查环境状态或确认安装的应用程序版本。对于调试或管理，建议结合 `scoop status` 使用以检查更新。使用 `--bucket` 可以过滤特定 bucket 的应用程序。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop status",
+    "summary": "检查已安装应用程序的更新状态 (Check the update status of installed applications)",
+    "examples": [
+      {
+        "description": "检查所有已安装应用程序的更新状态",
+        "code": "scoop status"
+      }
+    ],
+    "notes": "此命令比较已安装应用程序的版本与 bucket 中可用的最新版本，基于 `checkver` 属性。如果 Scoop 或 bucket 仓库不是最新的，可能会显示不准确的版本信息，因此建议先运行 `scoop update`。输出会列出可更新的应用程序及其版本差异。启用 SQLite 缓存（通过 `scoop config use_sqlite_cache true`）可加速本地搜索和版本检查。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop bucket add",
+    "summary": "添加新的 bucket 仓库以扩展可用应用程序 (Add a new bucket repository to extend available applications)",
+    "examples": [
+      {
+        "description": "添加官方的 extras bucket",
+        "code": "scoop bucket add extras"
+      },
+      {
+        "description": "添加自定义 bucket 仓库",
+        "code": "scoop bucket add my-bucket https://github.com/<your-username>/my-bucket.git"
+      }
+    ],
+    "notes": "Scoop 的 bucket 是包含 JSON 应用程序清单的 Git 仓库。默认包含 `main` bucket，添加其他 bucket（如 `extras` 或自定义仓库）可以扩展可用应用程序。`extras` 是官方支持的 bucket，包含不适合 `main` bucket 的应用程序。自定义 bucket 需要提供 Git 仓库 URL。添加后，可通过 `scoop install <bucket>/<app>` 安装其应用程序。社区 bucket 列表可在 `buckets.json` 或 Scoop Directory 查看。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop bucket list",
+    "summary": "列出所有已配置的 bucket 仓库 (List all configured bucket repositories)",
+    "examples": [
+      {
+        "description": "显示所有已添加的 bucket",
+        "code": "scoop bucket list"
+      }
+    ],
+    "notes": "此命令列出所有已配置的 bucket，包括默认的 `main` bucket 和用户添加的 bucket（如 `extras` 或自定义 bucket）。输出显示 bucket 名称和对应的 Git 仓库路径。用于管理 bucket 或确认可用应用程序来源。结合 `scoop bucket add` 和 `scoop bucket rm` 管理 bucket 配置。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop bucket rm",
+    "summary": "移除指定的 bucket 仓库 (Remove a specified bucket repository)",
+    "examples": [
+      {
+        "description": "移除 extras bucket",
+        "code": "scoop bucket rm extras"
+      }
+    ],
+    "notes": "此命令从 Scoop 配置中移除指定的 bucket，之后无法从该 bucket 安装或更新应用程序。移除 bucket 不影响已安装的应用程序，但后续更新需要重新添加 bucket 或使用其他来源。建议在移除前确认 bucket 是否仍需使用。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop search",
+    "summary": "在所有 bucket 中搜索应用程序 (Search for applications across all buckets)",
+    "examples": [
+      {
+        "description": "搜索特定应用程序 (例如：git)",
+        "code": "scoop search git"
+      },
+      {
+        "description": "搜索包含关键字的应用程序",
+        "code": "scoop search python"
+      }
+    ],
+    "notes": "此命令在所有已配置的 bucket 中搜索与关键字匹配的应用程序，输出包括应用程序名称、版本和所属 bucket。启用 SQLite 缓存（`scoop config use_sqlite_cache true`）可显著提高本地搜索性能。适合在安装前确认应用程序的可用性或来源 bucket。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop config",
+    "summary": "管理 Scoop 的配置设置 (Manage Scoop configuration settings)",
+    "examples": [
+      {
+        "description": "显示当前 Scoop 配置",
+        "code": "scoop config"
+      },
+      {
+        "description": "启用 SQLite 缓存以加速搜索",
+        "code": "scoop config use_sqlite_cache true"
+      },
+      {
+        "description": "禁用 aria2 下载警告",
+        "code": "scoop config aria2-warning-enabled false"
+      },
+      {
+        "description": "设置代理以解决网络问题",
+        "code": "scoop config proxy http://<ip:port>"
+      }
+    ],
+    "notes": "此命令用于查看或修改 Scoop 的配置，存储在 `~/scoop/config.json` 或 Scoop 根目录的 `config.json`。常见配置包括启用 SQLite 缓存以加速搜索、配置 aria2 多线程下载（需先安装 `aria2`）、设置代理或自定义安装目录。运行不带参数的 `scoop config` 显示所有当前配置项。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop cache rm",
+    "summary": "移除 Scoop 的下载缓存以释放磁盘空间 (Remove Scoop's download cache to free up disk space)",
+    "examples": [
+      {
+        "description": "移除所有下载缓存",
+        "code": "scoop cache rm *"
+      },
+      {
+        "description": "移除特定应用程序的缓存 (例如：git)",
+        "code": "scoop cache rm git"
+      }
+    ],
+    "notes": "Scoop 缓存下载的应用程序文件以加速重复安装或更新，缓存文件存储在 `~/scoop/cache`。此命令可清理全部或特定应用程序的缓存，释放磁盘空间。建议定期运行以管理磁盘使用，尤其在安装或更新大量应用程序后。缓存文件名基于下载 URL 的 SHA256 前 7 字节生成。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  },
+  {
+    "name": "scoop checkver",
+    "summary": "检查 bucket 中应用程序的最新版本 (Check for newer versions of applications in a bucket)",
+    "examples": [
+      {
+        "description": "检查所有应用程序的版本",
+        "code": "scoop checkver"
+      },
+      {
+        "description": "检查特定应用程序的版本 (例如：git)",
+        "code": "scoop checkver git"
+      },
+      {
+        "description": "检查特定 bucket 的所有应用程序",
+        "code": "scoop checkver -b extras"
+      }
+    ],
+    "notes": "此命令用于 bucket 维护者，检查应用程序清单中的版本是否为最新，基于 `checkver` 属性定义的版本检查逻辑。输出显示可更新的应用程序及其最新版本。常用于更新 bucket 中的 JSON 清单，确保提供最新版本的应用程序。需先运行 `scoop update` 以确保 bucket 元数据最新。",
+  "shell_type": "External (`~/scoop/shims/scoop.ps1`)"
+  }
+]

@@ -1,0 +1,942 @@
+[
+  {
+    "name": "SQL 命令分类 (DQL, DML, DDL, DCL, TCL)",
+    "summary": "了解 SQL 命令的主要分类，以便理解不同操作的性质和目的 (Understand the main categories of SQL commands to grasp the nature and purpose of different operations)",
+    "examples": [
+      {
+        "description": "DQL (Data Query Language) - 数据查询语言，用于从数据库中检索数据",
+        "code": "SELECT first_name, last_name FROM employees WHERE department_id = 5;"
+      },
+      {
+        "description": "DML (Data Manipulation Language) - 数据操作语言，用于添加、修改和删除数据",
+        "code": "INSERT INTO employees (first_name, last_name) VALUES ('Jane', 'Doe');\nUPDATE products SET price = 99.99 WHERE product_id = 101;\nDELETE FROM orders WHERE order_status = 'cancelled';"
+      },
+      {
+        "description": "DDL (Data Definition Language) - 数据定义语言，用于定义和管理数据库对象（如表、索引）",
+        "code": "CREATE TABLE customers (id INT PRIMARY KEY, name VARCHAR(100));\nALTER TABLE customers ADD email VARCHAR(100);\nDROP TABLE customers;"
+      },
+      {
+        "description": "DCL (Data Control Language) - 数据控制语言，用于管理数据库的访问权限",
+        "code": "GRANT SELECT, INSERT ON employees TO 'data_analyst'@'localhost';\nREVOKE INSERT ON employees FROM 'data_analyst'@'localhost';"
+      },
+      {
+        "description": "TCL (Transaction Control Language) - 事务控制语言，用于管理数据库事务",
+        "code": "START TRANSACTION;\nUPDATE accounts SET balance = balance - 100 WHERE id = 1;\nUPDATE accounts SET balance = balance + 100 WHERE id = 2;\nCOMMIT;"
+      }
+    ],
+    "notes": "理解这些分类至关重要。DQL 是最常用的。DDL 操作通常是永久性的且不可回滚。DML 操作可以在一个事务（Transaction）中执行，并且可以被回滚。DCL 和 TCL 主要由数据库管理员（DBA）使用。",
+    "shell_type": "SQL Concept"
+  },
+  {
+    "name": "SELECT ... FROM",
+    "summary": "从一个或多个数据表中查询（检索）数据 (Query (retrieve) data from one or more database tables)",
+    "examples": [
+      {
+        "description": "查询 `products` 表中的所有列和所有行",
+        "code": "SELECT * FROM products;"
+      },
+      {
+        "description": "查询 `employees` 表中指定的几列（姓名和邮箱）",
+        "code": "SELECT first_name, last_name, email FROM employees;"
+      },
+      {
+        "description": "查询列并使用 `AS` 关键字为列创建别名，以提高可读性",
+        "code": "SELECT product_name AS '产品名称', price AS '价格' FROM products;"
+      },
+      {
+        "description": "在查询中进行计算，例如计算折扣后的价格",
+        "code": "SELECT product_name, price, price * 0.9 AS discounted_price FROM products;"
+      }
+    ],
+    "notes": "`SELECT` 是 SQL 中最核心、最复杂的语句。`*` 是一个通配符，代表“所有列”。在生产环境中，为性能和可维护性考虑，应明确列出所需列名，避免使用 `SELECT *`。",
+    "shell_type": "SQL Statement"
+  },
+  {
+    "name": "WHERE",
+    "summary": "根据指定的条件过滤查询结果，只返回满足条件的行 (Filter query results based on specified conditions, returning only rows that satisfy them)",
+    "examples": [
+      {
+        "description": "使用 `=` 进行精确匹配",
+        "code": "SELECT * FROM employees WHERE department = 'Sales';"
+      },
+      {
+        "description": "使用 `>`、`<`、`>=`、`<=`、`<>` (或 `!=`) 进行数值或日期比较",
+        "code": "SELECT * FROM products WHERE price > 100.00;"
+      },
+      {
+        "description": "使用 `AND` 和 `OR` 组合多个条件 (注意括号的使用)",
+        "code": "SELECT * FROM employees WHERE (department = 'Sales' OR department = 'Marketing') AND salary >= 50000;"
+      },
+      {
+        "description": "使用 `IN` 检查值是否在给定的列表中",
+        "code": "SELECT * FROM customers WHERE country IN ('USA', 'Canada', 'Mexico');"
+      },
+      {
+        "description": "使用 `BETWEEN` 检查值是否在某个范围内（包含边界值）",
+        "code": "SELECT * FROM orders WHERE order_date BETWEEN '2023-01-01' AND '2023-03-31';"
+      },
+      {
+        "description": "使用 `LIKE` 和通配符 (`%` 匹配任意字符，`_` 匹配单个字符) 进行模式匹配",
+        "code": "SELECT * FROM employees WHERE last_name LIKE 'J%';"
+      },
+      {
+        "description": "使用 `IS NULL` 或 `IS NOT NULL` 检查列值是否为空",
+        "code": "SELECT * FROM customers WHERE phone_number IS NULL;"
+      }
+    ],
+    "notes": "`WHERE` 子句是 SQL 查询的“过滤器”。字符串值通常需要用单引号 `'` 括起来。当组合 `AND` 和 `OR` 时，`AND` 的优先级高于 `OR`，建议使用括号 `()` 来明确逻辑顺序，避免混淆。",
+    "shell_type": "SQL Clause"
+  },
+  {
+    "name": "ORDER BY",
+    "summary": "对查询结果集进行排序 (Sort the result set of a query)",
+    "examples": [
+      {
+        "description": "按 `last_name` 升序（默认）排序",
+        "code": "SELECT * FROM employees ORDER BY last_name;"
+      },
+      {
+        "description": "使用 `ASC` 明确指定升序排序",
+        "code": "SELECT * FROM employees ORDER BY last_name ASC;"
+      },
+      {
+        "description": "使用 `DESC` 指定按 `salary` 降序排序",
+        "code": "SELECT * FROM products ORDER BY price DESC;"
+      },
+      {
+        "description": "按多个列排序：先按 `department` 升序，再按 `salary` 降序",
+        "code": "SELECT first_name, last_name, department, salary FROM employees ORDER BY department ASC, salary DESC;"
+      },
+      {
+        "description": "按列的别名排序",
+        "code": "SELECT first_name, last_name, salary * 0.1 AS bonus FROM employees ORDER BY bonus DESC;"
+      }
+    ],
+    "notes": "`ORDER BY` 子句通常是 `SELECT` 语句中最后执行的子句之一（在 `LIMIT` 之前）。如果未指定 `ORDER BY`，则返回结果的顺序是不确定的，不能依赖于任何默认顺序。",
+    "shell_type": "SQL Clause"
+  },
+  {
+    "name": "DISTINCT",
+    "summary": "从查询结果中移除重复的行，只返回唯一的行 (Remove duplicate rows from a query result, returning only unique ones)",
+    "examples": [
+      {
+        "description": "查询所有员工所在的部门（不重复）",
+        "code": "SELECT DISTINCT department FROM employees;"
+      },
+      {
+        "description": "查询唯一的国家和城市组合",
+        "code": "SELECT DISTINCT country, city FROM customers;"
+      },
+      {
+        "description": "统计不重复的客户数量",
+        "code": "SELECT COUNT(DISTINCT customer_id) FROM orders;"
+      }
+    ],
+    "notes": "`DISTINCT` 关键字应用于 `SELECT` 之后的所有列，而不是仅应用于紧随其后的那一列。例如，`SELECT DISTINCT country, city` 会返回唯一的 `(country, city)` 组合。在大型数据集上使用 `DISTINCT` 可能会影响性能，因为它需要进行排序或哈希操作来找出重复项。",
+    "shell_type": "SQL Keyword"
+  },
+  {
+    "name": "LIMIT / TOP / FETCH",
+    "summary": "限制查询返回的行数，常用于分页或获取前 N 条记录 (Limit the number of rows returned by a query, often used for pagination or fetching top N records)",
+    "examples": [
+      {
+        "description": "MySQL / PostgreSQL: 获取前 10 条记录",
+        "code": "SELECT * FROM products ORDER BY price DESC LIMIT 10;"
+      },
+      {
+        "description": "MySQL / PostgreSQL: 跳过前 20 条，然后获取 10 条（用于分页）",
+        "code": "SELECT * FROM articles ORDER BY publish_date DESC LIMIT 10 OFFSET 20;"
+      },
+      {
+        "description": "SQL Server: 获取前 10 条记录",
+        "code": "SELECT TOP 10 * FROM products ORDER BY price DESC;"
+      },
+      {
+        "description": "Oracle (12c+) / Standard SQL: 获取前 10 条记录",
+        "code": "SELECT * FROM products ORDER BY price DESC FETCH FIRST 10 ROWS ONLY;"
+      },
+      {
+        "description": "Oracle (12c+) / Standard SQL: 跳过前 20 条，然后获取 10 条",
+        "code": "SELECT * FROM articles ORDER BY publish_date DESC OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY;"
+      }
+    ],
+    "notes": "这个功能的语法在不同数据库系统中差异很大，是 SQL 方言的典型例子。为了获得可预测的、有意义的结果，`LIMIT` / `TOP` / `FETCH` 几乎总是与 `ORDER BY` 子句一起使用。否则，你得到的“前 N 条”记录将是随机的。",
+    "shell_type": "SQL Clause"
+  },
+  {
+    "name": "CREATE DATABASE",
+    "summary": "创建一个新的数据库 (Creates a new database).",
+    "examples": [
+      {
+        "description": "创建一个名为 `mydatabase` 的新数据库。",
+        "code": "CREATE DATABASE mydatabase;"
+      },
+      {
+        "description": "创建数据库并指定默认字符集和排序规则（MySQL 示例）。",
+        "code": "CREATE DATABASE myapp_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+      },
+      {
+        "description": "检查数据库是否存在，如果不存在则创建（多数数据库支持）。",
+        "code": "CREATE DATABASE IF NOT EXISTS mydatabase;"
+      }
+    ],
+    "notes": "这是管理数据库实例的第一步。创建数据库后，需要使用 `USE` (MySQL) 或 `\\c` (PostgreSQL) 命令来切换到该数据库以进行后续操作。字符集和排序规则的设置对数据存储和排序至关重要。",
+    "shell_type": "SQL (DDL)"
+  },
+  {
+    "name": "DROP DATABASE",
+    "summary": "永久删除一个已存在的数据库 (Permanently deletes an existing database).",
+    "examples": [
+      {
+        "description": "删除名为 `mydatabase` 的数据库。",
+        "code": "DROP DATABASE mydatabase;"
+      },
+      {
+        "description": "检查数据库是否存在，如果存在则删除。",
+        "code": "DROP DATABASE IF EXISTS mydatabase;"
+      }
+    ],
+    "notes": "这是一个极度危险的操作！删除数据库会将其中的所有表、数据和相关对象一并永久移除，且通常无法恢复。执行前请务必三思并做好备份。",
+    "shell_type": "SQL (DDL)"
+  },
+  {
+    "name": "CREATE TABLE",
+    "summary": "在当前数据库中创建一个新表 (Creates a new table in the current database).",
+    "examples": [
+      {
+        "description": "创建一个简单的 `users` 表，包含 ID 和姓名列，并指定数据类型。",
+        "code": "CREATE TABLE users (\n  id INT,\n  name VARCHAR(100)\n);"
+      },
+      {
+        "description": "创建表并定义主键 (`PRIMARY KEY`) 和非空 (`NOT NULL`) 约束。",
+        "code": "CREATE TABLE products (\n  product_id INT PRIMARY KEY,\n  product_name VARCHAR(255) NOT NULL,\n  price DECIMAL(10, 2)\n);"
+      },
+      {
+        "description": "创建表，包含自增主键 (`AUTO_INCREMENT`/`SERIAL`)、唯一约束 (`UNIQUE`) 和默认值 (`DEFAULT`)。",
+        "code": "CREATE TABLE employees (\n  emp_id INT PRIMARY KEY AUTO_INCREMENT, -- MySQL/MariaDB (PostgreSQL使用 SERIAL)\n  email VARCHAR(100) NOT NULL UNIQUE,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);"
+      },
+      {
+        "description": "创建含有外键 (`FOREIGN KEY`) 的表，用于关联 `products` 表。",
+        "code": "CREATE TABLE orders (\n  order_id INT PRIMARY KEY,\n  product_id INT,\n  quantity INT,\n  FOREIGN KEY (product_id) REFERENCES products(product_id)\n);"
+      },
+      {
+        "description": "创建表，并使用检查约束 (`CHECK`) 限制列的取值范围。",
+        "code": "CREATE TABLE inventory (\n  item_id INT,\n  stock_count INT,\n  CHECK (stock_count >= 0)\n);"
+      },
+      {
+        "description": "创建一个包含所有常见数据类型和约束的复杂表示例。",
+        "code": "CREATE TABLE customers (\n  customer_id INT PRIMARY KEY AUTO_INCREMENT,\n  first_name VARCHAR(50) NOT NULL,\n  last_name VARCHAR(50) NOT NULL,\n  email VARCHAR(100) UNIQUE,\n  birth_date DATE,\n  registration_time TIME,\n  last_login TIMESTAMP DEFAULT NOW(),\n  membership_level VARCHAR(10) DEFAULT 'Bronze' CHECK (membership_level IN ('Bronze', 'Silver', 'Gold')),\n  notes TEXT,\n  is_active BOOLEAN DEFAULT TRUE\n);"
+      }
+    ],
+    "notes": "`CREATE TABLE` 是数据库设计的核心。正确选择数据类型和使用约束可以保证数据的完整性和一致性。不同数据库的自增语法略有不同（MySQL: `AUTO_INCREMENT`, PostgreSQL: `SERIAL`, SQL Server: `IDENTITY(1,1)`）。",
+    "shell_type": "SQL (DDL)"
+  },
+  {
+    "name": "ALTER TABLE",
+    "summary": "修改已存在表的结构 (Modifies the structure of an existing table).",
+    "examples": [
+      {
+        "description": "向 `users` 表中添加一个新的 `email` 列。",
+        "code": "ALTER TABLE users ADD COLUMN email VARCHAR(150);"
+      },
+      {
+        "description": "从 `users` 表中删除 `email` 列。",
+        "code": "ALTER TABLE users DROP COLUMN email;"
+      },
+      {
+        "description": "修改 `users` 表中 `name` 列的数据类型和长度 (MySQL 语法)。",
+        "code": "ALTER TABLE users MODIFY COLUMN name VARCHAR(200);"
+      },
+      {
+        "description": "修改 `users` 表中 `name` 列的数据类型 (PostgreSQL/SQL Server 语法)。",
+        "code": "-- PostgreSQL:\nALTER TABLE users ALTER COLUMN name TYPE VARCHAR(200);\n\n-- SQL Server:\nALTER TABLE users ALTER COLUMN name VARCHAR(200);"
+      },
+      {
+        "description": "重命名一个列 (不同数据库语法差异较大)。",
+        "code": "-- PostgreSQL/SQLite:\nALTER TABLE users RENAME COLUMN name TO full_name;\n\n-- MySQL:\nALTER TABLE users CHANGE COLUMN name full_name VARCHAR(200);"
+      },
+      {
+        "description": "重命名表 `users` 为 `app_users`。",
+        "code": "ALTER TABLE users RENAME TO app_users;"
+      },
+      {
+        "description": "为 `email` 列添加唯一约束。",
+        "code": "ALTER TABLE app_users ADD CONSTRAINT uq_email UNIQUE (email);"
+      },
+      {
+        "description": "删除名为 `uq_email` 的约束 (语法有差异)。",
+        "code": "-- PostgreSQL/SQL Server:\nALTER TABLE app_users DROP CONSTRAINT uq_email;\n\n-- MySQL (唯一约束本质是唯一索引):\nALTER TABLE app_users DROP INDEX uq_email;"
+      }
+    ],
+    "notes": "`ALTER TABLE` 是一个强大的命令，但对大表的操作可能会非常耗时并锁定表，影响线上服务。在生产环境中执行前应仔细评估影响。不同数据库在修改列定义、重命名列和删除约束方面的语法差异较大，需要特别注意。",
+    "shell_type": "SQL (DDL)"
+  },
+  {
+    "name": "DROP TABLE",
+    "summary": "永久删除一个已存在的表及其所有数据 (Permanently deletes an existing table and all its data).",
+    "examples": [
+      {
+        "description": "删除名为 `app_users` 的表。",
+        "code": "DROP TABLE app_users;"
+      },
+      {
+        "description": "检查表是否存在，如果存在则删除。",
+        "code": "DROP TABLE IF EXISTS app_users;"
+      }
+    ],
+    "notes": "危险操作！此命令会删除表的结构、所有数据、索引和约束。一旦执行，数据将无法恢复。请务必确认操作的表是正确的，并做好数据备份。",
+    "shell_type": "SQL (DDL)"
+  },
+  {
+    "name": "TRUNCATE TABLE",
+    "summary": "快速删除表中的所有行，但保留表结构 (Quickly removes all rows from a table, but keeps the table structure).",
+    "examples": [
+      {
+        "description": "清空 `logs` 表中的所有数据。",
+        "code": "TRUNCATE TABLE logs;"
+      }
+    ],
+    "notes": "`TRUNCATE` 通常比 `DELETE FROM table_name;` (不带WHERE子句) 速度快得多，因为它不记录每条行的删除操作，也不会触发 `DELETE` 触发器。它会重置自增计数器（在多数数据库中）。这是一个 DDL 操作，通常不能回滚（或回滚行为与具体数据库有关）。",
+    "shell_type": "SQL (DDL)"
+  },
+    {
+      "name": "INSERT INTO",
+      "summary": "向表中插入新行或多行数据 (Adds one or more new rows of data to a table)",
+      "examples": [
+        {
+          "description": "插入一行，并明确指定列和对应的值",
+          "code": "INSERT INTO Customers (CustomerName, City, Country) VALUES ('Cardinal', 'Stavanger', 'Norway');"
+        },
+        {
+          "description": "插入一行，不指定列名（值的顺序必须与表中列的顺序完全一致）",
+          "code": "INSERT INTO Employees VALUES (10, 'John', 'Doe', '1990-05-15', 'Sales');"
+        },
+        {
+          "description": "一次性插入多行数据，以提高效率",
+          "code": "INSERT INTO Products (ProductName, Price) VALUES ('Chai', 18.00), ('Chang', 19.00), ('Aniseed Syrup', 10.00);"
+        },
+        {
+          "description": "将另一个查询的结果插入到表中（列必须匹配）",
+          "code": "INSERT INTO EuropeanCustomers (CustomerName, City) SELECT CustomerName, City FROM Customers WHERE Country = 'Germany';"
+        }
+      ],
+      "notes": "明确指定列名是最佳实践，这样可以避免因未来表结构（如列顺序调整或增加新列）的变化而导致 SQL 出错。`INSERT INTO ... SELECT` 是一种强大的数据迁移和归档方法。",
+      "shell_type": "SQL DML Command"
+    },
+    {
+      "name": "UPDATE",
+      "summary": "修改表中现有行的数据 (Modifies existing data in a table)",
+      "examples": [
+        {
+          "description": "更新满足特定条件的单行数据",
+          "code": "UPDATE Customers SET ContactName = 'Alfred Schmidt', City = 'Frankfurt' WHERE CustomerID = 1;"
+        },
+        {
+          "description": "更新满足条件的多行数据（例如，将所有英国客户的邮编统一格式）",
+          "code": "UPDATE Customers SET PostalCode = 'UK-' || PostalCode WHERE Country = 'UK';"
+        },
+        {
+          "description": "基于现有值进行更新（例如，所有商品价格上涨10%）",
+          "code": "UPDATE Products SET Price = Price * 1.10;"
+        }
+      ],
+      "notes": "警告：永远不要忘记 `WHERE` 子句！如果没有 `WHERE` 子句，`UPDATE` 语句将会更新表中的所有行。在执行有风险的 `UPDATE` 操作前，建议先用 `SELECT` 语句和相同的 `WHERE` 条件来验证将要被更新的行是否正确。",
+      "shell_type": "SQL DML Command"
+    },
+    {
+      "name": "DELETE FROM",
+      "summary": "从表中删除一行或多行数据 (Deletes one or more rows from a table)",
+      "examples": [
+        {
+          "description": "删除满足特定条件的单行",
+          "code": "DELETE FROM Customers WHERE CustomerName = 'Alfreds Futterkiste';"
+        },
+        {
+          "description": "删除满足条件的多行",
+          "code": "DELETE FROM Orders WHERE OrderDate < '2022-01-01';"
+        },
+        {
+          "description": "删除表中的所有行（注意：此操作通常比 TRUNCATE TABLE 慢）",
+          "code": "DELETE FROM OrderDetails;"
+        }
+      ],
+      "notes": "警告：与 `UPDATE` 同样，永远不要忘记 `WHERE` 子句，否则将删除表中的所有数据！`DELETE` 是 DML 操作，可以被回滚，并且会逐行触发删除触发器。对于清空整张表，`TRUNCATE TABLE` (DDL) 通常效率更高，因为它不记录单行日志。",
+      "shell_type": "SQL DML Command"
+    },
+    {
+      "name": "SELECT",
+      "summary": "从数据库表中检索数据 (Retrieves data from database tables)",
+      "examples": [
+        {
+          "description": "检索所有列（在生产代码中不推荐）",
+          "code": "SELECT * FROM Customers;"
+        },
+        {
+          "description": "检索指定的列",
+          "code": "SELECT CustomerName, City, Country FROM Customers;"
+        },
+        {
+          "description": "使用别名 (AS) 重命名列，使结果更具可读性",
+          "code": "SELECT CustomerName AS Name, ContactName AS Representative FROM Customers;"
+        },
+        {
+          "description": "使用 DISTINCT 检索不重复的行（例如，所有有客户的国家列表）",
+          "code": "SELECT DISTINCT Country FROM Customers;"
+        }
+      ],
+      "notes": "`SELECT` 是 SQL 中最核心、最常用的命令。`SELECT *` 在开发和即席查询时很方便，但在应用程序代码中应避免使用，因为它会增加不必要的网络负载，并且在表结构变更时可能导致应用出错。明确指定所需列是最佳实践。",
+      "shell_type": "SQL DQL Command"
+    },
+    {
+      "name": "WHERE",
+      "summary": "用于过滤记录，只提取满足指定条件的记录 (Used to filter records, extracting only those that fulfill a specified condition)",
+      "examples": [
+        {
+          "description": "使用比较运算符 (=, !=, <>, >, <, >=, <=)",
+          "code": "SELECT * FROM Products WHERE Price > 20.00;"
+        },
+        {
+          "description": "使用 AND, OR, NOT 组合多个条件",
+          "code": "SELECT * FROM Customers WHERE Country = 'Germany' AND (City = 'Berlin' OR City = 'München');"
+        },
+        {
+          "description": "使用 BETWEEN 选择范围内的值（包含边界值）",
+          "code": "SELECT * FROM Products WHERE Price BETWEEN 10 AND 20;"
+        },
+        {
+          "description": "使用 IN 指定多个可能的值",
+          "code": "SELECT * FROM Customers WHERE Country IN ('USA', 'Canada', 'Mexico');"
+        },
+        {
+          "description": "使用 LIKE 进行模式匹配（% 匹配任意字符，_ 匹配单个字符）",
+          "code": "SELECT * FROM Customers WHERE CustomerName LIKE 'A%';"
+        },
+        {
+          "description": "检查 NULL 值（注意：不能使用 = NULL）",
+          "code": "SELECT * FROM Employees WHERE Region IS NOT NULL;"
+        }
+      ],
+      "notes": "`WHERE` 子句在 `SELECT`, `UPDATE`, `DELETE` 语句中都至关重要，用于精确地定位目标数据。在构建复杂条件时，使用括号 `()` 来明确运算的优先级，可以避免逻辑错误。",
+      "shell_type": "SQL Clause"
+    },
+    {
+      "name": "GROUP BY & Aggregate Functions",
+      "summary": "将行分组到一起，并对每个组执行聚合函数 (Groups rows and performs an aggregate function on each group)",
+      "examples": [
+        {
+          "description": "统计每个国家的客户数量 (COUNT)",
+          "code": "SELECT Country, COUNT(CustomerID) AS NumberOfCustomers FROM Customers GROUP BY Country;"
+        },
+        {
+          "description": "计算每个类别的产品平均价格 (AVG)",
+          "code": "SELECT CategoryID, AVG(Price) AS AveragePrice FROM Products GROUP BY CategoryID;"
+        },
+        {
+          "description": "计算每个客户的订单总金额 (SUM)",
+          "code": "SELECT CustomerID, SUM(OrderAmount) AS TotalSpent FROM Orders GROUP BY CustomerID;"
+        },
+        {
+          "description": "查找每个供应商供应的最贵的产品价格 (MAX)",
+          "code": "SELECT SupplierID, MAX(Price) AS HighestPrice FROM Products GROUP BY SupplierID;"
+        },
+        {
+          "description": "对多个列进行分组，统计每个国家每个城市的客户数",
+          "code": "SELECT Country, City, COUNT(CustomerID) FROM Customers GROUP BY Country, City;"
+        }
+      ],
+      "notes": "聚合函数包括 `COUNT()`, `SUM()`, `AVG()`, `MAX()`, `MIN()` 等。`SELECT` 列表中的所有非聚合函数列都必须出现在 `GROUP BY` 子句中。聚合函数（除 `COUNT(*)`）在计算时会忽略 `NULL` 值。",
+      "shell_type": "SQL Clause"
+    },
+    {
+      "name": "HAVING",
+      "summary": "对 `GROUP BY` 分组后的结果进行过滤 (Filters the results of a `GROUP BY` query)",
+      "examples": [
+        {
+          "description": "查找客户数量超过10个的国家",
+          "code": "SELECT Country, COUNT(CustomerID) FROM Customers GROUP BY Country HAVING COUNT(CustomerID) > 10;"
+        },
+        {
+          "description": "查找订单总额超过 10000 的客户",
+          "code": "SELECT CustomerID, SUM(OrderAmount) FROM Orders GROUP BY CustomerID HAVING SUM(OrderAmount) > 10000;"
+        },
+        {
+          "description": "结合 WHERE 使用（WHERE 在分组前过滤，HAVING 在分组后过滤）",
+          "code": "SELECT Country, COUNT(CustomerID) FROM Customers WHERE Country != 'USA' GROUP BY Country HAVING COUNT(CustomerID) > 5;"
+        }
+      ],
+      "notes": "关键区别：`WHERE` 在数据分组前过滤行，`HAVING` 在数据分组和聚合后过滤组。因此，`HAVING` 子句中可以使用聚合函数，而 `WHERE` 子句中不能。",
+      "shell_type": "SQL Clause"
+    },
+    {
+      "name": "JOIN (INNER, LEFT, RIGHT, FULL)",
+      "summary": "用于根据两个或多个表中的相关列组合行 (Combines rows from two or more tables based on a related column)",
+      "examples": [
+        {
+          "description": "INNER JOIN: 获取订单及其对应的客户名称（只返回能匹配上的）",
+          "code": "SELECT Orders.OrderID, Customers.CustomerName FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;"
+        },
+        {
+          "description": "LEFT JOIN: 列出所有客户及其订单，即使某些客户没有下过订单",
+          "code": "SELECT Customers.CustomerName, Orders.OrderID FROM Customers LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;"
+        },
+        {
+          "description": "RIGHT JOIN: 列出所有员工以及他们负责的订单，即使某些员工没有负责任何订单（假设员工表在右边）",
+          "code": "SELECT Orders.OrderID, Employees.LastName FROM Orders RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID;"
+        },
+        {
+          "description": "FULL OUTER JOIN: 列出所有客户和所有订单，无论是否匹配",
+          "code": "SELECT Customers.CustomerName, Orders.OrderID FROM Customers FULL OUTER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;"
+        }
+      ],
+      "notes": "`INNER JOIN` 是最常见的连接。`LEFT JOIN` 用于找出左表有但右表没有对应记录的情况。`FULL OUTER JOIN` 在某些数据库（如 MySQL）中不被支持，但可以通过 `LEFT JOIN UNION RIGHT JOIN` 模拟实现。",
+      "shell_type": "SQL Clause"
+    },
+    {
+      "name": "Subquery (子查询)",
+      "summary": "嵌套在另一个SQL查询（如 SELECT, INSERT, UPDATE, DELETE）中的查询 (A query nested inside another SQL query)",
+      "examples": [
+        {
+          "description": "在 WHERE 子句中使用：查找所有购买了 'Chai' 产品的客户",
+          "code": "SELECT CustomerName FROM Customers WHERE CustomerID IN (SELECT CustomerID FROM Orders WHERE ProductID = (SELECT ProductID FROM Products WHERE ProductName = 'Chai'));"
+        },
+        {
+          "description": "在 FROM 子句中使用（派生表）：将每个国家的客户数作为一个新表进行查询",
+          "code": "SELECT Country, NumberOfCustomers FROM (SELECT Country, COUNT(*) AS NumberOfCustomers FROM Customers GROUP BY Country) AS CountryCounts WHERE NumberOfCustomers > 10;"
+        },
+        {
+          "description": "在 SELECT 子句中使用（标量子查询）：在客户列表旁显示每个客户的订单总数",
+          "code": "SELECT CustomerName, (SELECT COUNT(*) FROM Orders WHERE Orders.CustomerID = Customers.CustomerID) AS TotalOrders FROM Customers;"
+        },
+        {
+          "description": "使用 EXISTS 检查：找出所有下过订单的客户",
+          "code": "SELECT CustomerName FROM Customers c WHERE EXISTS (SELECT 1 FROM Orders o WHERE o.CustomerID = c.CustomerID);"
+        }
+      ],
+      "notes": "子查询可以使复杂的逻辑更易于组织和理解。在 `FROM` 子句中使用的子查询必须指定一个别名。相关子查询（correlated subquery，其执行依赖于外部查询）的性能通常不如 `JOIN`，应谨慎使用。",
+      "shell_type": "SQL Concept"
+    },
+    {
+      "name": "UNION & UNION ALL",
+      "summary": "合并两个或多个 SELECT 语句的结果集 (Combines the result-set of two or more SELECT statements)",
+      "examples": [
+        {
+          "description": "UNION: 合并美国和德国的供应商列表，并自动去除重复项",
+          "code": "SELECT City, Country FROM Suppliers WHERE Country = 'USA' UNION SELECT City, Country FROM Suppliers WHERE Country = 'Germany';"
+        },
+        {
+          "description": "UNION ALL: 合并两个日志表，保留所有记录，包括重复项（效率更高）",
+          "code": "SELECT LogMessage FROM SystemLogs_Today UNION ALL SELECT LogMessage FROM SystemLogs_Yesterday;"
+        }
+      ],
+      "notes": "使用 `UNION` 的所有 `SELECT` 语句必须拥有相同数量的列，列也必须拥有相似的数据类型。`UNION` 会对结果集进行排序和去重，有性能开销；如果不需要去重，`UNION ALL` 是更好的选择。",
+      "shell_type": "SQL Operator"
+    },
+    {
+      "name": "LIMIT & OFFSET (Pagination)",
+      "summary": "限制查询返回的行数，常用于实现分页 (Constrains the number of rows returned, commonly for pagination)",
+      "examples": [
+        {
+          "description": "获取价格最贵的前 5 个产品 (MySQL/PostgreSQL)",
+          "code": "SELECT * FROM Products ORDER BY Price DESC LIMIT 5;"
+        },
+        {
+          "description": "分页：获取第 3 页的数据，每页 10 条 (MySQL/PostgreSQL)",
+          "code": "SELECT * FROM Customers ORDER BY CustomerID LIMIT 10 OFFSET 20;"
+        },
+        {
+          "description": "MySQL 简写分页语法 (跳过 20 条，取 10 条)",
+          "code": "SELECT * FROM Customers ORDER BY CustomerID LIMIT 20, 10;"
+        },
+        {
+          "description": "SQL Server / Oracle 12c+ 分页语法",
+          "code": "SELECT * FROM Customers ORDER BY CustomerID OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY;"
+        }
+      ],
+      "notes": "进行分页查询时，必须与 `ORDER BY` 结合使用，以确保每次查询获取的数据页是稳定和可预测的。在处理非常大的表时，使用大的 `OFFSET` 值可能会导致性能下降，因为数据库仍然需要扫描并跳过这些行。",
+      "shell_type": "SQL Clause"
+    },
+    {
+      "name": "常用函数 (Common Functions)",
+      "summary": "处理字符串、数字和日期的内置函数，是数据转换和清洗的基础 (Built-in functions for manipulating strings, numbers, and dates, fundamental for data transformation and cleaning)",
+      "examples": [
+        {
+          "description": "连接名字和姓氏，并转换为大写 (MySQL/PostgreSQL)",
+          "code": "SELECT UPPER(CONCAT(first_name, ' ', last_name)) AS full_name FROM employees;"
+        },
+        {
+          "description": "连接名字和姓氏 (SQL Server)",
+          "code": "SELECT UPPER(first_name + ' ' + last_name) AS full_name FROM employees;"
+        },
+        {
+          "description": "提取员工姓名的一部分 (从第1个字符开始，取3个字符)",
+          "code": "SELECT SUBSTRING(first_name, 1, 3) FROM employees;"
+        },
+        {
+          "description": "将薪水四舍五入到小数点后两位",
+          "code": "SELECT ROUND(salary, 2) FROM employees;"
+        },
+        {
+          "description": "计算员工入职至今的天数 (PostgreSQL/Oracle)",
+          "code": "SELECT CURRENT_DATE - hire_date AS days_of_service FROM employees;"
+        },
+        {
+          "description": "计算员工入职至今的天数 (MySQL/SQL Server)",
+          "code": "SELECT DATEDIFF(CURDATE(), hire_date) AS days_of_service FROM employees;"
+        },
+        {
+          "description": "从日期时间中提取年份",
+          "code": "SELECT EXTRACT(YEAR FROM hire_date) AS hire_year FROM employees;"
+        }
+      ],
+      "notes": "函数是 SQL 的强大工具，但也是方言差异最明显的地方。例如，字符串连接在 MySQL 中使用 `CONCAT()`，在 SQL Server 中使用 `+`，在 Oracle 和 PostgreSQL 中使用 `||`。日期函数（如 `DATEDIFF`）的参数顺序和返回值单位也各不相同。编写文档时，最好为每个目标数据库提供特定示例。",
+      "shell_type": "SQL Concept"
+    },
+    {
+      "name": "CASE Expression",
+      "summary": "在 SQL 查询中实现 if-then-else 逻辑，用于条件性地返回值 (Implements if-then-else logic within SQL queries to return values conditionally)",
+      "examples": [
+        {
+          "description": "根据薪水水平对员工进行分类",
+          "code": "SELECT name, salary,\n       CASE\n         WHEN salary > 100000 THEN '高收入'\n         WHEN salary > 60000 THEN '中等收入'\n         ELSE '一般收入'\n       END AS salary_level\nFROM employees;"
+        },
+        {
+          "description": "在聚合函数中使用 CASE，统计不同薪水等级的员企数量",
+          "code": "SELECT\n  COUNT(CASE WHEN salary > 100000 THEN 1 END) AS high_earners,\n  COUNT(CASE WHEN salary <= 60000 THEN 1 END) AS standard_earners\nFROM employees;"
+        },
+        {
+          "description": "在 ORDER BY 子句中使用 CASE 实现自定义排序逻辑",
+          "code": "SELECT name, department FROM employees\nORDER BY\n  CASE department\n    WHEN 'Sales' THEN 1\n    WHEN 'HR' THEN 2\n    ELSE 3\n  END, name;"
+        }
+      ],
+      "notes": "CASE 表达式非常灵活，可以用在 `SELECT`, `WHERE`, `GROUP BY`, `ORDER BY` 等几乎所有子句中。它有两种形式：简单 `CASE`（`CASE input WHEN val1 THEN ...`）和搜索 `CASE`（`CASE WHEN condition1 THEN ...`），后者更为通用和强大。它是实现复杂数据转换和业务逻辑的关键。",
+      "shell_type": "SQL Statement"
+    },
+    {
+      "name": "COALESCE 和 NULLIF",
+      "summary": "处理 NULL 值的两个实用函数 (Two handy functions for dealing with NULL values)",
+      "examples": [
+        {
+          "description": "使用 COALESCE 为可能为 NULL 的 'nickname' 列提供默认值 'N/A'",
+          "code": "SELECT name, COALESCE(nickname, 'N/A') AS display_name FROM users;"
+        },
+        {
+          "description": "COALESCE 可以接受多个参数，返回第一个非 NULL 的值",
+          "code": "SELECT COALESCE(home_phone, mobile_phone, work_phone, 'No Phone Found') AS contact FROM contacts;"
+        },
+        {
+          "description": "使用 NULLIF 防止除以零的错误。如果 'total_items' 为 0，表达式返回 NULL",
+          "code": "SELECT total_sales / NULLIF(total_items, 0) AS price_per_item FROM sales_summary;"
+        }
+      ],
+      "notes": "`COALESCE(val1, val2, ...)` 返回其参数列表中的第一个非 NULL 值，非常适合为 `NULL` 提供备用值。\n`NULLIF(expr1, expr2)` 如果两个表达式相等，则返回 `NULL`，否则返回第一个表达式的值。它在防止除零错误等场景中非常有用。",
+      "shell_type": "SQL Statement"
+    },
+    {
+      "name": "窗口函数 (Window Functions)",
+      "summary": "对与当前行相关的一组行（窗口）执行计算，无需折叠结果 (Performs calculations across a set of rows (a window) related to the current row, without collapsing the result)",
+      "examples": [
+        {
+          "description": "使用 ROW_NUMBER() 在每个部门内按薪水高低为员工排名",
+          "code": "SELECT name, department, salary,\n       ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) as rank_in_dept\nFROM employees;"
+        },
+        {
+          "description": "使用 RANK() 和 DENSE_RANK() 处理薪水并列的情况",
+          "code": "SELECT name, salary,\n       RANK() OVER(ORDER BY salary DESC) as rank_with_gaps,\n       DENSE_RANK() OVER(ORDER BY salary DESC) as dense_rank_no_gaps\nFROM employees;"
+        },
+        {
+          "description": "使用聚合窗口函数，在每行显示部门总薪水，同时保留员工明细",
+          "code": "SELECT name, department, salary,\n       SUM(salary) OVER(PARTITION BY department) as department_total_salary\nFROM employees;"
+        },
+        {
+          "description": "使用 LAG() 获取同一部门内上一位员工的薪水，以进行比较",
+          "code": "SELECT name, department, salary,\n       LAG(salary, 1, 0) OVER(PARTITION BY department ORDER BY hire_date) as previous_employee_salary\nFROM employees;"
+        }
+      ],
+      "notes": "窗口函数是现代 SQL 的一个标志性高级特性，极大地增强了分析能力。核心是 `OVER()` 子句，它定义了窗口的范围。`PARTITION BY` 将行分成组（类似于 `GROUP BY` 但不折叠行），`ORDER BY` 定义组内的排序，Frame 子句（如 `ROWS BETWEEN ...`）可以更精细地定义窗口大小。",
+      "shell_type": "SQL Concept"
+    },
+    {
+      "name": "事务控制 (Transaction Control)",
+      "summary": "将一系列 DML 操作捆绑成一个原子单元，确保数据一致性 (Bundles a series of DML operations into a single atomic unit to ensure data consistency)",
+      "examples": [
+        {
+          "description": "一个成功的银行转账事务，最后提交更改",
+          "code": "START TRANSACTION;\nUPDATE accounts SET balance = balance - 100 WHERE account_id = 1;\nUPDATE accounts SET balance = balance + 100 WHERE account_id = 2;\nCOMMIT;"
+        },
+        {
+          "description": "一个因错误而回滚的事务，所有更改都被撤销",
+          "code": "START TRANSACTION;\nDELETE FROM orders WHERE order_id = 123;\n-- 假设这里发生了错误或检查失败\nROLLBACK;"
+        },
+        {
+          "description": "使用保存点 (SAVEPOINT) 进行部分回滚",
+          "code": "START TRANSACTION;\nINSERT INTO products (name) VALUES ('A');\nSAVEPOINT sp1;\nINSERT INTO products (name) VALUES ('B');\n-- 发现B是错误的，回滚到保存点sp1\nROLLBACK TO SAVEPOINT sp1;\n-- 继续插入正确的数据C\nINSERT INTO products (name) VALUES ('C');\nCOMMIT;"
+        }
+      ],
+      "notes": "事务遵循 ACID 原则：原子性 (Atomicity)、一致性 (Consistency)、隔离性 (Isolation)、持久性 (Durability)。`START TRANSACTION` (或 `BEGIN`) 开启一个事务，`COMMIT` 将所有更改永久保存到数据库，`ROLLBACK` 则撤销自事务开始以来的所有更改。许多数据库客户端默认处于“自动提交”模式，即每条语句都是一个独立的事务。",
+      "shell_type": "SQL Command"
+    },
+    {
+      "name": "索引管理 (Index Management)",
+      "summary": "创建和删除索引以极大地提高查询性能 (Creating and dropping indexes to drastically improve query performance)",
+      "examples": [
+        {
+          "description": "在 'employees' 表的 'last_name' 列上创建一个简单的 B-Tree 索引",
+          "code": "CREATE INDEX idx_employees_lastname ON employees (last_name);"
+        },
+        {
+          "description": "在 'orders' 表的 'customer_id' 和 'order_date' 列上创建复合索引",
+          "code": "CREATE INDEX idx_orders_customer_date ON orders (customer_id, order_date);"
+        },
+        {
+          "description": "创建一个唯一索引，确保 'users' 表的 'email' 列没有重复值",
+          "code": "CREATE UNIQUE INDEX uidx_users_email ON users (email);"
+        },
+        {
+          "description": "删除一个不再需要或效果不佳的索引",
+          "code": "DROP INDEX idx_employees_lastname ON employees;"
+        }
+      ],
+      "notes": "索引是性能优化的首要工具。它们以空间换时间，通过维护一个有序的数据结构来加快数据检索速度。应在经常用于 `WHERE` 子句、`JOIN` 条件和 `ORDER BY` 子句的列上创建索引。但索引会减慢 `INSERT`, `UPDATE`, `DELETE` 操作，因为每次数据变动都需要更新索引。因此，索引并非越多越好，需要权衡利弊。",
+      "shell_type": "SQL DDL Statement"
+    },
+    {
+      "name": "EXPLAIN / EXPLAIN PLAN",
+      "summary": "分析查询的执行计划，揭示数据库如何访问数据 (Analyzes a query's execution plan, revealing how the database accesses data)",
+      "examples": [
+        {
+          "description": "查看一个连接查询的执行计划 (MySQL / PostgreSQL)",
+          "code": "EXPLAIN SELECT e.name, d.name FROM employees e JOIN departments d ON e.department_id = d.id WHERE e.salary > 80000;"
+        },
+        {
+          "description": "在 PostgreSQL 中获取更详细的执行计划，包括实际执行时间和行数",
+          "code": "EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM employees WHERE hire_date > '2022-01-01';"
+        },
+        {
+          "description": "查看执行计划 (SQL Server)",
+          "code": "SET SHOWPLAN_TEXT ON;\nGO\nSELECT * FROM employees;\nGO\nSET SHOWPLAN_TEXT OFF;\nGO"
+        }
+      ],
+      "notes": "这是数据库性能调优的必备工具。通过 `EXPLAIN` 的输出，可以判断查询是否有效利用了索引（Index Scan vs. Full Table Scan），选择了哪种连接算法（如 Nested Loop, Hash Join, Merge Join），以及预估的处理行数。命令的名称和输出格式在不同数据库之间差异很大，如 Oracle 使用 `EXPLAIN PLAN FOR ...`。",
+      "shell_type": "SQL Utility Command"
+    },
+    {
+      "name": "权限管理 (Privilege Management)",
+      "summary": "控制用户对数据库对象的访问权限，是数据库安全的核心 (Controlling user access to database objects, a core part of database security)",
+      "examples": [
+        {
+          "description": "创建一个新用户 (MySQL 语法)",
+          "code": "CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';"
+        },
+        {
+          "description": "授予用户对特定表的 SELECT 和 INSERT 权限",
+          "code": "GRANT SELECT, INSERT ON mydatabase.employees TO 'newuser'@'localhost';"
+        },
+        {
+          "description": "授予用户在特定数据库上的所有权限（危险操作，慎用）",
+          "code": "GRANT ALL PRIVILEGES ON mydatabase.* TO 'devuser'@'%';"
+        },
+        {
+          "description": "撤销用户的 INSERT 权限",
+          "code": "REVOKE INSERT ON mydatabase.employees FROM 'newuser'@'localhost';"
+        },
+        {
+          "description": "删除一个用户 (MySQL 语法)",
+          "code": "DROP USER 'newuser'@'localhost';"
+        }
+      ],
+      "notes": "遵循“最小权限原则”是安全最佳实践，即只授予用户完成其工作所必需的最小权限。`GRANT` 用于授权，`REVOKE` 用于收回权限。用户管理（`CREATE USER`, `DROP USER`, `ALTER USER`）的语法在各数据库（MySQL, PostgreSQL, SQL Server, Oracle）之间差异巨大，需要查阅特定数据库的文档。",
+      "shell_type": "SQL DCL Statement"
+    },
+    {
+      "name": "视图 (Views)",
+      "summary": "基于 SQL 查询结果创建的虚拟表，用于简化复杂性或增强安全性 (Virtual tables based on SQL query results, used to simplify complexity or enhance security)",
+      "examples": [
+        {
+          "description": "创建一个视图，隐藏员工的薪水和个人信息",
+          "code": "CREATE VIEW public_employee_info AS\nSELECT id, name, department, hire_date\nFROM employees;"
+        },
+        {
+          "description": "创建一个视图，简化获取各部门员工数量的复杂查询",
+          "code": "CREATE VIEW department_employee_count AS\nSELECT d.name, COUNT(e.id) as employee_count\nFROM departments d\nLEFT JOIN employees e ON d.id = e.department_id\nGROUP BY d.name;"
+        },
+        {
+          "description": "像查询普通表一样查询视图",
+          "code": "SELECT * FROM public_employee_info WHERE department = 'Sales';"
+        },
+        {
+          "description": "删除一个视图",
+          "code": "DROP VIEW department_employee_count;"
+        }
+      ],
+      "notes": "视图本身不存储数据，它只是一个存储的查询。当查询视图时，数据库会执行该视图定义的查询。优点包括：1. 简化复杂查询；2. 提供一个稳定的接口，即使底层表结构变化；3. 通过限制对列和行的访问来增强安全性。并非所有视图都是可更新的。",
+      "shell_type": "SQL DDL Statement"
+    },
+    {
+      "name": "mysqldump",
+      "summary": "MySQL 数据库备份工具，用于将数据库导出为 SQL 文件 (A MySQL database backup utility that exports databases into SQL files)",
+      "command_type": "External Command-Line Tool (MySQL)",
+      "examples": [
+        {
+          "description": "备份整个数据库（结构和数据）到一个 .sql 文件",
+          "code": "mysqldump -u [user] -p[password] [database_name] > backup.sql"
+        },
+        {
+          "description": "仅备份数据库结构（表、视图等），不包含数据",
+          "code": "mysqldump -u [user] -p --no-data [database_name] > schema_only.sql"
+        },
+        {
+          "description": "仅备份数据，不包含表结构创建语句",
+          "code": "mysqldump -u [user] -p --no-create-info [database_name] > data_only.sql"
+        },
+        {
+          "description": "备份指定的一个或多个表",
+          "code": "mysqldump -u [user] -p [database_name] table1 table2 > tables_backup.sql"
+        },
+        {
+          "description": "备份服务器上所有的数据库",
+          "code": "mysqldump -u [user] -p --all-databases > all_databases.sql"
+        }
+      ],
+      "notes": "这是一个命令行工具，不是 SQL 语句。强烈建议不要在命令行中直接写密码（-p[password]），而是在 `-p` 后直接回车，系统会提示安全地输入密码。导出的文件包含了 `CREATE TABLE` 和 `INSERT` 语句，可以被 `mysql` 客户端轻松导入以完成恢复。"
+    },
+    {
+      "name": "mysql (Import)",
+      "summary": "MySQL 命令行客户端，用于执行 SQL 脚本文件以导入数据 (The MySQL command-line client, used to execute SQL script files for data import)",
+      "command_type": "External Command-Line Tool (MySQL)",
+      "examples": [
+        {
+          "description": "从 .sql 文件导入数据到指定的数据库",
+          "code": "mysql -u [user] -p [database_name] < backup.sql"
+        },
+        {
+          "description": "登录到 MySQL后，使用 SOURCE 命令导入",
+          "code": "mysql -u [user] -p\nmysql> USE [database_name];\nmysql> SOURCE /path/to/your/backup.sql;"
+        }
+      ],
+      "notes": "这是 `mysqldump` 的反向操作。导入前，目标数据库通常需要已存在（除非备份文件中包含 `CREATE DATABASE` 语句）。对于大型文件，使用命令行重定向 `<` 的方式通常比在交互模式下使用 `SOURCE` 命令效率更高。"
+    },
+    {
+      "name": "pg_dump",
+      "summary": "PostgreSQL 数据库备份工具，用于将数据库导出为归档文件 (A PostgreSQL database backup utility that exports a database into an archive file)",
+      "command_type": "External Command-Line Tool (PostgreSQL)",
+      "examples": [
+        {
+          "description": "备份为自定义压缩格式的归档文件（推荐）",
+          "code": "pg_dump -U [user] -d [database_name] -Fc -f backup.dump"
+        },
+        {
+          "description": "备份为纯文本 SQL 脚本文件",
+          "code": "pg_dump -U [user] -d [database_name] > backup.sql"
+        },
+        {
+          "description": "仅备份数据库结构（Schema-only）",
+          "code": "pg_dump -U [user] -d [database_name] --schema-only -f schema.sql"
+        },
+        {
+          "description": "备份指定的表",
+          "code": "pg_dump -U [user] -d [database_name] --table=public.my_table -f table_backup.dump"
+        }
+      ],
+      "notes": "`pg_dump` 是一个非常强大和可靠的备份工具，它在导出时不会阻塞数据库的读写操作。使用 `-Fc` (custom format) 是最佳实践，因为它生成的文件是压缩的，并且在恢复时（使用 `pg_restore`）更加灵活，支持并行恢复。"
+    },
+    {
+      "name": "psql & pg_restore (Import)",
+      "summary": "使用 psql 导入 SQL 脚本或使用 pg_restore 恢复归档文件 (Using psql to import SQL scripts or pg_restore to restore archive files)",
+      "command_type": "External Command-Line Tool (PostgreSQL)",
+      "examples": [
+        {
+          "description": "使用 psql 从纯文本 SQL 文件恢复",
+          "code": "psql -U [user] -d [database_name] -f backup.sql"
+        },
+        {
+          "description": "使用 pg_restore 从自定义格式的归档文件恢复",
+          "code": "pg_restore -U [user] -d [database_name] backup.dump"
+        },
+        {
+          "description": "使用多个并发作业（例如 4 个）来加速恢复过程",
+          "code": "pg_restore -U [user] -d [database_name] -j 4 backup.dump"
+        }
+      ],
+      "notes": "对于 `pg_dump` 创建的纯文本文件，使用 `psql` 导入。对于自定义格式 (`-Fc`) 的归档文件，必须使用 `pg_restore` 工具进行恢复。`pg_restore` 提供了更多高级选项，如并行恢复，这能显著加快大型数据库的恢复速度。"
+    },
+    {
+      "name": "SELECT ... INTO OUTFILE",
+      "summary": "MySQL 语句，将查询结果高速导出到服务器主机上的文本文件 (A MySQL statement to export a query result to a text file on the server host at high speed)",
+      "command_type": "SQL Command (MySQL)",
+      "examples": [
+        {
+          "description": "将整个表导出为逗号分隔的 CSV 文件",
+          "code": "SELECT * FROM employees\nINTO OUTFILE '/var/lib/mysql-files/employees.csv'\nFIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"'\nLINES TERMINATED BY '\\n';"
+        },
+        {
+          "description": "导出 CSV 文件并包含标题行",
+          "code": "(SELECT 'ID', 'Name', 'Department')\nUNION ALL\n(SELECT id, name, department FROM employees INTO OUTFILE '/var/lib/mysql-files/employees_header.csv' FIELDS TERMINATED BY ',');"
+        }
+      ],
+      "notes": "这是一个 SQL 语句，但有严格的安全限制。文件只能写入到服务器上由 `secure_file_priv` 系统变量指定的目录中。它非常快，但灵活性不如 `mysqldump`。主要用于将数据导出为 CSV 或其他纯文本格式。"
+    },
+    {
+      "name": "LOAD DATA INFILE",
+      "summary": "MySQL 语句，从服务器主机上的文本文件高速导入数据到表中 (A MySQL statement to import data from a text file on the server host into a table at high speed)",
+      "command_type": "SQL Command (MySQL)",
+      "examples": [
+        {
+          "description": "从 CSV 文件导入数据到表中",
+          "code": "LOAD DATA INFILE '/var/lib/mysql-files/employees.csv'\nINTO TABLE employees\nFIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"'\nLINES TERMINATED BY '\\n';"
+        },
+        {
+          "description": "导入时跳过 CSV 文件的第一行（标题行）",
+          "code": "LOAD DATA INFILE '/var/lib/mysql-files/employees_header.csv'\nINTO TABLE employees\nFIELDS TERMINATED BY ','\nIGNORE 1 LINES;"
+        },
+        {
+          "description": "将 CSV 中的列映射到指定的表列",
+          "code": "LOAD DATA INFILE '/path/to/data.csv'\nINTO TABLE employees\n(id, name, @dummy, department); -- @dummy 会忽略 CSV 中的第三列"
+        }
+      ],
+      "notes": "这是 `SELECT ... INTO OUTFILE` 的反向操作，是 MySQL 中最快的数据导入方式。同样受 `secure_file_priv` 安全限制。如果文件在客户端，需要使用 `LOAD DATA LOCAL INFILE`，但这需要在客户端和服务器端都进行额外配置以允许，存在安全风险。"
+    },
+    {
+      "name": "COPY",
+      "summary": "PostgreSQL 命令，用于在表和文件之间高效地复制数据 (A PostgreSQL command to efficiently copy data between a table and a file)",
+      "command_type": "SQL Command / psql Meta-Command (PostgreSQL)",
+      "examples": [
+        {
+          "description": "将表数据导出到服务器上的 CSV 文件（需要超级用户权限）",
+          "code": "COPY employees TO '/tmp/employees.csv' WITH (FORMAT CSV, HEADER);"
+        },
+        {
+          "description": "从服务器上的 CSV 文件导入数据到表（需要超级用户权限）",
+          "code": "COPY employees FROM '/tmp/employees.csv' WITH (FORMAT CSV, HEADER);"
+        },
+        {
+          "description": "使用 psql 的 \\copy 将数据导出到本地客户端文件（推荐，无需超管）",
+          "code": "\\copy (SELECT * FROM employees WHERE start_date > '2022-01-01') TO 'local_employees.csv' WITH CSV HEADER;"
+        },
+        {
+          "description": "使用 psql 的 \\copy 从本地客户端文件导入数据（推荐，无需超管）",
+          "code": "\\copy employees(name, department) FROM 'new_hires.csv' WITH CSV;"
+        }
+      ],
+      "notes": "SQL `COPY` 命令在数据库服务器上读写文件，通常需要超级用户权限。`psql` 的元命令 `\\copy` 则在客户端机器上读写文件，不需要超级用户权限，因此在日常使用中更常见和安全。`COPY` 是 PostgreSQL 中进行批量数据迁移的首选方法，性能极高。"
+    },
+    {
+      "name": "bcp (Bulk Copy Program)",
+      "summary": "SQL Server 的命令行工具，用于在实例和数据文件间大容量复制数据 (A command-line tool for bulk copying data between a SQL Server instance and a data file)",
+      "command_type": "External Command-Line Tool (SQL Server)",
+      "examples": [
+        {
+          "description": "将表数据导出到数据文件（使用 Windows 认证）",
+          "code": "bcp MyDatabase.dbo.Employees out employees.dat -c -T -S ServerName"
+        },
+        {
+          "description": "从数据文件导入数据到表（使用 SQL Server 认证）",
+          "code": "bcp MyDatabase.dbo.Employees in employees.dat -c -U username -P password -S ServerName"
+        },
+        {
+          "description": "将查询结果导出为逗号分隔的 CSV 文件",
+          "code": "bcp \"SELECT EmployeeID, FirstName, LastName FROM MyDatabase.dbo.Employees\" queryout employees.csv -c -t, -T -S ServerName"
+        }
+      ],
+      "notes": "`bcp` 是 SQL Server 进行批量数据导入导出的标准和高效工具。`-c` 表示使用字符数据类型。`-T` 表示使用可信连接（Windows 认证）。`-U` 和 `-P` 用于指定 SQL Server 登录名和密码。`-t,` 指定逗号作为字段分隔符。这是一个功能强大的工具，但语法选项较多，需要仔细查阅文档。"
+    }
+  ]
