@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="antialiased h-full"> <!-- Added h-full -->
+<html lang="zh-CN" class="antialiased h-full"> <!-- h-full: 确保html元素占满整个视口高度 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +12,12 @@
     <script src="lib/fuse.min.js"></script>
     <script src="lib/marked.min.js"></script>
 
-    <!-- 拆分出的自定义样式 -->
+    <!-- 自定义样式 -->
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/output.css">
 
+    <!-- 主题初始化脚本: 放在head中以防止页面加载时出现主题闪烁 -->
     <script>
-        // This script is correctly placed to prevent theme flashing.
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -26,17 +26,19 @@
     </script>
 </head>
 
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 font-sans transition-colors duration-300 h-full overflow-hidden"> <!-- Added h-full overflow-hidden -->
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 font-sans transition-colors duration-300 h-full overflow-hidden"> <!-- h-full, overflow-hidden: 配合flex布局，使页面内容撑满视口且body不滚动 -->
 
+<!-- 页面主容器: 采用flex列布局，占满整个高度 -->
 <div class="container mx-auto p-4 md:p-8 max-w-[1400px]">
-    <!-- Changed to flex column layout via custom.css and h-full is applied there too -->
 
-    <header class="flex justify-between items-start mb-6 flex-shrink-0"> <!-- Added flex-shrink-0 -->
-        <div class="text-left">
+    <!-- ======================= 页头 (Header) ======================= -->
+    <header class="flex justify-between items-start mb-6 flex-shrink-0"> <!-- flex-shrink-0: 防止页头在内容过多时被压缩 -->
+        <div>
             <h1 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white">CodeHub</h1>
             <p class="text-slate-500 dark:text-slate-400 mt-2">一个为开发者打造的极速查询工具，支持命令、框架等的快速检索，同时集成笔记管理功能。</p>
         </div>
         <div class="flex items-center gap-4">
+            <!-- 模式切换器 -->
             <nav>
                 <div id="mode-switcher" class="bg-slate-200 dark:bg-slate-800 p-1 rounded-full flex text-sm font-medium">
                     <button id="mode-toggle-commands" class="px-4 py-1.5 rounded-full transition-colors">命令</button>
@@ -45,85 +47,92 @@
                     <button id="mode-toggle-notes" class="px-4 py-1.5 rounded-full transition-colors">笔记</button>
                 </div>
             </nav>
+            <!-- 主题切换按钮 -->
             <button id="theme-toggle" class="p-2 rounded-full text-slate-500 hover:text-cyan-500 dark:text-slate-400 dark:hover:text-cyan-400 hover:bg-slate-200 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900 focus:ring-cyan-500 transition-all duration-300">
-                <img id="theme-icon-sun" src="img/icons/sun.svg" class="h-6 w-6" alt="Light Mode">
-                <img id="theme-icon-moon" src="img/icons/moon.svg" class="h-6 w-6 hidden" alt="Dark Mode">
+                <img id="theme-icon-sun" src="img/icons/sun.svg" class="h-6 w-6" alt="浅色模式">
+                <img id="theme-icon-moon" src="img/icons/moon.svg" class="h-6 w-6 hidden" alt="深色模式">
             </button>
         </div>
     </header>
 
-    <!-- =================================================================== -->
-    <!-- ========= UNIFIED SEARCHABLE VIEW (for Commands, Frameworks, Other) ========= -->
-    <!-- =================================================================== -->
-    <main id="searchable-view" class="opacity-0 transition-opacity duration-300 flex-grow overflow-hidden flex flex-col"> <!-- Added flex-grow overflow-hidden flex flex-col -->
-        <div class="flex flex-col md:flex-row gap-4 mb-8 sticky top-4 z-20 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm p-2 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0"> <!-- Added flex-shrink-0 -->
+    <!-- ======================= 可搜索视图 (命令、框架、其它) ======================= -->
+    <!-- flex-grow: 使main元素填充剩余空间; overflow-hidden: 配合内部滚动 -->
+    <main id="searchable-view" class="opacity-0 transition-opacity duration-300 flex-grow overflow-hidden flex flex-col">
+        <!-- 搜索和过滤区域 (粘性定位) -->
+        <div class="flex flex-col md:flex-row gap-4 mb-8 sticky top-4 z-20 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm p-2 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0">
             <div class="relative flex-grow">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><img src="img/icons/search.svg" class="h-5 w-5 text-slate-400" alt="Search"></div>
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><img src="img/icons/search.svg" class="h-5 w-5 text-slate-400" alt="搜索"></div>
                 <input type="text" id="searchable-input" placeholder="搜索..." class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg p-4 pl-12 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 focus:outline-none transition-shadow">
             </div>
+            <!-- 下拉选择器 -->
             <div id="searchable-dropdown" class="relative md:w-48">
-                <button id="searchable-trigger" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg p-4 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 focus:outline-none transition-shadow flex items-center justify-between">
+                <button id="searchable-trigger" class="dropdown-trigger w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg p-4 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 focus:outline-none transition-shadow flex items-center justify-between">
                     <span id="searchable-selected-text" class="font-medium"></span>
-                    <img src="img/icons/chevron-down.svg" class="h-5 w-5 text-slate-400 transition-transform duration-200" alt="Dropdown">
+                    <img src="img/icons/chevron-down.svg" class="h-5 w-5 text-slate-400 transition-transform duration-200" alt="下拉">
                 </button>
-                <div id="searchable-options" class="hidden absolute top-full mt-2 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-hidden z-30"></div>
+                <div id="searchable-options" class="dropdown-options hidden absolute top-full mt-2 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-hidden z-30"></div>
             </div>
         </div>
-        <div id="resultsContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow overflow-hidden"> <!-- Added flex-grow overflow-hidden -->
-            <aside id="searchable-results-list" class="lg:col-span-1 bg-white/50 dark:bg-slate-800/50 p-2 sm:p-4 rounded-lg overflow-y-auto border border-slate-200 dark:border-slate-800 flex-grow max-h-full"></aside> <!-- Removed h-[70vh], Added flex-grow max-h-full -->
-            <article id="searchable-details-view" class="lg:col-span-2 bg-white/50 dark:bg-slate-800/50 p-4 sm:p-6 rounded-lg overflow-y-auto border border-slate-200 dark:border-slate-800 flex-grow max-h-full"></article> <!-- Removed h-[70vh], Added flex-grow max-h-full -->
+        <!-- 结果和详情区域 -->
+        <div id="resultsContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow overflow-hidden">
+            <!-- 结果列表: overflow-y-auto使其内部可滚动; flex-grow max-h-full使其填充父容器高度 -->
+            <aside id="searchable-results-list" class="lg:col-span-1 bg-white/50 dark:bg-slate-800/50 p-2 sm:p-4 rounded-lg overflow-y-auto border border-slate-200 dark:border-slate-800 flex-grow max-h-full"></aside>
+            <!-- 详情视图 -->
+            <article id="searchable-details-view" class="lg:col-span-2 bg-white/50 dark:bg-slate-800/50 p-4 sm:p-6 rounded-lg overflow-y-auto border border-slate-200 dark:border-slate-800 flex-grow max-h-full"></article>
         </div>
     </main>
 
-    <!-- =================================================================== -->
-    <!-- ========================= NOTES VIEW ============================== -->
-    <!-- =================================================================== -->
-    <main id="notes-view" class="hidden opacity-0 transition-opacity duration-300 flex-grow overflow-hidden flex flex-col"> <!-- Added flex-grow overflow-hidden flex flex-col -->
-        <div class="flex flex-col md:flex-row gap-4 mb-8 sticky top-4 z-20 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm p-2 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0"> <!-- Added flex-shrink-0 -->
+    <!-- ======================= 笔记视图 ======================= -->
+    <main id="notes-view" class="hidden opacity-0 transition-opacity duration-300 flex-grow overflow-hidden flex flex-col">
+        <!-- 搜索和过滤区域 -->
+        <div class="flex flex-col md:flex-row gap-4 mb-8 sticky top-4 z-20 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm p-2 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex-shrink-0">
             <div class="relative flex-grow">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><img src="img/icons/search.svg" class="h-5 w-5 text-slate-400" alt="Search"></div>
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><img src="img/icons/search.svg" class="h-5 w-5 text-slate-400" alt="搜索"></div>
                 <input type="text" id="noteSearchInput" placeholder="在当前笔记集中搜索..." class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg p-4 pl-12 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 focus:outline-none transition-shadow">
             </div>
+            <!-- 笔记集下拉选择器 -->
             <div id="note-set-dropdown" class="relative md:w-48">
-                <button id="note-set-trigger" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg p-4 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 focus:outline-none transition-shadow flex items-center justify-between">
+                <button id="note-set-trigger" class="dropdown-trigger w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white rounded-lg p-4 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 focus:outline-none transition-shadow flex items-center justify-between">
                     <span id="note-set-selected-text" class="font-medium"></span>
-                    <img src="img/icons/chevron-down.svg" class="h-5 w-5 text-slate-400 transition-transform duration-200" alt="Dropdown">
+                    <img src="img/icons/chevron-down.svg" class="h-5 w-5 text-slate-400 transition-transform duration-200" alt="下拉">
                 </button>
-                <div id="note-set-options" class="hidden absolute top-full mt-2 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-y-auto z-30 max-h-60"></div>
+                <div id="note-set-options" class="dropdown-options hidden absolute top-full mt-2 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg overflow-y-auto z-30 max-h-60"></div>
             </div>
             <button id="add-set-btn" class="flex-shrink-0 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-lg px-4 font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-cyan-500 focus:outline-none">新建</button>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow overflow-hidden"> <!-- Added flex-grow overflow-hidden -->
-            <aside class="lg:col-span-1 bg-white/50 dark:bg-slate-800/50 p-2 sm:p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"> <!-- Removed h-[70vh], Added flex-grow (already had flex flex-col) overflow-hidden -->
-                <form id="addNoteForm" class="p-2 border-b border-slate-200 dark:border-slate-700 mb-2 flex-shrink-0"> <!-- Added flex-shrink-0 -->
+        <!-- 笔记列表和详情区域 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow overflow-hidden">
+            <aside class="lg:col-span-1 bg-white/50 dark:bg-slate-800/50 p-2 sm:p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
+                <!-- 添加笔记表单 -->
+                <form id="addNoteForm" class="p-2 border-b border-slate-200 dark:border-slate-700 mb-2 flex-shrink-0">
                     <h3 id="addNoteFormTitle" class="text-md font-bold text-slate-800 dark:text-white mb-3"></h3>
                     <div class="flex items-start gap-2">
                         <textarea id="noteQuestion" class="flex-grow w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white rounded-md p-2 text-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="输入新问题..." rows="2"></textarea>
-                        <button type="submit" class="flex-shrink-0 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-lg px-4 py-2 font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-cyan-500 focus:outline-none">
-                            添加
-                        </button>
+                        <button type="submit" class="flex-shrink-0 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-lg px-4 py-2 font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:ring-2 focus:ring-cyan-500 focus:outline-none">添加</button>
                     </div>
                 </form>
+                <!-- 笔记列表容器 -->
                 <div id="notesList" class="flex-grow overflow-y-auto space-y-1.5 pr-1"></div>
             </aside>
-            <article id="noteDetailsView" class="lg:col-span-2 bg-white/50 dark:bg-slate-800/50 p-4 sm:p-6 rounded-lg overflow-y-auto border border-slate-200 dark:border-slate-800 flex-grow max-h-full"></article> <!-- Removed h-[70vh], Added flex-grow max-h-full -->
+            <!-- 笔记详情视图 -->
+            <article id="noteDetailsView" class="lg:col-span-2 bg-white/50 dark:bg-slate-800/50 p-4 sm:p-6 rounded-lg overflow-y-auto border border-slate-200 dark:border-slate-800 flex-grow max-h-full"></article>
         </div>
     </main>
 
-    <!-- Credits / 致谢 -->
-    <footer class="flex-shrink-0 flex items-center justify-center text-center text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 h-[80px]"> <!-- Modified classes -->
+    <!-- ======================= 页脚 (Footer) ======================= -->
+    <footer class="flex-shrink-0 flex items-center justify-center text-center text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 h-[80px]">
         <p>
             灵感源于 <a href="https://github.com/jaywcjlove/linux-command" target="_blank" rel="noopener noreferrer" class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-500 dark:hover:text-cyan-400 font-semibold">jaywcjlove/linux-command</a>
-            <span class="inline-block mx-3">|</span> <!-- Separator -->
+            <span class="inline-block mx-3">|</span>
             当前项目地址：<a href="https://github.com/git-hub-cc/CodeHub" target="_blank" rel="noopener noreferrer" class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-500 dark:hover:text-cyan-400 font-semibold">git-hub-cc/CodeHub</a>
-            <span class="inline-block mx-3">|</span> <!-- Separator -->
+            <span class="inline-block mx-3">|</span>
             ©粤ICP备2024271251号
         </p>
     </footer>
-
 </div>
 
-<!-- Confirmation Modal -->
+<!-- ======================= 模态框 (Modals) ======================= -->
+<!-- 确认模态框 -->
 <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300" role="dialog" aria-modal="true">
     <div id="modal-dialog" class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all scale-95 opacity-0">
         <div class="p-6"><h3 id="modal-title" class="text-xl font-bold text-slate-800 dark:text-white"></h3><p id="modal-message" class="mt-2 text-slate-600 dark:text-slate-400"></p></div>
@@ -134,7 +143,7 @@
     </div>
 </div>
 
-<!-- Input Modal -->
+<!-- 输入模态框 -->
 <div id="input-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300" role="dialog" aria-modal="true">
     <div id="input-modal-dialog" class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all scale-95 opacity-0">
         <div class="p-6">
@@ -149,9 +158,11 @@
     </div>
 </div>
 
-<!-- Hidden container for dynamically loaded templates -->
+<!-- ======================= 模板与脚本 ======================= -->
+<!-- 用于动态加载HTML模板的隐藏容器 -->
 <div id="template-container" hidden></div>
 
+<!-- 应用脚本 (顺序很重要) -->
 <script src="js/db.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/notes.js"></script>

@@ -1,49 +1,69 @@
 /* css/custom.css */
 
-/* Full page height layout adjustments to prevent body scrollbar */
+/*
+  此文件包含一些Tailwind CSS不易实现的或全局性的自定义样式。
+*/
+
+/* --- 全局页面布局 --- */
+/*
+  设置html和body高度为100%，并禁止body滚动。
+  这是实现单页应用式布局的关键，滚动将由内部容器处理。
+*/
 html, body {
     height: 100%;
-    overflow: hidden; /* Prevent body scrollbar */
+    overflow: hidden;
 }
 
+/* 
+  使主容器使用flex布局，并撑满整个页面高度，
+  确保页头、内容区、页脚能按预期排列。
+*/
 .container {
-    height: 100%; /* Make container take full height */
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-/* Custom Scrollbar Styling */
+
+/* --- 自定义滚动条样式 --- */
+/* 适用于Chrome, Edge, Safari等基于WebKit的浏览器 */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 8px; /* 滚动条宽度 */
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: transparent; /* 轨道背景透明 */
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(100, 116, 139, 0.4);
-    border-radius: 20px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    background-color: rgba(100, 116, 139, 0.4); /* 滑块颜色 */
+    border-radius: 20px; /* 滑块圆角 */
+    border: 2px solid transparent; /* 创建内边距效果 */
+    background-clip: content-box; /* 使背景色不超出边框 */
 }
 
+/* 深色模式下的滚动条滑块颜色 */
 .dark ::-webkit-scrollbar-thumb {
     background-color: rgba(100, 116, 139, 0.7);
 }
 
-/* Active State for List Items */
-.result-item.active {
-    background-color: rgba(6, 182, 212, 0.1);
-    border-color: rgba(6, 182, 212, 0.4);
-}
 
+/* --- 列表项激活状态 --- */
+/*
+  为搜索结果列表和笔记集列表中的选中项提供统一的、醒目的高亮样式。
+  通过合并选择器，减少了代码重复。
+*/
+.result-item.active,
 .note-set-item.is-active {
-    background-color: rgba(6, 182, 212, 0.1);
-    border-color: rgba(6, 182, 212, 0.4);
+    background-color: rgba(6, 182, 212, 0.1); /* 淡青色背景 */
+    border-color: rgba(6, 182, 212, 0.4); /* 青色边框 */
 }
 
-/* Textarea Behavior */
+
+/* --- 文本域行为 --- */
+/*
+  允许用户在聚焦或悬停时垂直调整textarea的大小，提升用户体验。
+*/
 textarea:focus,
 textarea:hover {
     resize: vertical;

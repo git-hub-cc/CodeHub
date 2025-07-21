@@ -1,15 +1,14 @@
-// js/app.js
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Configuration for all searchable modes ---
+    // --- 全局配置 ---
     const dataSources = {
         commands: { 'Linux': 'data/commands/linux.json', 'PowerShell': 'data/commands/powershell.json', 'Git': 'data/commands/git.json', 'Docker': 'data/commands/docker.json', 'K8S': 'data/commands/k8s.json', 'npm': 'data/commands/npm.json', 'Maven': 'data/commands/maven.json', 'Pip': 'data/commands/pip.json' , 'Scoop': 'data/commands/scoop.json' , 'Sql': 'data/commands/sql.json'  },
         frameworks: { 'SpringBoot': 'data/frameworks/springboot.json','Vue': 'data/frameworks/vue.json','React': 'data/frameworks/react.json','Tailwind': 'data/frameworks/tailwind.json' },
         other: { '设计模式': 'data/other/patterns.json','正则': 'data/other/regex.json' ,'Markdown': 'data/other/markdown.json' ,'Http': 'data/other/http.json'  },
     };
 
-    // --- DOM References (for app logic) ---
+    // --- DOM 引用 ---
     const modeToggles = {
         commands: document.getElementById('mode-toggle-commands'),
         frameworks: document.getElementById('mode-toggle-frameworks'),
@@ -17,16 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
         notes: document.getElementById('mode-toggle-notes'),
     };
 
-    // --- State ---
-    let currentModeId = 'commands'; // Can be 'commands', 'frameworks', 'other', 'notes'
+    // --- 应用状态 ---
+    let currentModeId = 'commands'; // 当前模式ID: 'commands', 'frameworks', 'other', 'notes'
     const modes = {
-        // Configuration for each searchable mode
+        // 每个可搜索模式的配置
         commands: { label: '命令', dataSource: dataSources.commands, storageKeyPrefix: 'cmd', defaultSelection: 'Linux', state: { data: [], fuse: null, selectedIndex: -1, currentSelectionName: 'Linux' } },
         frameworks: { label: '框架', dataSource: dataSources.frameworks, storageKeyPrefix: 'framework', defaultSelection: 'SpringBoot', state: { data: [], fuse: null, selectedIndex: -1, currentSelectionName: 'SpringBoot' } },
         other: { label: '其它', dataSource: dataSources.other, storageKeyPrefix: 'other', defaultSelection: '设计模式', state: { data: [], fuse: null, selectedIndex: -1, currentSelectionName: '设计模式' } }
     };
 
-    // --- Initialization ---
+    // --- 初始化 ---
     async function initialize() {
         await loadTemplates();
         ui.initTemplates();
@@ -34,91 +33,81 @@ document.addEventListener('DOMContentLoaded', () => {
         await db.initDB();
         notes.init();
         addEventListeners();
-        // Initial mode setup. Directly show the view without transition on first load.
+        // 初始加载时直接显示视图，无切换动画
         switchMode(currentModeId, true);
     }
 
+    // 加载HTML模板文件
     async function loadTemplates() {
         try {
             const response = await fetch('templates.html');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             document.getElementById('template-container').innerHTML = await response.text();
         } catch (error) {
-            console.error("Fatal: Could not load UI templates. The app cannot start.", error);
-            document.body.innerHTML = '<div class="text-center p-8 text-red-500">Error: UI templates could not be loaded. Please check the console for details.</div>';
+            console.error("致命错误: 无法加载UI模板，应用无法启动。", error);
+            document.body.innerHTML = '<div class="text-center p-8 text-red-500">错误: UI模板加载失败，请检查控制台获取详细信息。</div>';
         }
     }
 
-    // --- Mode Switching Logic ---
+    // --- 模式切换逻辑 ---
     async function switchMode(newModeId, isInitial = false) {
         if (!isInitial && currentModeId === newModeId) return;
 
         const prevModeId = currentModeId;
         currentModeId = newModeId;
 
-        // Update active toggle button style
+        // 更新模式切换按钮的激活样式
         const activeClasses = 'bg-cyan-600 text-white'.split(' ');
         const inactiveClasses = 'text-slate-600 dark:text-slate-300 hover:bg-slate-300/50 dark:hover:bg-slate-700/50'.split(' ');
         Object.values(modeToggles).forEach(toggle => {
             toggle.classList.remove(...activeClasses, ...inactiveClasses);
-            if (toggle.id === `mode-toggle-${newModeId}`) {
-                toggle.classList.add(...activeClasses);
-            } else {
-                toggle.classList.add(...inactiveClasses);
-            }
+            toggle.classList.add(...(toggle.id === `mode-toggle-${newModeId}` ? activeClasses : inactiveClasses));
         });
 
-        // Handle view transitions
+        // 处理视图切换动画
         const prevView = prevModeId === 'notes' ? ui.elements.notesView : ui.elements.searchableView;
         const newView = newModeId === 'notes' ? ui.elements.notesView : ui.elements.searchableView;
 
         if (isInitial) {
             ui.showView(newView);
-            if (newModeId === 'notes') {
-                await notes.activate();
-            } else {
-                await activateSearchableMode(newModeId);
-            }
         } else {
-            // First, fade out the current view
             ui.hideView(prevView);
+            // 等待旧视图淡出动画结束后，再显示新视图
+            prevView.addEventListener('transitionend', () => ui.showView(newView), { once: true });
+        }
 
-            // After the old view has faded out, switch content and fade in the new one
-            // We wait for the transition to finish before showing the new view
-            prevView.addEventListener('transitionend', async function handler() {
-                prevView.removeEventListener('transitionend', handler); // Remove listener to prevent multiple calls
-                if (newModeId === 'notes') {
-                    await notes.activate();
-                } else {
-                    await activateSearchableMode(newModeId);
-                }
-                ui.showView(newView);
-            }, { once: true });
+        // 激活新模式所需的数据和视图
+        if (newModeId === 'notes') {
+            await notes.activate();
+        } else {
+            await activateSearchableMode(newModeId);
         }
     }
 
+    // 激活一个可搜索的模式（命令、框架、其它）
     async function activateSearchableMode(modeId) {
         const mode = modes[modeId];
         ui.elements.searchInput.value = '';
         ui.elements.searchInput.placeholder = `搜索${mode.label}，如 '${mode.label === '命令' ? 'ls' : mode.label === '框架' ? 'webflux': '单例模式' }'...`;
         ui.elements.dropdownSelectedText.textContent = mode.state.currentSelectionName;
 
-        // Initialize the custom dropdown for the current mode's data source
+        // 初始化当前模式的下拉选择菜单
         ui.initCustomDropdown(mode.dataSource, (newSelection) => handleSelectionChange(modeId, newSelection), {
             trigger: ui.elements.dropdownTrigger,
             options: ui.elements.dropdownOptions,
             selectedText: ui.elements.dropdownSelectedText
         });
 
+        // 如果数据未加载，则加载；否则直接显示
         if (mode.state.data.length === 0) {
             await loadDataForMode(modeId);
         } else {
-            // Data is already loaded, just re-display it
             displayResultsForMode(modeId, '');
         }
     }
 
-    // --- Generic Data Loading & Processing ---
+    // --- 数据加载与处理 ---
+    // 从缓存（IndexedDB）或网络加载数据
     async function loadData(config, currentName, loadingEl, storageKeyPrefix) {
         const dataPath = config[currentName];
         if (!dataPath) {
@@ -127,19 +116,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const storageKey = `${storageKeyPrefix}-${dataPath}`;
 
-        // Try to get from IndexedDB cache first
+        // 优先从IndexedDB缓存中读取
         const cachedData = await db.getCache(storageKey);
-        if (cachedData) {
-            return cachedData;
-        }
+        if (cachedData) return cachedData;
 
-        // If not in cache, fetch from network
+        // 缓存未命中，从网络获取
         try {
             ui.showLoadingState(loadingEl);
             const response = await fetch(dataPath);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
-            await db.setCache(storageKey, data); // Store in IndexedDB cache
+            await db.setCache(storageKey, data); // 存入IndexedDB缓存
             return data;
         } catch (error) {
             ui.showErrorState(loadingEl, `加载 ${currentName} 数据失败。`);
@@ -147,19 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 创建Fuse.js实例用于模糊搜索
     const createFuse = (data) => new Fuse(data, {
         keys: [
             { name: 'name', weight: 0.7 },
             { name: 'summary', weight: 0.3 },
-            { name: 'examples.description', weight: 0.1 }, // Also search example descriptions
-            { name: 'examples.code', weight: 0.1 },        // And example code
-            { name: 'notes', weight: 0.2 },                // Search within notes
-            { name: 'shell_type', weight: 0.1 }             // Search within shell_type
+            { name: 'examples.description', weight: 0.1 },
+            { name: 'examples.code', weight: 0.1 },
+            { name: 'notes', weight: 0.2 },
+            { name: 'shell_type', weight: 0.1 }
         ],
         includeScore: true,
         threshold: 0.4
     });
 
+    // 为指定模式加载数据
     async function loadDataForMode(modeId) {
         const mode = modes[modeId];
         const data = await loadData(mode.dataSource, mode.state.currentSelectionName, ui.elements.resultsList, mode.storageKeyPrefix);
@@ -169,50 +158,42 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.clearDetailsView(ui.elements.detailsView, `选择一个${mode.label}以查看详细信息`);
     }
 
-    // --- Event Listener Setup ---
+    // --- 事件监听器设置 ---
     function addEventListeners() {
+        // 主题切换
         ui.elements.themeToggleButton.addEventListener('click', ui.toggleTheme);
+
+        // 模式切换
         modeToggles.commands.addEventListener('click', () => switchMode('commands'));
         modeToggles.frameworks.addEventListener('click', () => switchMode('frameworks'));
         modeToggles.other.addEventListener('click', () => switchMode('other'));
         modeToggles.notes.addEventListener('click', () => switchMode('notes'));
 
+        // 搜索输入框
         ui.elements.searchInput.addEventListener('input', (e) => displayResultsForMode(currentModeId, e.target.value));
         ui.elements.searchInput.addEventListener('keydown', handleKeyDown);
 
-        // Generic searchable dropdown click handler (uses ui.toggleDropdown)
+        // 下拉菜单触发
         ui.elements.dropdownTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
             ui.toggleDropdown(ui.elements.dropdownTrigger, ui.elements.dropdownOptions);
         });
-
-        // Notes view specific dropdown click handler (uses ui.toggleDropdown)
         ui.elements.noteSetTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
             ui.toggleDropdown(ui.elements.noteSetTrigger, ui.elements.noteSetOptions);
         });
 
-        // Global click listener to close any open dropdowns
+        // 全局点击，用于关闭打开的下拉菜单
         document.addEventListener('click', () => {
-            // This is handled generically by ui.toggleDropdown now,
-            // which closes others when one is opened.
-            // But we still need a way to close them if clicked outside without opening another.
-            // The logic inside ui.toggleDropdown already handles closing all others.
-            // So, just ensure they are all closed if any click happens outside of dropdown triggers/options.
-            ui.elements.dropdownOptions.classList.add('hidden');
-            const searchDropdownIcon = ui.elements.dropdownTrigger.querySelector('img, svg');
-            if (searchDropdownIcon) searchDropdownIcon.classList.remove('rotate-180');
-
-            ui.elements.noteSetOptions.classList.add('hidden');
-            const noteDropdownIcon = ui.elements.noteSetTrigger.querySelector('img, svg');
-            if (noteDropdownIcon) noteDropdownIcon.classList.remove('rotate-180');
+            ui.closeAllDropdowns();
         });
 
-
-        ui.elements.detailsView.addEventListener('click', handleDetailsViewClick);
+        // 详情视图中的事件（如代码复制）
+        ui.elements.detailsView.addEventListener('click', ui.handleCopyButtonClick);
     }
 
-    // --- Event Handlers & Display Logic ---
+    // --- 事件处理器与显示逻辑 ---
+    // 处理下拉菜单选项变更
     function handleSelectionChange(modeId, newName) {
         const mode = modes[modeId];
         mode.state.currentSelectionName = newName;
@@ -220,15 +201,17 @@ document.addEventListener('DOMContentLoaded', () => {
         loadDataForMode(modeId);
     }
 
+    // 根据查询显示搜索结果
     function displayResultsForMode(modeId, query) {
         const mode = modes[modeId];
         const results = query.trim() === '' ? mode.state.data : (mode.state.fuse?.search(query).map(r => r.item) || []);
         displayAndResetForMode(modeId, results);
     }
 
+    // 重置状态并显示数据
     function displayAndResetForMode(modeId, data) {
         const mode = modes[modeId];
-        mode.state.selectedIndex = -1;
+        mode.state.selectedIndex = -1; // 重置选中项
         ui.displayResults(data, (index) => {
             mode.state.selectedIndex = index;
             const items = ui.elements.resultsList.querySelectorAll('.result-item');
@@ -236,8 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, ui.elements.resultsList);
     }
 
+    // 处理键盘上下键和回车键
     function handleKeyDown(event) {
-        if (currentModeId === 'notes') return; // Let notes view handle its own keys
+        if (currentModeId === 'notes') return; // 笔记模式有自己的键盘处理
         const mode = modes[currentModeId];
         const items = ui.elements.resultsList.querySelectorAll('.result-item');
 
@@ -250,28 +234,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.updateSelection(items, mode.state.selectedIndex, mode.state.data, ui.displayDetails, ui.elements.detailsView, mode.state.currentSelectionName);
 
         if (event.key === 'Enter' && mode.state.selectedIndex >= 0) {
-            // Simulate click to trigger detail display logic
+            // 模拟点击以触发详情显示
             items[mode.state.selectedIndex]?.click();
         }
     }
 
-    async function handleDetailsViewClick(event) {
-        const copyBtn = event.target.closest('.copy-btn');
-        if (!copyBtn) return;
-        const codeToCopy = copyBtn.closest('.code-block').querySelector('code').textContent;
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-            const img = copyBtn.querySelector('img');
-            const originalSrc = img.src;
-            img.src = 'img/icons/check.svg'; // Switch to check icon
-            setTimeout(() => {
-                img.src = originalSrc; // Revert to copy icon
-            }, 2000);
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-        }
-    }
-
-    // --- Start the App ---
+    // --- 启动应用 ---
     initialize();
 });
