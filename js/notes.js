@@ -173,6 +173,12 @@ const notes = ((db, ui) => {
 
         elements.noteDetailsView.innerHTML = '';
         elements.noteDetailsView.appendChild(detailClone);
+
+
+        // 新增：在内容插入后，调用 Prism 来高亮所有代码块
+        if (window.Prism) {
+            Prism.highlightAllUnder(elements.noteDetailsView);
+        }
     }
 
     // --- 事件处理器 ---

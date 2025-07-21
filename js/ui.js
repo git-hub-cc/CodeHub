@@ -320,6 +320,10 @@ const ui = (() => {
         targetElement.innerHTML = '';
         targetElement.appendChild(detailClone);
         targetElement.scrollTop = 0;
+        // 新增：在内容插入后，调用 Prism 来高亮所有代码块
+        if (window.Prism) {
+            Prism.highlightAllUnder(targetElement);
+        }
     }
 
 // --- 视图状态显示 (加载、空、错误) ---
