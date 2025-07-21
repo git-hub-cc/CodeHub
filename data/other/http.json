@@ -2,7 +2,7 @@
 [
   {
     "name": "HTTP Message Structure",
-    "summary": "HTTP 请求和响应报文的基本构成，是客户端与服务器通信的基础 (Basic structure of HTTP request and response messages, forming the foundation of client-server communication)",
+    "summary": "HTTP 请求和响应报文的基本构成，是客户端与服务器通信的基础",
     "examples": [
       {
         "description": "典型的 HTTP GET 请求报文示例 (Example of a typical HTTP GET Request Message)",
@@ -22,7 +22,7 @@
   },
   {
     "name": "HTTP Request Methods (Verbs)",
-    "summary": "客户端希望服务器对指定资源执行的动作类型 (The type of action the client wishes to perform on a specified resource by the server)",
+    "summary": "客户端希望服务器对指定资源执行的动作类型",
     "examples": [
       {
         "description": "GET: 从服务器获取资源。安全且幂等。(GET: Retrieve a resource from the server. Safe and idempotent.)",
@@ -58,7 +58,7 @@
   },
   {
     "name": "HTTP Status Codes (Response Status)",
-    "summary": "服务器响应请求的结果状态，指示请求是否成功、失败或需要进一步操作 (The status of the server's response to a request, indicating success, failure, or requiring further action)",
+    "summary": "服务器响应请求的结果状态，指示请求是否成功、失败或需要进一步操作",
     "examples": [
       {
         "description": "200 OK: 请求成功。(200 OK: The request has succeeded.)",
@@ -122,7 +122,7 @@
   },
   {
     "name": "Common HTTP Headers",
-    "summary": "在 HTTP 请求和响应中传递元数据的关键字段，实现各种通信功能 (Key fields in HTTP requests and responses that carry metadata, enabling various communication functionalities)",
+    "summary": "在 HTTP 请求和响应中传递元数据的关键字段，实现各种通信功能",
     "examples": [
       {
         "description": "请求头部 - Host: 指定目标服务器的域名和端口。(Request Header - Host: Specifies the domain name and port of the target server.)",
@@ -178,7 +178,7 @@
   },
   {
     "name": "HTTP Version Evolution (HTTP/1.x, HTTP/2, HTTP/3)",
-    "summary": "HTTP 协议从初版到现代的演进，旨在提升性能和效率 (The evolution of the HTTP protocol from its initial versions to modern ones, aiming to improve performance and efficiency)",
+    "summary": "HTTP 协议从初版到现代的演进，旨在提升性能和效率",
     "examples": [
       {
         "description": "HTTP/1.0: 短连接，每个请求-响应一对一TCP连接。 (HTTP/1.0: Short-lived connections, one-to-one TCP connection for each request-response.)",
@@ -202,7 +202,7 @@
   },
   {
     "name": "HTTPS (HTTP Secure)",
-    "summary": "HTTP over TLS/SSL，通过加密、身份认证和数据完整性提供安全的Web通信 (HTTP over TLS/SSL, providing secure web communication through encryption, authentication, and data integrity)",
+    "summary": "HTTP over TLS/SSL，通过加密、身份认证和数据完整性提供安全的Web通信",
     "examples": [
       {
         "description": "HTTPS URL 示例 (Example of an HTTPS URL)",
@@ -222,7 +222,7 @@
   },
   {
     "name": "HTTP Caching",
-    "summary": "利用客户端和代理服务器的缓存机制，减少对原始服务器的请求，提升网站性能和用户体验 (Leveraging client and proxy server caching mechanisms to reduce requests to the origin server, improving website performance and user experience)",
+    "summary": "利用客户端和代理服务器的缓存机制，减少对原始服务器的请求，提升网站性能和用户体验",
     "examples": [
       {
         "description": "强缓存：Expires 头部 (Strong Caching: Expires Header)",
@@ -246,7 +246,7 @@
   },
   {
     "name": "HTTP Cookies & Session Management",
-    "summary": "通过服务器设置并由客户端存储的小段数据（Cookie），在无状态的HTTP协议上实现会话状态的维护 (Small pieces of data (Cookies) set by the server and stored by the client, used to maintain session state over the stateless HTTP protocol)",
+    "summary": "通过服务器设置并由客户端存储的小段数据（Cookie），在无状态的HTTP协议上实现会话状态的维护",
     "examples": [
       {
         "description": "服务器设置 Cookie (Server setting a Cookie)",
@@ -266,7 +266,7 @@
   },
   {
     "name": "HTTP CORS (Cross-Origin Resource Sharing)",
-    "summary": "跨域资源共享机制，允许浏览器安全地从不同源（域、协议、端口）的服务器请求资源 (Cross-Origin Resource Sharing mechanism, allowing browsers to securely request resources from different origins (domain, protocol, port) on servers)",
+    "summary": "跨域资源共享机制，允许浏览器安全地从不同源（域、协议、端口）的服务器请求资源",
     "examples": [
       {
         "description": "同源策略 (Same-Origin Policy): 默认安全限制 (Default security restriction)",
@@ -286,7 +286,7 @@
   },
   {
     "name": "HTTP Authentication",
-    "summary": "用于验证客户端身份，确保只有授权用户才能访问受保护资源的机制 (Mechanisms for verifying client identity, ensuring only authorized users can access protected resources)",
+    "summary": "用于验证客户端身份，确保只有授权用户才能访问受保护资源的机制",
     "examples": [
       {
         "description": "HTTP Basic 认证 (HTTP Basic Authentication)",

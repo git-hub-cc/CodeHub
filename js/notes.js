@@ -4,6 +4,14 @@
 
 const notes = ((db, ui) => {
 
+    const escapeHtmlInCodeBlocks = (text) => {
+        if (!text) return text;
+        const codeBlockRegex = /(```[\s\S]*?```)/g;
+        return text.replace(codeBlockRegex, (codeBlock) => {
+            return codeBlock.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        });
+    };
+
     // --- 模块状态 ---
     const elements = ui.elements;
     let currentSetId = null;    // 当前选中的笔记集ID
@@ -74,15 +82,15 @@ const notes = ((db, ui) => {
 
             // 动态生成每个选项的内容，默认笔记集(id=1)不能删除
             const content = `
-<div class="flex items-center gap-3">
-    <span class="set-name font-medium text-slate-700 dark:text-slate-300">${set.name}</span>
-</div>
-<div class="flex items-center gap-1">
-    <span class="note-count text-xs font-mono bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded-full">${set.count}</span>
-    ${set.id !== 1 ? `<button data-set-id-delete="${set.id}" data-set-name-delete="${set.name}" class="delete-set-btn p-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <img src="img/icons/trash.svg" class="h-4 w-4 pointer-events-none" alt="删除笔记集">
-                    </button>` : ''}
-</div>`;
+            <div class="flex items-center gap-3">
+                <span class="set-name font-medium text-slate-700 dark:text-slate-300">${set.name}</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span class="note-count text-xs font-mono bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded-full">${set.count}</span>
+                ${set.id !== 1 ? `<button data-set-id-delete="${set.id}" data-set-name-delete="${set.name}" class="delete-set-btn p-1 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <img src="img/icons/trash.svg" class="h-4 w-4 pointer-events-none" alt="删除笔记集">
+                                </button>` : ''}
+            </div>`;
             option.innerHTML = content;
 
             // 使用事件委托处理点击事件
@@ -205,7 +213,7 @@ const notes = ((db, ui) => {
         const question = elements.noteQuestion.value.trim();
         if (!question || !currentSetId) return;
         try {
-            const newNoteId = await db.addNote(question, currentSetId);
+            const newNoteId = await db.addNote(question.replace(/</g, "&lt;").replace(/>/g, "&gt;"), currentSetId);
             elements.noteQuestion.value = ''; // 清空输入框
             selectedNoteId = newNoteId; // 选中新创建的笔记
             await renderAll();
@@ -276,7 +284,7 @@ const notes = ((db, ui) => {
             const newQuestionText = noteCard.querySelector('.question-input').value.trim();
             if (newQuestionText) {
                 const note = await db.getNoteById(noteId);
-                note.question = newQuestionText;
+                note.question = newQuestionText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 await db.updateNote(note);
                 await renderAll(); // 重绘所有，确保列表和详情都更新
             }
@@ -291,7 +299,8 @@ const notes = ((db, ui) => {
             }
         } else if (target.closest('.save-answer-btn')) {
             const note = await db.getNoteById(noteId);
-            note.answer = noteCard.querySelector('.answer-textarea').value;
+            const rawAnswer = noteCard.querySelector('.answer-textarea').value;
+            note.answer = escapeHtmlInCodeBlocks(rawAnswer);
             await db.updateNote(note);
             await renderNoteDetail(noteId); // 只重绘详情
         }

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dataSources = {
         commands: { 'Linux': 'data/commands/linux.json', 'PowerShell': 'data/commands/powershell.json', 'Git': 'data/commands/git.json', 'Docker': 'data/commands/docker.json', 'K8S': 'data/commands/k8s.json', 'npm': 'data/commands/npm.json', 'Maven': 'data/commands/maven.json', 'Pip': 'data/commands/pip.json' , 'Scoop': 'data/commands/scoop.json' , 'Sql': 'data/commands/sql.json'  },
         frameworks: { 'SpringBoot': 'data/frameworks/springboot.json','Vue': 'data/frameworks/vue.json','React': 'data/frameworks/react.json','Tailwind': 'data/frameworks/tailwind.json' },
-        other: { '设计模式': 'data/other/patterns.json','正则': 'data/other/regex.json' ,'Markdown': 'data/other/markdown.json' ,'Http': 'data/other/http.json'  },
+        other: { '设计模式': 'data/other/patterns.json','正则': 'data/other/regex.json' ,'Markdown': 'data/other/markdown.json' ,'Http': 'data/other/http.json' ,'数据结构': 'data/other/structures.json','算法': 'data/other/algorithms.json'  },
     };
 
     // --- DOM 引用 ---

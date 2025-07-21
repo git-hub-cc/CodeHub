@@ -1,0 +1,610 @@
+[
+  {
+    "name": "Bubble Sort (冒泡排序)",
+    "summary": "一种简单的排序算法，通过重复遍历要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。 ",
+    "examples": [
+      {
+        "description": "Java 实现冒泡排序 ",
+        "code": "import java.util.Arrays;\n\npublic class BubbleSort {\n    public void sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return;\n        }\n        int n = arr.length;\n        boolean swapped;\n        for (int i = 0; i < n - 1; i++) {\n            swapped = false;\n            for (int j = 0; j < n - 1 - i; j++) {\n                if (arr[j] > arr[j + 1]) {\n                    // 交换 arr[j] 和 arr[j+1]\n                    int temp = arr[j];\n                    arr[j] = arr[j + 1];\n                    arr[j + 1] = temp;\n                    swapped = true;\n                }\n            }\n            // 如果在一轮中没有发生交换，说明数组已经有序\n            if (!swapped) {\n                break;\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] data = {64, 34, 25, 12, 22, 11, 90};\n        BubbleSort sorter = new BubbleSort();\n        sorter.sort(data);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [11, 12, 22, 25, 34, 64, 90]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(n^2)，空间复杂度为 O(1)。它是一种稳定的排序算法。由于其简单性，常用于教学，但在实际应用中效率低下，不适用于大数据集。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Selection Sort (选择排序)",
+    "summary": "一种直观的排序算法。它的工作原理是：每次从未排序的部分中找到最小（或最大）的元素，存放到排序序列的起始位置。 ",
+    "examples": [
+      {
+        "description": "Java 实现选择排序 ",
+        "code": "import java.util.Arrays;\n\npublic class SelectionSort {\n    public void sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return;\n        }\n        int n = arr.length;\n        for (int i = 0; i < n - 1; i++) {\n            // 找到 [i, n-1] 区间内的最小元素索引\n            int minIndex = i;\n            for (int j = i + 1; j < n; j++) {\n                if (arr[j] < arr[minIndex]) {\n                    minIndex = j;\n                }\n            }\n            // 将最小元素交换到已排序部分的末尾\n            int temp = arr[minIndex];\n            arr[minIndex] = arr[i];\n            arr[i] = temp;\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] data = {64, 25, 12, 22, 11};\n        SelectionSort sorter = new SelectionSort();\n        sorter.sort(data);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [11, 12, 22, 25, 64]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(n^2)，空间复杂度为 O(1)。它是不稳定的排序算法。无论输入数据如何，其比较次数都是固定的，但交换次数较少。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Insertion Sort (插入排序)",
+    "summary": "通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。 ",
+    "examples": [
+      {
+        "description": "Java 实现插入排序 ",
+        "code": "import java.util.Arrays;\n\npublic class InsertionSort {\n    public void sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return;\n        }\n        int n = arr.length;\n        for (int i = 1; i < n; i++) {\n            int key = arr[i];\n            int j = i - 1;\n\n            // 将大于 key 的元素向后移动\n            while (j >= 0 && arr[j] > key) {\n                arr[j + 1] = arr[j];\n                j = j - 1;\n            }\n            arr[j + 1] = key;\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] data = {12, 11, 13, 5, 6};\n        InsertionSort sorter = new InsertionSort();\n        sorter.sort(data);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [5, 6, 11, 12, 13]\n    }\n}"
+      }
+    ],
+    "notes": "平均和最坏时间复杂度为 O(n^2)，最好情况（数组已排序）为 O(n)。空间复杂度为 O(1)。它是稳定的排序算法，并且在处理小规模数据或几乎已排序的数据时效率很高。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Merge Sort (归并排序)",
+    "summary": "采用分治法（Divide and Conquer）策略，将数组递归地分成两半，分别排序，然后将两个有序子数组合并成一个大的有序数组。 ",
+    "examples": [
+      {
+        "description": "Java 实现归并排序 ",
+        "code": "import java.util.Arrays;\n\npublic class MergeSort {\n\n    public void sort(int[] arr, int l, int r) {\n        if (l < r) {\n            int m = l + (r - l) / 2;\n            sort(arr, l, m);\n            sort(arr, m + 1, r);\n            merge(arr, l, m, r);\n        }\n    }\n\n    void merge(int[] arr, int l, int m, int r) {\n        int n1 = m - l + 1;\n        int n2 = r - m;\n\n        int[] L = new int[n1];\n        int[] R = new int[n2];\n\n        for (int i = 0; i < n1; ++i) L[i] = arr[l + i];\n        for (int j = 0; j < n2; ++j) R[j] = arr[m + 1 + j];\n\n        int i = 0, j = 0;\n        int k = l;\n        while (i < n1 && j < n2) {\n            if (L[i] <= R[j]) {\n                arr[k] = L[i];\n                i++;\n            } else {\n                arr[k] = R[j];\n                j++;\n            }\n            k++;\n        }\n\n        while (i < n1) {\n            arr[k] = L[i];\n            i++;\n            k++;\n        }\n\n        while (j < n2) {\n            arr[k] = R[j];\n            j++;\n            k++;\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] data = {12, 11, 13, 5, 6, 7};\n        MergeSort sorter = new MergeSort();\n        sorter.sort(data, 0, data.length - 1);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [5, 6, 7, 11, 12, 13]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度始终为 O(n log n)，空间复杂度为 O(n) 用于临时数组。它是一种稳定的排序算法，非常适合对链表进行排序或处理无法完全加载到内存中的大型数据集（外部排序）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Quick Sort (快速排序)",
+    "summary": "同样采用分治法，选取一个'基准'（pivot）元素，将数组分区成两部分，一部分的元素都比基准小，另一部分都比基准大，然后对这两部分递归地进行快速排序。 ",
+    "examples": [
+      {
+        "description": "Java 实现快速排序 ",
+        "code": "import java.util.Arrays;\n\npublic class QuickSort {\n\n    private void swap(int[] arr, int i, int j) {\n        int temp = arr[i];\n        arr[i] = arr[j];\n        arr[j] = temp;\n    }\n\n    // Lomuto partition scheme\n    private int partition(int[] arr, int low, int high) {\n        int pivot = arr[high];\n        int i = (low - 1);\n        for (int j = low; j < high; j++) {\n            if (arr[j] < pivot) {\n                i++;\n                swap(arr, i, j);\n            }\n        }\n        swap(arr, i + 1, high);\n        return (i + 1);\n    }\n\n    public void sort(int[] arr, int low, int high) {\n        if (low < high) {\n            int pi = partition(arr, low, high);\n            sort(arr, low, pi - 1);\n            sort(arr, pi + 1, high);\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] data = {10, 7, 8, 9, 1, 5};\n        QuickSort sorter = new QuickSort();\n        sorter.sort(data, 0, data.length - 1);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [1, 5, 7, 8, 9, 10]\n    }\n}"
+      }
+    ],
+    "notes": "平均时间复杂度为 O(n log n)，但最坏情况（当基准选择最差时）为 O(n^2)。空间复杂度为 O(log n)（递归栈深度）。它是一种不稳定的排序算法，但由于其在实践中的高效性（通常优于归并排序和堆排序），被广泛使用。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Heap Sort (堆排序)",
+    "summary": "一种基于比较的排序算法，利用堆（通常是最大堆）这种数据结构。算法首先将输入数组构建成一个最大堆，然后重复地将堆顶（最大元素）与堆的最后一个元素交换，并缩小堆的大小，再调整堆。 ",
+    "examples": [
+      {
+        "description": "Java 实现堆排序 ",
+        "code": "import java.util.Arrays;\n\npublic class HeapSort {\n    public void sort(int[] arr) {\n        int n = arr.length;\n\n        // 构建最大堆 (从最后一个非叶子节点开始)\n        for (int i = n / 2 - 1; i >= 0; i--) {\n            heapify(arr, n, i);\n        }\n\n        // 一个个从堆顶取出元素\n        for (int i = n - 1; i > 0; i--) {\n            // 将当前堆顶（最大值）移到末尾\n            int temp = arr[0];\n            arr[0] = arr[i];\n            arr[i] = temp;\n\n            // 对缩小后的堆进行 heapify\n            heapify(arr, i, 0);\n        }\n    }\n\n    // 将以 root 为根的子树调整为最大堆\n    void heapify(int[] arr, int n, int root) {\n        int largest = root;\n        int left = 2 * root + 1;\n        int right = 2 * root + 2;\n\n        if (left < n && arr[left] > arr[largest]) {\n            largest = left;\n        }\n\n        if (right < n && arr[right] > arr[largest]) {\n            largest = right;\n        }\n\n        if (largest != root) {\n            int swap = arr[root];\n            arr[root] = arr[largest];\n            arr[largest] = swap;\n\n            heapify(arr, n, largest);\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] data = {12, 11, 13, 5, 6, 7};\n        HeapSort sorter = new HeapSort();\n        sorter.sort(data);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [5, 6, 7, 11, 12, 13]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(n log n)，空间复杂度为 O(1)（原地排序）。它是不稳定的排序算法。虽然最坏情况性能有保证，但实践中通常比快速排序慢。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Binary Search (二分查找)",
+    "summary": "一种在有序数组中查找某一特定元素的搜索算法。它重复地将搜索区间减半，直到找到目标值或区间为空。 ",
+    "examples": [
+      {
+        "description": "Java 实现二分查找 (迭代法) - Iterative Binary Search in Java",
+        "code": "public class BinarySearch {\n    public int searchIterative(int[] arr, int target) {\n        int low = 0;\n        int high = arr.length - 1;\n        while (low <= high) {\n            int mid = low + (high - low) / 2; // 防止溢出\n            if (arr[mid] == target) {\n                return mid; // 找到目标\n            }\n            if (arr[mid] < target) {\n                low = mid + 1;\n            } else {\n                high = mid - 1;\n            }\n        }\n        return -1; // 未找到\n    }\n\n    public static void main(String[] args) {\n        BinarySearch bs = new BinarySearch();\n        int[] arr = {2, 3, 4, 10, 40};\n        int target = 10;\n        int result = bs.searchIterative(arr, target);\n        System.out.println(\"Element found at index: \" + result);\n        // Element found at index: 3\n    }\n}"
+      },
+      {
+        "description": "Java 实现二分查找 (递归法) - Recursive Binary Search in Java",
+        "code": "public class BinarySearchRecursive {\n    public int searchRecursive(int[] arr, int low, int high, int target) {\n        if (high >= low) {\n            int mid = low + (high - low) / 2;\n            if (arr[mid] == target) {\n                return mid;\n            }\n            if (arr[mid] > target) {\n                return searchRecursive(arr, low, mid - 1, target);\n            }\n            return searchRecursive(arr, mid + 1, high, target);\n        }\n        return -1; // 未找到\n    }\n\n    public static void main(String[] args) {\n        BinarySearchRecursive bs = new BinarySearchRecursive();\n        int[] arr = {2, 3, 4, 10, 40};\n        int target = 10;\n        int result = bs.searchRecursive(arr, 0, arr.length - 1, target);\n        System.out.println(\"Element found at index: \" + result);\n        // Element found at index: 3\n    }\n}"
+      }
+    ],
+    "notes": "前提条件：数组必须是有序的。时间复杂度为 O(log n)。迭代法的空间复杂度为 O(1)，递归法为 O(log n)（因为递归调用栈）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "KMP Algorithm (字符串匹配)",
+    "summary": "一种优化的字符串匹配算法。其核心是利用匹配失败后的信息，通过预处理模式串（pattern）构建一个'next'数组（或LPS数组），来避免在主串（text）中不必要的回溯。 ",
+    "examples": [
+      {
+        "description": "Java 实现 KMP 算法 ",
+        "code": "public class KMPAlgorithm {\n\n    // 构建 LPS (Longest Proper Prefix which is also Suffix) 数组\n    void computeLPSArray(String pat, int M, int[] lps) {\n        int length = 0; // lps[0] 总是 0\n        int i = 1;\n        lps[0] = 0;\n\n        while (i < M) {\n            if (pat.charAt(i) == pat.charAt(length)) {\n                length++;\n                lps[i] = length;\n                i++;\n            } else { // (pat.charAt(i) != pat.charAt(length))\n                if (length != 0) {\n                    length = lps[length - 1];\n                } else { // if (length == 0)\n                    lps[i] = 0;\n                    i++;\n                }\n            }\n        }\n    }\n\n    void KMPSearch(String pat, String txt) {\n        int M = pat.length();\n        int N = txt.length();\n\n        int[] lps = new int[M];\n        computeLPSArray(pat, M, lps);\n\n        int i = 0; // txt 的索引\n        int j = 0; // pat 的索引\n        while (i < N) {\n            if (pat.charAt(j) == txt.charAt(i)) {\n                j++;\n                i++;\n            }\n            if (j == M) {\n                System.out.println(\"Found pattern at index \" + (i - j));\n                j = lps[j - 1];\n            } else if (i < N && pat.charAt(j) != txt.charAt(i)) {\n                if (j != 0) {\n                    j = lps[j - 1];\n                } else {\n                    i = i + 1;\n                }\n            }\n        }\n    }\n\n    public static void main(String args[]) {\n        String txt = \"ABABDABACDABABCABAB\";\n        String pat = \"ABABCABAB\";\n        new KMPAlgorithm().KMPSearch(pat, txt);\n        // Found pattern at index 10\n    }\n}"
+      }
+    ],
+    "notes": "总时间复杂度为 O(n + m)，其中 n 是文本长度，m 是模式长度。这比朴素的 O(n*m) 算法要高效得多。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Depth-First Search (DFS - 深度优先搜索)",
+    "summary": "一种用于遍历或搜索图的算法。它会尽可能深地搜索图的一个分支，当到达分支末端后，再回溯到上一个节点，继续探索其他未访问的分支。 ",
+    "examples": [
+      {
+        "description": "Java 实现图的 DFS (递归, 邻接表) - Recursive DFS in Java ",
+        "code": "import java.util.*;\n\nclass GraphDFS {\n    private int V; // 顶点数\n    private LinkedList<Integer> adj[]; // 邻接表\n\n    GraphDFS(int v) {\n        V = v;\n        adj = new LinkedList[v];\n        for (int i=0; i<v; ++i) adj[i] = new LinkedList();\n    }\n\n    void addEdge(int v, int w) { adj[v].add(w); }\n\n    void DFSUtil(int v, boolean visited[]) {\n        visited[v] = true;\n        System.out.print(v + \" \");\n\n        for (int n : adj[v]) {\n            if (!visited[n]) {\n                DFSUtil(n, visited);\n            }\n        }\n    }\n\n    void DFS(int v) {\n        boolean visited[] = new boolean[V];\n        DFSUtil(v, visited);\n    }\n\n    public static void main(String args[]) {\n        GraphDFS g = new GraphDFS(4);\n        g.addEdge(0, 1); g.addEdge(0, 2);\n        g.addEdge(1, 2); g.addEdge(2, 0);\n        g.addEdge(2, 3); g.addEdge(3, 3);\n\n        System.out.println(\"DFS starting from vertex 2:\");\n        g.DFS(2);\n        // DFS starting from vertex 2:\n        // 2 0 1 3 \n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(V + E)，其中 V 是顶点数，E 是边数。空间复杂度为 O(V)，用于存储递归调用栈或访问过的节点集合。常用于寻找路径、检测环、拓扑排序和寻找连通分量。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Breadth-First Search (BFS - 广度优先搜索)",
+    "summary": "一种用于遍历或搜索图的算法。它从根节点开始，首先探索所有邻近的节点，然后再逐层向外扩展，探索下一层的邻近节点。 ",
+    "examples": [
+      {
+        "description": "Java 实现图的 BFS (邻接表) - BFS in Java ",
+        "code": "import java.util.*;\n\nclass GraphBFS {\n    private int V; \n    private LinkedList<Integer> adj[];\n\n    GraphBFS(int v) {\n        V = v;\n        adj = new LinkedList[v];\n        for (int i=0; i<v; ++i) adj[i] = new LinkedList();\n    }\n\n    void addEdge(int v, int w) { adj[v].add(w); }\n\n    void BFS(int s) {\n        boolean visited[] = new boolean[V];\n        LinkedList<Integer> queue = new LinkedList<Integer>();\n\n        visited[s] = true;\n        queue.add(s);\n\n        while (queue.size() != 0) {\n            s = queue.poll();\n            System.out.print(s + \" \");\n\n            for (int n : adj[s]) {\n                if (!visited[n]) {\n                    visited[n] = true;\n                    queue.add(n);\n                }\n            }\n        }\n    }\n\n    public static void main(String args[]) {\n        GraphBFS g = new GraphBFS(4);\n        g.addEdge(0, 1); g.addEdge(0, 2);\n        g.addEdge(1, 2); g.addEdge(2, 0);\n        g.addEdge(2, 3); g.addEdge(3, 3);\n\n        System.out.println(\"BFS starting from vertex 2:\");\n        g.BFS(2);\n        // BFS starting from vertex 2:\n        // 2 0 3 1 \n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(V + E)，空间复杂度为 O(V)（用于队列）。BFS 常用于在无权图中寻找最短路径，以及构建最小生成树（Prim算法）和进行网络路由。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Dijkstra's Algorithm (迪杰斯特拉算法)",
+    "summary": "一种用于在图中寻找单源最短路径的算法。它适用于所有边权为非负值的图。算法通过维护一个到各顶点的距离集合，并逐步选择当前未访问顶点中距离最近的一个进行扩展。 ",
+    "examples": [
+      {
+        "description": "Java 实现 Dijkstra 算法 (使用优先队列优化) - Dijkstra's Algorithm in Java ",
+        "code": "import java.util.*;\n\npublic class DijkstraAlgorithm {\n    private static class Node implements Comparable<Node> {\n        public int vertex;\n        public int distance;\n\n        public Node(int vertex, int distance) {\n            this.vertex = vertex;\n            this.distance = distance;\n        }\n\n        @Override\n        public int compareTo(Node other) {\n            return Integer.compare(this.distance, other.distance);\n        }\n    }\n\n    public void dijkstra(List<List<Node>> adj, int src, int V) {\n        int[] dist = new int[V];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n\n        PriorityQueue<Node> pq = new PriorityQueue<>(V);\n        pq.add(new Node(src, 0));\n\n        while (!pq.isEmpty()) {\n            int u = pq.poll().vertex;\n\n            for (Node neighbor : adj.get(u)) {\n                int v = neighbor.vertex;\n                int weight = neighbor.distance;\n\n                if (dist[u] != Integer.MAX_VALUE && dist[u] + weight < dist[v]) {\n                    dist[v] = dist[u] + weight;\n                    pq.add(new Node(v, dist[v]));\n                }\n            }\n        }\n\n        System.out.println(\"Vertex Distance from Source\");\n        for (int i = 0; i < V; i++) {\n            System.out.println(i + \"\\t\\t\" + (dist[i] == Integer.MAX_VALUE ? \"INF\" : dist[i]));\n        }\n    }\n\n    public static void main(String[] args) {\n        int V = 5;\n        List<List<Node>> adj = new ArrayList<>();\n        for (int i = 0; i < V; i++) {\n            adj.add(new ArrayList<>());\n        }\n        adj.get(0).add(new Node(1, 9));\n        adj.get(0).add(new Node(2, 6));\n        adj.get(0).add(new Node(3, 5));\n        adj.get(0).add(new Node(4, 3));\n        adj.get(2).add(new Node(1, 2));\n        adj.get(2).add(new Node(3, 4));\n\n        DijkstraAlgorithm algo = new DijkstraAlgorithm();\n        algo.dijkstra(adj, 0, V);\n    }\n}"
+      }
+    ],
+    "notes": "使用优先队列优化的时间复杂度为 O(E log V)。该算法不适用于带负权边的图，因为负权边可能导致算法陷入无限循环或得出错误结果。对于含负权边的图，应使用 Bellman-Ford 算法。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Fibonacci Sequence ",
+    "summary": "斐波那契数列是一个经典的递归问题，也常作为动态规划的入门示例。通过动态规划，可以避免朴素递归中的大量重复计算，将时间复杂度从指数级降到线性级。 ",
+    "examples": [
+      {
+        "description": "自顶向下（记忆化搜索）- Top-Down with Memoization",
+        "code": "public class FibonacciMemoization {\n    public int fib(int n) {\n        if (n <= 1) return n;\n        int[] memo = new int[n + 1];\n        return fib(n, memo);\n    }\n\n    private int fib(int n, int[] memo) {\n        if (n <= 1) return n;\n        if (memo[n] != 0) return memo[n];\n        memo[n] = fib(n - 1, memo) + fib(n - 2, memo);\n        return memo[n];\n    }\n\n    public static void main(String[] args) {\n        FibonacciMemoization fm = new FibonacciMemoization();\n        System.out.println(\"Fib(10): \" + fm.fib(10)); // Fib(10): 55\n    }\n}"
+      },
+      {
+        "description": "自底向上（DP表）- Bottom-Up with Tabulation",
+        "code": "public class FibonacciTabulation {\n    public int fib(int n) {\n        if (n <= 1) return n;\n        int[] dp = new int[n + 1];\n        dp[0] = 0;\n        dp[1] = 1;\n        for (int i = 2; i <= n; i++) {\n            dp[i] = dp[i - 1] + dp[i - 2];\n        }\n        return dp[n];\n    }\n    \n    public static void main(String[] args) {\n        FibonacciTabulation ft = new FibonacciTabulation();\n        System.out.println(\"Fib(10): \" + ft.fib(10)); // Fib(10): 55\n    }\n}"
+      }
+    ],
+    "notes": "朴素递归解法的时间复杂度为 O(2^n)。两种动态规划解法（记忆化和制表法）的时间复杂度均为 O(n)，空间复杂度也为 O(n)。通过只存储前两个斐波那契数，可以将空间复杂度优化到 O(1)。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "0/1 Knapsack Problem (0-1 背包问题)",
+    "summary": "一个经典的组合优化问题。给定一组物品，每种物品都有自己的重量和价值，在限定的总重量内，如何选择装入背包的物品，使得装入背包中物品的总价值最大。每种物品只能选择一次（放或不放）。 ",
+    "examples": [
+      {
+        "description": "Java 实现 0-1 背包问题 (DP 表) - 0/1 Knapsack in Java ",
+        "code": "public class Knapsack {\n    public int solveKnapsack(int[] profits, int[] weights, int capacity) {\n        int n = profits.length;\n        int[][] dp = new int[n + 1][capacity + 1];\n\n        for (int i = 0; i <= n; i++) {\n            for (int w = 0; w <= capacity; w++) {\n                if (i == 0 || w == 0) {\n                    dp[i][w] = 0;\n                } else if (weights[i - 1] <= w) {\n                    dp[i][w] = Math.max(\n                        profits[i - 1] + dp[i - 1][w - weights[i - 1]], // 包含物品 i\n                        dp[i - 1][w]                                  // 不包含物品 i\n                    );\n                } else {\n                    dp[i][w] = dp[i - 1][w];\n                }\n            }\n        }\n        return dp[n][capacity];\n    }\n\n    public static void main(String[] args) {\n        Knapsack ks = new Knapsack();\n        int[] profits = {60, 100, 120};\n        int[] weights = {10, 20, 30};\n        int capacity = 50;\n        System.out.println(\"Maximum profit: \" + ks.solveKnapsack(profits, weights, capacity));\n        // Maximum profit: 220\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(N*W)，其中 N 是物品数量，W 是背包容量。空间复杂度也为 O(N*W)。通过使用一维数组，可以将空间复杂度优化到 O(W)。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Activity Selection Problem (活动选择问题)",
+    "summary": "一个经典的贪心算法问题。假设有一组活动，每个活动都有一个开始时间和结束时间。目标是选择尽可能多的活动，使得这些活动之间互不重叠。 ",
+    "examples": [
+      {
+        "description": "Java 实现活动选择问题 (贪心策略) - Activity Selection in Java ",
+        "code": "import java.util.*;\n\nclass Activity {\n    int start, finish;\n    public Activity(int start, int finish) {\n        this.start = start;\n        this.finish = finish;\n    }\n}\n\npublic class ActivitySelection {\n    public static void printMaxActivities(Activity[] arr) {\n        // 按结束时间排序\n        Arrays.sort(arr, Comparator.comparingInt(a -> a.finish));\n\n        System.out.println(\"Following activities are selected:\");\n        \n        // 第一个活动总是被选中\n        int i = 0;\n        System.out.println(\"Activity (start: \" + arr[i].start + \", finish: \" + arr[i].finish + \")\");\n\n        // 遍历其余活动\n        for (int j = 1; j < arr.length; j++) {\n            // 如果当前活动的开始时间晚于或等于上一个选中活动的结束时间\n            if (arr[j].start >= arr[i].finish) {\n                System.out.println(\"Activity (start: \" + arr[j].start + \", finish: \" + arr[j].finish + \")\");\n                i = j;\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        Activity[] arr = {\n            new Activity(5, 9), new Activity(1, 2), new Activity(3, 4),\n            new Activity(0, 6), new Activity(5, 7), new Activity(8, 9)\n        };\n        printMaxActivities(arr);\n        // Following activities are selected:\n        // Activity (start: 1, finish: 2)\n        // Activity (start: 3, finish: 4)\n        // Activity (start: 5, finish: 7)\n        // Activity (start: 8, finish: 9)\n    }\n}"
+      }
+    ],
+    "notes": "关键的贪心选择是：总是选择在剩余兼容活动中结束时间最早的活动。这种策略能确保资源尽快被释放，以供其他潜在活动使用。时间复杂度由排序主导，因此为 O(n log n)。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Euclidean Algorithm (欧几里得算法 - GCD)",
+    "summary": "用于计算两个非负整数 a, b 的最大公约数（Greatest Common Divisor）。其原理是 `gcd(a, b) = gcd(b, a mod b)`。 ",
+    "examples": [
+      {
+        "description": "Java 实现欧几里得算法 (递归法) - Recursive Euclidean Algorithm in Java",
+        "code": "public class EuclideanAlgorithm {\n    public int gcdRecursive(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcdRecursive(b, a % b);\n    }\n\n    public static void main(String[] args) {\n        EuclideanAlgorithm ea = new EuclideanAlgorithm();\n        int a = 60, b = 48;\n        System.out.println(\"GCD of \" + a + \" and \" + b + \" is \" + ea.gcdRecursive(a, b));\n        // GCD of 60 and 48 is 12\n    }\n}"
+      },
+      {
+        "description": "Java 实现欧几里得算法 (迭代法) - Iterative Euclidean Algorithm in Java",
+        "code": "public class EuclideanAlgorithmIterative {\n    public int gcdIterative(int a, int b) {\n        while (b != 0) {\n            int temp = b;\n            b = a % b;\n            a = temp;\n        }\n        return a;\n    }\n\n    public static void main(String[] args) {\n        EuclideanAlgorithmIterative ea = new EuclideanAlgorithmIterative();\n        int a = 60, b = 48;\n        System.out.println(\"GCD of \" + a + \" and \" + b + \" is \" + ea.gcdIterative(a, b));\n        // GCD of 60 and 48 is 12\n    }\n}"
+      }
+    ],
+    "notes": "非常高效，时间复杂度为 O(log(min(a, b)))。它是数论中许多其他算法的基础，如扩展欧几里得算法。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Kruskal's Algorithm (克鲁斯卡尔算法)",
+    "summary": "一种用于寻找加权无向图的最小生成树（MST）的贪心算法。它将所有边按权重从小到大排序，然后依次将边加入到生成树中，只要这条边不与已有的边形成环路。",
+    "examples": [
+      {
+        "description": "Java 实现克鲁斯卡尔算法 (使用并查集) - Kruskal's Algorithm in Java ",
+        "code": "import java.util.*;\n\nclass KruskalAlgorithm {\n    // 边\n    static class Edge implements Comparable<Edge> {\n        int src, dest, weight;\n        public int compareTo(Edge compareEdge) {\n            return this.weight - compareEdge.weight;\n        }\n    }\n\n    // 并查集\n    static class UnionFind {\n        int[] parent;\n        public UnionFind(int n) {\n            parent = new int[n];\n            for (int i = 0; i < n; i++) parent[i] = i;\n        }\n\n        int find(int i) {\n            if (parent[i] == i) return i;\n            return parent[i] = find(parent[i]); // 路径压缩\n        }\n\n        void union(int x, int y) {\n            int rootX = find(x);\n            int rootY = find(y);\n            if (rootX != rootY) {\n                parent[rootX] = rootY;\n            }\n        }\n    }\n\n    void KruskalMST(int V, List<Edge> edges) {\n        List<Edge> result = new ArrayList<>();\n        Collections.sort(edges);\n        UnionFind uf = new UnionFind(V);\n\n        int i = 0; // 边的索引\n        int e = 0; // 结果中边的索引\n\n        while (e < V - 1 && i < edges.size()) {\n            Edge next_edge = edges.get(i++);\n            int x = uf.find(next_edge.src);\n            int y = uf.find(next_edge.dest);\n\n            if (x != y) {\n                result.add(next_edge);\n                uf.union(x, y);\n                e++;\n            }\n        }\n\n        System.out.println(\"Following are the edges in the constructed MST\");\n        int minimumCost = 0;\n        for (Edge edge : result) {\n            System.out.println(edge.src + \" -- \" + edge.dest + \" == \" + edge.weight);\n            minimumCost += edge.weight;\n        }\n        System.out.println(\"Minimum Cost Spanning Tree: \" + minimumCost);\n    }\n\n    public static void main(String[] args) {\n        int V = 4;\n        List<Edge> edges = new ArrayList<>();\n        // ... (此处省略添加边的代码) ...\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(E log E) 或 O(E log V)，主要取决于边的排序时间（E是边数，V是顶点数）。并查集（Union-Find）数据结构是实现该算法的关键，用于高效地检测环路。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Topological Sort (拓扑排序)",
+    "summary": "对有向无环图（DAG）的顶点进行排序，使得对于每一条有向边 (u, v)，顶点 u 都出现在顶点 v 之前。如果图中存在环，则无法进行拓扑排序。 ",
+    "examples": [
+      {
+        "description": "Java 实现拓扑排序 (Kahn's 算法 - 基于入度和队列) - Topological Sort in Java ",
+        "code": "import java.util.*;\n\nclass TopologicalSort {\n    private int V;\n    private List<List<Integer>> adj;\n\n    TopologicalSort(int v) {\n        V = v;\n        adj = new ArrayList<>(v);\n        for (int i = 0; i < v; i++) adj.add(new ArrayList<>());\n    }\n\n    void addEdge(int u, int v) { adj.get(u).add(v); }\n\n    void topologicalSort() {\n        int[] in_degree = new int[V];\n        for (int i = 0; i < V; i++) {\n            for (int node : adj.get(i)) {\n                in_degree[node]++;\n            }\n        }\n\n        Queue<Integer> q = new LinkedList<>();\n        for (int i = 0; i < V; i++) {\n            if (in_degree[i] == 0) q.add(i);\n        }\n\n        int cnt = 0;\n        List<Integer> topOrder = new ArrayList<>();\n        while (!q.isEmpty()) {\n            int u = q.poll();\n            topOrder.add(u);\n\n            for (int node : adj.get(u)) {\n                if (--in_degree[node] == 0) q.add(node);\n            }\n            cnt++;\n        }\n\n        if (cnt != V) {\n            System.out.println(\"There exists a cycle in the graph\");\n            return;\n        }\n\n        for (int i : topOrder) {\n            System.out.print(i + \" \");\n        }\n    }\n\n    public static void main(String[] args) {\n        TopologicalSort g = new TopologicalSort(6);\n        g.addEdge(5, 2); g.addEdge(5, 0);\n        g.addEdge(4, 0); g.addEdge(4, 1);\n        g.addEdge(2, 3); g.addEdge(3, 1);\n        g.topologicalSort(); // Expected: 4 5 0 2 3 1 or 5 4 2 0 3 1 etc.\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(V + E)。主要应用包括任务调度、依赖解析（如编译顺序、软件安装）和在DAG中寻找最长路径等。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Backtracking - All Permutations (回溯 - 全排列)",
+    "summary": "一个经典的回溯算法应用，用于生成一个集合中所有元素的全排列。算法通过递归地交换元素位置或构建排列，并在每一步探索所有可能性，完成后再撤销操作（回溯）以探索其他分支。",
+    "examples": [
+      {
+        "description": "Java 实现全排列 (回溯法) - All Permutations in Java ",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class AllPermutations {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> list = new ArrayList<>();\n        backtrack(list, new ArrayList<>(), nums);\n        return list;\n    }\n\n    private void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums) {\n        if (tempList.size() == nums.length) {\n            list.add(new ArrayList<>(tempList));\n        } else {\n            for (int i = 0; i < nums.length; i++) {\n                if (tempList.contains(nums[i])) continue; // 元素已存在，跳过\n                tempList.add(nums[i]);\n                backtrack(list, tempList, nums);\n                tempList.remove(tempList.size() - 1); // 回溯\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        AllPermutations ap = new AllPermutations();\n        int[] nums = {1, 2, 3};\n        List<List<Integer>> result = ap.permute(nums);\n        System.out.println(result);\n        // [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(N! * N)，因为存在 N! 个排列，并且每个排列需要 O(N) 的时间来添加到结果列表中。空间复杂度为 O(N) 用于递归栈。回溯是解决组合、子集、排列和搜索问题（如数独、N皇后）的通用范式。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Longest Common Subsequence (LCS - 最长公共子序列)",
+    "summary": "一个经典的动态规划问题，旨在找到两个序列共有的最长子序列的长度。子序列的元素不要求在原序列中是连续的。 ",
+    "examples": [
+      {
+        "description": "Java 实现 LCS (DP 表) - Longest Common Subsequence in Java ",
+        "code": "public class LCS {\n    public int longestCommonSubsequence(String text1, String text2) {\n        int m = text1.length();\n        int n = text2.length();\n        int[][] dp = new int[m + 1][n + 1];\n\n        for (int i = 1; i <= m; i++) {\n            for (int j = 1; j <= n; j++) {\n                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {\n                    dp[i][j] = 1 + dp[i - 1][j - 1];\n                } else {\n                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);\n                }\n            }\n        }\n        return dp[m][n];\n    }\n\n    public static void main(String[] args) {\n        LCS lcsSolver = new LCS();\n        String s1 = \"AGGTAB\";\n        String s2 = \"GXTXAYB\";\n        System.out.println(\"Length of LCS is: \" + lcsSolver.longestCommonSubsequence(s1, s2));\n        // Length of LCS is: 4 (LCS is GTAB)\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(m*n)，空间复杂度也为 O(m*n)，其中 m 和 n 是两个字符串的长度。空间复杂度可以优化到 O(min(m,n))。LCS 算法是许多其他问题的基础，例如文件差异比较工具（diff）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Sieve of Eratosthenes (埃拉托色尼筛法)",
+    "summary": "一种古老而高效的算法，用于找出一定范围内的所有质数。它通过迭代地标记每个质数的倍数为合数来实现。 ",
+    "examples": [
+      {
+        "description": "Java 实现埃拉托色尼筛法 - Sieve of Eratosthenes in Java",
+        "code": "import java.util.Arrays;\n\npublic class SieveOfEratosthenes {\n    void sieve(int n) {\n        boolean[] prime = new boolean[n + 1];\n        Arrays.fill(prime, true);\n\n        for (int p = 2; p * p <= n; p++) {\n            if (prime[p]) {\n                for (int i = p * p; i <= n; i += p) {\n                    prime[i] = false;\n                }\n            }\n        }\n\n        System.out.println(\"Prime numbers up to \" + n + \":\");\n        for (int i = 2; i <= n; i++) {\n            if (prime[i]) {\n                System.out.print(i + \" \");\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        int n = 30;\n        SieveOfEratosthenes g = new SieveOfEratosthenes();\n        g.sieve(n);\n        // Prime numbers up to 30:\n        // 2 3 5 7 11 13 17 19 23 29 \n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度约为 O(n log log n)，非常接近线性时间。空间复杂度为 O(n)。对于需要预计算一个范围内所有质数的场景，该算法非常理想。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Fast Power (快速幂)",
+    "summary": "又称平方求幂（Exponentiation by Squaring），是一种高效计算大整数幂的算法，特别是用于模运算 `(a^b) mod m`。其核心思想是利用指数的二进制表示来减少乘法次数。",
+    "examples": [
+      {
+        "description": "Java 实现快速幂 (迭代法) - Iterative Fast Power in Java",
+        "code": "public class FastPower {\n    long power(long base, long exp, long modulus) {\n        long res = 1;\n        base %= modulus;\n        while (exp > 0) {\n            if (exp % 2 == 1) res = (res * base) % modulus;\n            base = (base * base) % modulus;\n            exp /= 2;\n        }\n        return res;\n    }\n\n    public static void main(String[] args) {\n        FastPower fp = new FastPower();\n        // 计算 3^5 mod 7\n        System.out.println(\"Result of 3^5 mod 7 is: \" + fp.power(3, 5, 7));\n        // 3^1=3, 3^2=9=2, 3^4=4, 3^5=3^4*3^1=4*3=12=5\n        // Result of 3^5 mod 7 is: 5\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(log b)，其中 b 是指数。这比朴素的 O(b) 乘法有巨大提升。在密码学（如RSA）和竞技编程中是基础且至关重要的算法。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Counting Sort (计数排序)",
+    "summary": "一种非比较排序算法，它通过计算输入数组中每个不同元素的出现次数来工作。它仅适用于键的变化范围不显著大于项目数量的情况。 ",
+    "examples": [
+      {
+        "description": "Java 实现计数排序 - Counting Sort in Java",
+        "code": "import java.util.Arrays;\n\npublic class CountingSort {\n    void sort(int[] arr) {\n        if (arr.length == 0) return;\n        int max = Arrays.stream(arr).max().getAsInt();\n        int min = Arrays.stream(arr).min().getAsInt();\n        int range = max - min + 1;\n        int[] count = new int[range];\n        int[] output = new int[arr.length];\n\n        for (int i = 0; i < arr.length; i++) {\n            count[arr[i] - min]++;\n        }\n\n        for (int i = 1; i < count.length; i++) {\n            count[i] += count[i - 1];\n        }\n\n        for (int i = arr.length - 1; i >= 0; i--) {\n            output[count[arr[i] - min] - 1] = arr[i];\n            count[arr[i] - min]--;\n        }\n\n        System.arraycopy(output, 0, arr, 0, arr.length);\n    }\n\n    public static void main(String[] args) {\n        int[] data = {4, 2, 2, 8, 3, 3, 1};\n        CountingSort cs = new CountingSort();\n        cs.sort(data);\n        System.out.println(\"Sorted Array: \" + Arrays.toString(data));\n        // Sorted Array: [1, 2, 2, 3, 3, 4, 8]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(n + k)，其中 n 是元素数量，k 是数据范围。空间复杂度为 O(k)。它是一种稳定的排序算法。当 k 相对于 n 很大时，效率会降低。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Linked List (链表)",
+    "summary": "一种线性数据结构，由一系列节点组成，每个节点包含数据和指向下一个节点的引用（指针）。与数组不同，链表的大小可以动态变化，但不支持随机访问。 ",
+    "examples": [
+      {
+        "description": "Java 实现一个简单的单向链表 - Simple Singly Linked List in Java",
+        "code": "public class SinglyLinkedList {\n    Node head; // 头节点\n\n    static class Node {\n        int data;\n        Node next;\n        Node(int d) { data = d; next = null; }\n    }\n\n    public void insertAtEnd(int newData) {\n        Node newNode = new Node(newData);\n        if (head == null) {\n            head = newNode;\n            return;\n        }\n        Node last = head;\n        while (last.next != null) {\n            last = last.next;\n        }\n        last.next = newNode;\n    }\n\n    public void printList() {\n        Node current = head;\n        while (current != null) {\n            System.out.print(current.data + \" -> \");\n            current = current.next;\n        }\n        System.out.println(\"NULL\");\n    }\n\n    public static void main(String[] args) {\n        SinglyLinkedList list = new SinglyLinkedList();\n        list.insertAtEnd(1);\n        list.insertAtEnd(2);\n        list.insertAtEnd(3);\n        list.printList(); // 1 -> 2 -> 3 -> NULL\n    }\n}"
+      }
+    ],
+    "notes": "链表的主要优点是插入和删除操作高效（O(1)），前提是已知要操作的节点。主要缺点是访问第 k 个元素需要 O(k) 时间。常见类型有：单向链表、双向链表和循环链表。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Stack (栈)",
+    "summary": "一种遵循后进先出（LIFO - Last-In, First-Out）原则的线性数据结构。只能在表的一端（称为栈顶）进行插入和删除操作。",
+    "examples": [
+      {
+        "description": "使用 Java 的 Deque 实现栈 - Using Java's Deque as a Stack",
+        "code": "import java.util.ArrayDeque;\nimport java.util.Deque;\n\npublic class StackExample {\n    public static void main(String[] args) {\n        // Deque 接口是实现栈的推荐方式\n        Deque<Integer> stack = new ArrayDeque<>();\n\n        // 推入元素 (Push)\n        stack.push(10);\n        stack.push(20);\n        stack.push(30);\n\n        System.out.println(\"Stack: \" + stack);\n\n        // 查看栈顶元素 (Peek)\n        System.out.println(\"Top element: \" + stack.peek()); // 30\n\n        // 弹出元素 (Pop)\n        int popped = stack.pop();\n        System.out.println(\"Popped element: \" + popped); // 30\n        System.out.println(\"Stack after pop: \" + stack);\n\n        // 检查是否为空\n        System.out.println(\"Is stack empty? \" + stack.isEmpty());\n    }\n}"
+      }
+    ],
+    "notes": "栈在许多算法中至关重要，如深度优先搜索（DFS）、表达式求值、括号匹配以及函数调用（调用栈）。可以用数组或链表实现。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Queue (队列)",
+    "summary": "一种遵循先进先出（FIFO - First-In, First-Out）原则的线性数据结构。元素从一端（队尾）加入，从另一端（队头）移除。",
+    "examples": [
+      {
+        "description": "使用 Java 的 Queue (LinkedList 实现) - Using Java's Queue ",
+        "code": "import java.util.LinkedList;\nimport java.util.Queue;\n\npublic class QueueExample {\n    public static void main(String[] args) {\n        Queue<Integer> queue = new LinkedList<>();\n\n        // 入队 (Enqueue)\n        queue.offer(10);\n        queue.offer(20);\n        queue.offer(30);\n\n        System.out.println(\"Queue: \" + queue);\n\n        // 查看队头元素 (Peek)\n        System.out.println(\"Front element: \" + queue.peek()); // 10\n\n        // 出队 (Dequeue)\n        int removed = queue.poll();\n        System.out.println(\"Removed element: \" + removed); // 10\n        System.out.println(\"Queue after poll: \" + queue);\n\n        // 检查大小\n        System.out.println(\"Queue size: \" + queue.size());\n    }\n}"
+      }
+    ],
+    "notes": "队列广泛用于广度优先搜索（BFS）、任务调度、打印机队列和任何需要按顺序处理事件的场景。`offer`/`poll`/`peek` 方法在队列满或空时返回特殊值（如 null），而 `add`/`remove`/`element` 会抛出异常。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Binary Search Tree (BST - 二叉搜索树)",
+    "summary": "一种基于节点的二叉树数据结构，具有以下特性：任何节点的左子树中的所有键都小于该节点的键；任何节点的右子树中的所有键都大于该节点的键；左右子树也都是二叉搜索树。",
+    "examples": [
+      {
+        "description": "Java 实现二叉搜索树的插入、搜索和中序遍历 - BST Insertion, Search, and In-order Traversal in Java",
+        "code": "class BST {\n    class Node {\n        int key;\n        Node left, right;\n        public Node(int item) { key = item; left = right = null; }\n    }\n\n    Node root;\n\n    void insert(int key) { root = insertRec(root, key); }\n\n    Node insertRec(Node root, int key) {\n        if (root == null) return new Node(key);\n        if (key < root.key) root.left = insertRec(root.left, key);\n        else if (key > root.key) root.right = insertRec(root.right, key);\n        return root;\n    }\n\n    Node search(Node root, int key) {\n        if (root == null || root.key == key) return root;\n        if (root.key > key) return search(root.left, key);\n        return search(root.right, key);\n    }\n\n    void inorder() { inorderRec(root); System.out.println(); }\n\n    void inorderRec(Node root) {\n        if (root != null) {\n            inorderRec(root.left);\n            System.out.print(root.key + \" \");\n            inorderRec(root.right);\n        }\n    }\n\n    public static void main(String[] args) {\n        BST tree = new BST();\n        tree.insert(50); tree.insert(30); tree.insert(20);\n        tree.insert(40); tree.insert(70); tree.insert(60);\n        tree.insert(80);\n        // 打印排序后的结果\n        tree.inorder(); // 20 30 40 50 60 70 80 \n    }\n}"
+      }
+    ],
+    "notes": "在平衡状态下，BST 的搜索、插入和删除操作的平均时间复杂度为 O(log n)。但在最坏情况下（如树退化为链表），会降至 O(n)。为了解决这个问题，出现了自平衡二叉搜索树，如 AVL 树和红黑树。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Hash Table (哈希表 / HashMap)",
+    "summary": "一种实现关联数组抽象数据类型的数据结构，它可以将键（Keys）映射到值（Values）。它使用哈希函数将键计算出一个索引（哈希码），并用此索引来查找数组中的值。 ",
+    "examples": [
+      {
+        "description": "使用 Java 的 HashMap - Using Java's HashMap",
+        "code": "import java.util.HashMap;\nimport java.util.Map;\n\npublic class HashMapExample {\n    public static void main(String[] args) {\n        Map<String, Integer> map = new HashMap<>();\n\n        // 插入键值对 (Put)\n        map.put(\"Alice\", 25);\n        map.put(\"Bob\", 30);\n        map.put(\"Charlie\", 35);\n\n        // 获取值 (Get)\n        System.out.println(\"Bob's age: \" + map.get(\"Bob\")); // 30\n\n        // 检查键是否存在\n        System.out.println(\"Contains key 'David'? \" + map.containsKey(\"David\")); // false\n\n        // 遍历\n        for (Map.Entry<String, Integer> entry : map.entrySet()) {\n            System.out.println(entry.getKey() + \" is \" + entry.getValue() + \" years old.\");\n        }\n\n        // 删除\n        map.remove(\"Charlie\");\n        System.out.println(\"Map after removing Charlie: \" + map);\n    }\n}"
+      }
+    ],
+    "notes": "理想情况下，哈希表的插入、删除和查找操作的平均时间复杂度为 O(1)。当多个键哈希到同一个索引时，会发生“哈希冲突”。常见的冲突解决方法有链地址法（Java HashMap 使用）和开放地址法。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Bellman-Ford Algorithm",
+    "summary": "一种用于计算图中单源最短路径的算法。与 Dijkstra 算法不同，它可以处理带有负权重的边，并且能够检测图中是否存在从源点可达的负权环路。 ",
+    "examples": [
+      {
+        "description": "Java 实现 Bellman-Ford 算法 - Bellman-Ford Algorithm in Java",
+        "code": "import java.util.Arrays;\n\nclass BellmanFord {\n    static class Edge { int src, dest, weight; }\n    int V, E;\n    Edge[] edge;\n\n    BellmanFord(int v, int e) {\n        V = v; E = e;\n        edge = new Edge[e];\n        for (int i = 0; i < e; ++i) edge[i] = new Edge();\n    }\n\n    void findShortestPaths(int src) {\n        int[] dist = new int[V];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n\n        // 松弛所有边 V-1 次\n        for (int i = 1; i < V; ++i) {\n            for (int j = 0; j < E; ++j) {\n                int u = edge[j].src, v = edge[j].dest, w = edge[j].weight;\n                if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {\n                    dist[v] = dist[u] + w;\n                }\n            }\n        }\n\n        // 检查负权环路\n        for (int j = 0; j < E; ++j) {\n            int u = edge[j].src, v = edge[j].dest, w = edge[j].weight;\n            if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {\n                System.out.println(\"Graph contains negative weight cycle\");\n                return;\n            }\n        }\n        // ... (打印距离的代码) ...\n    }\n    // ... (main 方法和数据设置) ...\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(V * E)，比 Dijkstra 算法慢，因此仅在图中可能存在负权边时使用。其核心思想是对所有边进行 V-1 轮“松弛”操作，因为在没有负权环的图中，任何最短路径最多包含 V-1 条边。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Floyd-Warshall Algorithm",
+    "summary": "一种用于寻找加权图中所有顶点对之间最短路径的动态规划算法。它可以处理负权重的边，但不能处理负权环路。 ",
+    "examples": [
+      {
+        "description": "Java 实现 Floyd-Warshall 算法 - Floyd-Warshall Algorithm in Java",
+        "code": "class FloydWarshall {\n    final static int INF = 99999; // 代表无穷大\n\n    void floydWarshall(int[][] graph, int V) {\n        int[][] dist = new int[V][V];\n\n        for (int i = 0; i < V; i++) {\n            System.arraycopy(graph[i], 0, dist[i], 0, V);\n        }\n\n        for (int k = 0; k < V; k++) { // k 是中间顶点\n            for (int i = 0; i < V; i++) {\n                for (int j = 0; j < V; j++) {\n                    if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j]) {\n                        dist[i][j] = dist[i][k] + dist[k][j];\n                    }\n                }\n            }\n        }\n        // ... (打印结果矩阵的代码) ...\n    }\n\n    public static void main(String[] args) {\n        int V = 4;\n        int[][] graph = { {0, 5, INF, 10}, {INF, 0, 3, INF}, \n                          {INF, INF, 0, 1}, {INF, INF, INF, 0} };\n        new FloydWarshall().floydWarshall(graph, V);\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(V^3)，使其适用于顶点数量不多的稠密图。算法的核心思想是：对于任意一对顶点 i 和 j，它们之间的最短路径要么是直接的，要么是经过某个中间顶点 k 的。算法迭代地考虑所有可能的中间顶点。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Radix Sort (基数排序)",
+    "summary": "一种非比较型整数排序算法，其原理是将整数按位数切割成不同的数字，然后按每个位数分别比较。它从最低有效位开始，逐位对元素进行稳定排序（如使用计数排序）。",
+    "examples": [
+      {
+        "description": "Java 实现基数排序 - Radix Sort in Java",
+        "code": "import java.util.Arrays;\n\nclass RadixSort {\n    static int getMax(int[] arr) {\n        int mx = arr[0];\n        for (int i = 1; i < arr.length; i++) if (arr[i] > mx) mx = arr[i];\n        return mx;\n    }\n\n    static void countSort(int[] arr, int exp) {\n        int n = arr.length;\n        int[] output = new int[n];\n        int[] count = new int[10];\n        Arrays.fill(count, 0);\n\n        for (int i = 0; i < n; i++) count[(arr[i] / exp) % 10]++;\n        for (int i = 1; i < 10; i++) count[i] += count[i - 1];\n        for (int i = n - 1; i >= 0; i--) {\n            output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n            count[(arr[i] / exp) % 10]--;\n        }\n        System.arraycopy(output, 0, arr, 0, n);\n    }\n\n    static void radixSort(int[] arr) {\n        int m = getMax(arr);\n        for (int exp = 1; m / exp > 0; exp *= 10) {\n            countSort(arr, exp);\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] arr = { 170, 45, 75, 90, 802, 24, 2, 66 };\n        radixSort(arr);\n        System.out.println(Arrays.toString(arr));\n        // [2, 24, 45, 66, 75, 90, 170, 802]\n    }\n}"
+      }
+    ],
+    "notes": "时间复杂度为 O(d * (n + b))，其中 d 是数字的最大位数，n 是元素数量，b 是基数（这里是10）。当 d 较小且 n 较大时，基数排序可以比 O(n log n) 的比较排序更快。它是一种稳定的排序算法。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Priority Queue (Heap) (优先队列 / 堆)",
+    "summary": "一种特殊的队列，其中每个元素都有一个“优先级”。高优先级的元素先于低优先级的元素出队。通常使用堆（Heap）数据结构实现。 ",
+    "examples": [
+      {
+        "description": "使用 Java 的 PriorityQueue (默认是最小堆) - Using Java's PriorityQueue ",
+        "code": "import java.util.PriorityQueue;\nimport java.util.Collections;\n\npublic class PriorityQueueExample {\n    public static void main(String[] args) {\n        // 最小堆 (Min-Heap)\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        minHeap.add(10); minHeap.add(20); minHeap.add(5);\n        System.out.println(\"Min-Heap peek: \" + minHeap.peek()); // 5\n        minHeap.poll(); // 移除 5\n        System.out.println(\"Min-Heap after poll: \" + minHeap.peek()); // 10\n\n        // 最大堆 (Max-Heap)\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n        maxHeap.add(10); maxHeap.add(20); maxHeap.add(5);\n        System.out.println(\"\\nMax-Heap peek: \" + maxHeap.peek()); // 20\n        maxHeap.poll(); // 移除 20\n        System.out.println(\"Max-Heap after poll: \" + maxHeap.peek()); // 10\n    }\n}"
+      }
+    ],
+    "notes": "堆是一种基于树的完全二叉树结构。插入（add/offer）和删除（poll/remove）操作的时间复杂度为 O(log n)，而获取顶端元素（peek/element）的时间复杂度为 O(1)。优先队列在许多算法中都非常有用，如 Dijkstra 算法、Prim 算法、Huffman 编码和任何需要动态维护最大/最小元素的场景。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Trie (Prefix Tree) (字典树 / 前缀树)",
+    "summary": "一种树形数据结构，专门用于高效地存储和检索字符串集合中的键。Trie 的每个节点代表一个字符串前缀，常用于自动补全和拼写检查。 ",
+    "examples": [
+      {
+        "description": "Java 实现一个简单的 Trie - Simple Trie Implementation in Java",
+        "code": "class TrieNode {\n    TrieNode[] children = new TrieNode[26];\n    boolean isEndOfWord = false;\n}\n\npublic class Trie {\n    private TrieNode root;\n\n    public Trie() { root = new TrieNode(); }\n\n    public void insert(String word) {\n        TrieNode current = root;\n        for (char c : word.toCharArray()) {\n            int index = c - 'a';\n            if (current.children[index] == null) {\n                current.children[index] = new TrieNode();\n            }\n            current = current.children[index];\n        }\n        current.isEndOfWord = true;\n    }\n\n    public boolean search(String word) {\n        TrieNode current = root;\n        for (char c : word.toCharArray()) {\n            int index = c - 'a';\n            if (current.children[index] == null) return false;\n            current = current.children[index];\n        }\n        return current != null && current.isEndOfWord;\n    }\n\n    public static void main(String[] args) {\n        Trie trie = new Trie();\n        trie.insert(\"apple\");\n        System.out.println(trie.search(\"apple\"));   // true\n        System.out.println(trie.search(\"app\"));     // false\n    }\n}"
+      }
+    ],
+    "notes": "插入和搜索一个长度为 L 的字符串的时间复杂度都是 O(L)。空间复杂度取决于所有字符串的总长度和它们的重叠前缀数量。与哈希表相比，Trie 可以高效地执行前缀搜索（例如，找到所有以 'ap' 开头的单词）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Union-Find (Disjoint Set) (并查集)",
+    "summary": "一种数据结构，用于追踪一组元素被分割成多个不相交的（互不重叠的）子集。它提供了两个主要操作：`find`（确定一个元素属于哪个子集）和 `union`（将两个子集合并成一个）。 ",
+    "examples": [
+      {
+        "description": "Java 实现并查集 (路径压缩和按秩合并优化) - Union-Find in Java ",
+        "code": "public class UnionFind {\n    private int[] parent;\n    private int[] rank;\n\n    public UnionFind(int n) {\n        parent = new int[n];\n        rank = new int[n];\n        for (int i = 0; i < n; i++) {\n            parent[i] = i;\n            rank[i] = 0;\n        }\n    }\n\n    public int find(int i) {\n        if (parent[i] != i) {\n            parent[i] = find(parent[i]); // 路径压缩\n        }\n        return parent[i];\n    }\n\n    public void union(int x, int y) {\n        int rootX = find(x);\n        int rootY = find(y);\n        if (rootX != rootY) {\n            // 按秩合并\n            if (rank[rootX] > rank[rootY]) {\n                parent[rootY] = rootX;\n            } else if (rank[rootX] < rank[rootY]) {\n                parent[rootX] = rootY;\n            } else {\n                parent[rootY] = rootX;\n                rank[rootX]++;\n            }\n        }\n    }\n    \n    public static void main(String[] args) {\n        UnionFind uf = new UnionFind(5);\n        uf.union(0, 2);\n        uf.union(4, 2);\n        System.out.println(uf.find(4) == uf.find(0)); // true\n        System.out.println(uf.find(1) == uf.find(0)); // false\n    }\n}"
+      }
+    ],
+    "notes": "通过路径压缩和按秩/大小合并优化，并查集操作的均摊时间复杂度接近 O(α(n))，其中 α(n) 是反阿克曼函数，其增长极其缓慢，对于所有实际目的，可以视为常数时间 O(1)。它在 Kruskal 算法中用于检测环路，以及在网络连通性问题中非常有用。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Maximum Subarray Problem (最大子数组和)",
+    "summary": "在一个一维数组中找到一个具有最大和的连续子数组。这是一个经典的分治算法和动态规划问题。 ",
+    "examples": [
+      {
+        "description": "使用分治法解决最大子数组和问题 - Maximum Subarray using Divide and Conquer",
+        "code": "public class MaxSubarrayDivideConquer {\n    private int maxCrossingSum(int[] arr, int l, int m, int h) {\n        int sum = 0; int left_sum = Integer.MIN_VALUE;\n        for (int i = m; i >= l; i--) {\n            sum += arr[i];\n            if (sum > left_sum) left_sum = sum;\n        }\n        sum = 0; int right_sum = Integer.MIN_VALUE;\n        for (int i = m + 1; i <= h; i++) {\n            sum += arr[i];\n            if (sum > right_sum) right_sum = sum;\n        }\n        return left_sum + right_sum;\n    }\n\n    public int maxSubArray(int[] arr, int l, int h) {\n        if (l == h) return arr[l];\n        int m = l + (h - l) / 2;\n        return Math.max(Math.max(maxSubArray(arr, l, m), maxSubArray(arr, m + 1, h)), \n                        maxCrossingSum(arr, l, m, h));\n    }\n\n    public static void main(String[] args) {\n        int[] a = {-2, 1, -3, 4, -1, 2, 1, -5, 4};\n        MaxSubarrayDivideConquer msdc = new MaxSubarrayDivideConquer();\n        System.out.println(\"Maximum contiguous sum is \" + msdc.maxSubArray(a, 0, a.length - 1));\n        // Maximum contiguous sum is 6 ([4, -1, 2, 1])\n    }\n}"
+      }
+    ],
+    "notes": "分治解法的时间复杂度为 O(n log n)。这个问题还有一个更优的动态规划解法，称为“卡德内算法”（Kadane's Algorithm），其时间复杂度为 O(n)，空间复杂度为 O(1)。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "N-Queens Problem (N皇后问题)",
+    "summary": "一个经典的回溯问题，目标是在一个 N×N 的棋盘上放置 N 个皇后，使得它们中的任意两个都不能互相攻击（即任意两个皇后都不能处于同一行、同一列或同一条对角线上）。",
+    "examples": [
+      {
+        "description": "Java 实现 N 皇后问题求解 - N-Queens Problem Solver in Java",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class NQueens {\n    public List<List<String>> solveNQueens(int n) {\n        List<List<String>> result = new ArrayList<>();\n        char[][] board = new char[n][n];\n        for(int i = 0; i < n; i++) for(int j = 0; j < n; j++) board[i][j] = '.';\n        backtrack(result, board, 0, n);\n        return result;\n    }\n\n    private boolean isSafe(char[][] board, int row, int col, int n) {\n        for (int i = 0; i < row; i++) if (board[i][col] == 'Q') return false;\n        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) if (board[i][j] == 'Q') return false;\n        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) if (board[i][j] == 'Q') return false;\n        return true;\n    }\n\n    private void backtrack(List<List<String>> result, char[][] board, int row, int n) {\n        if (row == n) {\n            result.add(construct(board));\n            return;\n        }\n        for (int col = 0; col < n; col++) {\n            if (isSafe(board, row, col, n)) {\n                board[row][col] = 'Q';\n                backtrack(result, board, row + 1, n);\n                board[row][col] = '.'; // 回溯\n            }\n        }\n    }\n\n    private List<String> construct(char[][] board) {\n        List<String> res = new ArrayList<>();\n        for (char[] row : board) res.add(new String(row));\n        return res;\n    }\n}"
+      }
+    ],
+    "notes": "这是展示回溯算法如何通过“约束”和“剪枝”来系统性地探索所有可能解的典范。算法在放置每个皇后时，会检查其位置是否有效（约束），如果无效则不继续向下探索该分支（剪枝）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Red-Black Tree (via TreeMap) (红黑树)",
+    "summary": "一种自平衡的二叉搜索树。它通过满足一组着色属性（每个节点是红色或黑色）来确保树大致平衡，从而保证了搜索、插入和删除操作在最坏情况下的时间复杂度为 O(log n)。",
+    "examples": [
+      {
+        "description": "使用 Java 的 TreeMap (底层是红黑树) - Using Java's TreeMap ",
+        "code": "import java.util.TreeMap;\nimport java.util.Map;\n\npublic class TreeMapExample {\n    public static void main(String[] args) {\n        // TreeMap 保证键的有序性，其操作具有 O(log n) 的时间复杂度\n        Map<Integer, String> treeMap = new TreeMap<>();\n\n        treeMap.put(30, \"Charlie\");\n        treeMap.put(10, \"Alice\");\n        treeMap.put(20, \"Bob\");\n\n        // 遍历时，键是自动排序的\n        System.out.println(\"TreeMap entries (sorted by key):\");\n        for (Map.Entry<Integer, String> entry : treeMap.entrySet()) {\n            System.out.println(\"Key: \" + entry.getKey() + \", Value: \" + entry.getValue());\n        }\n        // Key: 10, Value: Alice\n        // Key: 20, Value: Bob\n        // Key: 30, Value: Charlie\n\n        System.out.println(\"\\nValue for key 20: \" + treeMap.get(20)); // Bob\n        treeMap.remove(10);\n        System.out.println(\"Contains key 10 after removal? \" + treeMap.containsKey(10)); // false\n    }\n}"
+      }
+    ],
+    "notes": "直接实现红黑树非常复杂。在实际应用中，我们通常使用标准库提供的实现，如 Java 中的 `java.util.TreeMap` 和 `java.util.TreeSet`。理解其自平衡特性和对数时间复杂度的保证比手动实现更重要。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Huffman Coding (霍夫曼编码)",
+    "summary": "一种用于无损数据压缩的贪心算法。它根据字符出现的频率，为高频字符分配较短的编码，为低频字符分配较长的编码，从而生成最优的前缀码。 ",
+    "examples": [
+      {
+        "description": "Java 实现霍夫曼编码的构建过程 - Huffman Coding Build Process in Java",
+        "code": "import java.util.PriorityQueue;\nimport java.util.HashMap;\nimport java.util.Map;\n\nclass HuffmanNode implements Comparable<HuffmanNode> {\n    int frequency;\n    char data;\n    HuffmanNode left, right;\n\n    public int compareTo(HuffmanNode node) {\n        return this.frequency - node.frequency;\n    }\n}\n\npublic class HuffmanCoding {\n    public static HuffmanNode buildTree(Map<Character, Integer> freq) {\n        PriorityQueue<HuffmanNode> pq = new PriorityQueue<>();\n        for (Map.Entry<Character, Integer> entry : freq.entrySet()) {\n            HuffmanNode hn = new HuffmanNode();\n            hn.data = entry.getKey();\n            hn.frequency = entry.getValue();\n            hn.left = null; hn.right = null;\n            pq.add(hn);\n        }\n\n        while (pq.size() > 1) {\n            HuffmanNode x = pq.poll();\n            HuffmanNode y = pq.poll();\n            HuffmanNode f = new HuffmanNode();\n            f.frequency = x.frequency + y.frequency;\n            f.data = '-'; // 内部节点\n            f.left = x; f.right = y;\n            pq.add(f);\n        }\n        return pq.poll();\n    }\n    // ... (打印编码的辅助函数和 main 方法) ...\n}"
+      }
+    ],
+    "notes": "核心步骤是：1. 统计字符频率。2. 用频率创建叶子节点，并放入一个最小堆。3. 重复从堆中取出两个频率最小的节点，合并成一个新节点（频率为两者之和），并将新节点放回堆中，直到堆中只剩一个节点（即霍夫曼树的根）。时间复杂度主要由建堆和出入堆决定，为 O(n log n)。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "LRU Cache (最近最少使用缓存)",
+    "summary": "一种缓存淘汰策略，当缓存满时，会优先淘汰最近最少使用的数据。通常通过哈希表（HashMap）和双向链表（Doubly Linked List）的组合来实现，以保证 `get` 和 `put` 操作的平均时间复杂度为 O(1)。 ",
+    "examples": [
+      {
+        "description": "Java 实现 LRU 缓存 - LRU Cache Implementation in Java",
+        "code": "import java.util.HashMap;\n\nclass LRUCache {\n    class Node {\n        int key, value;\n        Node prev, next;\n        Node(int key, int value) { this.key = key; this.value = value; }\n    }\n\n    private final int capacity;\n    private final HashMap<Integer, Node> map;\n    private final Node head, tail; // 哨兵节点\n\n    public LRUCache(int capacity) {\n        this.capacity = capacity;\n        map = new HashMap<>();\n        head = new Node(0, 0); tail = new Node(0, 0);\n        head.next = tail; tail.prev = head;\n    }\n\n    private void remove(Node node) {\n        node.prev.next = node.next;\n        node.next.prev = node.prev;\n    }\n\n    private void addFirst(Node node) {\n        node.next = head.next;\n        node.prev = head;\n        head.next.prev = node;\n        head.next = node;\n    }\n\n    public int get(int key) {\n        if (!map.containsKey(key)) return -1;\n        Node node = map.get(key);\n        remove(node);\n        addFirst(node);\n        return node.value;\n    }\n\n    public void put(int key, int value) {\n        if (map.containsKey(key)) {\n            Node node = map.get(key);\n            node.value = value;\n            remove(node);\n            addFirst(node);\n        } else {\n            if (map.size() == capacity) {\n                map.remove(tail.prev.key);\n                remove(tail.prev);\n            }\n            Node newNode = new Node(key, value);\n            map.put(key, newNode);\n            addFirst(newNode);\n        }\n    }\n}"
+      }
+    ],
+    "notes": "哈希表提供了对节点的 O(1) 快速访问。双向链表维护了节点的访问顺序，使得将任意节点移动到头部或移除尾部节点的操作也是 O(1)。这种结合是实现 LRU 缓存高效性能的关键，也是系统设计面试中的热门题目。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Longest Increasing Subsequence ",
+    "summary": "在一个数值序列中，找到一个最长的子序列，使得这个子序列中的所有元素都是递增的。这是一个经典的动态规划问题。 ",
+    "examples": [
+      {
+        "description": "O(n^2) 动态规划解法 - O(n^2) Dynamic Programming Solution",
+        "code": "import java.util.Arrays;\n\npublic class LIS_On2 {\n    public int lengthOfLIS(int[] nums) {\n        if (nums.length == 0) return 0;\n        int[] dp = new int[nums.length];\n        Arrays.fill(dp, 1);\n        int maxLen = 1;\n        for (int i = 1; i < nums.length; i++) {\n            for (int j = 0; j < i; j++) {\n                if (nums[i] > nums[j]) {\n                    dp[i] = Math.max(dp[i], dp[j] + 1);\n                }\n            }\n            maxLen = Math.max(maxLen, dp[i]);\n        }\n        return maxLen;\n    }\n}"
+      },
+      {
+        "description": "O(n log n) 优化解法 (耐心排序思想) - O(n log n) Optimized Solution ",
+        "code": "import java.util.ArrayList;\nimport java.util.Collections;\n\npublic class LIS_Onlogn {\n    public int lengthOfLIS(int[] nums) {\n        ArrayList<Integer> tails = new ArrayList<>();\n        for (int num : nums) {\n            int i = Collections.binarySearch(tails, num);\n            if (i < 0) i = -(i + 1);\n            if (i == tails.size()) {\n                tails.add(num);\n            } else {\n                tails.set(i, num);\n            }\n        }\n        return tails.size();\n    }\n}"
+      }
+    ],
+    "notes": "第一种解法 `dp[i]` 表示以 `nums[i]` 结尾的最长递增子序列的长度。第二种解法维护一个 `tails` 数组，`tails[i]` 存储长度为 `i+1` 的所有递增子序列中末尾元素的最小值，通过二分查找优化了状态转移过程。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Generate Subsets ",
+    "summary": "给定一个整数集合，返回其所有可能的子集（幂集）。这是一个经典的组合问题，通常使用回溯法或位运算来解决。",
+    "examples": [
+      {
+        "description": "使用回溯法生成子集 - Generating Subsets using Backtracking",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class Subsets {\n    public List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> list = new ArrayList<>();\n        backtrack(list, new ArrayList<>(), nums, 0);\n        return list;\n    }\n\n    private void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int start) {\n        list.add(new ArrayList<>(tempList));\n        for (int i = start; i < nums.length; i++) {\n            tempList.add(nums[i]);\n            backtrack(list, tempList, nums, i + 1);\n            tempList.remove(tempList.size() - 1);\n        }\n    }\n}"
+      },
+      {
+        "description": "使用位运算生成子集 - Generating Subsets using Bit Manipulation",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class SubsetsBitwise {\n    public List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> list = new ArrayList<>();\n        int n = nums.length;\n        for (int i = 0; i < (1 << n); i++) {\n            List<Integer> subset = new ArrayList<>();\n            for (int j = 0; j < n; j++) {\n                if ((i >> j & 1) == 1) {\n                    subset.add(nums[j]);\n                }\n            }\n            list.add(subset);\n        }\n        return list;\n    }\n}"
+      }
+    ],
+    "notes": "一个大小为 N 的集合有 2^N 个子集。回溯法通过递归地选择或不选择每个元素来构建所有子集。位运算法则利用一个 N 位的二进制数来表示一个子集，其中第 `i` 位为 1 表示包含第 `i` 个元素，为 0 则不包含。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Segment Tree (线段树)",
+    "summary": "一种基于树的数据结构，用于存储区间或线段信息。它能以 O(log n) 的时间复杂度高效地执行区间查询（如求和、最大/最小值）和单点更新操作。",
+    "examples": [
+      {
+        "description": "Java 实现线段树 (区间求和) - Segment Tree in Java ",
+        "code": "public class SegmentTree {\n    private int[] tree;\n    private int n;\n\n    public SegmentTree(int[] nums) {\n        n = nums.length;\n        tree = new int[4 * n];\n        build(nums, 0, 0, n - 1);\n    }\n\n    private void build(int[] nums, int node, int start, int end) {\n        if (start == end) {\n            tree[node] = nums[start];\n        } else {\n            int mid = start + (end - start) / 2;\n            build(nums, 2 * node + 1, start, mid);\n            build(nums, 2 * node + 2, mid + 1, end);\n            tree[node] = tree[2 * node + 1] + tree[2 * node + 2];\n        }\n    }\n\n    public void update(int idx, int val) { update(0, 0, n - 1, idx, val); }\n    private void update(int node, int start, int end, int idx, int val) { /* ... */ }\n\n    public int query(int l, int r) { return query(0, 0, n - 1, l, r); }\n    private int query(int node, int start, int end, int l, int r) { /* ... */ }\n}"
+      }
+    ],
+    "notes": "线段树将一个区间递归地划分为两个子区间，直到区间只包含一个元素。树的每个节点存储其对应区间的聚合信息。虽然空间复杂度为 O(n)，但其对数时间的查询和更新能力使其在处理动态区间问题时非常强大，尤其在竞技编程中。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Kadane's Algorithm (卡德内算法)",
+    "summary": "一种简单且高效的动态规划算法，用于解决最大子数组和问题。它以 O(n) 的时间复杂度和 O(1) 的空间复杂度，在线性扫描中找到数组中和最大的连续子数组。",
+    "examples": [
+      {
+        "description": "Java 实现卡德内算法 - Kadane's Algorithm in Java",
+        "code": "public class KadanesAlgorithm {\n    public int maxSubArray(int[] nums) {\n        int maxSoFar = nums[0];\n        int maxEndingHere = nums[0];\n\n        for (int i = 1; i < nums.length; i++) {\n            maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);\n            maxSoFar = Math.max(maxSoFar, maxEndingHere);\n        }\n        return maxSoFar;\n    }\n\n    public static void main(String[] args) {\n        int[] a = {-2, 1, -3, 4, -1, 2, 1, -5, 4};\n        KadanesAlgorithm ka = new KadanesAlgorithm();\n        System.out.println(\"Maximum contiguous sum is \" + ka.maxSubArray(a));\n        // Maximum contiguous sum is 6\n    }\n}"
+      }
+    ],
+    "notes": "算法的核心思想是：对于每个位置，最大和子数组要么是当前元素本身，要么是当前元素加上之前结尾于前一位置的最大和子数组。这个算法是动态规划思想的一个绝佳体现：简单、优雅且极其高效。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Rabin-Karp Algorithm",
+    "summary": "一种使用哈希函数来查找文本中模式串的字符串匹配算法。其特点是使用“滚动哈希”（Rolling Hash）技术，可以快速计算出文本中连续子串的哈希值，从而实现高效匹配。 ",
+    "examples": [
+      {
+        "description": "Java 实现 Rabin-Karp 算法 - Rabin-Karp Algorithm in Java",
+        "code": "public class RabinKarp {\n    public final static int d = 256; // 字符集大小\n\n    public void search(String pat, String txt, int q) {\n        int M = pat.length();\n        int N = txt.length();\n        int p = 0; // 模式串的哈希值\n        int t = 0; // 文本窗口的哈希值\n        int h = 1;\n\n        for (int i = 0; i < M - 1; i++) h = (h * d) % q;\n\n        for (int i = 0; i < M; i++) {\n            p = (d * p + pat.charAt(i)) % q;\n            t = (d * t + txt.charAt(i)) % q;\n        }\n\n        for (int i = 0; i <= N - M; i++) {\n            if (p == t) { // 哈希值匹配\n                // 检查是否真的匹配，以防哈希冲突\n                if (pat.equals(txt.substring(i, i + M))) {\n                    System.out.println(\"Pattern found at index \" + i);\n                }\n            }\n            if (i < N - M) {\n                t = (d * (t - txt.charAt(i) * h) + txt.charAt(i + M)) % q;\n                if (t < 0) t = (t + q);\n            }\n        }\n    }\n}"
+      }
+    ],
+    "notes": "平均和最佳情况下的时间复杂度为 O(N + M)，但由于哈希冲突，最坏情况可能达到 O(N * M)。滚动哈希通过 O(1) 的时间更新哈希值，避免了对每个子串都重新计算哈希的 O(M) 开销。选择一个大的素数 `q` 有助于减少冲突。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Fenwick Tree ",
+    "summary": "一种树状数据结构，也称为二叉索引树（BIT）。它能够以 O(log n) 的时间复杂度高效地计算数组前缀和，并支持单点更新。相比线段树，它代码更简洁，空间占用更小。",
+    "examples": [
+      {
+        "description": "Java 实现 Fenwick 树 (支持单点更新和前缀和查询) - Fenwick Tree in Java",
+        "code": "public class FenwickTree {\n    private int[] tree;\n    private int n;\n\n    public FenwickTree(int size) {\n        n = size;\n        tree = new int[n + 1];\n    }\n\n    // 将索引 i 的值增加 delta\n    public void update(int i, int delta) {\n        i++; // 1-based index\n        while (i <= n) {\n            tree[i] += delta;\n            i += i & -i; // 移动到下一个相关的索引\n        }\n    }\n\n    // 查询前 i 个元素的和 (0 到 i-1)\n    public int query(int i) {\n        i++; // 1-based index\n        int sum = 0;\n        while (i > 0) {\n            sum += tree[i];\n            i -= i & -i; // 移动到父节点\n        }\n        return sum;\n    }\n\n    public static void main(String[] args) {\n        FenwickTree ft = new FenwickTree(10);\n        ft.update(2, 5); // arr[2] += 5\n        ft.update(4, 3); // arr[4] += 3\n        System.out.println(\"Sum of first 5 elements: \" + ft.query(4)); // 8\n    }\n}"
+      }
+    ],
+    "notes": "Fenwick 树的核心在于 `i & -i` 这个位运算，它能巧妙地找到下一个要更新的节点或上一个要求和的节点。虽然功能上不如线段树强大（例如，难以直接处理区间最值），但对于支持区间求和/单点更新的问题，它是更优的选择。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Edit Distance ",
+    "summary": "一个用于衡量两个字符串差异程度的度量，定义为将一个字符串转换成另一个字符串所需的最少单字符编辑（插入、删除或替换）次数。这是一个经典的二维动态规划问题。 ",
+    "examples": [
+      {
+        "description": "Java 实现编辑距离 - Edit Distance in Java",
+        "code": "public class EditDistance {\n    public int minDistance(String word1, String word2) {\n        int m = word1.length();\n        int n = word2.length();\n        int[][] dp = new int[m + 1][n + 1];\n\n        for (int i = 0; i <= m; i++) dp[i][0] = i;\n        for (int j = 0; j <= n; j++) dp[j][0] = j;\n\n        for (int i = 1; i <= m; i++) {\n            for (int j = 1; j <= n; j++) {\n                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {\n                    dp[i][j] = dp[i - 1][j - 1];\n                } else {\n                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], // 替换\n                                   Math.min(dp[i - 1][j],    // 删除\n                                            dp[i][j - 1]));   // 插入\n                }\n            }\n        }\n        return dp[m][n];\n    }\n\n    public static void main(String[] args) {\n        EditDistance ed = new EditDistance();\n        System.out.println(ed.minDistance(\"horse\", \"ros\")); // 3\n        System.out.println(ed.minDistance(\"intention\", \"execution\")); // 5\n    }\n}"
+      }
+    ],
+    "notes": "状态 `dp[i][j]` 表示 `word1` 的前 `i` 个字符与 `word2` 的前 `j` 个字符之间的编辑距离。时间和空间复杂度均为 O(m*n)。此算法在拼写检查、DNA序列比对等领域有广泛应用。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Boyer-Moore String Search",
+    "summary": "一种高效的字符串匹配算法，其特点是从模式串的末尾开始比较，并利用“坏字符规则”和“好后缀规则”进行大步跳跃，从而在实践中通常比 KMP 算法更快。 ",
+    "examples": [
+      {
+        "description": "Java 实现 Boyer-Moore (仅坏字符规则) - Boyer-Moore in Java ",
+        "code": "public class BoyerMoore {\n    private static final int NO_OF_CHARS = 256;\n\n    // 预处理坏字符表\n    private void badCharHeuristic(char[] str, int size, int[] badchar) {\n        for (int i = 0; i < NO_OF_CHARS; i++) badchar[i] = -1;\n        for (int i = 0; i < size; i++) badchar[(int) str[i]] = i;\n    }\n\n    public void search(String txt, String pat) {\n        int m = pat.length();\n        int n = txt.length();\n        int[] badchar = new int[NO_OF_CHARS];\n        badCharHeuristic(pat.toCharArray(), m, badchar);\n\n        int s = 0; // 文本中的对齐位置\n        while (s <= (n - m)) {\n            int j = m - 1;\n            while (j >= 0 && pat.charAt(j) == txt.charAt(s + j)) j--;\n\n            if (j < 0) {\n                System.out.println(\"Pattern occurs at shift = \" + s);\n                s += (s + m < n) ? m - badchar[txt.charAt(s + m)] : 1;\n            } else {\n                s += Math.max(1, j - badchar[txt.charAt(s + j)]);\n            }\n        }\n    }\n}"
+      }
+    ],
+    "notes": "坏字符规则指的是：当发生不匹配时，可以将模式串向右移动，使得文本中导致不匹配的字符（坏字符）与模式串中该字符最后一次出现的位置对齐。该算法的平均时间复杂度很好，可以达到 O(n/m)，最坏情况为 O(nm)。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Combination Sum",
+    "summary": "一个组合搜索问题，要求从一个候选数集合中找出所有唯一的组合，使得组合中数字的总和等于一个给定的目标数。候选数可以被无限制地重复使用。 ",
+    "examples": [
+      {
+        "description": "Java 实现组合总和 (回溯法) - Combination Sum in Java ",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class CombinationSum {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> result = new ArrayList<>();\n        backtrack(result, new ArrayList<>(), candidates, target, 0);\n        return result;\n    }\n\n    private void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int remain, int start) {\n        if (remain < 0) return;\n        if (remain == 0) {\n            list.add(new ArrayList<>(tempList));\n        } else {\n            for (int i = start; i < nums.length; i++) {\n                tempList.add(nums[i]);\n                backtrack(list, tempList, nums, remain - nums[i], i); // i, not i+1, allows reuse\n                tempList.remove(tempList.size() - 1);\n            }\n        }\n    }\n}"
+      }
+    ],
+    "notes": "这是回溯算法的又一个经典应用。与全排列或子集问题不同，此处的关键在于如何处理数字的重复使用（通过在递归调用中传递 `i` 而不是 `i+1`）以及如何处理和的约束。 ",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Closest Pair of Points",
+    "summary": "一个计算几何问题，目标是在一个 n 个点的集合中找到距离最近的两个点。虽然朴素解法是 O(n^2)，但通过分治法可以实现 O(n log n) 的高效求解。",
+    "examples": [
+      {
+        "description": "分治法解决最近点对问题 (概念性结构) - Closest Pair using Divide and Conquer ",
+        "code": "import java.util.Arrays;\nimport java.util.Comparator;\n\nclass Point { double x, y; }\n\npublic class ClosestPair {\n    public double closest(Point[] P) {\n        // 1. 按 x 坐标排序\n        Arrays.sort(P, Comparator.comparingDouble(p -> p.x));\n        return closestUtil(P, 0, P.length - 1);\n    }\n\n    private double closestUtil(Point[] P, int left, int right) {\n        // 2. 递归基：如果点数很少，直接暴力求解\n        if (right - left <= 3) return bruteForce(P, left, right);\n\n        // 3. 分治：找到中点，递归求解左右两部分\n        int mid = left + (right - left) / 2;\n        double d_left = closestUtil(P, left, mid);\n        double d_right = closestUtil(P, mid + 1, right);\n        double d = Math.min(d_left, d_right);\n\n        // 4. 合并：处理跨越中间线的点对（在宽度为 2d 的条带内）\n        // ... 创建条带 strip[] ...\n        // ... 对 strip[] 按 y 坐标排序 ...\n        // ... 在条带内检查每个点和其后的少数几个点 ...\n        return min(d, stripClosest(strip, d));\n    }\n    // ... bruteForce, stripClosest, dist 等辅助方法 ...\n}"
+      }
+    ],
+    "notes": "算法的核心和难点在于“合并”步骤：只需考虑距离中线不超过 `d` 的点，并将它们按 y 坐标排序，然后对每个点，只需检查其后的有限个点即可。这一步可以在线性时间内完成，从而保证了整体 O(n log n) 的复杂度。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Fisher-Yates Shuffle",
+    "summary": "一种用于生成一个有限序列的随机排列的算法。它能保证每个排列出现的概率均等，是现代计算机程序中实现“洗牌”功能的标准、无偏方法。 ",
+    "examples": [
+      {
+        "description": "Java 实现 Fisher-Yates (Knuth) 洗牌算法 - Fisher-Yates (Knuth) Shuffle in Java",
+        "code": "import java.util.Random;\nimport java.util.Arrays;\n\npublic class FisherYatesShuffle {\n    public void shuffle(int[] arr) {\n        Random rand = new Random();\n        for (int i = arr.length - 1; i > 0; i--) {\n            // 从 [0, i] 中随机选择一个索引 j\n            int j = rand.nextInt(i + 1);\n\n            // 交换 arr[i] 和 arr[j]\n            int temp = arr[i];\n            arr[i] = arr[j];\n            arr[j] = temp;\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] array = {1, 2, 3, 4, 5, 6};\n        FisherYatesShuffle fys = new FisherYatesShuffle();\n        fys.shuffle(array);\n        System.out.println(\"Shuffled array: \" + Arrays.toString(array));\n        // Example output: Shuffled array: [4, 1, 5, 6, 2, 3]\n    }\n}"
+      }
+    ],
+    "notes": "算法从后向前遍历数组，在第 `i` 步，从前 `i+1` 个元素中随机选择一个与第 `i` 个元素交换。这种方法简洁、高效，时间复杂度为 O(n)，并且是原地操作，空间复杂度为 O(1)。 ",
+    "shell_type": "Java"
+  }
+]

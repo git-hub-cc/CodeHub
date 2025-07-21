@@ -1,5 +1,1207 @@
 [
   {
+    "name": "ipconfig",
+    "summary": "显示 Windows IP 配置 (Display Windows IP configuration)",
+    "examples": [
+      {
+        "description": "显示所有网络适配器的基本IP配置",
+        "code": "ipconfig"
+      },
+      {
+        "description": "显示所有网络适配器的完整IP配置信息",
+        "code": "ipconfig /all"
+      },
+      {
+        "description": "释放所有适配器的DHCP租约",
+        "code": "ipconfig /release"
+      },
+      {
+        "description": "续订所有适配器的DHCP租约",
+        "code": "ipconfig /renew"
+      },
+      {
+        "description": "清除DNS解析程序缓存",
+        "code": "ipconfig /flushdns"
+      }
+    ],
+    "notes": "这是一个经典的 `cmd.exe` 命令，在 PowerShell 中可以直接运行。虽然它能快速提供信息，但在 PowerShell 中，推荐使用 `Get-NetIPAddress`, `Get-NetAdapter` 等原生 Cmdlet，因为它们返回的是结构化对象，更便于在脚本中进行筛选、排序和处理。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "ping",
+    "summary": "测试网络连通性 (Packet Internet Groper)",
+    "examples": [
+      {
+        "description": "向目标主机发送4个ICMP回显请求",
+        "code": "ping google.com"
+      },
+      {
+        "description": "持续向目标主机发送ICMP回显请求，直到手动停止 (Ctrl+C)",
+        "code": "ping google.com -t"
+      },
+      {
+        "description": "指定发送10个ICMP回显请求",
+        "code": "ping google.com -n 10"
+      }
+    ],
+    "notes": "这是另一个可在 PowerShell 中直接使用的 `cmd.exe` 命令。PowerShell 的原生替代品是 `Test-Connection`，它返回结构化对象，提供了更多信息和更灵活的脚本集成能力。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "nslookup",
+    "summary": "交互式查询DNS服务器以获取域名或IP地址信息",
+    "examples": [
+      {
+        "description": "查询 'google.com' 的A记录",
+        "code": "nslookup google.com"
+      },
+      {
+        "description": "查询 'google.com' 的MX记录",
+        "code": "nslookup -type=mx google.com"
+      },
+      {
+        "description": "使用指定的DNS服务器进行查询",
+        "code": "nslookup google.com 8.8.8.8"
+      }
+    ],
+    "notes": "这是一个经典的DNS诊断工具。在 PowerShell 中，推荐使用 `Resolve-DnsName` Cmdlet，它提供了更强大的功能和结构化对象输出。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "tracert",
+    "summary": "显示数据包到达目的主机的路径 (Trace Route)",
+    "examples": [
+      {
+        "description": "追踪到 'google.com' 的路由路径",
+        "code": "tracert google.com"
+      },
+      {
+        "description": "不解析IP地址到主机名，加快追踪速度",
+        "code": "tracert -d 8.8.8.8"
+      }
+    ],
+    "notes": "这是一个标准的网络诊断工具。PowerShell 5.0 及更高版本提供了功能更强大的 `Test-NetConnection -TraceRoute` 作为原生替代方案。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "netstat",
+    "summary": "显示活动的TCP连接、监听端口、以太网统计信息等 (Network Statistics)",
+    "examples": [
+      {
+        "description": "显示所有活动的TCP连接和监听端口，并显示进程ID (PID)",
+        "code": "netstat -ano"
+      },
+      {
+        "description": "仅显示监听中的TCP和UDP端口",
+        "code": "netstat -an | findstr \"LISTENING\""
+      }
+    ],
+    "notes": "这是一个传统的网络状态查看工具。在 PowerShell 中，推荐使用 `Get-NetTCPConnection`，它返回对象，更易于筛选和自动化。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "tasklist",
+    "summary": "显示当前正在运行的进程列表 (Task List)",
+    "examples": [
+      {
+        "description": "显示所有进程",
+        "code": "tasklist"
+      },
+      {
+        "description": "查找所有名为 'chrome.exe' 的进程",
+        "code": "tasklist /FI \"IMAGENAME eq chrome.exe\""
+      }
+    ],
+    "notes": "这是一个 `cmd.exe` 进程查看工具。PowerShell 的原生替代品是 `Get-Process`，它返回丰富的进程对象，功能远比 `tasklist` 强大。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "taskkill",
+    "summary": "终止一个或多个进程 (Task Kill)",
+    "examples": [
+      {
+        "description": "按进程ID终止进程",
+        "code": "taskkill /PID 1234"
+      },
+      {
+        "description": "按映像名称强制终止所有进程",
+        "code": "taskkill /IM notepad.exe /F"
+      }
+    ],
+    "notes": "这是一个 `cmd.exe` 进程终止工具。PowerShell 的原生替代品是 `Stop-Process`，它同样支持按名称或ID终止进程，并且可以与 `Get-Process` 通过管道无缝集成。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "schtasks",
+    "summary": "管理计划任务 (Scheduled Tasks)",
+    "examples": [
+      {
+        "description": "查询所有计划任务",
+        "code": "schtasks /query"
+      },
+      {
+        "description": "创建一个每天运行的计划任务",
+        "code": "schtasks /create /sc daily /tn \"My Daily Task\" /tr \"C:\\path\\to\\script.bat\" /st 09:00"
+      }
+    ],
+    "notes": "这是传统的计划任务管理工具。PowerShell 提供了完整的 `ScheduledTasks` 模块，包含 `Get-ScheduledTask`, `Register-ScheduledTask`, `Unregister-ScheduledTask` 等一系列Cmdlet，是自动化管理计划任务的推荐方式。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "ls",
+    "summary": "列出目录内容，是 `Get-ChildItem` 的别名",
+    "examples": [
+      {
+        "description": "列出当前目录的文件和文件夹",
+        "code": "ls"
+      },
+      {
+        "description": "递归列出所有子目录内容",
+        "code": "ls -Recurse"
+      },
+      {
+        "description": "列出所有.txt文件",
+        "code": "ls *.txt"
+      }
+    ],
+    "notes": "这是一个为 `Get-ChildItem` Cmdlet 设置的内置别名，旨在为熟悉 Unix/Linux 命令的用户提供便利。推荐学习 `Get-ChildItem` 的原生参数，如 `-Path`, `-Filter`, `-Recurse`, `-File`, `-Directory` 等，以发挥其全部功能。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "dir",
+    "summary": "列出目录内容，是 `Get-ChildItem` 的别名",
+    "examples": [
+      {
+        "description": "列出当前目录的文件和文件夹",
+        "code": "dir"
+      },
+      {
+        "description": "递归列出所有子目录内容",
+        "code": "dir -Recurse"
+      }
+    ],
+    "notes": "这是为 `Get-ChildItem` 设置的别名，主要为了兼容 `cmd.exe` 的用户习惯。与 `ls` 别名功能相同。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "cat",
+    "summary": "获取文件内容，是 `Get-Content` 的别名",
+    "examples": [
+      {
+        "description": "显示文件内容",
+        "code": "cat C:\\windows\\system32\\drivers\\etc\\hosts"
+      },
+      {
+        "description": "显示文件的前10行",
+        "code": "cat logfile.txt -TotalCount 10"
+      }
+    ],
+    "notes": "这是为 `Get-Content` 设置的别名，方便 Unix/Linux 用户。`Get-Content` 提供了更丰富的功能，如 `-Wait` (实时监控) 和 `-Raw` (读取整个文件为单个字符串)。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "ps",
+    "summary": "获取正在运行的进程，是 `Get-Process` 的别名",
+    "examples": [
+      {
+        "description": "列出所有进程",
+        "code": "ps"
+      },
+      {
+        "description": "查找名为 'powershell' 的进程",
+        "code": "ps powershell"
+      }
+    ],
+    "notes": "这是为 `Get-Process` 设置的别名，方便 Unix/Linux 用户。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "kill",
+    "summary": "停止进程，是 `Stop-Process` 的别名",
+    "examples": [
+      {
+        "description": "按名称停止所有记事本进程",
+        "code": "kill -Name notepad"
+      },
+      {
+        "description": "按ID停止进程",
+        "code": "kill -Id 1234"
+      }
+    ],
+    "notes": "这是为 `Stop-Process` 设置的别名，方便 Unix/Linux 用户。注意，PowerShell 中的 `kill` 别名使用 `-Name` 和 `-Id` 参数，而不是直接跟进程ID。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "cls",
+    "summary": "清除屏幕，是 `Clear-Host` 的别名",
+    "examples": [
+      {
+        "description": "清除当前控制台屏幕",
+        "code": "cls"
+      }
+    ],
+    "notes": "这是为 `Clear-Host` 设置的别名，方便 `cmd.exe` 用户。`clear` 也是 `Clear-Host` 的别名。快捷键 `Ctrl+L` 通常也能实现相同效果。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "cp",
+    "summary": "复制项目，是 `Copy-Item` 的别名",
+    "examples": [
+      {
+        "description": "复制文件",
+        "code": "cp source.txt destination.txt"
+      },
+      {
+        "description": "递归复制整个目录",
+        "code": "cp -Recurse ./source_dir ./dest_dir"
+      }
+    ],
+    "notes": "这是为 `Copy-Item` 设置的别名，方便 Unix/Linux 用户。`copy` (兼容 `cmd.exe`) 也是它的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "mv",
+    "summary": "移动项目，是 `Move-Item` 的别名",
+    "examples": [
+      {
+        "description": "移动文件到新目录",
+        "code": "mv oldfile.txt C:\\Archive\\"
+      },
+      {
+        "description": "重命名文件 (移动到同一目录下的新名称)",
+        "code": "mv oldname.txt newname.txt"
+      }
+    ],
+    "notes": "这是为 `Move-Item` 设置的别名，方便 Unix/Linux 用户。`move` (兼容 `cmd.exe`) 也是它的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "rm",
+    "summary": "移除项目，是 `Remove-Item` 的别名",
+    "examples": [
+      {
+        "description": "删除文件",
+        "code": "rm oldfile.txt"
+      },
+      {
+        "description": "递归删除整个目录（慎用！）",
+        "code": "rm -Recurse ./temp_dir -Force"
+      }
+    ],
+    "notes": "这是为 `Remove-Item` 设置的别名，方便 Unix/Linux 用户。`del` 和 `erase` (兼容 `cmd.exe`) 也是它的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "echo",
+    "summary": "写入输出，是 `Write-Output` 的别名",
+    "examples": [
+      {
+        "description": "向管道输出字符串",
+        "code": "echo \"Hello, Pipeline!\""
+      }
+    ],
+    "notes": "这是为 `Write-Output` 设置的别名。`Write-Output` 是PowerShell的默认输出方式，它将对象发送到管道。这与 `cmd.exe` 的 `echo` 或 `bash` 的 `echo` 行为略有不同，后者主要处理字符串。`write` 也是 `Write-Output` 的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "man",
+    "summary": "获取帮助，是 `Get-Help` 的别名",
+    "examples": [
+      {
+        "description": "获取 `Get-Process` 的帮助",
+        "code": "man Get-Process"
+      }
+    ],
+    "notes": "这是为 `Get-Help` 设置的别名，方便 Unix/Linux 用户。`help` 也是 `Get-Help` 的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "net",
+    "summary": "管理网络资源、用户、组等的 `cmd.exe` 命令集",
+    "examples": [
+      {
+        "description": "查看本地用户账户",
+        "code": "net user"
+      },
+      {
+        "description": "查看本地 'Administrators' 组的成员",
+        "code": "net localgroup Administrators"
+      },
+      {
+        "description": "查看当前计算机上的共享资源",
+        "code": "net share"
+      },
+      {
+        "description": "映射网络驱动器",
+        "code": "net use Z: \\\\server\\share"
+      }
+    ],
+    "notes": "这是一个非常强大的 `cmd.exe` 工具集。在 PowerShell 中，管理本地用户和组推荐使用 `Get-LocalUser`, `Get-LocalGroup` 等 `Microsoft.PowerShell.LocalAccounts` 模块中的 Cmdlet；管理网络驱动器推荐使用 `New-PSDrive`。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "sc",
+    "summary": "与服务控制管理器和已安装的服务进行通信 (Service Control)",
+    "examples": [
+      {
+        "description": "查询 'Spooler' 服务的状态",
+        "code": "sc query Spooler"
+      },
+      {
+        "description": "停止 'wuauserv' (Windows Update) 服务",
+        "code": "sc stop wuauserv"
+      },
+      {
+        "description": "获取服务的配置信息",
+        "code": "sc qc Spooler"
+      }
+    ],
+    "notes": "这是传统的服务管理命令行工具。PowerShell 提供了完整的服务管理 Cmdlet 系列（`Get-Service`, `Start-Service`, `Stop-Service`, `Set-Service`），它们返回对象，更易于在脚本中进行自动化管理。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "systeminfo",
+    "summary": "显示有关计算机及其操作系统的详细配置信息",
+    "examples": [
+      {
+        "description": "显示本地计算机的系统信息",
+        "code": "systeminfo"
+      },
+      {
+        "description": "查找系统启动时间",
+        "code": "systeminfo | findstr /B /C:\"System Boot Time\""
+      }
+    ],
+    "notes": "用于快速获取系统概览。PowerShell 中的 `Get-ComputerInfo` Cmdlet 提供了更详细且结构化的对象输出，更适合脚本处理。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "chkdsk",
+    "summary": "检查磁盘并显示状态报告 (Check Disk)",
+    "examples": [
+      {
+        "description": "检查C盘，但不修复错误",
+        "code": "chkdsk C:"
+      },
+      {
+        "description": "检查并修复C盘上的错误 (通常需要重启)",
+        "code": "chkdsk C: /f"
+      }
+    ],
+    "notes": "经典的磁盘检查和修复工具。在 PowerShell 中，可以使用 `Repair-Volume` Cmdlet 来执行类似的功能。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "sfc",
+    "summary": "扫描并验证所有受保护的系统文件的完整性 (System File Checker)",
+    "examples": [
+      {
+        "description": "立即扫描所有受保护的系统文件",
+        "code": "sfc /scannow"
+      }
+    ],
+    "notes": "用于修复损坏或丢失的 Windows 系统文件。这是一个重要的系统维护工具。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "driverquery",
+    "summary": "显示已安装设备驱动程序的列表和属性",
+    "examples": [
+      {
+        "description": "列出所有已安装的驱动程序",
+        "code": "driverquery"
+      },
+      {
+        "description": "以详细列表格式显示",
+        "code": "driverquery /v"
+      }
+    ],
+    "notes": "用于查询系统驱动信息。在 PowerShell 中，可以使用 `Get-WindowsDriver` Cmdlet (需要 `DISM` 模块) 获取更详细的信息。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "whoami",
+    "summary": "显示当前用户的用户名和安全标识符 (SID)",
+    "examples": [
+      {
+        "description": "显示当前用户名",
+        "code": "whoami"
+      },
+      {
+        "description": "显示当前用户所属的组",
+        "code": "whoami /groups"
+      }
+    ],
+    "notes": "快速识别当前上下文中的用户身份。在 PowerShell 中，可以直接访问 `$env:USERNAME` 环境变量或使用 `(Get-CimInstance Win32_ComputerSystem).Username`。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "reg",
+    "summary": "用于在命令行中操作 Windows 注册表",
+    "examples": [
+      {
+        "description": "查询注册表项的值",
+        "code": "reg query HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion /v ProgramFilesDir"
+      },
+      {
+        "description": "添加一个新的注册表值",
+        "code": "reg add HKCU\\Software\\MyApp /v Version /t REG_SZ /d 1.0"
+      }
+    ],
+    "notes": "传统的注册表编辑工具。PowerShell 提供了 `PSDrive` (如 `HKLM:`, `HKCU:`)，允许你使用 `Get-Item`, `Set-Item`, `New-ItemProperty` 等标准 Cmdlet 来以面向对象的方式管理注册表，这通常是更安全和可控的方式。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "shutdown",
+    "summary": "关闭或重启本地或远程计算机",
+    "examples": [
+      {
+        "description": "在1分钟后重启计算机",
+        "code": "shutdown /r /t 60"
+      },
+      {
+        "description": "立即关闭计算机",
+        "code": "shutdown /s /t 0"
+      },
+      {
+        "description": "取消计划的关闭或重启",
+        "code": "shutdown /a"
+      }
+    ],
+    "notes": "经典的关机命令。PowerShell 的 `Stop-Computer` 和 `Restart-Computer` Cmdlet 提供了更强大的远程管理和脚本集成功能。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "gci",
+    "summary": "是 `Get-ChildItem` 的别名",
+    "examples": [
+      {
+        "description": "列出当前目录内容",
+        "code": "gci"
+      }
+    ],
+    "notes": "这是 `Get-ChildItem` 的 PowerShell 常用缩写。其他别名还包括 `ls` 和 `dir`。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "gc",
+    "summary": "是 `Get-Content` 的别名",
+    "examples": [
+      {
+        "description": "获取文件内容",
+        "code": "gc C:\\file.txt"
+      }
+    ],
+    "notes": "这是 `Get-Content` 的 PowerShell 常用缩写。其他别名还包括 `cat` 和 `type`。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "gps",
+    "summary": "是 `Get-Process` 的别名",
+    "examples": [
+      {
+        "description": "获取所有进程",
+        "code": "gps"
+      }
+    ],
+    "notes": "这是 `Get-Process` 的 PowerShell 常用缩写。其他别名还包括 `ps`。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "gal",
+    "summary": "是 `Get-Alias` 的别名",
+    "examples": [
+      {
+        "description": "获取所有别名",
+        "code": "gal"
+      }
+    ],
+    "notes": "用于查找和发现其他别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "sal",
+    "summary": "是 `Set-Alias` 的别名",
+    "examples": [
+      {
+        "description": "创建一个新的别名",
+        "code": "sal n Get-ChildItem -Option AllScope"
+      }
+    ],
+    "notes": "用于创建自定义别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "?",
+    "summary": "是 `Where-Object` 的别名",
+    "examples": [
+      {
+        "description": "筛选正在运行的服务",
+        "code": "Get-Service | ? {$_.Status -eq 'Running'}"
+      }
+    ],
+    "notes": "这是 `Where-Object` 最简洁的别名，非常适合在交互式命令行中使用。另一个别名是 `where`。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "%",
+    "summary": "是 `ForEach-Object` 的别名",
+    "examples": [
+      {
+        "description": "对每个服务执行操作",
+        "code": "Get-Service | % { Write-Host $_.Name }"
+      }
+    ],
+    "notes": "这是 `ForEach-Object` 最简洁的别名，非常适合在交互式命令行中使用。另一个别名是 `foreach`。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "select",
+    "summary": "是 `Select-Object` 的别名",
+    "examples": [
+      {
+        "description": "选择进程的特定属性",
+        "code": "Get-Process | select Name, Id"
+      }
+    ],
+    "notes": "方便 `SQL` 背景的用户。`Select-Object` 是管道处理中最重要的命令之一。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "sort",
+    "summary": "是 `Sort-Object` 的别名",
+    "examples": [
+      {
+        "description": "按名称对文件排序",
+        "code": "Get-ChildItem | sort Name"
+      }
+    ],
+    "notes": "方便 Unix/Linux 用户。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "group",
+    "summary": "是 `Group-Object` 的别名",
+    "examples": [
+      {
+        "description": "按扩展名对文件分组",
+        "code": "Get-ChildItem | group Extension"
+      }
+    ],
+    "notes": "用于数据聚合和分析。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "measure",
+    "summary": "是 `Measure-Object` 的别名",
+    "examples": [
+      {
+        "description": "计算所有文件的总大小",
+        "code": "Get-ChildItem -File | measure -Property Length -Sum"
+      }
+    ],
+    "notes": "用于统计计算。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "tee",
+    "summary": "是 `Tee-Object` 的别名",
+    "examples": [
+      {
+        "description": "将输出同时显示并保存到文件",
+        "code": "Get-Process | tee processes.txt"
+      }
+    ],
+    "notes": "方便 Unix/Linux 用户。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "ft",
+    "summary": "是 `Format-Table` 的别名",
+    "examples": [
+      {
+        "description": "以表格形式格式化输出",
+        "code": "Get-Service | ft -AutoSize"
+      }
+    ],
+    "notes": "常用的格式化输出缩写。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "fl",
+    "summary": "是 `Format-List` 的别名",
+    "examples": [
+      {
+        "description": "以列表形式格式化输出",
+        "code": "Get-Service Spooler | fl *"
+      }
+    ],
+    "notes": "常用的格式化输出缩写，适合查看对象的所有属性。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "iwr",
+    "summary": "是 `Invoke-WebRequest` 的别名",
+    "examples": [
+      {
+        "description": "获取网页内容",
+        "code": "iwr https://www.google.com"
+      }
+    ],
+    "notes": "用于与Web服务交互。其他别名还包括 `curl` 和 `wget`。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "irm",
+    "summary": "是 `Invoke-RestMethod` 的别名",
+    "examples": [
+      {
+        "description": "调用REST API并获取解析后的对象",
+        "code": "irm https://api.github.com/users/powershell"
+      }
+    ],
+    "notes": "与 `Invoke-WebRequest` 类似，但它会自动解析JSON或XML响应，返回PowerShell对象，通常更方便。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "wget",
+    "summary": "是 `Invoke-WebRequest` 的别名",
+    "examples": [
+      {
+        "description": "下载文件",
+        "code": "wget https://example.com/file.zip -OutFile ./file.zip"
+      }
+    ],
+    "notes": "方便 Unix/Linux 用户。`iwr` 和 `curl` 也是它的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "curl",
+    "summary": "是 `Invoke-WebRequest` 的别名",
+    "examples": [
+      {
+        "description": "向Web服务器发送请求",
+        "code": "curl http://example.com"
+      }
+    ],
+    "notes": "方便 Unix/Linux 用户。`iwr` 和 `wget` 也是它的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "mount",
+    "summary": "是 `New-PSDrive` 的别名",
+    "examples": [
+      {
+        "description": "映射一个网络共享为PowerShell驱动器",
+        "code": "mount -Name 'Share' -PSProvider FileSystem -Root '\\\\server\\shared_folder'"
+      }
+    ],
+    "notes": "方便 Unix/Linux 用户。用于将数据存储（如文件系统、注册表等）映射为PowerShell驱动器。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "diff",
+    "summary": "是 `Compare-Object` 的别名",
+    "examples": [
+      {
+        "description": "比较两个文件的内容差异",
+        "code": "diff (gc file1.txt) (gc file2.txt)"
+      }
+    ],
+    "notes": "方便 Unix/Linux 用户。用于比较两个对象集合的差异。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "h",
+    "summary": "是 `Get-History` 的别名",
+    "examples": [
+      {
+        "description": "显示命令历史",
+        "code": "h"
+      }
+    ],
+    "notes": "快捷方式。`history` 也是它的别名。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "r",
+    "summary": "是 `Invoke-History` 的别名",
+    "examples": [
+      {
+        "description": "重新执行上一条命令",
+        "code": "r"
+      }
+    ],
+    "notes": "快捷方式，用于重新运行历史记录中的命令。",
+    "shell_type": "Alias (Built-in)",
+    "category": "Core General (Alias)",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "gpupdate",
+    "summary": "强制刷新组策略 (Force Group Policy update)",
+    "examples": [
+      {
+        "description": "强制刷新所有策略",
+        "code": "gpupdate /force"
+      },
+      {
+        "description": "仅刷新用户策略",
+        "code": "gpupdate /target:user"
+      }
+    ],
+    "notes": "经典的组策略刷新命令。PowerShell的原生替代方案是 `Invoke-GPUpdate`，它提供了更多控制，例如可以远程执行。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "gpresult",
+    "summary": "显示应用的组策略结果 (Resultant Set of Policy)",
+    "examples": [
+      {
+        "description": "显示当前用户的组策略结果摘要",
+        "code": "gpresult /r"
+      },
+      {
+        "description": "为特定用户显示组策略结果",
+        "code": "gpresult /r /user 'domain\\username'"
+      },
+      {
+        "description": "生成HTML格式的详细报告",
+        "code": "gpresult /h C:\\temp\\gpresult.html"
+      }
+    ],
+    "notes": "用于诊断组策略问题的关键工具。PowerShell的原生替代方案是 `Get-GPResultantSetOfPolicy`，它将结果输出为XML或HTML，并且返回对象。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "bcdedit",
+    "summary": "管理启动配置数据 (Boot Configuration Data)",
+    "examples": [
+      {
+        "description": "显示当前系统的启动项",
+        "code": "bcdedit /enum"
+      },
+      {
+        "description": "设置默认启动项的超时时间为10秒",
+        "code": "bcdedit /timeout 10"
+      }
+    ],
+    "notes": "这是一个高级系统工具，用于修改Windows启动加载程序。错误地使用此命令可能导致系统无法启动，请务必谨慎操作。通常需要管理员权限。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "powercfg",
+    "summary": "配置电源设置和分析电源使用情况",
+    "examples": [
+      {
+        "description": "列出所有电源方案",
+        "code": "powercfg /list"
+      },
+      {
+        "description": "生成详细的电源效率诊断报告",
+        "code": "powercfg /energy"
+      },
+      {
+        "description": "显示系统电池的详细报告",
+        "code": "powercfg /batteryreport"
+      }
+    ],
+    "notes": "强大的电源管理工具，尤其在笔记本电脑上用于诊断电池问题或优化电源计划非常有用。通常需要管理员权限。",
+    "shell_type": "External Program (cmd.exe compatibility)",
+    "category": "Windows (cmd.exe compatibility)",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "Start-Job",
+    "summary": "在后台启动一个PowerShell作业",
+    "examples": [
+      {
+        "description": "在后台执行一个耗时操作",
+        "code": "Start-Job -ScriptBlock { Get-ChildItem -Path C:\\ -Recurse -Force }"
+      },
+      {
+        "description": "为后台作业指定一个名称",
+        "code": "Start-Job -Name \"LargeFileCopy\" -ScriptBlock { Copy-Item -Path 'D:\\largefile.iso' -Destination 'E:\\backup' }"
+      }
+    ],
+    "notes": "用于执行长时间运行的命令而不会阻塞当前PowerShell控制台。作业完成后，可以使用 `Receive-Job` 来获取其输出。`Get-Job` 可以查看所有作业的状态。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Get-Job",
+    "summary": "获取当前会话中的PowerShell后台作业信息",
+    "examples": [
+      {
+        "description": "获取所有后台作业",
+        "code": "Get-Job"
+      },
+      {
+        "description": "按名称获取特定作业",
+        "code": "Get-Job -Name \"LargeFileCopy\""
+      },
+      {
+        "description": "获取所有已完成的作业",
+        "code": "Get-Job -State Completed"
+      }
+    ],
+    "notes": "用于监控后台作业的状态、ID、名称等。这是管理后台作业的核心命令。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Receive-Job",
+    "summary": "获取PowerShell后台作业的输出结果",
+    "examples": [
+      {
+        "description": "获取作业ID为1的结果，并保留在作业缓存中",
+        "code": "Receive-Job -Id 1"
+      },
+      {
+        "description": "获取作业ID为2的结果，并将其从缓存中移除",
+        "code": "Receive-Job -Id 2 -Keep"
+      }
+    ],
+    "notes": "用于从已完成的后台作业中检索数据。默认情况下，一旦接收了结果，它们就会从作业的输出缓冲区中移除。使用 `-Keep` 参数可以多次接收相同的结果。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Stop-Job",
+    "summary": "停止一个正在运行的PowerShell后台作业",
+    "examples": [
+      {
+        "description": "停止ID为3的作业",
+        "code": "Stop-Job -Id 3"
+      }
+    ],
+    "notes": "用于终止不再需要或运行时间过长的后台作业。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Remove-Job",
+    "summary": "从当前会话中移除一个PowerShell后台作业",
+    "examples": [
+      {
+        "description": "移除所有已完成或失败的作业",
+        "code": "Get-Job | Where-Object { $_.State -in @('Completed', 'Failed', 'Stopped') } | Remove-Job"
+      }
+    ],
+    "notes": "用于清理作业列表，释放与作业相关的资源。移除作业会删除其所有数据，包括输出结果。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Export-CliXml",
+    "summary": "将对象序列化为基于CLI（命令行界面）的XML文件",
+    "examples": [
+      {
+        "description": "将进程对象保存到XML文件",
+        "code": "Get-Process | Export-CliXml -Path \"processes.xml\""
+      }
+    ],
+    "notes": "此命令创建的XML文件保留了PowerShell对象的完整类型信息和结构，比CSV更丰富。可以使用 `Import-CliXml` 将其恢复为原始的PowerShell对象。非常适合在PowerShell会话之间或机器之间传递复杂对象。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Import-CliXml",
+    "summary": "从CLI XML文件导入对象",
+    "examples": [
+      {
+        "description": "从XML文件恢复进程对象",
+        "code": "$processes = Import-CliXml -Path \"processes.xml\""
+      }
+    ],
+    "notes": "与 `Export-CliXml` 配对使用，可以完美地反序列化对象，恢复其所有属性和方法。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "ConvertTo-Html",
+    "summary": "将对象转换为可在Web浏览器中显示的HTML",
+    "examples": [
+      {
+        "description": "将服务列表转换为HTML表格",
+        "code": "Get-Service | ConvertTo-Html | Out-File services.html"
+      },
+      {
+        "description": "创建一个包含标题和多个部分的HTML报告",
+        "code": "Get-Process | ConvertTo-Html -Property Name, CPU, WorkingSet -Title \"Process Report\" | Out-File report.html"
+      }
+    ],
+    "notes": "非常适合快速生成简单的HTML报告。可以自定义标题、正文内容和CSS样式。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Get-Clipboard",
+    "summary": "获取Windows剪贴板的内容",
+    "examples": [
+      {
+        "description": "获取剪贴板中的文本",
+        "code": "Get-Clipboard"
+      }
+    ],
+    "notes": "一个非常方便的交互式命令，可以轻松地将剪贴板内容引入PowerShell管道。仅在Windows上可用。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Windows",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "Set-Clipboard",
+    "summary": "设置Windows剪贴板的内容",
+    "examples": [
+      {
+        "description": "将字符串复制到剪贴板",
+        "code": "Set-Clipboard -Value \"Hello, this text is now in the clipboard.\""
+      },
+      {
+        "description": "将当前路径复制到剪贴板",
+        "code": "Get-Location | Set-Clipboard"
+      }
+    ],
+    "notes": "与 `Get-Clipboard` 配对使用，可以轻松地将PowerShell的输出发送到剪贴板，以便粘贴到其他应用程序中。仅在Windows上可用。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Windows",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "Compress-Archive",
+    "summary": "从指定的文件和目录创建压缩存档（.zip文件）",
+    "examples": [
+      {
+        "description": "将单个文件压缩到zip文件",
+        "code": "Compress-Archive -Path C:\\Logs\\app.log -DestinationPath C:\\Archives\\app_log.zip"
+      },
+      {
+        "description": "将整个目录压缩到zip文件",
+        "code": "Compress-Archive -Path C:\\MyProject\\* -DestinationPath C:\\Backups\\MyProject.zip"
+      },
+      {
+        "description": "更新现有的zip文件，添加新文件",
+        "code": "Compress-Archive -Path C:\\NewFiles\\* -Update -DestinationPath C:\\Archives\\ExistingArchive.zip"
+      }
+    ],
+    "notes": "PowerShell 5.0及更高版本内置的压缩功能，非常适合自动化备份和文件打包任务。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Expand-Archive",
+    "summary": "从指定的存档文件（.zip文件）中提取文件",
+    "examples": [
+      {
+        "description": "将zip文件解压到指定目录",
+        "code": "Expand-Archive -Path C:\\Archives\\MyProject.zip -DestinationPath C:\\Restored\\MyProject"
+      },
+      {
+        "description": "强制覆盖目标目录中的现有文件",
+        "code": "Expand-Archive -Path C:\\Archives\\Update.zip -DestinationPath C:\\WebApp -Force"
+      }
+    ],
+    "notes": "与 `Compress-Archive` 配对使用，用于解压文件。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Core General",
+    "applies_to": "Windows/AD/Azure"
+  },
+  {
+    "name": "Get-WmiObject",
+    "summary": "获取Windows管理规范（WMI）类的实例",
+    "examples": [
+      {
+        "description": "获取操作系统信息",
+        "code": "Get-WmiObject -Class Win32_OperatingSystem"
+      },
+      {
+        "description": "获取远程计算机上的BIOS信息",
+        "code": "Get-WmiObject -Class Win32_BIOS -ComputerName 'RemoteServer01'"
+      }
+    ],
+    "notes": "这是传统的WMI查询命令。虽然现在推荐使用 `Get-CimInstance`（因为它使用更现代的WS-Man协议且跨平台性更好），但`Get-WmiObject`在大量现有脚本和旧版系统中仍广泛使用。它使用DCOM协议进行远程连接。",
+    "shell_type": "PowerShell Cmdlet",
+    "category": "Windows",
+    "applies_to": "Windows"
+  },
+  {
+    "name": "Restore-ADObject",
+    "summary": "从Active Directory回收站中还原一个已删除的对象",
+    "examples": [
+      {
+        "description": "查找并还原一个已删除的用户",
+        "code": "Get-ADObject -Filter 'samAccountName -eq \"deleteduser\"' -IncludeDeletedObjects | Restore-ADObject"
+      }
+    ],
+    "notes": "要使用此命令，必须先在林中启用Active Directory回收站功能。这是恢复意外删除的用户、组或OU的关键工具。",
+    "shell_type": "PowerShell Cmdlet (Requires Module: ActiveDirectory)",
+    "category": "Active Directory",
+    "applies_to": "Windows/AD"
+  },
+  {
+    "name": "Get-AzStorageShare",
+    "summary": "获取Azure文件共享列表",
+    "examples": [
+      {
+        "description": "获取指定存储账户中的所有文件共享",
+        "code": "$ctx = (Get-AzStorageAccount -ResourceGroupName \"MyStorageRG\" -Name \"mystorageaccount\").Context\nGet-AzStorageShare -Context $ctx"
+      },
+      {
+        "description": "按名称获取特定的文件共享",
+        "code": "Get-AzStorageShare -Name \"myshare\" -Context $ctx"
+      }
+    ],
+    "notes": "Azure文件共享提供了可通过SMB协议访问的云端文件共享服务，可以像本地文件服务器一样映射和使用。",
+    "shell_type": "PowerShell Cmdlet (Az.Storage Module)",
+    "category": "Azure",
+    "applies_to": "Azure"
+  },
+  {
+    "name": "New-AzStorageShare",
+    "summary": "创建一个新的Azure文件共享",
+    "examples": [
+      {
+        "description": "创建一个新的文件共享，配额为5GB",
+        "code": "$ctx = (Get-AzStorageAccount -ResourceGroupName \"MyStorageRG\" -Name \"mystorageaccount\").Context\nNew-AzStorageShare -Name \"mynewshare\" -Quota 5 -Context $ctx"
+      }
+    ],
+    "notes": "创建文件共享时可以指定配额（以GB为单位）。",
+    "shell_type": "PowerShell Cmdlet (Az.Storage Module)",
+    "category": "Azure",
+    "applies_to": "Azure"
+  },
+  {
+    "name": "New-AzSqlServerFirewallRule",
+    "summary": "为Azure SQL服务器创建防火墙规则",
+    "examples": [
+      {
+        "description": "允许特定IP地址访问SQL服务器",
+        "code": "New-AzSqlServerFirewallRule -ResourceGroupName \"MyResourceGroup\" -ServerName \"mysqldbserver\" -FirewallRuleName \"AllowMyHomeIP\" -StartIpAddress \"203.0.113.5\" -EndIpAddress \"203.0.113.5\""
+      },
+      {
+        "description": "允许所有Azure服务访问SQL服务器",
+        "code": "New-AzSqlServerFirewallRule -ResourceGroupName \"MyResourceGroup\" -ServerName \"mysqldbserver\" -FirewallRuleName \"AllowAllWindowsAzureIps\" -StartIpAddress \"0.0.0.0\" -EndIpAddress \"0.0.0.0\""
+      }
+    ],
+    "notes": "Azure SQL服务器默认拒绝所有外部连接。必须创建防火墙规则，以允许特定IP地址或Azure服务访问数据库。",
+    "shell_type": "PowerShell Cmdlet (Az.Sql Module)",
+    "category": "Azure",
+    "applies_to": "Azure"
+  },
+  {
     "name": "Get-Help",
     "summary": "获取有关 PowerShell 命令、函数、脚本和概念的帮助信息",
     "examples": [

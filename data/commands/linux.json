@@ -560,12 +560,44 @@
         "code": "sed 's/oldstring/newstring/g' filename.txt"
       },
       {
+        "description": "使用不同的分隔符（如 |）来替换包含斜杠的路径",
+        "code": "sed 's|/old/path|/new/path|g' filename.txt"
+      },
+      {
         "description": "删除文件中包含 'pattern' 的行",
         "code": "sed '/pattern/d' filename.txt"
       },
       {
+        "description": "删除文件中的第 5 到 10 行",
+        "code": "sed '5,10d' filename.txt"
+      },
+      {
+        "description": "删除空行",
+        "code": "sed '/^$/d' filename.txt"
+      },
+      {
+        "description": "仅打印匹配 'pattern' 的行 (类似 grep)",
+        "code": "sed -n '/pattern/p' filename.txt"
+      },
+      {
+        "description": "在每个包含 'pattern' 的行前插入新行",
+        "code": "sed '/pattern/i new_line_above' filename.txt"
+      },
+      {
+        "description": "在每个包含 'pattern' 的行后追加新行",
+        "code": "sed '/pattern/a new_line_below' filename.txt"
+      },
+      {
+        "description": "在每行行首添加字符串",
+        "code": "sed 's/^/prefix_text /' filename.txt"
+      },
+      {
         "description": "在每行末尾添加字符串",
         "code": "sed 's/$/ added_text/' filename.txt"
+      },
+      {
+        "description": "执行多个编辑命令：先替换，再删除包含'tmp'的行",
+        "code": "sed -e 's/foo/bar/g' -e '/tmp/d' filename.txt"
       },
       {
         "description": "将修改直接写入文件 (小心使用，此操作会覆盖原文件)",
@@ -4324,12 +4356,52 @@
         "code": "vim filename.py"
       },
       {
+        "description": "进入插入模式（在光标前开始编辑）",
+        "code": "i (在普通模式下按 i 键)"
+      },
+      {
+        "description": "从插入模式返回普通模式",
+        "code": "Esc (按 Esc 键)"
+      },
+      {
         "description": "在文件中搜索 'keyword'",
-        "code": "/keyword (在 vim 命令模式下输入)"
+        "code": "/keyword (在普通模式下输入)"
       },
       {
         "description": "替换文件中所有 'old' 为 'new'",
-        "code": ":%s/old/new/g (在 vim 命令模式下输入)"
+        "code": ":%s/old/new/g (在普通模式下输入)"
+      },
+      {
+        "description": "删除当前行",
+        "code": "dd (在普通模式下快速按两次 d)"
+      },
+      {
+        "description": "复制当前行",
+        "code": "yy (在普通模式下快速按两次 y)"
+      },
+      {
+        "description": "粘贴已复制或删除的内容",
+        "code": "p (在普通模式下按 p 键)"
+      },
+      {
+        "description": "撤销上一步操作",
+        "code": "u (在普通模式下按 u 键)"
+      },
+      {
+        "description": "跳转到文件首行",
+        "code": "gg (在普通模式下快速按两次 g)"
+      },
+      {
+        "description": "跳转到文件末行",
+        "code": "G (在普通模式下按 Shift + g)"
+      },
+      {
+        "description": "保存文件并退出",
+        "code": ":wq (在普通模式下输入)"
+      },
+      {
+        "description": "不保存文件并强制退出",
+        "code": ":q! (在普通模式下输入)"
       },
       {
         "description": "分屏编辑两个文件",
@@ -4754,5 +4826,293 @@
     ],
     "notes": "whiptail 是 dialog 的一个轻量级替代品，功能类似，也是用于在终端中创建简单的交互式对话框，常用于安装脚本或简单的TUI程序。在某些发行版中可能默认安装，或作为其他包的依赖。\n- **Ubuntu/Debian:** 通常作为 `bsdutils` 或 `newt-common` 包的一部分安装。\n- **CentOS/Red Hat:** 通常作为 `newt` 或 `newt-whiptail` 包的一部分安装。\n  `sudo yum install newt` 或 `sudo dnf install newt`",
     "shell_type": "External (`/usr/bin/whiptail`)"
+  },
+  {
+    "name": "rz",
+    "summary": "在服务器上运行，用于接收（上传）来自本地电脑的文件 (Run on the server to receive (upload) files from the local computer)",
+    "examples": [
+      {
+        "description": "启动上传：在服务器上运行此命令后，会弹出本地文件选择窗口",
+        "code": "rz"
+      },
+      {
+        "description": "以二进制模式上传（推荐用于非文本文件，如压缩包、图片）",
+        "code": "rz -b"
+      },
+      {
+        "description": "上传文件，并对所有控制字符进行转义，可防止传输中断",
+        "code": "rz -e"
+      },
+      {
+        "description": "上传文件，如果服务器上存在同名文件则直接覆盖",
+        "code": "rz -y"
+      },
+      {
+        "description": "组合使用：以二进制模式上传并覆盖同名文件",
+        "code": "rz -by"
+      }
+    ],
+    "notes": "rz 的使用严重依赖于支持 ZMODEM 协议的终端模拟器，如 Xshell、SecureCRT 或配置了相应插件的 iTerm2。它本身是 lrzsz 软件包的一部分。\n- **工作流:** 在服务器终端输入 `rz` 并回车，本地终端会自动弹出文件选择对话框，选择文件后即可开始上传。\n- **安装:** `rz` 命令通常需要手动安装 `lrzsz` 软件包：\n  - **Ubuntu/Debian:** `sudo apt install lrzsz`\n  - **CentOS/Red Hat:** `sudo yum install lrzsz` 或 `sudo dnf install lrzsz`",
+    "shell_type": "External (`/usr/bin/rz`)"
+  },
+  {
+    "name": "sz",
+    "summary": "在服务器上运行，用于发送（下载）服务器上的文件到本地电脑 (Run on the server to send (download) files to the local computer)",
+    "examples": [
+      {
+        "description": "从服务器下载单个文件到本地",
+        "code": "sz filename.log"
+      },
+      {
+        "description": "一次性下载多个文件到本地",
+        "code": "sz file1.txt image.jpg backup.zip"
+      },
+      {
+        "description": "使用通配符下载所有匹配 `*.log` 的文件",
+        "code": "sz *.log"
+      },
+      {
+        "description": "以二进制模式下载文件（推荐用于非文本文件）",
+        "code": "sz -b largefile.tar.gz"
+      },
+      {
+        "description": "下载文件，并覆盖本地已存在的同名文件",
+        "code": "sz -y filename.conf"
+      },
+      {
+        "description": "将文件下载到本地的指定目录（需要终端支持，如 Xshell）",
+        "code": "sz filename.txt"
+      }
+    ],
+    "notes": "sz 的使用同样依赖于支持 ZMODEM 协议的终端模拟器。它也是 lrzsz 软件包的一部分。\n- **工作流:** 在服务器终端输入 `sz` 及文件名并回车，本地终端会自动弹出保存对话框或直接开始下载到默认目录。\n- **安装:** `sz` 命令通常需要手动安装 `lrzsz` 软件包：\n  - **Ubuntu/Debian:** `sudo apt install lrzsz`\n  - **CentOS/Red Hat:** `sudo yum install lrzsz` 或 `sudo dnf install lrzsz`",
+    "shell_type": "External (`/usr/bin/sz`)"
+  },
+  {
+    "name": "rsync",
+    "summary": "远程同步工具，用于高效地同步文件和目录 (A fast, versatile remote (and local) file-copying tool)",
+    "examples": [
+      {
+        "description": "本地同步：将源目录内容归档同步到目标目录 (常用备份方式)",
+        "code": "rsync -av source_directory/ destination_directory/"
+      },
+      {
+        "description": "本地到远程：将本地目录推送到远程服务器",
+        "code": "rsync -av /path/to/local/dir/ user@remote_host:/path/to/remote/dir/"
+      },
+      {
+        "description": "远程到本地：从远程服务器拉取目录到本地",
+        "code": "rsync -av user@remote_host:/path/to/remote/dir/ /path/to/local/dir/"
+      },
+      {
+        "description": "测试运行：显示将要执行的操作，但不实际同步",
+        "code": "rsync -anv source_directory/ destination_directory/"
+      },
+      {
+        "description": "显示进度：在传输大文件时显示进度条",
+        "code": "rsync -av --progress large_file.zip user@remote_host:/tmp/"
+      },
+      {
+        "description": "删除目标目录中多余的文件，使两边完全一致",
+        "code": "rsync -av --delete source_directory/ backup_directory/"
+      },
+      {
+        "description": "排除特定文件或目录",
+        "code": "rsync -av --exclude='*.log' --exclude='tmp/' source_dir/ dest_dir/"
+      }
+    ],
+    "notes": "rsync 是一款功能极其强大的文件同步工具，它通过“delta-transfer”算法只传输文件的差异部分，因此在同步大量数据或进行增量备份时效率极高。它默认通过SSH协议进行远程传输，保证了安全性。对于系统管理员和开发者来说，这是进行数据备份、网站部署和文件分发的必备工具。大多数Linux发行版都默认安装了 rsync。",
+    "shell_type": "External (`/usr/bin/rsync`)"
+  },
+  {
+    "name": "jq",
+    "summary": "一个轻量级且灵活的命令行JSON处理器 (A lightweight and flexible command-line JSON processor)",
+    "examples": [
+      {
+        "description": "格式化（美化）JSON文件并输出",
+        "code": "cat data.json | jq '.'"
+      },
+      {
+        "description": "提取JSON对象的顶层键值",
+        "code": "jq '.name' data.json"
+      },
+      {
+        "description": "提取嵌套对象的键值",
+        "code": "jq '.user.address.city' data.json"
+      },
+      {
+        "description": "提取数组的第一个元素",
+        "code": "jq '.users[0]' data.json"
+      },
+      {
+        "description": "遍历数组并提取每个元素的 'name' 字段",
+        "code": "jq '.users[].name' data.json"
+      },
+      {
+        "description": "根据条件过滤数组元素 (例如年龄大于30的用户)",
+        "code": "jq '.users[] | select(.age > 30)' data.json"
+      },
+      {
+        "description": "构建新的JSON对象",
+        "code": "jq '{name: .name, email: .email}' data.json"
+      }
+    ],
+    "notes": "jq 被誉为“命令行的sed/awk for JSON”，是在Shell脚本中处理JSON数据的神器。当你需要从API响应、配置文件或其他JSON源中提取、过滤或转换数据时，jq几乎是必不可少的工具。它不是默认安装的。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install jq`\n  - **CentOS/Red Hat:** `sudo yum install jq` 或 `sudo dnf install jq`",
+    "shell_type": "External (`/usr/bin/jq`)"
+  },
+  {
+    "name": "bat",
+    "summary": "一个带有语法高亮和Git集成功能的 `cat` 克隆 (A `cat` clone with syntax highlighting and Git integration)",
+    "examples": [
+      {
+        "description": "查看文件，自动语法高亮和分页",
+        "code": "bat myscript.py"
+      },
+      {
+        "description": "显示行号",
+        "code": "bat -n config.yaml"
+      },
+      {
+        "description": "显示文件中被Git修改的部分",
+        "code": "bat --diff my_modified_file.js"
+      },
+      {
+        "description": "指定语言进行高亮 (当自动检测失败时)",
+        "code": "echo '{\"key\": \"value\"}' | bat -l json"
+      },
+      {
+        "description": "更改主题样式",
+        "code": "bat --theme=\"TwoDark\" my_file.rs"
+      }
+    ],
+    "notes": "bat 是 `cat` 命令的现代化替代品。它的核心优势是语法高亮、Git集成（能显示文件的修改状态）、自动分页（内容过长时自动调用`less`）和漂亮的界面。对于开发者和经常在终端查看代码或配置文件的用户来说，它可以极大地提升可读性。通常需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install bat` (注意：在某些发行版中，由于名称冲突，可执行文件可能被命名为 `batcat`)\n  - **CentOS/Red Hat:** `sudo yum install bat` 或 `sudo dnf install bat` (可能需要 EPEL 仓库)",
+    "shell_type": "External (`/usr/bin/bat` 或 `/usr/bin/batcat`)"
+  },
+  {
+    "name": "exa",
+    "summary": "一个现代化的 `ls` 替代品 (A modern replacement for `ls`)",
+    "examples": [
+      {
+        "description": "以长列表格式显示，并带有Git状态和彩色图标",
+        "code": "exa -l --git"
+      },
+      {
+        "description": "以树状结构显示目录内容",
+        "code": "exa --tree"
+      },
+      {
+        "description": "显示详细信息，包括文件头信息",
+        "code": "exa -lh --header"
+      },
+      {
+        "description": "跨行网格视图，更紧凑地显示",
+        "code": "exa --grid --across"
+      }
+    ],
+    "notes": "exa 是对传统 `ls` 命令的重大改进。它提供了更好的默认设置、彩色输出、树状视图、Git状态集成以及更多灵活的排序和过滤选项。它旨在成为一个功能更丰富且对用户更友好的文件列表工具。通常需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install exa`\n  - **CentOS/Red Hat:** `sudo dnf install exa` (在较新的版本中可用)",
+    "shell_type": "External (`/usr/bin/exa`)"
+  },
+  {
+    "name": "fd",
+    "summary": "一个简单、快速且用户友好的 `find` 替代品 (A simple, fast and user-friendly alternative to `find`)",
+    "examples": [
+      {
+        "description": "查找所有名为 'main.py' 的文件",
+        "code": "fd main.py"
+      },
+      {
+        "description": "查找所有以 'zip' 结尾的文件 (默认使用正则表达式)",
+        "code": "fd '.zip$'"
+      },
+      {
+        "description": "查找特定类型的文件 (按扩展名)",
+        "code": "fd -e jpg"
+      },
+      {
+        "description": "在特定目录中查找",
+        "code": "fd nginx /etc"
+      },
+      {
+        "description": "排除特定目录进行搜索",
+        "code": "fd -e md --exclude node_modules"
+      },
+      {
+        "description": "找到文件后执行命令 (类似 find -exec)",
+        "code": "fd -e txt --exec chmod 600 {}"
+      }
+    ],
+    "notes": "fd 是 `find` 命令的现代化替代品。它的主要优点是：语法更简洁直观、速度非常快、默认忽略隐藏文件和`.gitignore`中的模式，这在代码项目中非常有用。对于日常的文件查找任务，fd 通常比 find 更高效。通常需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install fd-find` (可执行文件通常是 `fdfind`)\n  - **CentOS/Red Hat:** `sudo yum install fd-find` 或 `sudo dnf install fd-find`",
+    "shell_type": "External (`/usr/bin/fd` 或 `/usr/bin/fdfind`)"
+  },
+  {
+    "name": "ripgrep (rg)",
+    "summary": "一个极速的文本搜索工具，递归地在当前目录中搜索正则表达式 (A line-oriented search tool that recursively searches the current directory for a regex pattern)",
+    "examples": [
+      {
+        "description": "在当前目录及子目录中递归搜索 'keyword'",
+        "code": "rg 'keyword'"
+      },
+      {
+        "description": "在特定文件中搜索",
+        "code": "rg 'main' src/app.js"
+      },
+      {
+        "description": "仅搜索特定类型的文件",
+        "code": "rg 'function' -g '*.js'"
+      },
+      {
+        "description": "反向搜索：显示不包含 'TODO' 的行",
+        "code": "rg -v 'TODO'"
+      },
+      {
+        "description": "显示匹配行的上下文（前后各2行）",
+        "code": "rg -C 2 'error'"
+      }
+    ],
+    "notes": "ripgrep (通常别名为 `rg`) 是 `grep` 和 `ack` 的超高速替代品。它默认递归搜索，并自动忽略`.gitignore`、隐藏文件和二进制文件，因此在代码库中搜索速度极快。它由Rust编写，性能非常出色。通常需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install ripgrep`\n  - **CentOS/Red Hat:** `sudo yum install ripgrep` 或 `sudo dnf install ripgrep`",
+    "shell_type": "External (`/usr/bin/rg`)"
+  },
+  {
+    "name": "ncdu",
+    "summary": "基于 ncurses 的磁盘使用情况分析器 (NCurses Disk Usage)",
+    "examples": [
+      {
+        "description": "分析当前目录的磁盘使用情况并进入交互界面",
+        "code": "ncdu"
+      },
+      {
+        "description": "分析指定目录 (例如根目录)",
+        "code": "ncdu /"
+      },
+      {
+        "description": "从标准输入读取已保存的分析结果",
+        "code": "ncdu -f analysis.gz"
+      },
+      {
+        "description": "将分析结果导出到文件，以便稍后查看",
+        "code": "ncdu -o analysis.gz /path/to/scan"
+      }
+    ],
+    "notes": "ncdu 是 `du` 命令的一个交互式、用户友好的替代品。它会扫描指定目录，然后提供一个可以导航的界面，让你快速地看到哪些文件和目录占用了最多的磁盘空间，并支持删除文件。对于清理磁盘空间非常有用。通常需要额外安装。\n- **安装命令:**\n  - **Ubuntu/Debian:** `sudo apt install ncdu`\n  - **CentOS/Red Hat:** `sudo yum install ncdu` 或 `sudo dnf install ncdu`",
+    "shell_type": "External (`/usr/bin/ncdu`)"
+  },
+  {
+    "name": "glances",
+    "summary": "一个跨平台的系统监控工具 (A cross-platform system monitoring tool)",
+    "examples": [
+      {
+        "description": "启动 Glances 监控界面",
+        "code": "glances"
+      },
+      {
+        "description": "以Web服务器模式启动 (可在浏览器中访问 http://<ip>:61208)",
+        "code": "glances -w"
+      },
+      {
+        "description": "禁用特定模块 (例如网络模块)",
+        "code": "glances --disable-network"
+      }
+    ],
+    "notes": "Glances 是一个集大成的系统监控工具，它在一个界面中展示了CPU、内存、网络、磁盘I/O、文件系统、进程等多种信息，可以看作是 `top`, `htop`, `iostat`, `df` 等命令的组合体。它还支持客户端/服务器模式和Web界面，非常适合全面的实时系统监控。通常需要额外安装。\n- **安装命令 (推荐使用pip):**\n  - `pip install glances`\n- **或通过包管理器:**\n  - **Ubuntu/Debian:** `sudo apt install glances`\n  - **CentOS/Red Hat:** `sudo yum install glances` 或 `sudo dnf install glances`",
+    "shell_type": "External (`/usr/bin/glances` or installed via pip)"
   }
 ]

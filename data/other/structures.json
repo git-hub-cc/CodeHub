@@ -1,0 +1,470 @@
+[
+  {
+    "name": "Array (数组)",
+    "summary": "一种基础的线性数据结构，将相同类型的元素存储在连续的内存空间中。通过索引实现 O(1) 随机访问，但插入和删除较慢。",
+    "examples": [
+      {
+        "description": "声明和初始化一个数组 (Declaring and initializing an array)",
+        "code": "/* 声明一个固定长度为 5 的整数数组 */\nint[] numbers = new int[5];\n\n/* 声明并直接初始化一个字符串数组 */\nString[] fruits = {\"Apple\", \"Banana\", \"Orange\"};"
+      },
+      {
+        "description": "通过索引访问和修改元素 (Accessing and modifying elements by index)",
+        "code": "String[] fruits = {\"Apple\", \"Banana\", \"Orange\"};\n\n// 访问第一个元素 (索引为 0)\nString firstFruit = fruits[0]; // \"Apple\"\n\n// 修改第二个元素 (索引为 1)\nfruits[1] = \"Blueberry\";\n\n// 现在的数组是: {\"Apple\", \"Blueberry\", \"Orange\"}"
+      },
+      {
+        "description": "遍历数组 (Iterating through an array)",
+        "code": "String[] fruits = {\"Apple\", \"Blueberry\", \"Orange\"};\n\nSystem.out.println(\"Using a for-each loop:\");\nfor (String fruit : fruits) {\n    System.out.println(fruit);\n}"
+      }
+    ],
+    "notes": "关键特性：随机访问速度快 (O(1))，插入和删除慢 (O(n))。适用于读多写少的场景。Java 中的 `ArrayList` 是基于动态数组实现的，可以自动扩容，但其底层仍然是数组，扩容操作有一定开销。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Linked List (链表)",
+    "summary": "一种由节点组成的线性数据结构，节点在内存中不必连续。每个节点包含数据和指向下一个节点的引用，使得插入和删除操作非常高效 (O(1))。",
+    "examples": [
+      {
+        "description": "单向链表节点的基本定义 (Basic definition of a Singly Linked List Node)",
+        "code": "class ListNode {\n    int val;         // 节点存储的数据\n    ListNode next;   // 指向下一个节点的引用\n\n    ListNode(int val) {\n        this.val = val;\n        this.next = null;\n    }\n}"
+      },
+      {
+        "description": "使用 Java 内置的 LinkedList (Using Java's built-in LinkedList)",
+        "code": "import java.util.LinkedList;\n\n// LinkedList 实现了 List 和 Deque 接口\nLinkedList<String> list = new LinkedList<>();\n\n// 添加元素\nlist.add(\"A\");\nlist.addFirst(\"B\"); // 在头部添加\nlist.addLast(\"C\");  // 在尾部添加\n\n// list: [B, A, C]\n\n// 删除元素\nlist.removeFirst(); // 删除头部元素 'B'\n\n// list: [A, C]"
+      },
+      {
+        "description": "双向链表节点定义 (Definition of a Doubly Linked List Node)",
+        "code": "class DoublyListNode {\n    int val;\n    DoublyListNode prev; // 指向前一个节点的引用\n    DoublyListNode next; // 指向下一个节点的引用\n\n    DoublyListNode(int val) {\n        this.val = val;\n    }\n}"
+      }
+    ],
+    "notes": "主要类型：单向链表、双向链表、循环链表。与数组相比，链表不支持快速随机访问（访问第 k 个元素需要 O(k) 时间），但插入和删除操作快得多（如果已有指向前驱节点的引用）。Java 的 `java.util.LinkedList` 是一个双向链表实现。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Stack (栈)",
+    "summary": "一种遵循“后进先出”（LIFO - Last In, First Out）原则的线性数据结构。所有操作都在栈的一端（“栈顶”）进行。",
+    "examples": [
+      {
+        "description": "使用 ArrayDeque (推荐) 作为栈 (Using ArrayDeque (recommended) as a Stack)",
+        "code": "import java.util.ArrayDeque;\nimport java.util.Deque;\n\n// Deque 接口提供了栈操作的方法\nDeque<String> stack = new ArrayDeque<>();\n\n// 入栈 (push)\nstack.push(\"A\"); // 栈: [A]\nstack.push(\"B\"); // 栈: [B, A]\nstack.push(\"C\"); // 栈: [C, B, A]\n\n// 查看栈顶元素 (peek)\nString top = stack.peek(); // \"C\", 栈不变\n\n// 出栈 (pop)\nString popped = stack.pop(); // \"C\", 栈: [B, A]\n\nSystem.out.println(\"Popped: \" + popped);\nSystem.out.println(\"Current stack top: \" + stack.peek());"
+      },
+      {
+        "description": "应用：括号匹配 (Application: Parentheses Matching)",
+        "code": "public boolean isValid(String s) {\n    Deque<Character> stack = new ArrayDeque<>();\n    for (char c : s.toCharArray()) {\n        if (c == '(' || c == '[' || c == '{') {\n            stack.push(c);\n        } else {\n            if (stack.isEmpty()) return false;\n            char top = stack.pop();\n            if (c == ')' && top != '(') return false;\n            if (c == ']' && top != '[') return false;\n            if (c == '}' && top != '{') return false;\n        }\n    }\n    return stack.isEmpty();\n}"
+      }
+    ],
+    "notes": "核心操作：`push`（入栈）、`pop`（出栈）、`peek`（查看栈顶元素）。栈可以用数组或链表来实现。在Java中，官方推荐使用 `ArrayDeque` 作为栈的实现，因为它比旧的 `Stack` 类更高效（`Stack` 继承自 `Vector`，有不必要的同步开销）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Queue (队列)",
+    "summary": "一种遵循“先进先出”（FIFO - First In, First Out）原则的线性数据结构。元素从队尾进入，从队头离开。",
+    "examples": [
+      {
+        "description": "使用 LinkedList 作为队列 (Using LinkedList as a Queue)",
+        "code": "import java.util.LinkedList;\nimport java.util.Queue;\n\n// Queue 是一个接口, LinkedList 是其常见实现\nQueue<String> queue = new LinkedList<>();\n\n// 入队 (offer/add)\nqueue.offer(\"Task 1\"); // 队列: [Task 1]\nqueue.offer(\"Task 2\"); // 队列: [Task 1, Task 2]\nqueue.offer(\"Task 3\"); // 队列: [Task 1, Task 2, Task 3]\n\n// 查看队头元素 (peek)\nString head = queue.peek(); // \"Task 1\", 队列不变\n\n// 出队 (poll/remove)\nString processed = queue.poll(); // \"Task 1\", 队列: [Task 2, Task 3]\n\nSystem.out.println(\"Processed: \" + processed);\nSystem.out.println(\"Current queue head: \" + queue.peek());"
+      },
+      {
+        "description": "优先队列 (PriorityQueue)，元素按自然顺序或比较器顺序出队",
+        "code": "import java.util.PriorityQueue;\n\n// 默认是最小堆，最小的元素优先级最高\nPriorityQueue<Integer> pq = new PriorityQueue<>();\npq.offer(5);\npq.offer(1);\npq.offer(3);\n\n// 队列内容逻辑上是 [1, 3, 5]\n\nSystem.out.println(pq.poll()); // 1\nSystem.out.println(pq.poll()); // 3\nSystem.out.println(pq.poll()); // 5"
+      }
+    ],
+    "notes": "核心操作：`offer`（入队）、`poll`（出队）、`peek`（查看队头元素）。队列可以用链表或数组（特别是循环数组）实现。Java 的 `Queue` 是一个接口，常用实现有 `LinkedList` 和 `ArrayDeque`。`PriorityQueue` 是一种特殊的队列，其出队顺序由元素的优先级决定，底层通常用堆实现。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Skip List (跳表)",
+    "summary": "一种通过增加多级索引来提高查找效率的概率性数据结构，性能媲美平衡树 (如红黑树)，但实现更简单。",
+    "examples": [
+      {
+        "description": "跳表的概念性结构图示 (Conceptual structure of a Skip List)",
+        "code": "/*\nLevel 3: 1----------------------------------->100\n          |\nLevel 2: 1------------->25--------->50------->100\n          |              |           |\nLevel 1: 1----->10----->25---->30--->50----->75->100\n          |      |       |      |     |      |\nLevel 0: 1 -> 5 ->10->15->25->28->30->45->50->60->75->90->100\n\n// 查找 75 的过程:\n// 1. 从顶层 Level 3 开始, 从 1 到 100 (太大), 下降\n// 2. 到 Level 2, 从 1 到 25, 到 50, 到 100 (太大), 下降\n// 3. 到 Level 1, 从 50 到 75 (找到!)\n*/"
+      },
+      {
+        "description": "使用 Java 的 ConcurrentSkipListMap (Using Java's ConcurrentSkipListMap)",
+        "code": "import java.util.concurrent.ConcurrentSkipListMap;\n\n// ConcurrentSkipListMap 是一个基于跳表的可伸缩并发 Map\nConcurrentSkipListMap<Integer, String> map = new ConcurrentSkipListMap<>();\n\n// 插入键值对 (O(log n))\nmap.put(30, \"Thirty\");\nmap.put(10, \"Ten\");\nmap.put(50, \"Fifty\");\n\n// 查找 (O(log n))\nSystem.out.println(\"Value for key 30: \" + map.get(30));\n\n// 移除 (O(log n))\nmap.remove(10);\n\n// map 会保持键的有序性\nSystem.out.println(\"Map keys: \" + map.keySet()); // Map keys: [30, 50]"
+      }
+    ],
+    "notes": "跳表的性能依赖于随机化，以空间换时间，通过额外的索引指针加速查找。它提供了平均 O(log n) 的搜索、插入、删除时间复杂度。非常适合于需要高并发、有序映射的场景，如 Redis 的有序集合 (ZSET) 和 Java 的 `ConcurrentSkipListMap` / `ConcurrentSkipListSet`。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Binary Tree (二叉树)",
+    "summary": "一种基础的树形数据结构，其中每个节点最多有两个子节点，分别称为左子节点和右子节点。是许多高级树结构的基础。",
+    "examples": [
+      {
+        "description": "二叉树节点的基本定义 (Basic definition of a Binary Tree Node)",
+        "code": "class TreeNode {\n    int val;\n    TreeNode left;   // 左子节点\n    TreeNode right;  // 右子节点\n\n    TreeNode(int val) {\n        this.val = val;\n    }\n}"
+      },
+      {
+        "description": "手动构建一个简单的二叉树 (Manually building a simple binary tree)",
+        "code": "/*\n      1\n     / \\\n    2   3\n   /   / \\\n  4   5   6\n*/\nTreeNode root = new TreeNode(1);\nroot.left = new TreeNode(2);\nroot.right = new TreeNode(3);\nroot.left.left = new TreeNode(4);\nroot.right.left = new TreeNode(5);\nroot.right.right = new TreeNode(6);"
+      },
+      {
+        "description": "二叉树的中序遍历 (递归) (In-order Traversal of a Binary Tree - Recursive)",
+        "code": "public void inOrderTraversal(TreeNode node) {\n    if (node == null) {\n        return;\n    }\n    inOrderTraversal(node.left);      // 1. 遍历左子树\n    System.out.print(node.val + \" \"); // 2. 访问根节点\n    inOrderTraversal(node.right);     // 3. 遍历右子树\n}\n\n// 对于上面的树，输出: 4 2 1 5 3 6"
+      }
+    ],
+    "notes": "二叉树的遍历是核心操作，主要分为深度优先遍历（DFS）和广度优先遍历（BFS）。DFS 包括：前序遍历 (Pre-order: 根-左-右)、中序遍历 (In-order: 左-根-右)、后序遍历 (Post-order: 左-右-根)。BFS 即层序遍历 (Level-order)。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Binary Search Tree (BST / 二叉搜索树)",
+    "summary": "一种特殊的二叉树，具有排序特性：对于任意节点，其左子树中所有节点的值都小于该节点的值，右子树中所有节点的值都大于该节点的值。",
+    "examples": [
+      {
+        "description": "BST 的核心规则 (The core rule of a BST)",
+        "code": "// For any given node:\n// node.left.val < node.val < node.right.val"
+      },
+      {
+        "description": "在 BST 中查找一个值 (Searching for a value in a BST)",
+        "code": "public boolean search(TreeNode root, int target) {\n    if (root == null) {\n        return false;\n    }\n    if (root.val == target) {\n        return true;\n    }\n    if (target < root.val) {\n        return search(root.left, target);\n    } else {\n        return search(root.right, target);\n    }\n}"
+      },
+      {
+        "description": "在 BST 中插入一个值 (Inserting a value into a BST)",
+        "code": "public TreeNode insert(TreeNode root, int val) {\n    if (root == null) {\n        return new TreeNode(val);\n    }\n    if (val < root.val) {\n        root.left = insert(root.left, val);\n    } else if (val > root.val) {\n        root.right = insert(root.right, val);\n    } // 如果 val == root.val，则什么都不做或更新节点\n    return root;\n}"
+      }
+    ],
+    "notes": "BST 的中序遍历结果是一个有序序列。在树平衡的情况下，其搜索、插入、删除操作的平均时间复杂度为 O(log n)。但在最坏情况下（如插入一个有序序列），BST 会退化成链表，时间复杂度降为 O(n)。这引出了平衡二叉树。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Balanced Binary Tree (平衡二叉树 - AVL/Red-Black)",
+    "summary": "一种自平衡的二叉搜索树，通过在插入和删除节点后进行自动调整（如旋转），来维持树的高度平衡，从而保证所有操作的时间复杂度稳定在 O(log n)。",
+    "examples": [
+      {
+        "description": "概念：当树失衡时通过旋转来恢复平衡 (Concept: Using rotations to restore balance)",
+        "code": "/*\n  失衡的树 (Unbalanced Tree)    左旋后 (After Left Rotation on node 'y')\n\n    z (unbalanced)                     y\n   / \\                              / \\\n  y   T4                           z   x\n / \\                              / \\ / \\\ny1  x                            y1 T3 T1 T2\n   / \\\n  T1  T2\n*/\n// 实际的旋转代码比较复杂，通常在库中已实现。"
+      },
+      {
+        "description": "使用 Java 的 TreeMap (基于红黑树) (Using Java's TreeMap, based on Red-Black Tree)",
+        "code": "import java.util.TreeMap;\nimport java.util.Map;\n\n// TreeMap 是一个有序的 Map，由红黑树实现，保证了 O(log n) 的性能\nMap<Integer, String> map = new TreeMap<>();\n\n// 插入元素，TreeMap 会自动维护平衡和顺序\nmap.put(30, \"Thirty\");\nmap.put(10, \"Ten\");\nmap.put(50, \"Fifty\");\nmap.put(20, \"Twenty\");\n\n// 键会自动排序\nSystem.out.println(\"Keys: \" + map.keySet()); // Keys: [10, 20, 30, 50]\n\n// 获取、删除等操作都是 O(log n)\nSystem.out.println(\"Value for key 20: \" + map.get(20));"
+      }
+    ],
+    "notes": "两种主流的平衡二叉树是 AVL 树和红黑树。AVL 树是严格平衡的，但旋转操作可能更频繁；红黑树是近似平衡的，在实际应用中插入和删除的综合性能更好。在日常开发中，我们通常直接使用标准库提供的实现，如 Java 的 `TreeMap` 和 `TreeSet`。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Heap (堆)",
+    "summary": "一种特殊的、基于完全二叉树的数据结构，满足堆属性：父节点的值总是大于等于（最大堆）或小于等于（最小堆）其所有子节点的值。常用于实现优先队列。",
+    "examples": [
+      {
+        "description": "使用 PriorityQueue 实现最小堆 (默认) (Using PriorityQueue for a Min-Heap (default))",
+        "code": "import java.util.PriorityQueue;\n\n// PriorityQueue 默认是最小堆 (Min-Heap)\nPriorityQueue<Integer> minHeap = new PriorityQueue<>();\n\nminHeap.offer(10);\nminHeap.offer(5);\nminHeap.offer(20);\n\n// peek() 查看堆顶元素（最小值），不删除\nSystem.out.println(\"Top of min-heap: \" + minHeap.peek()); // 5\n\n// poll() 弹出堆顶元素（最小值）\nSystem.out.println(\"Polling: \" + minHeap.poll()); // 5\nSystem.out.println(\"Polling: \" + minHeap.poll()); // 10"
+      },
+      {
+        "description": "使用比较器创建最大堆 (Creating a Max-Heap using a Comparator)",
+        "code": "import java.util.PriorityQueue;\nimport java.util.Collections;\n\n// 使用 Collections.reverseOrder() 或 lambda 表达式创建最大堆 (Max-Heap)\nPriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n// 或者: PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);\n\nmaxHeap.offer(10);\nmaxHeap.offer(5);\nmaxHeap.offer(20);\n\n// peek() 查看堆顶元素（最大值）\nSystem.out.println(\"Top of max-heap: \" + maxHeap.peek()); // 20\n\n// poll() 弹出堆顶元素（最大值）\nSystem.out.println(\"Polling: \" + maxHeap.poll()); // 20"
+      }
+    ],
+    "notes": "堆的根节点总是存放着集合中的最大值（最大堆）或最小值（最小堆）。核心操作是 `insert` (offer) 和 `extract-min/max` (poll)，时间复杂度均为 O(log n)。`peek` (查看顶) 操作为 O(1)。堆通常用数组来实现，利用完全二叉树的性质可以方便地计算父子节点索引。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "B-Tree / B+Tree (B树 / B+树)",
+    "summary": "多路（非二路）平衡搜索树，专为磁盘等外部存储设计。通过让每个节点存储多个键和拥有多个子节点，来降低树的高度，从而减少 I/O 操作次数。",
+    "examples": [
+      {
+        "description": "B树/B+树的概念性节点 (Conceptual Node of a B-Tree/B+Tree)",
+        "code": "/*\n  一个 B 树节点 (阶为 m) 的示意：\n  [ Ptr1 | Key1 | Ptr2 | Key2 | ... | Key(n) | Ptr(n+1) ]\n  - n < m (键的数量小于阶数)\n  - Ptr(i) 指向的子树中所有键都小于 Key(i)\n  - Ptr(i+1) 指向的子树中所有键都大于 Key(i)\n*/\n// 在实际开发中，我们通常不自己实现 B+树，而是使用数据库系统。\n// 例如，MySQL 的 InnoDB 存储引擎使用 B+树作为其索引结构。"
+      },
+      {
+        "description": "B+树的关键特性：数据只在叶子节点，叶子节点形成链表 (B+Tree's key feature)",
+        "code": "/*\n  B+Tree 的优势在于范围查询。\n  所有数据记录都存储在叶子节点中，并且叶子节点之间通过指针相连，形成一个有序链表。\n\n  Leaf -> Leaf -> Leaf -> ...\n\n  执行 SQL `SELECT * FROM users WHERE age > 30` 时，\n  数据库首先通过树结构定位到第一个 age > 30 的记录，\n  然后可以沿着叶子节点的链表顺序扫描，而无需再遍历树，效率极高。\n*/"
+      }
+    ],
+    "notes": "B树和B+树是数据库和文件系统索引的核心。B+树相比B树更适合数据库，因为其内部节点不存数据，可以存放更多索引，进一步降低树高；同时，叶子节点的链表结构极大地优化了范围查询。面试中理解其原理和优势比手写代码更重要。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "Trie (Prefix Tree / 前缀树)",
+    "summary": "一种专门用于高效存储和检索字符串集合的树形数据结构。节点本身不存字符，而是由节点在树中的位置决定。非常适合用于自动补全和拼写检查等场景。",
+    "examples": [
+      {
+        "description": "Trie 节点定义 (Trie Node Definition)",
+        "code": "class TrieNode {\n    // 使用 Map 存储子节点，适用于任意字符集\n    public Map<Character, TrieNode> children = new HashMap<>();\n    // 标记该节点是否为一个单词的结尾\n    public boolean isEndOfWord = false;\n}"
+      },
+      {
+        "description": "插入一个单词到 Trie (Inserting a word into a Trie)",
+        "code": "private TrieNode root = new TrieNode();\n\npublic void insert(String word) {\n    TrieNode current = root;\n    for (char ch : word.toCharArray()) {\n        // 如果字符不存在，则创建一个新节点\n        current.children.putIfAbsent(ch, new TrieNode());\n        // 移动到下一个节点\n        current = current.children.get(ch);\n    }\n    current.isEndOfWord = true; // 标记单词结束\n}"
+      },
+      {
+        "description": "查找一个前缀是否存在 (Checking if a prefix exists)",
+        "code": "public boolean startsWith(String prefix) {\n    TrieNode current = root;\n    for (char ch : prefix.toCharArray()) {\n        current = current.children.get(ch);\n        if (current == null) {\n            return false; // 前缀不存在\n        }\n    }\n    return true; // 找到了前缀\n}"
+      }
+    ],
+    "notes": "Trie 的核心优势在于其查找、插入操作的时间复杂度为 O(L)，其中 L 是字符串的长度，与字典中的单词总数无关。其缺点是空间占用可能较大，特别是当字符串没有公共前缀时。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Segment Tree (线段树)",
+    "summary": "一种二叉树结构，用于高效处理数组的区间查询（如求和、最大/最小值）和单点更新。每个节点代表一个区间，父节点的值由其子节点（子区间）合并而来。",
+    "examples": [
+      {
+        "description": "构建线段树 (求和) (Building a Segment Tree for sum)",
+        "code": "int[] tree; // 用数组表示线段树\nint[] nums; // 原始数组\n\n// build 方法，递归地构建树\n// treeIndex: 当前节点在 tree 数组中的索引\n// l, r: 当前节点代表的 [l, r] 区间\nvoid build(int treeIndex, int l, int r) {\n    if (l == r) {\n        tree[treeIndex] = nums[l];\n        return;\n    }\n    int mid = l + (r - l) / 2;\n    int leftChild = 2 * treeIndex + 1;\n    int rightChild = 2 * treeIndex + 2;\n    build(leftChild, l, mid);\n    build(rightChild, mid + 1, r);\n    tree[treeIndex] = tree[leftChild] + tree[rightChild]; // 合并\n}"
+      },
+      {
+        "description": "区间查询 (Range Query)",
+        "code": "// 在 [queryL, queryR] 区间内查询\nint query(int treeIndex, int l, int r, int queryL, int queryR) {\n    if (l >= queryL && r <= queryR) {\n        return tree[treeIndex]; // 当前区间完全包含在查询区间内\n    }\n    if (l > queryR || r < queryL) {\n        return 0; // 当前区间与查询区间无交集\n    }\n    int mid = l + (r - l) / 2;\n    int leftChild = 2 * treeIndex + 1;\n    int rightChild = 2 * treeIndex + 2;\n    return query(leftChild, l, mid, queryL, queryR) + \n           query(rightChild, mid + 1, r, queryL, queryR);\n}"
+      },
+      {
+        "description": "单点更新 (Point Update)",
+        "code": "void update(int treeIndex, int l, int r, int index, int value) {\n    if (l == r) {\n        tree[treeIndex] = value;\n        return;\n    }\n    int mid = l + (r - l) / 2;\n    int leftChild = 2 * treeIndex + 1;\n    int rightChild = 2 * treeIndex + 2;\n    if (index <= mid) {\n        update(leftChild, l, mid, index, value);\n    } else {\n        update(rightChild, mid + 1, r, index, value);\n    }\n    tree[treeIndex] = tree[leftChild] + tree[rightChild]; // 更新父节点\n}"
+      }
+    ],
+    "notes": "线段树的构建时间复杂度为 O(n)，区间查询和单点更新的时间复杂度均为 O(log n)。它比朴素的数组查询（O(n)）快得多。虽然实现相对复杂，但在处理动态区间统计问题时非常强大。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Fenwick Tree (Binary Indexed Tree / 树状数组)",
+    "summary": "一种精巧的数据结构，能以 O(log n) 的时间复杂度实现单点更新和前缀和查询。它比线段树更节省空间，且常数因子更小，是处理前缀和问题的利器。",
+    "examples": [
+      {
+        "description": "树状数组的核心：lowbit 函数 (Core of Fenwick Tree: lowbit function)",
+        "code": "// 返回 x 的二进制表示中，最低位的 1 所代表的值\n// 例如 lowbit(6) = lowbit(0110) = 2(0010)\nprivate int lowbit(int x) {\n    return x & -x;\n}"
+      },
+      {
+        "description": "单点更新 (增加值) (Point Update - add value)",
+        "code": "int[] tree; // 树状数组本身\nint n;      // 数组大小\n\n// 将 nums[index] 的值增加 delta\npublic void update(int index, int delta) {\n    index++; // 树状数组索引从 1 开始\n    while (index <= n) {\n        tree[index] += delta;\n        index += lowbit(index); // 向上更新所有受影响的父节点\n    }\n}"
+      },
+      {
+        "description": "前缀和查询 (Prefix Sum Query)",
+        "code": "// 查询 nums[0...index] 的和\npublic int query(int index) {\n    index++; // 树状数组索引从 1 开始\n    int sum = 0;\n    while (index > 0) {\n        sum += tree[index];\n        index -= lowbit(index); // 向前追溯累加\n    }\n    return sum;\n}\n\n// 查询区间 [left, right] 的和\npublic int rangeSum(int left, int right) {\n    return query(right) - query(left - 1);\n}"
+      }
+    ],
+    "notes": "树状数组的实现非常简洁，空间复杂度为 O(n)，仅需一个辅助数组。其核心思想是利用二进制表示来巧妙地将一个区间的和分散到几个特定的节点上。虽然功能上不如线段树灵活（例如求区间最值较复杂），但在其擅长的领域（前缀和）效率极高。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Graph (图)",
+    "summary": "一种由顶点（Vertices）和连接顶点的边（Edges）组成的非线性数据结构，用于表示对象之间的关系。图可以是无向的（边没有方向）或有向的，带权的（边有成本）或无权的。",
+    "examples": [
+      {
+        "description": "图的概念表示 (Conceptual Representation of a Graph)",
+        "code": "/*\n  一个简单的无向图:\n\n    (A)-------(B)\n     |         |\n     |         |\n    (C)-------(D)\n\n  顶点 (Vertices): {A, B, C, D}\n  边 (Edges): {(A,B), (A,C), (B,D), (C,D)}\n*/"
+      },
+      {
+        "description": "图的常见实现方式 (Common Implementations of a Graph)",
+        "code": "// 1. 邻接矩阵 (Adjacency Matrix): 使用二维数组表示连接关系。适合稠密图。\nint[][] adjMatrix = new int[numVertices][numVertices];\n\n// 2. 邻接表 (Adjacency List): 使用哈希表/数组存储每个顶点的邻居列表。适合稀疏图。\nMap<Integer, List<Integer>> adjList = new HashMap<>();"
+      }
+    ],
+    "notes": "图是许多现实世界问题的模型，如社交网络、地图导航、任务依赖等。图的算法，如遍历（BFS、DFS）、最短路径（Dijkstra、A*）、最小生成树（Prim、Kruskal）等是算法学习的重点。图的具体实现通常选择邻接表或邻接矩阵。",
+    "shell_type": "Conceptual"
+  },
+  {
+    "name": "Adjacency List (邻接表)",
+    "summary": "表示图的一种常用方式，其中每个顶点都有一个列表，存储所有与之直接相连的顶点。对于稀疏图（边的数量远小于顶点数量的平方）来说，空间效率很高。",
+    "examples": [
+      {
+        "description": "使用 Map 和 List 实现邻接表 (Implementing Adjacency List using Map and List)",
+        "code": "/*\n  图:\n  0 --- 1\n  | \\   |\n  |  \\  |\n  2---3\n*/\nMap<Integer, List<Integer>> adjList = new HashMap<>();\nint numVertices = 4;\n\n// 初始化邻接表\nfor (int i = 0; i < numVertices; i++) {\n    adjList.put(i, new ArrayList<>());\n}\n\n// 添加边 (无向图，需双向添加)\nadjList.get(0).add(1);\nadjList.get(1).add(0);\n\nadjList.get(0).add(2);\nadjList.get(2).add(0);\n\nadjList.get(0).add(3);\nadjList.get(3).add(0);\n\nadjList.get(1).add(3);\nadjList.get(3).add(1);\n\nadjList.get(2).add(3);\nadjList.get(3).add(2);\n\n// 最终邻接表: {0=[1, 2, 3], 1=[0, 3], 2=[0, 3], 3=[0, 1, 2]}"
+      },
+      {
+        "description": "检查两个顶点间是否存在边 (Checking if an edge exists)",
+        "code": "// 检查顶点 0 和 3 之间是否有边 (时间复杂度 O(degree(0)))\nboolean edgeExists = adjList.get(0).contains(3); // true"
+      }
+    ],
+    "notes": "优点：对于稀疏图空间效率高，空间复杂度为 O(|V| + |E|)。遍历一个顶点的所有邻居非常方便。缺点：检查两个顶点之间是否存在边（(u, v)）的效率较低，需要 O(degree(u)) 的时间。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Adjacency Matrix (邻接矩阵)",
+    "summary": "使用一个 V x V 的二维数组（矩阵）来表示图，其中 V 是顶点的数量。如果顶点 i 和 j 之间存在边，则 matrix[i][j] 为 1 (或权重)，否则为 0。适合稠密图。",
+    "examples": [
+      {
+        "description": "使用二维数组实现邻接矩阵 (Implementing Adjacency Matrix using a 2D array)",
+        "code": "/*\n  图 (同上):\n  0 --- 1\n  | \\   |\n  |  \\  |\n  2---3\n*/\nint numVertices = 4;\nint[][] adjMatrix = new int[numVertices][numVertices];\n\n// 添加边 (无向图，对称位置都设为 1)\nadjMatrix[0][1] = 1; adjMatrix[1][0] = 1;\nadjMatrix[0][2] = 1; adjMatrix[2][0] = 1;\nadjMatrix[0][3] = 1; adjMatrix[3][0] = 1;\nadjMatrix[1][3] = 1; adjMatrix[3][1] = 1;\nadjMatrix[2][3] = 1; adjMatrix[3][2] = 1;\n\n/* 最终矩阵:\n     0  1  2  3\n  0 [0, 1, 1, 1]\n  1 [1, 0, 0, 1]\n  2 [1, 0, 0, 1]\n  3 [1, 1, 1, 0]\n*/"
+      },
+      {
+        "description": "检查两个顶点间是否存在边 (Checking if an edge exists)",
+        "code": "// 检查顶点 0 和 3 之间是否有边 (时间复杂度 O(1))\nboolean edgeExists = (adjMatrix[0][3] == 1); // true"
+      }
+    ],
+    "notes": "优点：检查任意两顶点间是否存在边非常快 (O(1))。添加/删除边也很快。缺点：空间复杂度为 O(|V|^2)，对于稀疏图会浪费大量空间。遍历一个顶点的所有邻居需要 O(|V|) 的时间。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Topological Sort (拓扑排序)",
+    "summary": "对有向无环图（DAG）的顶点进行线性排序，使得对于任何从 u 到 v 的有向边，u 在排序中都出现在 v 之前。常用于解决任务依赖、课程安排等问题。",
+    "examples": [
+      {
+        "description": "概念：课程先修关系 (Concept: Course Prerequisites)",
+        "code": "/*\n  依赖关系: \n  Calculus I -> Calculus II\n  Calculus II -> Linear Algebra\n  Intro to CS -> Data Structures\n  Data Structures -> Algorithms\n\n  一个有效的拓扑排序 (学习顺序):\n  [Intro to CS, Calculus I, Data Structures, Calculus II, Algorithms, Linear Algebra]\n*/"
+      },
+      {
+        "description": "使用 Kahn 算法（BFS）实现拓扑排序",
+        "code": "public List<Integer> topologicalSort(int numCourses, int[][] prerequisites) {\n    Map<Integer, List<Integer>> adj = new HashMap<>();\n    int[] inDegree = new int[numCourses];\n    for (int[] p : prerequisites) {\n        // p[1] -> p[0] (p[1]是p[0]的先修课)\n        adj.computeIfAbsent(p[1], k -> new ArrayList<>()).add(p[0]);\n        inDegree[p[0]]++;\n    }\n\n    Queue<Integer> queue = new LinkedList<>();\n    for (int i = 0; i < numCourses; i++) {\n        if (inDegree[i] == 0) {\n            queue.offer(i);\n        }\n    }\n\n    List<Integer> result = new ArrayList<>();\n    while (!queue.isEmpty()) {\n        int u = queue.poll();\n        result.add(u);\n        if (adj.containsKey(u)) {\n            for (int v : adj.get(u)) {\n                inDegree[v]--;\n                if (inDegree[v] == 0) {\n                    queue.offer(v);\n                }\n            }\n        }\n    }\n\n    // 如果结果数量不等于课程总数，说明有环\n    return result.size() == numCourses ? result : new ArrayList<>();\n}"
+      }
+    ],
+    "notes": "拓扑排序仅适用于有向无环图（DAG）。如果图中存在环，则无法进行拓扑排序。实现方法主要有两种：Kahn's Algorithm（基于BFS，如上例）和基于DFS的算法。上例代码是 LeetCode \"Course Schedule II\" 问题的典型解法。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Hash Table / Hash Map (哈希表 / 哈希映射)",
+    "summary": "一种通过哈希函数将键（Key）映射到存储位置（桶/Bucket）的数据结构，实现了键值对（Key-Value）的快速存取。在平均情况下，插入、删除和查找操作的时间复杂度为 O(1)。",
+    "examples": [
+      {
+        "description": "使用 Java 的 HashMap (Using Java's HashMap)",
+        "code": "import java.util.HashMap;\nimport java.util.Map;\n\n// 创建一个 HashMap 来存储学生姓名和分数\nMap<String, Integer> studentScores = new HashMap<>();\n\n// 插入键值对 (put)\nstudentScores.put(\"Alice\", 95);\nstudentScores.put(\"Bob\", 88);\nstudentScores.put(\"Charlie\", 99);\n\n// 如果键已存在，put 会更新值\nstudentScores.put(\"Bob\", 90);\n\n// 通过键获取值 (get)\nint alicesScore = studentScores.get(\"Alice\"); // 95\n\n// 检查键是否存在 (containsKey)\nboolean hasDavid = studentScores.containsKey(\"David\"); // false\n\n// 删除键值对 (remove)\nstudentScores.remove(\"Charlie\");"
+      },
+      {
+        "description": "遍历 HashMap (Iterating over a HashMap)",
+        "code": "Map<String, Integer> studentScores = new HashMap<>();\nstudentScores.put(\"Alice\", 95);\nstudentScores.put(\"Bob\", 90);\n\n// 遍历所有键\nfor (String name : studentScores.keySet()) {\n    System.out.println(\"Student: \" + name);\n}\n\n// 遍历所有值\nfor (Integer score : studentScores.values()) {\n    System.out.println(\"Score: \" + score);\n}\n\n// 遍历所有键值对 (推荐方式)\nfor (Map.Entry<String, Integer> entry : studentScores.entrySet()) {\n    System.out.println(entry.getKey() + \": \" + entry.getValue());\n}"
+      },
+      {
+        "description": "哈希冲突的概念 (Concept of Hash Collision)",
+        "code": "/*\n  当两个不同的键通过哈希函数计算出相同的位置时，就发生了哈希冲突。\n  例如: hash(\"key1\") -> 5, hash(\"key2\") -> 5\n\n  Java 的 HashMap 使用“链地址法”(Chaining)来解决冲突：\n  在冲突的位置上维护一个链表或红黑树。\n  当查找时，先定位到桶，然后遍历链表/树找到正确的键。\n*/"
+      }
+    ],
+    "notes": "哈希表是应用最广泛的数据结构之一。其性能关键在于哈希函数的质量和冲突解决策略。自 JDK 1.8 起，当 HashMap 中一个桶的链表长度超过阈值（默认为8）时，链表会转化为红黑树，以优化最坏情况下的性能（从 O(n) 降为 O(log n)）。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Hash Set (哈希集合)",
+    "summary": "一种不允许存储重复元素的集合数据结构。它利用哈希表来实现快速的元素添加、删除和存在性检查，平均时间复杂度为 O(1)。",
+    "examples": [
+      {
+        "description": "使用 Java 的 HashSet (Using Java's HashSet)",
+        "code": "import java.util.HashSet;\nimport java.util.Set;\n\nSet<String> uniqueFruits = new HashSet<>();\n\n// 添加元素 (add)\nuniqueFruits.add(\"Apple\");\nuniqueFruits.add(\"Banana\");\nuniqueFruits.add(\"Apple\"); // 重复添加会被忽略\n\n// Set 中元素: {\"Apple\", \"Banana\"} (顺序不保证)\nSystem.out.println(uniqueFruits);\n\n// 检查元素是否存在 (contains)\nboolean hasApple = uniqueFruits.contains(\"Apple\"); // true\n\n// 删除元素 (remove)\nuniqueFruits.remove(\"Banana\");\n\n// 获取集合大小 (size)\nint count = uniqueFruits.size(); // 1"
+      },
+      {
+        "description": "应用：快速去重 (Application: Fast Deduplication)",
+        "code": "import java.util.ArrayList;\nimport java.util.HashSet;\nimport java.util.List;\n\nList<Integer> numbersWithDuplicates = new ArrayList<>();\nnumbersWithDuplicates.add(1);\nnumbersWithDuplicates.add(2);\nnumbersWithDuplicates.add(1);\nnumbersWithDuplicates.add(3);\n\n// 使用 HashSet 构造函数快速去重\nSet<Integer> uniqueNumbers = new HashSet<>(numbersWithDuplicates);\n\nSystem.out.println(uniqueNumbers); // [1, 2, 3]"
+      }
+    ],
+    "notes": "HashSet 内部通常是基于一个 HashMap 实现的。当你向 Set 中添加一个元素时，它实际上是作为 Key 被放入内部的 HashMap 中，而 Value 则是一个固定的虚拟对象。因为 HashMap 的 Key 是唯一的，所以 HashSet 也就保证了元素的唯一性。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Bloom Filter (布隆过滤器)",
+    "summary": "一种空间效率极高的概率性数据结构，用于判断一个元素是否“可能”在一个集合中。它没有误报（False Negative），但有一定概率的误判（False Positive）。",
+    "examples": [
+      {
+        "description": "工作原理概念 (Conceptual Working Principle)",
+        "code": "/*\n1. 初始化: 一个 m 位的位数组 (bit array)，全部置为 0。\n2. 添加元素 (add): \n   - 将元素通过 k 个不同的哈希函数计算出 k 个位置。\n   - 将位数组中这 k 个位置都置为 1。\n   [e] -> h1() -> pos1\n       -> h2() -> pos2\n       -> h3() -> pos3\n   bit_array[pos1] = 1, bit_array[pos2] = 1, bit_array[pos3] = 1\n\n3. 查询元素 (mightContain):\n   - 将查询的元素通过同样的 k 个哈希函数计算出 k 个位置。\n   - 检查位数组中这 k 个位置是否“全部”为 1。\n   - 如果是，则元素“可能”存在 (可能是其他元素组合的结果)。\n   - 如果有任何一位是 0，则元素“绝对”不存在。\n*/"
+      },
+      {
+        "description": "使用 Google Guava 库的布隆过滤器 (Using Google Guava's BloomFilter)",
+        "code": "// 需要引入 Guava 库: com.google.guava:guava\nimport com.google.common.hash.BloomFilter;\nimport com.google.common.hash.Funnels;\nimport java.nio.charset.StandardCharsets;\n\n// 创建一个布隆过滤器，预计插入1000个元素，期望误判率为 1%\nBloomFilter<String> filter = BloomFilter.create(\n    Funnels.stringFunnel(StandardCharsets.UTF_8),\n    1000, \n    0.01\n);\n\n// 添加元素\nfilter.put(\"google.com\");\nfilter.put(\"facebook.com\");\n\n// 查询\nSystem.out.println(filter.mightContain(\"google.com\"));   // true\nSystem.out.println(filter.mightContain(\"twitter.com\"));  // false\n\n// 可能发生误判 (False Positive)\n// 某个从未添加过的元素，可能因为哈希冲突而被误判为存在\nSystem.out.println(filter.mightContain(\"some_random_string\")); // 极大概率为 false，但有可能是 true"
+      }
+    ],
+    "notes": "布隆过滤器不能删除元素。它的核心优势是以极小的空间代价快速过滤掉绝大多数不存在的查询。常用于：缓存穿透的防治（拦截不存在的 key 的查询）、黑名单过滤（如恶意网址）、推荐系统中的去重等场景。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Disjoint Set / Union-Find (并查集)",
+    "summary": "一种用于处理不相交集合的合并（Union）与查询（Find）问题的数据结构。它能以近乎 O(1) 的时间复杂度判断两个元素是否属于同一个集合，以及合并两个集合。",
+    "examples": [
+      {
+        "description": "基本实现 (带路径压缩和按秩合并优化)",
+        "code": "class UnionFind {\n    private int[] parent; // parent[i] 表示元素 i 的父节点\n    private int[] rank;   // rank[i] 表示以 i 为根的树的高度（或大小）\n\n    public UnionFind(int n) {\n        parent = new int[n];\n        rank = new int[n];\n        for (int i = 0; i < n; i++) {\n            parent[i] = i; // 初始时，每个元素自成一个集合\n            rank[i] = 1;\n        }\n    }\n\n    // 查找元素 p 的根节点 (带路径压缩)\n    public int find(int p) {\n        if (parent[p] != p) {\n            parent[p] = find(parent[p]); // 路径压缩\n        }\n        return parent[p];\n    }\n\n    // 合并 p 和 q 所在的集合 (按秩合并)\n    public void union(int p, int q) {\n        int rootP = find(p);\n        int rootQ = find(q);\n        if (rootP != rootQ) {\n            if (rank[rootP] > rank[rootQ]) {\n                parent[rootQ] = rootP;\n            } else if (rank[rootP] < rank[rootQ]) {\n                parent[rootP] = rootQ;\n            } else {\n                parent[rootQ] = rootP;\n                rank[rootP]++;\n            }\n        }\n    }\n\n    // 检查 p 和 q 是否连通\n    public boolean connected(int p, int q) {\n        return find(p) == find(q);\n    }\n}"
+      },
+      {
+        "description": "应用：判断图的连通分量 (Application: Finding connected components in a graph)",
+        "code": "int n = 5; // 5 个节点\nUnionFind uf = new UnionFind(n);\n\n// 假设有边 (0,1), (1,2), (3,4)\nuf.union(0, 1);\nuf.union(1, 2);\nuf.union(3, 4);\n\nSystem.out.println(uf.connected(0, 2)); // true\nSystem.out.println(uf.connected(0, 3)); // false\n\n// 此时图中有两个连通分量: {0, 1, 2} 和 {3, 4}"
+      }
+    ],
+    "notes": "并查集的核心是 `find` 和 `union` 操作。朴素的实现性能较差，但通过“路径压缩”和“按秩/大小合并”两种优化，其摊还时间复杂度可以达到反阿克曼函数 α(n)，这是一个增长极其缓慢的函数，对于所有实际应用场景，都可以视作 O(1)。常用于 Kruskal 算法求最小生成树，以及判断图的连通性。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "LRU Cache (最近最少使用缓存)",
+    "summary": "一种常见的缓存淘汰策略。当缓存空间已满时，会优先淘汰掉最长时间未被使用过的数据。通常通过哈希表和双向链表的组合来实现 O(1) 的 get 和 put 操作。",
+    "examples": [
+      {
+        "description": "使用 Java 的 LinkedHashMap 实现 LRU Cache (Easiest way in Java)",
+        "code": "import java.util.LinkedHashMap;\nimport java.util.Map;\n\nclass LRUCache<K, V> extends LinkedHashMap<K, V> {\n    private final int capacity;\n\n    public LRUCache(int capacity) {\n        // accessOrder=true 表示按访问顺序排序，最近访问的在末尾\n        super(capacity, 0.75f, true);\n        this.capacity = capacity;\n    }\n\n    // 当 put 操作导致 size 超过 capacity 时，此方法被调用\n    @Override\n    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {\n        return size() > capacity;\n    }\n}\n\n// 使用示例\nLRUCache<Integer, String> cache = new LRUCache<>(2);\ncache.put(1, \"A\"); // cache: {1=A}\ncache.put(2, \"B\"); // cache: {1=A, 2=B}\nSystem.out.println(cache.get(1)); // \"A\"，1 被访问，移到末尾。cache: {2=B, 1=A}\ncache.put(3, \"C\"); // 容量超限，淘汰最久未用的 2。cache: {1=A, 3=C}\nSystem.out.println(cache.get(2)); // null"
+      },
+      {
+        "description": "手动实现的核心思路 (Core idea of manual implementation)",
+        "code": "/*\n  数据结构:\n  1. HashMap<Key, Node>: 存储键到双向链表节点的映射，实现 O(1) 查找。\n  2. DoublyLinkedList: 维护数据的访问顺序。\n     - 链表头部 (head): 存放最近最少使用的数据。\n     - 链表尾部 (tail): 存放最近刚使用的数据。\n\n  操作流程:\n  get(key):\n  - 从 HashMap 找到节点。\n  - 将该节点从其原位置移动到链表尾部。\n  - 返回节点的值。\n  put(key, value):\n  - 如果 key 已存在，更新值，并将节点移到链表尾部。\n  - 如果 key 不存在：\n    - 创建新节点，存入 HashMap，并添加到链表尾部。\n    - 如果缓存已满，删除链表头部的节点，并从 HashMap 中移除对应的 key。\n*/"
+      }
+    ],
+    "notes": "`LinkedHashMap` 是在 Java 中实现 LRU 缓存最简单直接的方式。手动实现 LRU Cache 是一个非常经典的面试题，因为它很好地考察了对哈希表和链表这两种基础数据结构的组合运用能力。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Sparse Array (稀疏数组)",
+    "summary": "当一个数组中大部分元素为同一默认值（通常是0）时，为了节省存储空间，可以采用稀疏数组来记录。它只存储非默认值的元素及其位置信息。",
+    "examples": [
+      {
+        "description": "原始二维数组到稀疏数组的转换",
+        "code": "/*\n  原始棋盘 (6x7)，只有两个棋子:\n  0 0 0 0 0 0 0\n  0 0 1 0 0 0 0  (1: 黑子 at [1][2])\n  0 0 0 0 2 0 0  (2: 白子 at [2][4])\n  0 0 0 0 0 0 0\n  0 0 0 0 0 0 0\n  0 0 0 0 0 0 0\n*/\n\n// 转换为稀疏数组 (n x 3 格式)\nint[][] sparseArray = new int[3][3];\n\n// 第一行记录原始数组的维度和非零元素个数\nsparseArray[0][0] = 6;  // rows\nsparseArray[0][1] = 7;  // cols\nsparseArray[0][2] = 2;  // non-zero count\n\n// 后续行记录每个非零元素的 (行, 列, 值)\nsparseArray[1][0] = 1;  // row\nsparseArray[1][1] = 2;  // col\nsparseArray[1][2] = 1;  // value\n\nsparseArray[2][0] = 2;  // row\nsparseArray[2][1] = 4;  // col\nsparseArray[2][2] = 2;  // value"
+      },
+      {
+        "description": "从稀疏数组恢复到原始数组",
+        "code": "int[][] sparseArray = /* 上例中的稀疏数组 */;\n\n// 读取元数据\nint rows = sparseArray[0][0];\nint cols = sparseArray[0][1];\nint[][] originalArray = new int[rows][cols]; // 默认为 0\n\n// 遍历稀疏数组，恢复非零值\nfor (int i = 1; i < sparseArray.length; i++) {\n    int row = sparseArray[i][0];\n    int col = sparseArray[i][1];\n    int value = sparseArray[i][2];\n    originalArray[row][col] = value;\n}"
+      }
+    ],
+    "notes": "稀疏数组是一种用空间换取时间（或在特定场景下节省空间）的策略。当数组的稀疏度非常高时，它可以显著减少内存占用，尤其适用于序列化到磁盘的场景。但在内存中进行频繁的随机访问时，其性能不如原始数组。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Set (集合)",
+    "summary": "一种抽象数据类型，代表一个无重复元素的集合。其核心特性是元素的唯一性。主要操作包括添加、删除和检查元素是否存在。",
+    "examples": [
+      {
+        "description": "HashSet: 基于哈希表，提供 O(1) 平均性能，不保证顺序",
+        "code": "import java.util.HashSet;\nimport java.util.Set;\n\nSet<String> hashSet = new HashSet<>();\nhashSet.add(\"Apple\");\nhashSet.add(\"Banana\");\nhashSet.add(\"Apple\"); // Fails, returns false\n\nSystem.out.println(hashSet.contains(\"Banana\")); // true\nSystem.out.println(hashSet); // Output: [Apple, Banana] (order not guaranteed)"
+      },
+      {
+        "description": "TreeSet: 基于红黑树，提供 O(log n) 性能，元素自动排序",
+        "code": "import java.util.TreeSet;\nimport java.util.Set;\n\nSet<Integer> treeSet = new TreeSet<>();\ntreeSet.add(30);\ntreeSet.add(10);\ntreeSet.add(20);\n\nSystem.out.println(treeSet); // Output: [10, 20, 30] (sorted)"
+      },
+      {
+        "description": "LinkedHashSet: 基于哈希表和链表，提供 O(1) 平均性能，并保持插入顺序",
+        "code": "import java.util.LinkedHashSet;\nimport java.util.Set;\n\nSet<String> linkedHashSet = new LinkedHashSet<>();\nlinkedHashSet.add(\"First\");\nlinkedHashSet.add(\"Third\");\nlinkedHashSet.add(\"Second\");\n\nSystem.out.println(linkedHashSet); // Output: [First, Third, Second] (insertion order)"
+      }
+    ],
+    "notes": "Set 是一个接口，`HashSet`、`TreeSet`、`LinkedHashSet` 是其主要实现。选择哪个实现取决于你的需求：需要最快速度选 `HashSet`；需要元素有序选 `TreeSet`；需要保持插入顺序选 `LinkedHashSet`。具体实现已在其他部分（如哈希表、平衡树）中详细介绍。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Map / Dictionary (映射)",
+    "summary": "一种抽象数据类型，存储唯一的键（Key）到值（Value）的映射关系。每个键最多只能映射到一个值，非常适合通过键来快速查找、更新或删除其对应的数据。",
+    "examples": [
+      {
+        "description": "HashMap: 基于哈希表，提供 O(1) 平均性能，不保证顺序 (最常用)",
+        "code": "import java.util.HashMap;\nimport java.util.Map;\n\nMap<String, String> capitalCities = new HashMap<>();\ncapitalCities.put(\"England\", \"London\");\ncapitalCities.put(\"Germany\", \"Berlin\");\n\nSystem.out.println(capitalCities.get(\"Germany\")); // Berlin\n// (See Hash Table section for more details)"
+      },
+      {
+        "description": "TreeMap: 基于红黑树，提供 O(log n) 性能，键自动排序",
+        "code": "import java.util.TreeMap;\nimport java.util.Map;\n\nMap<Integer, String> students = new TreeMap<>();\nstudents.put(3, \"Charlie\");\nstudents.put(1, \"Alice\");\nstudents.put(2, \"Bob\");\n\nSystem.out.println(students.keySet()); // [1, 2, 3] (sorted by key)\n// (See Balanced Binary Tree section for more details)"
+      },
+      {
+        "description": "LinkedHashMap: 保持插入顺序或访问顺序",
+        "code": "import java.util.LinkedHashMap;\nimport java.util.Map;\n\nMap<String, Integer> linkedHashMap = new LinkedHashMap<>();\nlinkedHashMap.put(\"One\", 1);\nlinkedHashMap.put(\"Three\", 3);\nlinkedHashMap.put(\"Two\", 2);\n\nSystem.out.println(linkedHashMap.keySet()); // [One, Three, Two] (insertion order)\n// (See LRU Cache section for access order example)"
+      }
+    ],
+    "notes": "Map 是一个接口，`HashMap`、`TreeMap`、`LinkedHashMap` 是其主要实现。选择标准与 Set 类似：`HashMap` 追求速度，`TreeMap` 追求键的排序，`LinkedHashMap` 追求顺序。这是日常编程中使用最频繁的数据结构之一。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Circular Buffer / Ring Buffer (环形缓冲区)",
+    "summary": "一种固定大小的缓冲区，其逻辑上首尾相连，形成一个环。当写指针到达末尾时会绕回到开头。非常适合于数据流处理和生产者-消费者模型。",
+    "examples": [
+      {
+        "description": "环形缓冲区的简易实现 (Simplified Implementation of a Circular Buffer)",
+        "code": "class RingBuffer<T> {\n    private final T[] buffer;\n    private int head = 0; // 读指针\n    private int tail = 0; // 写指针\n    private int size = 0;\n\n    @SuppressWarnings(\"unchecked\")\n    public RingBuffer(int capacity) {\n        buffer = (T[]) new Object[capacity];\n    }\n\n    public boolean offer(T value) {\n        if (isFull()) return false;\n        buffer[tail] = value;\n        tail = (tail + 1) % buffer.length;\n        size++;\n        return true;\n    }\n\n    public T poll() {\n        if (isEmpty()) return null;\n        T value = buffer[head];\n        buffer[head] = null; // Help GC\n        head = (head + 1) % buffer.length;\n        size--;\n        return value;\n    }\n\n    public boolean isFull() { return size == buffer.length; }\n    public boolean isEmpty() { return size == 0; }\n}"
+      }
+    ],
+    "notes": "环形缓冲区的核心优势在于其高效的内存使用和 O(1) 的入队/出队操作。它避免了在普通队列中因元素移动而产生的开销。这种结构在底层系统编程、网络缓冲、以及高性能并发库（如 LMAX Disruptor）中有广泛应用。",
+    "shell_type": "Java"
+  },
+  {
+    "name": "Suffix Tree / Suffix Array (后缀树/后缀数组)",
+    "summary": "处理字符串问题的高级数据结构，用于快速、高效地解决多种复杂的字符串匹配和查询任务，如查找子串、最长公共子串、最长回文子串等。",
+    "examples": [
+      {
+        "description": "后缀数组 (Suffix Array) 的概念",
+        "code": "/*\n  对于字符串 s = \"banana\"\n\n  所有后缀是:\n  0: banana\n  1: anana\n  2: nana\n  3: ana\n  4: na\n  5: a\n\n  将这些后缀按字典序排序:\n  5: a\n  3: ana\n  1: anana\n  0: banana\n  4: na\n  2: nana\n\n  后缀数组 (SA) 就是排序后后缀的起始索引数组:\n  SA = [5, 3, 1, 0, 4, 2]\n*/"
+      },
+      {
+        "description": "应用场景：快速查找子串",
+        "code": "/*\n  有了后缀数组，查找子串 \"ana\" 是否存在，可以在排序后的后缀列表中使用二分查找。\n\n  这比朴素的 O(m*n) 查找快得多，时间复杂度为 O(m * log n)，其中 m 是子串长度，n 是主串长度。\n*/\n// 在实际工程中，通常会使用现成的库，因为从头实现（特别是后缀树）非常复杂。"
+      }
+    ],
+    "notes": "后缀树功能更强大但实现复杂、空间占用大。后缀数组是其轻量级替代品，空间更优，且通过与 LCP 数组（最长公共前缀数组）结合，可以解决大部分后缀树能解决的问题。这些属于算法竞赛和特定领域（如生物信息学）中的高级工具，在常规业务开发中较少直接使用。",
+    "shell_type": "Conceptual"
+  }
+]
