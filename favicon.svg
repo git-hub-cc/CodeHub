@@ -1,0 +1,31 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 统一的样式定义 -->
+    <style>
+        .bg { fill: url(#logo-gradient); }
+        .grad-stop-1 { stop-color: #007ACC; }
+        .grad-stop-2 { stop-color: #009688; }
+        .main-element { fill: white; fill-opacity: 0.9; }
+        .accent-1 { fill: #007ACC; }
+        .accent-2 { fill: #009688; }
+
+        @media (prefers-color-scheme: dark) {
+        .bg { fill: transparent; }
+        .grad-stop-1, .grad-stop-2 { stop-color: transparent; }
+        .main-element { fill: #D1D5DB; fill-opacity: 1; }
+        .accent-1, .accent-2 { fill: #4B5563; }
+        }
+    </style>
+    <defs>
+        <linearGradient id="logo-gradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+            <stop class="grad-stop-1"/>
+            <stop offset="1" class="grad-stop-2"/>
+        </linearGradient>
+    </defs>
+
+    <g id="icon-code-brackets">
+        <rect width="64" height="64" rx="12" class="bg"/>
+        <!-- 尖括号 -->
+        <path d="M25 18 L16 32 L25 46 L29 46 L20 32 L29 18 L25 18Z" class="main-element"/>
+        <path d="M39 46 L48 32 L39 18 L35 18 L44 32 L35 46 L39 46Z" class="main-element"/>
+    </g>
+</svg>
